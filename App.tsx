@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { OrganizationListView } from './components/organization/OrganizationListView';
 
 export default function App() {
   const [inputText, setInputText] = useState('');
@@ -16,7 +17,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <TextInput
+      <OrganizationListView></OrganizationListView>
+      {/* <TextInput
         style={styles.input}
         onChangeText={handleInputChange}
         value={inputText}
@@ -33,7 +35,7 @@ export default function App() {
       <Text style={styles.displayText}>
         Hello {!displayText ? 'World' : displayText}!
       </Text>
-      <StatusBar style="auto" />
+      <StatusBar style="auto" /> */}
     </View>
   );
 }
