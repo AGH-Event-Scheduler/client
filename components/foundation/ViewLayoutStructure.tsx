@@ -11,7 +11,7 @@ export const ViewLayoutStructure = ({ children }) => {
       <View style={styles.menuContainer}>
         <View style={styles.menuItem}>
           <AntDesign
-            name="star"
+            name="staro"
             size={24}
             color="black"
             style={styles.menuIcon}

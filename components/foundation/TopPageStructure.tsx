@@ -21,7 +21,7 @@ const TopPageStructure = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "6%",
+    height: "4%",
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "flex-end",

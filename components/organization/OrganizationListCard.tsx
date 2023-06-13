@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-interface RoundedCardProps {
+interface OrganizationListCardProps {
   imageSource: { uri: string };
   text: string;
   isLiked: boolean;
-  onPress: () => void;
+  onCardPress: () => void;
+  onStarPress: () => void;
   style?: any;
 }
 
@@ -13,28 +14,48 @@ export const OrganizationListCard = ({
   imageSource,
   text,
   isLiked,
-  onPress,
+  onCardPress,
+  onStarPress,
   style,
-}: RoundedCardProps) => {
+}: OrganizationListCardProps) => {
+  const [isSubscribed, setIsSubscribed] = useState(isLiked);
+
+  const handleCardPress = () => {
+    onCardPress();
+  };
+
+  const handleStarPress = () => {
+    setIsSubscribed(!isSubscribed);
+    onStarPress();
+  };
+
   return (
-    <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.container, style]}
+      onPress={handleCardPress}
+    >
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.image} resizeMode="contain" />
       </View>
       <Text style={styles.text}>{text}</Text>
-      <View style={styles.likeIconContainer}>
-        {isLiked ? (
+      <TouchableOpacity
+        style={styles.likeIconContainer}
+        onPress={handleStarPress}
+      >
+        {isSubscribed ? (
           <Text style={[styles.likeIcon, styles.likeIconLiked]}>★</Text>
         ) : (
           <Text style={styles.likeIcon}>☆</Text>
         )}
-      </View>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    marginLeft: 2,
+    marginRight: 2,
     flexDirection: "row",
     alignItems: "center",
     padding: 24,
@@ -45,7 +66,7 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: { width: -1, height: 1 },
     shadowOpacity: 1,
-    shadowRadius: 4,
+    shadowRadius: 2,
   },
   imageContainer: {
     width: 50,
@@ -61,7 +82,6 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     marginRight: "5%",
-    // fontFamily: "Montserrat-Medium",
     fontSize: 17,
     fontWeight: "500",
     flexWrap: "wrap",
