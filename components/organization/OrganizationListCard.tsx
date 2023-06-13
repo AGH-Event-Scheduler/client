@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     marginRight: "5%",
-    fontFamily: "Montserrat-Medium",
+    // fontFamily: "Montserrat-Medium",
     fontSize: 17,
     fontWeight: "500",
     flexWrap: "wrap",

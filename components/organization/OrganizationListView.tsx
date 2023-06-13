@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView, FlatList } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { fetchButtonList } from "../../api/OrganizationApiUtils";
 import { OrganizationListCard } from "./OrganizationListCard";
 
