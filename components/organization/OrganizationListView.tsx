@@ -18,14 +18,6 @@ export const OrganizationListView = () => {
   const fetchOrganizationsData = async () => {
     try {
       const organizationsList = await fetchOrganizations();
-      console.log("Organizations list", organizationsList);
-      console.log("\n\nOrganizations list 2", organizations);
-      console.log(
-        "HELLO",
-        organizationsList[0].name,
-        organizationsList[0].imageUrl,
-        organizationsList[1].isSubscribed
-      );
       setOrganizations(organizationsList);
     } catch (error) {
       console.log("Fetching organizations list error", error);

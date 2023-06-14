@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 interface OrganizationListCardProps {
   imageSource: { uri: string };
@@ -40,9 +41,14 @@ export const OrganizationListCard = ({
         onPress={handleStarPress}
       >
         {isLiked ? (
-          <Text style={[styles.likeIcon, styles.likeIconLiked]}>★</Text>
+          <AntDesign
+            name="star"
+            size={26}
+            color="yellow"
+            style={styles.likeIconStyle}
+          />
         ) : (
-          <Text style={styles.likeIcon}>☆</Text>
+          <AntDesign name="staro" size={26} color="grey" />
         )}
       </TouchableOpacity>
     </TouchableOpacity>
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     marginRight: "5%",
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: "500",
     flexWrap: "wrap",
   },
@@ -89,16 +95,9 @@ const styles = StyleSheet.create({
     right: 0,
     padding: 15,
   },
-  likeIcon: {
-    fontSize: 27,
-    textShadowColor: "grey",
+  likeIconStyle: {
+    textShadowColor: "black",
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 2,
-  },
-  likeIconLiked: {
-    color: "yellow",
-    textShadowColor: "grey",
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 4,
   },
 });
