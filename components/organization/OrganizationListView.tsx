@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, Text, TextInput, View } from "react-native";
 import {
-  fetchOrganizationsList,
+  Organization,
+  fetchOrganizations,
   updateSubscriptionStatus,
 } from "../../api/OrganizationApiUtils";
 import { OrganizationListCard } from "./OrganizationListCard";
 
 export const OrganizationListView = () => {
-  const [organizations, setOrganizations] = useState([]);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    fetchOrganizations();
+    fetchOrganizationsData();
   }, []);
 
-  const fetchOrganizations = async () => {
+  const fetchOrganizationsData = async () => {
     try {
-      const organizationsList = await fetchOrganizationsList();
+      const organizationsList = await fetchOrganizations();
+      console.log("Organizations list", organizationsList);
+      console.log("\n\nOrganizations list 2", organizations);
+      console.log(
+        "HELLO",
+        organizationsList[0].name,
+        organizationsList[0].imageUrl,
+        organizationsList[1].isSubscribed
+      );
       setOrganizations(organizationsList);
     } catch (error) {
       console.log("Fetching organizations list error", error);
@@ -41,8 +50,9 @@ export const OrganizationListView = () => {
     setOrganizations(updatedOrganizations);
   };
 
-  const filteredOrganizations = organizations.filter((org) =>
-    org.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredOrganizations = organizations.filter(
+    (org: Organization) =>
+      org.name && org.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -56,7 +66,7 @@ export const OrganizationListView = () => {
       />
       <FlatList
         data={filteredOrganizations}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id?.toString()}
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
           <OrganizationListCard

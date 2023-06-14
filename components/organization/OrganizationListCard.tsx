@@ -18,14 +18,11 @@ export const OrganizationListCard = ({
   onStarPress,
   style,
 }: OrganizationListCardProps) => {
-  const [isSubscribed, setIsSubscribed] = useState(isLiked);
-
   const handleCardPress = () => {
     onCardPress();
   };
 
   const handleStarPress = () => {
-    setIsSubscribed(!isSubscribed);
     onStarPress();
   };
 
@@ -42,7 +39,7 @@ export const OrganizationListCard = ({
         style={styles.likeIconContainer}
         onPress={handleStarPress}
       >
-        {isSubscribed ? (
+        {isLiked ? (
           <Text style={[styles.likeIcon, styles.likeIconLiked]}>★</Text>
         ) : (
           <Text style={styles.likeIcon}>☆</Text>
