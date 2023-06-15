@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import {  StyleSheet } from 'react-native';
-import { OrganizationListView } from './components/organization/OrganizationListView';
 import { ViewLayoutStructure } from './components/foundation/ViewLayoutStructure';
+import { OrganizationDetailsView } from './components/organization-details/OrganizationDetailsView';
 
 export default function App() {
   return (
       <ViewLayoutStructure>
-         <OrganizationListView></OrganizationListView>
+         {/* <OrganizationListView></OrganizationListView> */}
+        <OrganizationDetailsView
+          organizationId={1}
+        ></OrganizationDetailsView>
       </ViewLayoutStructure>
   );
 }
