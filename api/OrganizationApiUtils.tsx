@@ -6,7 +6,7 @@ export interface Organization {
   isSubscribed: boolean;
 }
 
-const basePath = "http://192.168.0.115:8080";
+const basePath = "http://127.0.0.1:8080";
 
 export const fetchOrganizations = async (): Promise<Organization[]> => {
   try {
