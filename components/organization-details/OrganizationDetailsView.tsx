@@ -4,9 +4,11 @@ import { StyleSheet, Text, TextInput, View, Image, Button, Pressable } from "rea
 import { globalStyles } from "../foundation/GlobalStyles";
 
 export const OrganizationDetailsView = (
-    {organizationId},
+    {navigation, route}
 ) => {
     const [organization, setOrganization] = useState<Organization>();
+
+    const organizationId = route.params.organizationId
   
     useEffect(() => {
         fetchOrganizationDetailsData(organizationId);
@@ -45,7 +47,7 @@ export const OrganizationDetailsView = (
               </Pressable>
             ) : (
               <Pressable onPress={handleFollowButtonPress} style={globalStyles.secondaryButton}>
-                <Text style={globalStyles.secondaryButtonText}>Follow</Text>
+                <Text style={globalStyles.secondaryButtonText}>Unfollow</Text>
               </Pressable>
             )
           }

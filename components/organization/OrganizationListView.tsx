@@ -7,7 +7,7 @@ import {
 } from "../../api/OrganizationApiUtils";
 import { OrganizationListCard } from "./OrganizationListCard";
 
-export const OrganizationListView = () => {
+export const OrganizationListView = ({navigation}) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -26,7 +26,7 @@ export const OrganizationListView = () => {
 
   const handleCardPress = (organization) => {
     console.log(`Clicked card: ${organization.name}`);
-    // TODO: Navigate to organization details screen
+    navigation.navigate("Organization", {organizationId: organization.id})
   };
 
   const handleStarPress = async (organization) => {
