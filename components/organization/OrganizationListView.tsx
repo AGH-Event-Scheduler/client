@@ -6,14 +6,16 @@ import {
   updateSubscriptionStatus,
 } from "../../api/OrganizationApiUtils";
 import { OrganizationListCard } from "./OrganizationListCard";
+import { useIsFocused } from "@react-navigation/native";
 
 export const OrganizationListView = ({navigation}) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const isFocused = useIsFocused();
   useEffect(() => {
-    fetchOrganizationsData();
-  }, []);
+    isFocused && fetchOrganizationsData();
+  }, [isFocused]);
 
   const fetchOrganizationsData = async () => {
     try {

@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Organization, fetchOrganizationDetails, updateSubscriptionStatus } from "../../api/OrganizationApiUtils";
-import { StyleSheet, Text, TextInput, View, Image, Button, Pressable } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, Button, Pressable, ViewStyle, StyleProp } from "react-native";
 import { globalStyles } from "../foundation/GlobalStyles";
+import { useIsFocused } from "@react-navigation/native";
+
+type FollowStyle = {
+  btn: StyleProp<ViewStyle>, 
+  text: string,
+}
 
 export const OrganizationDetailsView = (
     {navigation, route}
 ) => {
     const [organization, setOrganization] = useState<Organization>();
+    const [followStyle, setFollowStyle] = useState<FollowStyle>();
 
     const organizationId = route.params.organizationId
   
+    const isFocused = useIsFocused();
     useEffect(() => {
-        fetchOrganizationDetailsData(organizationId);
-    }, []);
+      isFocused && fetchOrganizationDetailsData(organizationId);
+    }, [isFocused]);
   
     const fetchOrganizationDetailsData = async (
         organizationId: number,
@@ -20,6 +28,7 @@ export const OrganizationDetailsView = (
       try {
         const organization = await fetchOrganizationDetails(organizationId);
         setOrganization(organization);
+        updateFollowButtonStyle(organization);
       } catch (error) {
         console.log("Fetching organization details error", error);
       }
@@ -28,7 +37,15 @@ export const OrganizationDetailsView = (
     const handleFollowButtonPress = async () => {
       organization.isSubscribed = !organization.isSubscribed;
       await updateSubscriptionStatus(organization.id, organization.isSubscribed);
-      setOrganization(organization);
+      updateFollowButtonStyle(organization);
+    }
+
+    const updateFollowButtonStyle = (organization: Organization) => {
+      if (organization?.isSubscribed) {
+        setFollowStyle({btn: [globalStyles.button, globalStyles.secondary], text: "Unfollow"})
+      } else {
+        setFollowStyle({btn: [globalStyles.button, globalStyles.primary], text: "Follow"})
+      }
     }
   
     return (
@@ -39,18 +56,9 @@ export const OrganizationDetailsView = (
         <Text style={styles.title}>{organization?.name}</Text>
         <Text style={styles.description}>{organization?.description}</Text>
         <View style={styles.buttonContainer}>
-          {
-            !organization?.isSubscribed ? 
-            (
-              <Pressable onPress={handleFollowButtonPress} style={globalStyles.primaryButton}>
-                <Text style={globalStyles.primaryButtonText}>Follow</Text>
-              </Pressable>
-            ) : (
-              <Pressable onPress={handleFollowButtonPress} style={globalStyles.secondaryButton}>
-                <Text style={globalStyles.secondaryButtonText}>Unfollow</Text>
-              </Pressable>
-            )
-          }
+          <Pressable onPress={handleFollowButtonPress}>
+            <Text style={followStyle?.btn}>{followStyle?.text}</Text>
+          </Pressable>
         </View>
       </View>
     );

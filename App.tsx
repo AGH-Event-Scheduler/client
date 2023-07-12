@@ -11,7 +11,7 @@ export default function App() {
   return (
     <ViewLayoutStructure>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Navigator screenOptions={{headerShown: true}}>
           <Stack.Screen
             name="Organizations"
             component={OrganizationListView}
