@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Organization, fetchOrganizationDetails, updateSubscriptionStatus } from "../../api/OrganizationApiUtils";
-import { StyleSheet, Text, TextInput, View, Image, Button, Pressable, ViewStyle, StyleProp } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, Button, Pressable, ViewStyle, StyleProp, FlatList, ScrollView } from "react-native";
 import { globalStyles } from "../foundation/GlobalStyles";
 import { useIsFocused } from "@react-navigation/native";
+import { OrgEvent, fetchOrganizationEvents } from "../../api/EventApiUtils";
+import { OrganizationListCard } from "../organization/OrganizationListCard";
+import { EventOrganizationListCard } from "../event/EventOrganizationListCard";
 
 type FollowStyle = {
   btn: StyleProp<ViewStyle>, 
@@ -13,6 +16,7 @@ export const OrganizationDetailsView = (
     {navigation, route}
 ) => {
     const [organization, setOrganization] = useState<Organization>();
+    const [events, setEvents] = useState<OrgEvent[]>([]);
     const [followStyle, setFollowStyle] = useState<FollowStyle>();
 
     const organizationId = route.params.organizationId
@@ -28,6 +32,10 @@ export const OrganizationDetailsView = (
       try {
         const organization = await fetchOrganizationDetails(organizationId);
         setOrganization(organization);
+
+        const events = await fetchOrganizationEvents(organizationId);
+        setEvents(events)
+        
         updateFollowButtonStyle(organization);
       } catch (error) {
         console.log("Fetching organization details error", error);
@@ -47,9 +55,14 @@ export const OrganizationDetailsView = (
         setFollowStyle({btn: [globalStyles.button, globalStyles.primary], text: "Follow"})
       }
     }
+
+    const handleCardPress = (event: OrgEvent) => {
+      console.log(`Clicked card: ${event.name}`);
+      navigation.navigate("Event", {eventId: event.id})
+    };
   
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.imageContainer}>
             <Image source={{uri: organization?.imageUrl}} style={styles.image} />
         </View>
@@ -60,11 +73,38 @@ export const OrganizationDetailsView = (
             <Text style={followStyle?.btn}>{followStyle?.text}</Text>
           </Pressable>
         </View>
-      </View>
+        <FlatList
+          data={events}
+          keyExtractor={(item) => item.id?.toString()}
+          contentContainerStyle={styles.listContainer}
+          horizontal={true}
+          scrollEnabled={true}
+          renderItem={({ item }) => (
+            <EventOrganizationListCard
+              imageSource={{ uri: item.imageUrl }}
+              name={item.name}
+              location={item.location}
+              onCardPress={() => handleCardPress(item)}
+              startDate={item.startDate}
+              style={styles.card}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      </ScrollView>
     );
   };
   
   const styles = StyleSheet.create({
+    listContainer: {
+      flex: 1,
+      flexGrow: 1,
+      overflow: "scroll"
+    },
+    card: {
+      width: 300,
+      height: 200
+    },
     container: {
       flex: 1,
       backgroundColor: "#FFFFFF",
