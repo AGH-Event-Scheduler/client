@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import {  StyleSheet } from 'react-native';
-import { OrganizationListView } from './components/organization/OrganizationListView';
-import { ViewLayoutStructure } from './components/foundation/ViewLayoutStructure';
+import React from 'react';
+import { OrganizationListView } from './src/pages/organizations/OrganizationListView';
+import { ViewLayoutStructure } from './src/components/ViewLayoutStructure';
 
 export default function App() {
   return (
