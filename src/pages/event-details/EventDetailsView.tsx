@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Organization, fetchOrganizationDetails, updateSubscriptionStatus } from "../../api/OrganizationApiUtils";
-import { StyleSheet, Text, TextInput, View, Image, Button, Pressable, ViewStyle, StyleProp, FlatList } from "react-native";
-import { globalStyles } from "../foundation/GlobalStyles";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { OrgEvent, fetchEventDetails, fetchOrganizationEvents } from "../../api/EventApiUtils";
-import { OrganizationListCard } from "../organization/OrganizationListCard";
-import { EventOrganizationListCard } from "../event/EventOrganizationListCard";
+import { OrgEvent, fetchEventDetails } from "../../api/EventApiUtils";
 
 export const EventDetailsView = (
     {navigation, route}
