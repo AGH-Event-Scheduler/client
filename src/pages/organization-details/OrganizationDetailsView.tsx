@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Organization, fetchOrganizationDetails, updateSubscriptionStatus } from "../../api/OrganizationApiUtils";
-import { StyleSheet, Text, TextInput, View, Image, Button, Pressable, ViewStyle, StyleProp, FlatList, ScrollView } from "react-native";
-import { globalStyles } from "../../src/styles/GlobalStyles";
+import { StyleSheet, Text, View, Image, Pressable, ViewStyle, StyleProp, FlatList, ScrollView } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { OrgEvent, fetchOrganizationEvents } from "../../api/EventApiUtils";
-import { OrganizationListCard } from "../../src/pages/organization/OrganizationListCard";
 import { EventOrganizationListCard } from "../event/EventOrganizationListCard";
+import { globalStyles } from "../../styles/GlobalStyles";
 
 type FollowStyle = {
   btn: StyleProp<ViewStyle>, 

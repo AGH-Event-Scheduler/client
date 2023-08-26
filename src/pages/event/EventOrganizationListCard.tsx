@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
 interface EventListCardProps {
   imageSource: { uri: string };

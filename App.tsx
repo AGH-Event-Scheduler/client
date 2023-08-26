@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { OrganizationListView } from './src/pages/organization/OrganizationListView';
+import { OrganizationListView } from './src/pages/organizations/OrganizationListView';
 import { ViewLayoutStructure } from './src/components/ViewLayoutStructure';
 import { OrganizationDetailsView } from './src/pages/organization-details/OrganizationDetailsView';
 import { EventDetailsView } from './src/pages/event-details/EventDetailsView';
