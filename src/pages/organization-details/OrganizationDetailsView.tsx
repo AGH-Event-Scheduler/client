@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Organization, fetchOrganizationDetails, updateSubscriptionStatus } from "../../api/OrganizationApiUtils";
 import { StyleSheet, Text, TextInput, View, Image, Button, Pressable, ViewStyle, StyleProp } from "react-native";
-import { globalStyles } from "../foundation/GlobalStyles";
 import { useIsFocused } from "@react-navigation/native";
+import { globalStyles } from "../../styles/GlobalStyles";
 
 type FollowStyle = {
   btn: StyleProp<ViewStyle>, 

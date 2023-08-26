@@ -1,9 +1,9 @@
 import React from 'react';
-import { ViewLayoutStructure } from './components/foundation/ViewLayoutStructure';
-import { OrganizationDetailsView } from './components/organization-details/OrganizationDetailsView';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { OrganizationListView } from './components/organization/OrganizationListView';
+import { ViewLayoutStructure } from './src/components/ViewLayoutStructure';
+import { OrganizationListView } from './src/components/organizations/OrganizationListView';
+import { OrganizationDetailsView } from './src/pages/organization-details/OrganizationDetailsView';
 
 const Stack = createNativeStackNavigator();
 
