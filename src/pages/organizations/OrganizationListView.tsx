@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, Text, TextInput, View } from "react-native";
 import {
-  Organization,
   fetchOrganizations,
   updateSubscriptionStatus,
-} from "../../api/OrganizationApiUtils";
+} from "../../api/organization-api-utils";
 import { OrganizationListCard } from "./OrganizationListCard";
+import { Organization } from "../../api/types";
 
 export const OrganizationListView = () => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
+    const fetchOrganizationsData = async () => {
+      try {
+        const organizationsList = await fetchOrganizations();
+
+        setOrganizations(organizationsList);
+      } catch (error) {
+        console.log("Fetching organizations list error", error);
+      }
+    };
+
     fetchOrganizationsData();
   }, []);
-
-  const fetchOrganizationsData = async () => {
-    try {
-      const organizationsList = await fetchOrganizations();
-      setOrganizations(organizationsList);
-    } catch (error) {
-      console.log("Fetching organizations list error", error);
-    }
-  };
 
   const handleCardPress = (organization) => {
     console.log(`Clicked card: ${organization.name}`);

@@ -1,15 +1,9 @@
-export interface Organization {
-  id: number;
-  imageUrl: string;
-  name: string;
-  isSubscribed: boolean;
-}
-
-const basePath = "http://localhost:8080";
+import { baseUrl } from "./api-utils";
+import { Organization } from "./types";
 
 export const fetchOrganizations = async (): Promise<Organization[]> => {
   try {
-    const response = await fetch(basePath + "/organizations");
+    const response = await fetch(baseUrl + "/organizations");
     const data = await response.json();
     return data;
   } catch (error) {
@@ -24,7 +18,7 @@ export const updateSubscriptionStatus = async (
 ) => {
   try {
     const response = await fetch(
-      basePath + `/organizations/${organizationId}/subscription`,
+      baseUrl + `/organizations/${organizationId}/subscription`,
       {
         method: "PUT",
         headers: {
