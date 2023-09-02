@@ -1,9 +1,11 @@
-import React from "react";
-import { SamplePage } from "./src/pages/SamplePage";
+import React from 'react';
+import { OrganizationListView } from './src/pages/organizations/OrganizationListView';
+import { ViewLayoutStructure } from './src/components/ViewLayoutStructure';
 
 export default function App() {
-
   return (
-    <SamplePage></SamplePage>
+      <ViewLayoutStructure>
+         <OrganizationListView></OrganizationListView>
+      </ViewLayoutStructure>
   );
 }
