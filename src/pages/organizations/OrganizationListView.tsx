@@ -14,17 +14,17 @@ export const OrganizationListView = ({navigation}) => {
 
   const isFocused = useIsFocused();
   useEffect(() => {
+    const fetchOrganizationsData = async () => {
+      try {
+        const organizationsList = await fetchOrganizations();
+        setOrganizations(organizationsList);
+      } catch (error) {
+        console.log("Fetching organizations list error", error);
+      }
+    };
     isFocused && fetchOrganizationsData();
   }, [isFocused]);
 
-  const fetchOrganizationsData = async () => {
-    try {
-      const organizationsList = await fetchOrganizations();
-      setOrganizations(organizationsList);
-    } catch (error) {
-      console.log("Fetching organizations list error", error);
-    }
-  };
 
   const handleCardPress = (organization) => {
     console.log(`Clicked card: ${organization.name}`);
