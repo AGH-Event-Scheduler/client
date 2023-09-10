@@ -1,6 +1,7 @@
 # Client
 
 ### How to run the app?
+
 - Download Expo Go on your device
 - `cd client`
 - `npm install`
