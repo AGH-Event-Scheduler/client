@@ -14,7 +14,7 @@ export const fetchOrganizations = async (): Promise<Organization[]> => {
 
 export const updateSubscriptionStatus = async (
   organizationId: number,
-  updatedStatus: boolean
+  updatedStatus: boolean,
 ) => {
   try {
     const response = await fetch(
@@ -25,12 +25,12 @@ export const updateSubscriptionStatus = async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedStatus),
-      }
+      },
     );
 
     if (response.ok) {
       console.log(
-        `Subscription status updated for organization ${organizationId}`
+        `Subscription status updated for organization ${organizationId}`,
       );
     } else {
       throw new Error("Failed to update subscription status");
