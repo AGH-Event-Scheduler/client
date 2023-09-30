@@ -33,7 +33,7 @@ export const OrganizationListView = ({navigation}) => {
       if (org.id === organization.id) {
         const updatedStatus = !org.isSubscribed;
         updateSubscriptionStatus(organization.id, updatedStatus);
-        return { ...org, isSubscribed: updatedStatus };
+        return {...org, isSubscribed: updatedStatus};
       }
       return org;
     });
@@ -62,9 +62,9 @@ export const OrganizationListView = ({navigation}) => {
         data={filteredOrganizations}
         keyExtractor={(item) => item.id?.toString()}
         contentContainerStyle={styles.listContainer}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <OrganizationListCard
-            imageSource={{ uri: item.imageUrl }}
+            imageSource={{uri: item.imageUrl}}
             text={item.name}
             isLiked={item.isSubscribed}
             onCardPress={() => handleCardPress(item)}

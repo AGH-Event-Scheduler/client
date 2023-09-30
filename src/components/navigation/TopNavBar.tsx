@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import {StyleSheet, Text, View} from "react-native";
+import {Feather} from "@expo/vector-icons";
 
 const TopNavBar = () => {
   return (
@@ -13,7 +13,7 @@ const TopNavBar = () => {
         </Text>
       </View>
       <View style={styles.iconContainer}>
-        <Feather name="settings" size={24} color="black" />
+        <Feather name="settings" size={24} color="black"/>
       </View>
     </View>
   );

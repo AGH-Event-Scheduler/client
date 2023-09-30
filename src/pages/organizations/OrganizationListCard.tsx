@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FontAwesome} from "@expo/vector-icons";
 
 interface OrganizationListCardProps {
   imageSource: { uri: string };
@@ -12,13 +12,13 @@ interface OrganizationListCardProps {
 }
 
 export const OrganizationListCard = ({
-  imageSource,
-  text,
-  isLiked,
-  onCardPress,
-  onStarPress,
-  style,
-}: OrganizationListCardProps) => {
+                                       imageSource,
+                                       text,
+                                       isLiked,
+                                       onCardPress,
+                                       onStarPress,
+                                       style,
+                                     }: OrganizationListCardProps) => {
   const handleCardPress = () => {
     onCardPress();
   };
@@ -33,7 +33,7 @@ export const OrganizationListCard = ({
       onPress={handleCardPress}
     >
       <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} resizeMode="contain" />
+        <Image source={imageSource} style={styles.image} resizeMode="contain"/>
       </View>
       <Text style={styles.text}>{text}</Text>
       <TouchableOpacity
@@ -48,7 +48,7 @@ export const OrganizationListCard = ({
             style={styles.likeIconStyle}
           />
         ) : (
-          <FontAwesome name="star-o" size={26} color="grey" />
+          <FontAwesome name="star-o" size={26} color="grey"/>
         )}
       </TouchableOpacity>
     </TouchableOpacity>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "#FFFFFF",
     shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: { width: -1, height: 1 },
+    shadowOffset: {width: -1, height: 1},
     shadowOpacity: 1,
     shadowRadius: 2,
   },

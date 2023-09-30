@@ -24,10 +24,10 @@ export const fetchOrganizationDetails = async (
 ): Promise<Organization> => {
   try {
     const response = await fetch(basePath + `/organizations/${organizationId.toString()}`);
-    
+
     console.log(basePath + `/organizations/${organizationId.toString()}`);
     console.log(organizationId);
-    
+
     const data = await response.json();
     return data;
   } catch (error) {

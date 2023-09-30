@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import {StyleSheet, Text, TouchableOpacity} from "react-native";
 
 type ButtonTypes = "primary" | "secondary" | "destructive" | "disabled";
 
@@ -9,7 +9,7 @@ interface ButtonProps {
   title: string;
 }
 
-export const AppButton = ({ onPress, type, title }: ButtonProps) => {
+export const AppButton = ({onPress, type, title}: ButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}

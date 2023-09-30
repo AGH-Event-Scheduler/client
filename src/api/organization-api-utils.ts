@@ -1,5 +1,5 @@
-import { baseUrl } from "./api-utils";
-import { Organization } from "./types";
+import {baseUrl} from "./api-utils";
+import {Organization} from "./types";
 
 export const fetchOrganizations = async (): Promise<Organization[]> => {
   try {
