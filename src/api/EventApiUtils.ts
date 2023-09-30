@@ -1,14 +1,4 @@
-export interface OrgEvent {
-  id: number;
-  imageUrl: string;
-  name: string;
-  description: string;
-  startDate: Date;
-  endDate: Date;
-  location: string;
-  organizationName: string;
-  lastEdit: Date;
-}
+import {OrgEvent} from "./types";
 
 const basePath = "http://127.0.0.1:8080";
 

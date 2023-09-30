@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, Text, TextInput, View } from "react-native";
-import {
-  Organization,
-  fetchOrganizations,
-  updateSubscriptionStatus,
-} from "../../api/OrganizationApiUtils";
-import { OrganizationListCard } from "./OrganizationListCard";
-import { useIsFocused } from "@react-navigation/native";
+import React, {useEffect, useState} from "react";
+import {FlatList, StyleSheet, Text, TextInput, View} from "react-native";
+import {fetchOrganizations, Organization, updateSubscriptionStatus,} from "../../api/OrganizationApiUtils";
+import {OrganizationListCard} from "./OrganizationListCard";
+import {useIsFocused} from "@react-navigation/native";
 
 export const OrganizationListView = ({navigation}) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
@@ -44,10 +40,14 @@ export const OrganizationListView = ({navigation}) => {
     setOrganizations(updatedOrganizations);
   };
 
-  const filteredOrganizations = organizations.filter(
-    (org: Organization) =>
-      org.name && org.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const filteredOrganizations = organizations
+    ? organizations.filter(
+      (org: Organization) =>
+        org.name &&
+        org.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    : [];
+
 
   return (
     <View style={styles.container}>

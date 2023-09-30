@@ -6,7 +6,7 @@ export interface Organization {
   isSubscribed: boolean;
 }
 
-const basePath = "http://127.0.0.1:8080";
+const basePath = "http://127.0.0.1:8080/api";
 
 export const fetchOrganizations = async (): Promise<Organization[]> => {
   try {
@@ -44,7 +44,7 @@ export const updateSubscriptionStatus = async (
     const response = await fetch(
       basePath + `/organizations/${organizationId}/subscription`,
       {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
