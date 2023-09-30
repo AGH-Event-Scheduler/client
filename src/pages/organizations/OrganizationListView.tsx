@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, Text, TextInput, View } from "react-native";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import {
   fetchOrganizations,
+  Organization,
   updateSubscriptionStatus,
-} from "../../api/organization-api-utils";
+} from "../../api/OrganizationApiUtils";
 import { OrganizationListCard } from "./OrganizationListCard";
-import { Organization } from "../../api/types";
+import { useIsFocused } from "@react-navigation/native";
 
-export const OrganizationListView = () => {
+export const OrganizationListView = ({ navigation }) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const isFocused = useIsFocused();
   useEffect(() => {
     const fetchOrganizationsData = async () => {
       try {
         const organizationsList = await fetchOrganizations();
-
         setOrganizations(organizationsList);
       } catch (error) {
         console.log("Fetching organizations list error", error);
       }
     };
-
-    fetchOrganizationsData();
-  }, []);
+    isFocused && fetchOrganizationsData();
+  }, [isFocused]);
 
   const handleCardPress = (organization) => {
     console.log(`Clicked card: ${organization.name}`);
-    // TODO: Navigate to organization details screen
+    navigation.navigate("Organization", { organizationId: organization.id });
   };
 
   const handleStarPress = async (organization) => {
@@ -43,10 +43,13 @@ export const OrganizationListView = () => {
     setOrganizations(updatedOrganizations);
   };
 
-  const filteredOrganizations = organizations.filter(
-    (org: Organization) =>
-      org.name && org.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const filteredOrganizations = organizations
+    ? organizations.filter(
+        (org: Organization) =>
+          org.name &&
+          org.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+    : [];
 
   return (
     <View style={styles.container}>

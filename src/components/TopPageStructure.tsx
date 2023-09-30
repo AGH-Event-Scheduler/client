@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-const TopNavBar = () => {
+const TopPageStructure = () => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TopNavBar;
+export default TopPageStructure;

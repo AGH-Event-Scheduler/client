@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import TopNavBar from "./navigation/TopNavBar";
 import { BottomNavBar } from "./navigation/BottomNavBar";
 

@@ -1,30 +1,25 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
 
-interface OrganizationListCardProps {
+interface EventListCardProps {
   imageSource: { uri: string };
-  text: string;
-  isLiked: boolean;
+  name: string;
+  location: string;
+  startDate: Date;
   onCardPress: () => void;
-  onStarPress: () => void;
   style?: any;
 }
 
-export const OrganizationListCard = ({
+export const EventOrganizationListCard = ({
   imageSource,
-  text,
-  isLiked,
+  name,
+  location,
+  startDate,
   onCardPress,
-  onStarPress,
   style,
-}: OrganizationListCardProps) => {
+}: EventListCardProps) => {
   const handleCardPress = () => {
     onCardPress();
-  };
-
-  const handleStarPress = () => {
-    onStarPress();
   };
 
   return (
@@ -35,22 +30,11 @@ export const OrganizationListCard = ({
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.image} resizeMode="contain" />
       </View>
-      <Text style={styles.text}>{text}</Text>
-      <TouchableOpacity
-        style={styles.likeIconContainer}
-        onPress={handleStarPress}
-      >
-        {isLiked ? (
-          <FontAwesome
-            name="star"
-            size={26}
-            color="yellow"
-            style={styles.likeIconStyle}
-          />
-        ) : (
-          <FontAwesome name="star-o" size={26} color="grey" />
-        )}
-      </TouchableOpacity>
+      <Text style={styles.text}>{name}</Text>
+      <Text
+        style={styles.text}
+      >{`${startDate.getDay()}.${startDate.getMonth()} ${startDate.getHours()}:${startDate.getMinutes()}`}</Text>
+      <Text style={styles.text}>{location}</Text>
     </TouchableOpacity>
   );
 };
@@ -59,7 +43,7 @@ const styles = StyleSheet.create({
   container: {
     marginLeft: 2,
     marginRight: 2,
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     padding: 24,
     borderRadius: 13,
@@ -96,7 +80,8 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   likeIconStyle: {
-    textShadowColor: "grey",
+    textShadowColor: "black",
+    textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 2,
   },
 });
