@@ -1,8 +1,19 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { SettingsModal } from "../SettingsModal";
 
-const TopNavBar = () => {
+export const TopNavBar = () => {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const toggleSettings = () => {
+    setIsSettingsOpen(!isSettingsOpen);
+  };
+
+  const closeSettings = () => {
+    setIsSettingsOpen(false);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -12,9 +23,10 @@ const TopNavBar = () => {
           <Text style={styles.redText}>H</Text>
         </Text>
       </View>
-      <View style={styles.iconContainer}>
+      <TouchableOpacity onPress={toggleSettings} style={styles.iconContainer}>
         <Feather name="settings" size={24} color="black" />
-      </View>
+      </TouchableOpacity>
+      <SettingsModal isVisible={isSettingsOpen} onClose={closeSettings} />
     </View>
   );
 };
@@ -49,5 +61,3 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
 });
-
-export default TopNavBar;
