@@ -1,0 +1,6 @@
+# handled by yamlfmt
+*.yaml
+*.yml
+
+# handled by mdformat
+*.md

@@ -46,7 +46,7 @@ export const OrganizationListView = ({navigation}) => {
 
   const filteredOrganizations = organizations.filter(
     (org: Organization) =>
-      org.name && org.name.toLowerCase().includes(searchQuery.toLowerCase())
+      org.name && org.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
