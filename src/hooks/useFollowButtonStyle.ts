@@ -1,6 +1,6 @@
-import {updateSubscriptionStatus} from "../api/OrganizationApiUtils";
-import {useState} from "react";
-import {Organization} from "../api/types";
+import { updateSubscriptionStatus } from "../api/OrganizationApiUtils";
+import { useState } from "react";
+import { Organization } from "../api/types";
 
 type ButtonTypes = "primary" | "secondary";
 
@@ -21,12 +21,15 @@ const useFollowButtonStyle = (organization: Organization | undefined) => {
   const handleFollowButtonPress = async () => {
     if (organization) {
       organization.isSubscribed = !organization.isSubscribed;
-      await updateSubscriptionStatus(organization.id, organization.isSubscribed);
+      await updateSubscriptionStatus(
+        organization.id,
+        organization.isSubscribed,
+      );
       updateFollowButtonStyle();
     }
   };
 
-  return {buttonType, buttonText, handleFollowButtonPress};
+  return { buttonType, buttonText, handleFollowButtonPress };
 };
 
 export default useFollowButtonStyle;

@@ -23,7 +23,9 @@ export const fetchOrganizationDetails = async (
   organizationId: number,
 ): Promise<Organization> => {
   try {
-    const response = await fetch(basePath + `/organizations/${organizationId.toString()}`);
+    const response = await fetch(
+      basePath + `/organizations/${organizationId.toString()}`,
+    );
 
     console.log(basePath + `/organizations/${organizationId.toString()}`);
     console.log(organizationId);
@@ -38,7 +40,7 @@ export const fetchOrganizationDetails = async (
 
 export const updateSubscriptionStatus = async (
   organizationId: number,
-  updatedStatus: boolean
+  updatedStatus: boolean,
 ) => {
   try {
     const response = await fetch(
@@ -49,12 +51,12 @@ export const updateSubscriptionStatus = async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedStatus),
-      }
+      },
     );
 
     if (response.ok) {
       console.log(
-        `Subscription status updated for organization ${organizationId}. Now is ${updatedStatus}`
+        `Subscription status updated for organization ${organizationId}. Now is ${updatedStatus}`,
       );
     } else {
       throw new Error("Failed to update subscription status");

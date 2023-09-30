@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 
 export const globalStyles = StyleSheet.create({
   title: {
@@ -49,17 +49,17 @@ export const globalStyles = StyleSheet.create({
     color: "#016531",
   },
   imageContainer: {
-    display: 'flex',
-    textAlign: 'center',
-    width: '100%',
+    display: "flex",
+    textAlign: "center",
+    width: "100%",
     height: 200,
     overflow: "hidden",
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: 5,
   },
   image: {
     flex: 1,
     resizeMode: "cover",
-    maxHeight: 200
+    maxHeight: 200,
   },
 });

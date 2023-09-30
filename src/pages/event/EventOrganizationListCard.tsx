@@ -1,5 +1,5 @@
 import React from "react";
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface EventListCardProps {
   imageSource: { uri: string };
@@ -10,15 +10,14 @@ interface EventListCardProps {
   style?: any;
 }
 
-
 export const EventOrganizationListCard = ({
-                                            imageSource,
-                                            name,
-                                            location,
-                                            startDate,
-                                            onCardPress,
-                                            style,
-                                          }: EventListCardProps) => {
+  imageSource,
+  name,
+  location,
+  startDate,
+  onCardPress,
+  style,
+}: EventListCardProps) => {
   const handleCardPress = () => {
     onCardPress();
   };
@@ -29,11 +28,12 @@ export const EventOrganizationListCard = ({
       onPress={handleCardPress}
     >
       <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} resizeMode="contain"/>
+        <Image source={imageSource} style={styles.image} resizeMode="contain" />
       </View>
       <Text style={styles.text}>{name}</Text>
       <Text
-        style={styles.text}>{`${startDate.getDay()}.${startDate.getMonth()} ${startDate.getHours()}:${startDate.getMinutes()}`}</Text>
+        style={styles.text}
+      >{`${startDate.getDay()}.${startDate.getMonth()} ${startDate.getHours()}:${startDate.getMinutes()}`}</Text>
       <Text style={styles.text}>{location}</Text>
     </TouchableOpacity>
   );
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "#FFFFFF",
     shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: {width: -1, height: 1},
+    shadowOffset: { width: -1, height: 1 },
     shadowOpacity: 1,
     shadowRadius: 2,
   },
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   likeIconStyle: {
     textShadowColor: "black",
-    textShadowOffset: {width: 0, height: 0},
+    textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 2,
   },
 });

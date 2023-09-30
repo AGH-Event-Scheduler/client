@@ -1,15 +1,25 @@
-import React, {useEffect, useState} from "react";
-import {FlatList, Image, ScrollView, StyleSheet, Text, View} from "react-native";
-import {useIsFocused} from "@react-navigation/native";
-import {fetchOrganizationDetails, Organization} from "../../api/OrganizationApiUtils";
-import {EventOrganizationListCard} from "../event/EventOrganizationListCard";
-import {globalStyles} from "../../styles/GlobalStyles";
-import {OrgEvent} from "../../api/types";
-import {fetchOrganizationEvents} from "../../api/EventApiUtils";
+import React, { useEffect, useState } from "react";
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useIsFocused } from "@react-navigation/native";
+import {
+  fetchOrganizationDetails,
+  Organization,
+} from "../../api/OrganizationApiUtils";
+import { EventOrganizationListCard } from "../event/EventOrganizationListCard";
+import { globalStyles } from "../../styles/GlobalStyles";
+import { OrgEvent } from "../../api/types";
+import { fetchOrganizationEvents } from "../../api/EventApiUtils";
 import useFollowButtonStyle from "../../hooks/useFollowButtonStyle";
-import {AppButton} from "../../components/AppButton";
+import { AppButton } from "../../components/AppButton";
 
-export const OrganizationDetailsView = ({navigation, route}) => {
+export const OrganizationDetailsView = ({ navigation, route }) => {
   const [organization, setOrganization] = useState<Organization>();
   const [events, setEvents] = useState<OrgEvent[]>();
 
@@ -34,20 +44,28 @@ export const OrganizationDetailsView = ({navigation, route}) => {
 
   const handleCardPress = (event: OrgEvent) => {
     console.log(`Clicked card: ${event.name}`);
-    navigation.navigate("Event", {eventId: event.id});
+    navigation.navigate("Event", { eventId: event.id });
   };
 
-  const {buttonType, buttonText, handleFollowButtonPress} = useFollowButtonStyle(organization);
+  const { buttonType, buttonText, handleFollowButtonPress } =
+    useFollowButtonStyle(organization);
 
   return (
     <ScrollView style={styles.container}>
       <View style={globalStyles.imageContainer}>
-        <Image source={{uri: organization?.imageUrl}} style={globalStyles.image}/>
+        <Image
+          source={{ uri: organization?.imageUrl }}
+          style={globalStyles.image}
+        />
       </View>
       <Text style={styles.title}>{organization?.name}</Text>
       <Text style={globalStyles.description}>{organization?.description}</Text>
       <View style={styles.buttonContainer}>
-        <AppButton onPress={handleFollowButtonPress} type={buttonType} title={buttonText}/>
+        <AppButton
+          onPress={handleFollowButtonPress}
+          type={buttonType}
+          title={buttonText}
+        />
       </View>
       <FlatList
         data={events}
@@ -55,9 +73,9 @@ export const OrganizationDetailsView = ({navigation, route}) => {
         contentContainerStyle={styles.listContainer}
         horizontal={true}
         scrollEnabled={true}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <EventOrganizationListCard
-            imageSource={{uri: item.imageUrl}}
+            imageSource={{ uri: item.imageUrl }}
             name={item.name}
             location={item.location}
             onCardPress={() => handleCardPress(item)}

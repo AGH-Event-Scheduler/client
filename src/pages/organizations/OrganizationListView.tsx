@@ -1,10 +1,14 @@
-import React, {useEffect, useState} from "react";
-import {FlatList, StyleSheet, Text, TextInput, View} from "react-native";
-import {fetchOrganizations, Organization, updateSubscriptionStatus,} from "../../api/OrganizationApiUtils";
-import {OrganizationListCard} from "./OrganizationListCard";
-import {useIsFocused} from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  fetchOrganizations,
+  Organization,
+  updateSubscriptionStatus,
+} from "../../api/OrganizationApiUtils";
+import { OrganizationListCard } from "./OrganizationListCard";
+import { useIsFocused } from "@react-navigation/native";
 
-export const OrganizationListView = ({navigation}) => {
+export const OrganizationListView = ({ navigation }) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -21,10 +25,9 @@ export const OrganizationListView = ({navigation}) => {
     isFocused && fetchOrganizationsData();
   }, [isFocused]);
 
-
   const handleCardPress = (organization) => {
     console.log(`Clicked card: ${organization.name}`);
-    navigation.navigate("Organization", {organizationId: organization.id})
+    navigation.navigate("Organization", { organizationId: organization.id });
   };
 
   const handleStarPress = async (organization) => {
@@ -33,7 +36,7 @@ export const OrganizationListView = ({navigation}) => {
       if (org.id === organization.id) {
         const updatedStatus = !org.isSubscribed;
         updateSubscriptionStatus(organization.id, updatedStatus);
-        return {...org, isSubscribed: updatedStatus};
+        return { ...org, isSubscribed: updatedStatus };
       }
       return org;
     });
@@ -42,12 +45,11 @@ export const OrganizationListView = ({navigation}) => {
 
   const filteredOrganizations = organizations
     ? organizations.filter(
-      (org: Organization) =>
-        org.name &&
-        org.name.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+        (org: Organization) =>
+          org.name &&
+          org.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
     : [];
-
 
   return (
     <View style={styles.container}>
@@ -62,9 +64,9 @@ export const OrganizationListView = ({navigation}) => {
         data={filteredOrganizations}
         keyExtractor={(item) => item.id?.toString()}
         contentContainerStyle={styles.listContainer}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <OrganizationListCard
-            imageSource={{uri: item.imageUrl}}
+            imageSource={{ uri: item.imageUrl }}
             text={item.name}
             isLiked={item.isSubscribed}
             onCardPress={() => handleCardPress(item)}

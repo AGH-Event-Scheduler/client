@@ -1,16 +1,16 @@
 import React from "react";
-import {StyleSheet, Text, View} from "react-native";
-import {Feather} from "@expo/vector-icons";
+import { StyleSheet, Text, View } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 export const BottomNavBar = () => {
   return (
     <View style={styles.menuContainer}>
       <View style={styles.menuItem}>
-        <Feather name="star" size={24} color="black" style={styles.menuIcon}/>
+        <Feather name="star" size={24} color="black" style={styles.menuIcon} />
         <Text style={styles.menuText}>Favourite</Text>
       </View>
       <View style={styles.menuItem}>
-        <Feather name="users" size={24} color="black" style={styles.menuIcon}/>
+        <Feather name="users" size={24} color="black" style={styles.menuIcon} />
         <Text style={styles.menuText}>Organizations</Text>
       </View>
       <View style={styles.menuItem}>
