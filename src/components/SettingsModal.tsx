@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Modal,
@@ -7,8 +7,17 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { globalStyles } from "../styles/GlobalStyles";
 
 export const SettingsModal = ({ isVisible, onClose }) => {
+  const [language, setLanguage] = useState("Polish");
+
+  const toggleLanguage = () => {
+    setLanguage((prevLanguage) =>
+      prevLanguage === "Polish" ? "English" : "Polish",
+    );
+  };
+
   return (
     <Modal
       animationType="fade"
@@ -19,8 +28,11 @@ export const SettingsModal = ({ isVisible, onClose }) => {
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.modalContainer}>
           <View style={styles.settingsContainer}>
-            <Text style={styles.settingsText}>USTAWIENIA</Text>
-            <Button title="Zamknij" onPress={onClose} />
+            <Text style={globalStyles.title}>Ustawienia</Text>
+            <View style={styles.languageToggleContainer}>
+              <Text style={globalStyles.description}>Language:</Text>
+              <Button title={language} onPress={toggleLanguage} />
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -42,10 +54,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   settingsText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "black",
+    ...globalStyles.title,
     textAlign: "center",
     marginBottom: 10,
+  },
+  languageToggleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 10,
   },
 });
