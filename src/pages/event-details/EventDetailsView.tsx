@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchEventDetails } from "../../api/event-api-utils";
-import { OrganizationEvent } from "../../api/types";
+import { Event } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 
 export const EventDetailsView = ({ navigation, route }) => {
-  const [event, setEvent] = useState<OrganizationEvent>();
+  const [event, setEvent] = useState<Event>();
 
   const eventId = route.params.eventId;
 
@@ -27,7 +27,10 @@ export const EventDetailsView = ({ navigation, route }) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: event?.imageUrl }} style={styles.image} />
+        <Image
+          source={{ uri: event?.backgroundImage.bigUrl }}
+          style={styles.image}
+        />
       </View>
       <Text style={[globalStyles.title, globalStyles.boldText]}>
         {event?.name}

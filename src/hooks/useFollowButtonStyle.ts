@@ -1,6 +1,6 @@
-import { updateSubscriptionStatus } from "../api/OrganizationApiUtils";
 import { useState } from "react";
 import { Organization } from "../api/types";
+import { updateSubscriptionStatus } from "../api/organization-api-utils";
 
 type ButtonTypes = "primary" | "secondary";
 

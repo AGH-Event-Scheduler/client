@@ -12,8 +12,8 @@ export enum Method {
 export const fetchApi = (
   endpoint: string,
   method: Method = Method.GET,
-  body: string = "",
-) => {
+  body: any = null,
+): Promise<Response> => {
   var options: RequestInit = { method: method.toString() };
   if (method !== Method.GET) {
     options = {
