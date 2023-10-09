@@ -5,14 +5,14 @@ export interface Organization {
   isSubscribed: boolean;
 }
 
-export interface OrgEvent {
+export interface OrganizationEvent {
   id: number;
   imageUrl: string;
   name: string;
   description: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   location: string;
-  organizationName: string;
-  lastEdit: Date;
+  organization: Organization;
+  lastUpdatedDate: string;
 }

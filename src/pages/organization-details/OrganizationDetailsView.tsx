@@ -12,16 +12,16 @@ import {
   fetchOrganizationDetails,
   Organization,
 } from "../../api/OrganizationApiUtils";
-import { EventOrganizationListCard } from "../event/EventOrganizationListCard";
+import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
-import { OrgEvent } from "../../api/types";
-import { fetchOrganizationEvents } from "../../api/EventApiUtils";
+import { OrganizationEvent } from "../../api/types";
+import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import useFollowButtonStyle from "../../hooks/useFollowButtonStyle";
 import { AppButton } from "../../components/AppButton";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const [organization, setOrganization] = useState<Organization>();
-  const [events, setEvents] = useState<OrgEvent[]>();
+  const [events, setEvents] = useState<OrganizationEvent[]>();
 
   const organizationId = route.params.organizationId;
 
@@ -36,13 +36,15 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
       setOrganization(organization);
 
       const events = await fetchOrganizationEvents(organizationId);
+      console.log(`Events amount: ${events.length}`);
+
       setEvents(events);
     } catch (error) {
       console.log("Fetching organization details error", error);
     }
   };
 
-  const handleCardPress = (event: OrgEvent) => {
+  const handleCardPress = (event: OrganizationEvent) => {
     console.log(`Clicked card: ${event.name}`);
     navigation.navigate("Event", { eventId: event.id });
   };
@@ -67,34 +69,29 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
           title={buttonText}
         />
       </View>
-      <FlatList
-        data={events}
-        keyExtractor={(item) => item.id?.toString()}
-        contentContainerStyle={styles.listContainer}
-        horizontal={true}
-        scrollEnabled={true}
-        renderItem={({ item }) => (
-          <EventOrganizationListCard
-            imageSource={{ uri: item.imageUrl }}
-            name={item.name}
-            location={item.location}
-            onCardPress={() => handleCardPress(item)}
-            startDate={item.startDate}
-            style={styles.card}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={{ flex: 1, width: "100%" }}>
+        <FlatList
+          data={events}
+          keyExtractor={(item) => item.id?.toString()}
+          horizontal={true}
+          renderItem={({ item }) => (
+            <EventOrganizationListCard
+              imageSource={{ uri: item.imageUrl }}
+              name={item.name}
+              location={item.location}
+              onCardPress={() => handleCardPress(item)}
+              startDate={new Date(item.startDate)}
+              style={styles.card}
+            />
+          )}
+          showsVerticalScrollIndicator={true}
+        />
+      </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  listContainer: {
-    flex: 1,
-    flexGrow: 1,
-    overflow: "scroll",
-  },
   card: {
     width: 300,
     height: 200,
