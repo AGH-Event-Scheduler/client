@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-end",
     paddingRight: 16,
+    paddingTop: 5,
   },
   textContainer: {
     marginRight: 8,
