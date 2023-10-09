@@ -8,20 +8,17 @@ import {
   View,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import {
-  fetchOrganizationDetails,
-  Organization,
-} from "../../api/OrganizationApiUtils";
 import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
-import { OrganizationEvent } from "../../api/types";
+import { Event, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import useFollowButtonStyle from "../../hooks/useFollowButtonStyle";
 import { AppButton } from "../../components/AppButton";
+import { fetchOrganizationDetails } from "../../api/organization-api-utils";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const [organization, setOrganization] = useState<Organization>();
-  const [events, setEvents] = useState<OrganizationEvent[]>();
+  const [events, setEvents] = useState<Event[]>();
 
   const organizationId = route.params.organizationId;
 
@@ -44,7 +41,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     }
   };
 
-  const handleCardPress = (event: OrganizationEvent) => {
+  const handleCardPress = (event: Event) => {
     console.log(`Clicked card: ${event.name}`);
     navigation.navigate("Event", { eventId: event.id });
   };
@@ -56,7 +53,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     <ScrollView style={styles.container}>
       <View style={globalStyles.imageContainer}>
         <Image
-          source={{ uri: organization?.imageUrl }}
+          source={{ uri: organization?.logoImage.smallUrl }}
           style={globalStyles.image}
         />
       </View>
@@ -76,7 +73,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
           horizontal={true}
           renderItem={({ item }) => (
             <EventOrganizationListCard
-              imageSource={{ uri: item.imageUrl }}
+              imageSource={{ uri: item?.backgroundImage.mediumUrl }}
               name={item.name}
               location={item.location}
               onCardPress={() => handleCardPress(item)}
