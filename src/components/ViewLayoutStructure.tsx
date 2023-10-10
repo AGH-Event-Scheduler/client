@@ -18,11 +18,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    width: "95%",
+    width: "100%",
     alignSelf: "center",
   },
   contentContainer: {
     flex: 1,
-    width: "100%",
+    width: "95%",
+    alignSelf: "center",
   },
 });

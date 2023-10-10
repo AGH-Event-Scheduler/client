@@ -1,36 +1,57 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
+import {
+  CommonActions,
+  NavigationProp,
+  useNavigation,
+} from "@react-navigation/native";
+import { NavBarButton } from "./BottomNavBarButton";
+
+export const resetToRouteName = (
+  navigation: NavigationProp<any>,
+  routeName: string,
+) => {
+  navigation.dispatch(
+    CommonActions.reset({
+      index: 0,
+      routes: [{ name: routeName }],
+    }),
+  );
+};
 
 export const BottomNavBar = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.menuContainer}>
-      <View style={styles.menuItem}>
-        <Feather name="star" size={24} color="black" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Favourite</Text>
-      </View>
-      <View style={styles.menuItem}>
-        <Feather name="users" size={24} color="black" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Organizations</Text>
-      </View>
-      <View style={styles.menuItem}>
-        <Feather
-          name="calendar"
-          size={24}
-          color="black"
-          style={styles.menuIcon}
-        />
-        <Text style={styles.menuText}>Calendar</Text>
-      </View>
-      <View style={styles.menuItem}>
-        <Feather
-          name="feather"
-          size={24}
-          color="black"
-          style={styles.menuIcon}
-        />
-        <Text style={styles.menuText}>Feed</Text>
-      </View>
+      <NavBarButton
+        name="Favourite"
+        iconName="star"
+        onPress={() => {
+          resetToRouteName(navigation, "Favourite");
+        }}
+      />
+      <NavBarButton
+        name="Organizations"
+        iconName="users"
+        onPress={() => {
+          resetToRouteName(navigation, "Organizations");
+        }}
+      />
+      <NavBarButton
+        name="Calendar"
+        iconName="calendar"
+        onPress={() => {
+          resetToRouteName(navigation, "Calendar");
+        }}
+      />
+      <NavBarButton
+        name="Feed"
+        iconName="feather"
+        onPress={() => {
+          resetToRouteName(navigation, "Feed");
+        }}
+      />
     </View>
   );
 };
@@ -40,17 +61,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginTop: 16,
-  },
-  menuItem: {
-    alignItems: "center",
-    minWidth: "20%",
-  },
-  menuIcon: {
-    marginBottom: 8,
-  },
-  menuText: {
-    fontSize: 12,
-    fontWeight: "500",
-    textAlign: "center",
+    borderColor: "#B0BCC3",
+    borderTopWidth: 1,
+    width: "100%",
   },
 });
