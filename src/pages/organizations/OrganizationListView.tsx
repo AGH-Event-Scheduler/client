@@ -27,9 +27,7 @@ export const OrganizationListView = ({ navigation }) => {
 
   const handleCardPress = (organization) => {
     console.log(`Clicked card: ${organization.name}`);
-    navigation.navigate("StackOrganization", {
-      organizationId: organization.id,
-    });
+    navigation.navigate("Organization", { organizationId: organization.id });
   };
 
   const handleStarPress = async (organization) => {

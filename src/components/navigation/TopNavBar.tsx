@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   container: {
     height: "4%",
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "flex-end",
     paddingRight: 16,
     paddingTop: 5,

@@ -43,7 +43,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
 
   const handleCardPress = (event: Event) => {
     console.log(`Clicked card: ${event.name}`);
-    navigation.navigate("StackEvent", { eventId: event.id });
+    navigation.navigate("Event", { eventId: event.id });
   };
 
   const { buttonType, buttonText, handleFollowButtonPress } =
