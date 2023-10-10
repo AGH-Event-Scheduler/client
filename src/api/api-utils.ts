@@ -25,6 +25,8 @@ export const fetchApi = (
     };
   }
 
+  console.log(`${method} ${baseUrl}${endpoint}`);
+
   return fetch(`${baseUrl}${endpoint}`, options).catch((reason) => {
     console.log(
       `Error while fetching ${baseUrl}${endpoint}. Reason: ${reason}`,
