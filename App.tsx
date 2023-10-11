@@ -24,6 +24,8 @@ export default function App() {
           <Stack.Screen name="Calendar" component={SamplePage} />
           <Stack.Screen name="Feed" component={SamplePage} />
           <Stack.Screen name="Settings" component={SamplePage} />
+          <Stack.Screen name="Create organization" component={SamplePage} />
+          <Stack.Screen name="Your organizations" component={SamplePage} />
 
           {/* Sub pages */}
           <Stack.Screen
