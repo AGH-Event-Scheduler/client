@@ -29,10 +29,10 @@ export interface DisplayBottomNavBarButton {
 export const BottomNavBar = () => {
   const navigation = useNavigation();
 
-  const [expanded, setExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const expandNavBar = () => {
-    setExpanded(!expanded);
+    setIsExpanded(!isExpanded);
   };
 
   // TODO: Refactor once users are introduced
@@ -61,7 +61,7 @@ export const BottomNavBar = () => {
   return (
     <HideWithKeyboard>
       <View style={styles.menuContainer}>
-        <View style={expanded ? styles.row : { display: "none" }}>
+        <View style={isExpanded ? styles.row : { display: "none" }}>
           {topRow.map((buttonToDisplay, index) => (
             <NavBarButton
               key={index}
@@ -85,13 +85,23 @@ export const BottomNavBar = () => {
             />
           ))}
           {topRow.length > 0 ? (
-            <NavBarButton
-              name="More"
-              iconName="arrow-up"
-              onPress={() => {
-                expandNavBar();
-              }}
-            />
+            !isExpanded ? (
+              <NavBarButton
+                name="More"
+                iconName="arrow-up"
+                onPress={() => {
+                  expandNavBar();
+                }}
+              />
+            ) : (
+              <NavBarButton
+                name="Less"
+                iconName="arrow-down"
+                onPress={() => {
+                  expandNavBar();
+                }}
+              />
+            )
           ) : null}
         </View>
       </View>
