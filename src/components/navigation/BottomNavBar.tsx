@@ -6,6 +6,7 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { NavBarButton } from "./BottomNavBarButton";
+import HideWithKeyboard from "react-native-hide-with-keyboard";
 
 export const resetToRouteName = (
   navigation: NavigationProp<any>,
@@ -20,7 +21,7 @@ export const resetToRouteName = (
 };
 
 export interface DisplayBottomNavBarButton {
-  key: string;
+  name: string;
   iconName: string;
   routeName: string;
 }
@@ -36,17 +37,17 @@ export const BottomNavBar = () => {
 
   // TODO: Refactor once users are introduced
   const buttonsToDisplay: DisplayBottomNavBarButton[] = [
-    { key: "Favourite", iconName: "star", routeName: "Favourite" },
-    { key: "Organizations", iconName: "users", routeName: "Organizations" },
-    { key: "Calendar", iconName: "calendar", routeName: "Calendar" },
-    { key: "Feed", iconName: "feather", routeName: "Feed" },
+    { name: "Favourite", iconName: "star", routeName: "Favourite" },
+    { name: "Organizations", iconName: "users", routeName: "Organizations" },
+    { name: "Calendar", iconName: "calendar", routeName: "Calendar" },
+    { name: "Feed", iconName: "feather", routeName: "Feed" },
     {
-      key: "Create organization",
+      name: "Create organization",
       iconName: "plus",
       routeName: "Create organization",
     },
     {
-      key: "Your organizations",
+      name: "Your organizations",
       iconName: "user-check",
       routeName: "Your organizations",
     },
@@ -58,39 +59,43 @@ export const BottomNavBar = () => {
   // END TODO: Refactor once users are introduced
 
   return (
-    <View style={styles.menuContainer}>
-      <View style={expanded ? styles.row : { display: "none" }}>
-        {topRow.map((buttonToDisplay) => (
-          <NavBarButton
-            name={buttonToDisplay.key}
-            iconName={buttonToDisplay.iconName}
-            onPress={() => {
-              resetToRouteName(navigation, buttonToDisplay.routeName);
-            }}
-          />
-        ))}
+    <HideWithKeyboard>
+      <View style={styles.menuContainer}>
+        <View style={expanded ? styles.row : { display: "none" }}>
+          {topRow.map((buttonToDisplay, index) => (
+            <NavBarButton
+              key={index}
+              name={buttonToDisplay.name}
+              iconName={buttonToDisplay.iconName}
+              onPress={() => {
+                resetToRouteName(navigation, buttonToDisplay.routeName);
+              }}
+            />
+          ))}
+        </View>
+        <View style={styles.row}>
+          {bottomRow.map((buttonToDisplay, index) => (
+            <NavBarButton
+              key={index}
+              name={buttonToDisplay.name}
+              iconName={buttonToDisplay.iconName}
+              onPress={() => {
+                resetToRouteName(navigation, buttonToDisplay.routeName);
+              }}
+            />
+          ))}
+          {topRow.length > 0 ? (
+            <NavBarButton
+              name="More"
+              iconName="arrow-up"
+              onPress={() => {
+                expandNavBar();
+              }}
+            />
+          ) : null}
+        </View>
       </View>
-      <View style={styles.row}>
-        {bottomRow.map((buttonToDisplay) => (
-          <NavBarButton
-            name={buttonToDisplay.key}
-            iconName={buttonToDisplay.iconName}
-            onPress={() => {
-              resetToRouteName(navigation, buttonToDisplay.routeName);
-            }}
-          />
-        ))}
-        {topRow.length > 0 ? (
-          <NavBarButton
-            name="More"
-            iconName="arrow-up"
-            onPress={() => {
-              expandNavBar();
-            }}
-          />
-        ) : null}
-      </View>
-    </View>
+    </HideWithKeyboard>
   );
 };
 
