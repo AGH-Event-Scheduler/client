@@ -5,17 +5,17 @@ import { fetchEventDetails } from "../../api/event-api-utils";
 import { Event } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 
-export const EventDetailsView = ({ navigation, route }) => {
+export const EventDetailsView = ({ route }) => {
   const [event, setEvent] = useState<Event>();
 
   const eventId = route.params.eventId;
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    isFocused && fetchEventDetailsData(eventId);
+    isFocused && fetchEventDetailsData();
   }, [isFocused]);
 
-  const fetchEventDetailsData = async (organizationId: number) => {
+  const fetchEventDetailsData = async () => {
     try {
       const event = await fetchEventDetails(eventId);
       setEvent(event);
