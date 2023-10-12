@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchEventDetails } from "../../api/event-api-utils";
-import { OrgEvent } from "../../api/types";
+import { Event } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 
-export const EventDetailsView = ({ navigation, route }) => {
-  const [event, setEvent] = useState<OrgEvent>();
+export const EventDetailsView = ({ route }) => {
+  const [event, setEvent] = useState<Event>();
 
   const eventId = route.params.eventId;
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    isFocused && fetchEventDetailsData(eventId);
+    isFocused && fetchEventDetailsData();
   }, [isFocused]);
 
-  const fetchEventDetailsData = async (organizationId: number) => {
+  const fetchEventDetailsData = async () => {
     try {
       const event = await fetchEventDetails(eventId);
       setEvent(event);
@@ -25,20 +25,21 @@ export const EventDetailsView = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: event?.imageUrl }} style={styles.image} />
+        <Image
+          source={{ uri: event?.backgroundImage.bigUrl }}
+          style={styles.image}
+        />
       </View>
       <Text style={[globalStyles.title, globalStyles.boldText]}>
         {event?.name}
       </Text>
-      <Text
-        style={[globalStyles.date, globalStyles.boldText]}
-      >{`${event?.startDate.getDay()}.${event?.startDate.getMonth()} ${event?.startDate.getHours()}:${event?.startDate.getMinutes()} - ${event?.endDate.getHours()}:${event?.endDate.getMinutes()}`}</Text>
+
       <Text style={[globalStyles.title]}>{event?.location}</Text>
       <Text style={[globalStyles.descriptionTitle]}>Description</Text>
       <Text style={[globalStyles.description]}>{event?.description}</Text>
-    </View>
+    </ScrollView>
   );
 };
 

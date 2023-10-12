@@ -31,9 +31,7 @@ export const EventOrganizationListCard = ({
         <Image source={imageSource} style={styles.image} resizeMode="contain" />
       </View>
       <Text style={styles.text}>{name}</Text>
-      <Text
-        style={styles.text}
-      >{`${startDate.getDay()}.${startDate.getMonth()} ${startDate.getHours()}:${startDate.getMinutes()}`}</Text>
+      <Text style={styles.text}>{startDate.toLocaleDateString()}</Text>
       <Text style={styles.text}>{location}</Text>
     </TouchableOpacity>
   );
@@ -68,7 +66,6 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    marginRight: "5%",
     fontSize: 19,
     fontWeight: "500",
     flexWrap: "wrap",

@@ -8,16 +8,16 @@ import {
   View,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { EventOrganizationListCard } from "../event/EventOrganizationListCard";
+import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
-import { OrgEvent, Organization } from "../../api/types";
+import { Event, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { fetchOrganizationDetails, updateSubscriptionStatus } from "../../api/organization-api-utils";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const [organization, setOrganization] = useState<Organization>(null);
-  const [events, setEvents] = useState<OrgEvent[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
@@ -38,7 +38,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     isFocused && fetchOrganizationDetailsData(organizationId);
   }, [isFocused]);
 
-  const handleCardPress = (event: OrgEvent) => {
+  const handleCardPress = (event: Event) => {
     console.log(`Clicked card: ${event.name}`);
     navigation.navigate("Event", { eventId: event.id });
   };
@@ -61,7 +61,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     <ScrollView style={styles.container}>
       <View style={globalStyles.imageContainer}>
         <Image
-          source={{ uri: organization?.imageUrl }}
+          source={{ uri: organization?.logoImage.smallUrl }}
           style={globalStyles.image}
         />
       </View>
@@ -76,34 +76,29 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
           isChecked={organization.isSubscribed}
         /> }
       </View>
-      <FlatList
-        data={events}
-        keyExtractor={(item) => item.id?.toString()}
-        contentContainerStyle={styles.listContainer}
-        horizontal={true}
-        scrollEnabled={true}
-        renderItem={({ item }) => (
-          <EventOrganizationListCard
-            imageSource={{ uri: item.imageUrl }}
-            name={item.name}
-            location={item.location}
-            onCardPress={() => handleCardPress(item)}
-            startDate={item.startDate}
-            style={styles.card}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={{ flex: 1, width: "100%" }}>
+        <FlatList
+          data={events}
+          keyExtractor={(item) => item.id?.toString()}
+          horizontal={true}
+          renderItem={({ item }) => (
+            <EventOrganizationListCard
+              imageSource={{ uri: item?.backgroundImage.mediumUrl }}
+              name={item.name}
+              location={item.location}
+              onCardPress={() => handleCardPress(item)}
+              startDate={new Date(item.startDate)}
+              style={styles.card}
+            />
+          )}
+          showsVerticalScrollIndicator={true}
+        />
+      </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  listContainer: {
-    flex: 1,
-    flexGrow: 1,
-    overflow: "scroll",
-  },
   card: {
     width: 300,
     height: 200,
