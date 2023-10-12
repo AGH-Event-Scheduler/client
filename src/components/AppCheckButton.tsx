@@ -11,15 +11,15 @@ interface CheckButtonProps {
 export const AppCheckButton = ({onPress, title, altTitle, isChecked}: CheckButtonProps) => {
     const [buttonType, setButtonType] = useState<ButtonTypes>(isChecked ? ButtonTypes.Secondary : ButtonTypes.Primary);
     const [buttonText, setButtonText] = useState(isChecked ? altTitle : title);
-    
+
     useEffect(() => {
         setButtonType(isChecked ? ButtonTypes.Secondary : ButtonTypes.Primary);
         setButtonText(isChecked ? altTitle : title);
-        
+
     }, [isChecked])
 
     return (
-        <AppButton 
+        <AppButton
             onPress={onPress}
             title={buttonText}
             type={buttonType}

@@ -7,7 +7,7 @@ export enum ButtonTypes {
   Destructive = "destructive",
   Disabled = "disabled"
 }
-  
+
 
 interface ButtonProps {
   onPress: () => void;
