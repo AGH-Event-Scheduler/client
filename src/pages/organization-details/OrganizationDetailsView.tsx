@@ -15,7 +15,7 @@ import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { 
   fetchOrganizationDetails, 
-  updateSubscriptionStatus 
+  updateSubscriptionStatus, 
 } from "../../api/organization-api-utils";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {

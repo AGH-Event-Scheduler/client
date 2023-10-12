@@ -12,7 +12,7 @@ export enum Method {
 export const fetchApi = async (
   endpoint: string,
   method: Method = Method.GET,
-  body: any = null
+  body: any = null,
 ): Promise<Response> => {
   var options: RequestInit = { method: method.toString() };
   if (method !== Method.GET) {
