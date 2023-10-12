@@ -19,7 +19,7 @@ export const updateSubscriptionStatus = async (
 ) => {
   var response = await fetchApi(
     `/organizations/${organizationId}/subscription`,
-    Method.PUT,
+    Method.PATCH,
     updatedStatus,
   );
 
