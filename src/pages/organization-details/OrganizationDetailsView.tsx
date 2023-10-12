@@ -13,7 +13,7 @@ import { globalStyles } from "../../styles/GlobalStyles";
 import { Event, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import { AppCheckButton } from "../../components/AppCheckButton";
-import { 
+import {
   fetchOrganizationDetails,
   updateSubscriptionStatus,
 } from "../../api/organization-api-utils";
