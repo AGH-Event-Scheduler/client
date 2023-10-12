@@ -13,7 +13,10 @@ import { globalStyles } from "../../styles/GlobalStyles";
 import { Event, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import { AppCheckButton } from "../../components/AppCheckButton";
-import { fetchOrganizationDetails, updateSubscriptionStatus } from "../../api/organization-api-utils";
+import { 
+  fetchOrganizationDetails, 
+  updateSubscriptionStatus 
+} from "../../api/organization-api-utils";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const [organization, setOrganization] = useState<Organization>(null);
@@ -68,13 +71,14 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
       <Text style={styles.title}>{organization?.name}</Text>
       <Text style={globalStyles.description}>{organization?.description}</Text>
       <View style={styles.buttonContainer}>
-        { organization &&
-        <AppCheckButton
-          onPress={handleFollowButtonPress}
-          title="Follow"
-          altTitle="Unfollow"
-          isChecked={organization.isSubscribed}
-        /> }
+        {organization && (
+          <AppCheckButton
+            onPress={handleFollowButtonPress}
+            title="Follow"
+            altTitle="Unfollow"
+            isChecked={organization.isSubscribed}
+          />
+        )}
       </View>
       <View style={{ flex: 1, width: "100%" }}>
         <FlatList

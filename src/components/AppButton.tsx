@@ -5,7 +5,7 @@ export enum ButtonTypes {
   Primary = "primary",
   Secondary = "secondary",
   Destructive = "destructive",
-  Disabled = "disabled"
+  Disabled = "disabled",
 }
 
 

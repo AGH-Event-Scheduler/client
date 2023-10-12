@@ -12,7 +12,7 @@ export enum Method {
 export const fetchApi = async (
   endpoint: string,
   method: Method = Method.GET,
-  body: any = null,
+  body: any = null
 ): Promise<Response> => {
   var options: RequestInit = { method: method.toString() };
   if (method !== Method.GET) {
@@ -31,7 +31,8 @@ export const fetchApi = async (
     return await fetch(`${baseUrl}${endpoint}`, options);
   } catch (reason) {
     console.log(
-      `Error while fetching ${baseUrl}${endpoint}. Reason: ${reason}`);
+      `Error while fetching ${baseUrl}${endpoint}. Reason: ${reason}`,
+    );
     throw reason;
   }
 };
