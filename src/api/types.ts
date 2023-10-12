@@ -2,9 +2,9 @@ export interface Organization {
   id: number;
   imageUrl: string;
   name: string;
+  description: string;
   isSubscribed: boolean;
 }
-
 export interface OrgEvent {
   id: number;
   imageUrl: string;

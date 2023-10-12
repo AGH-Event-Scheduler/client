@@ -1,7 +1,5 @@
 import { OrgEvent } from "./types";
 
-const basePath = "http://127.0.0.1:8080";
-
 export const fetchOrganizationEvents = async (
   organizationId: number,
 ): Promise<OrgEvent[]> => {

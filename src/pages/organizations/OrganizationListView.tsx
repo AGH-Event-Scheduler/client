@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
-import {
-  fetchOrganizations,
-  Organization,
-  updateSubscriptionStatus,
-} from "../../api/OrganizationApiUtils";
 import { OrganizationListCard } from "./OrganizationListCard";
 import { useIsFocused } from "@react-navigation/native";
+import { fetchOrganizations, updateSubscriptionStatus } from "../../api/organization-api-utils";
+import { Organization } from "../../api/types";
 
 export const OrganizationListView = ({ navigation }) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);

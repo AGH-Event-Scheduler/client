@@ -8,47 +8,54 @@ import {
   View,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import {
-  fetchOrganizationDetails,
-  Organization,
-} from "../../api/OrganizationApiUtils";
 import { EventOrganizationListCard } from "../event/EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
-import { OrgEvent } from "../../api/types";
-import { fetchOrganizationEvents } from "../../api/EventApiUtils";
-import useFollowButtonStyle from "../../hooks/useFollowButtonStyle";
-import { AppButton } from "../../components/AppButton";
+import { OrgEvent, Organization } from "../../api/types";
+import { fetchOrganizationEvents } from "../../api/event-api-utils";
+import { AppCheckButton } from "../../components/AppCheckButton";
+import { fetchOrganizationDetails, updateSubscriptionStatus } from "../../api/organization-api-utils";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
-  const [organization, setOrganization] = useState<Organization>();
-  const [events, setEvents] = useState<OrgEvent[]>();
+  const [organization, setOrganization] = useState<Organization>(null);
+  const [events, setEvents] = useState<OrgEvent[]>([]);
+  const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
 
-  const isFocused = useIsFocused();
   useEffect(() => {
+    const fetchOrganizationDetailsData = async (organizationId: number) => {
+      try {
+        const organization = await fetchOrganizationDetails(organizationId);
+        setOrganization(organization);
+
+        const events = await fetchOrganizationEvents(organizationId);
+        setEvents(events);
+      } catch (error) {
+        console.log("Fetching organization details error", error);
+      }
+    };
+
     isFocused && fetchOrganizationDetailsData(organizationId);
   }, [isFocused]);
-
-  const fetchOrganizationDetailsData = async (organizationId: number) => {
-    try {
-      const organization = await fetchOrganizationDetails(organizationId);
-      setOrganization(organization);
-
-      const events = await fetchOrganizationEvents(organizationId);
-      setEvents(events);
-    } catch (error) {
-      console.log("Fetching organization details error", error);
-    }
-  };
 
   const handleCardPress = (event: OrgEvent) => {
     console.log(`Clicked card: ${event.name}`);
     navigation.navigate("Event", { eventId: event.id });
   };
 
-  const { buttonType, buttonText, handleFollowButtonPress } =
-    useFollowButtonStyle(organization);
+  const handleFollowButtonPress = async () => {
+    if (organization) {
+      setOrganization({
+        ...organization,
+        isSubscribed: !organization.isSubscribed,
+      });
+
+      await updateSubscriptionStatus(
+        organization.id,
+        !organization.isSubscribed,
+      );
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -61,11 +68,13 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
       <Text style={styles.title}>{organization?.name}</Text>
       <Text style={globalStyles.description}>{organization?.description}</Text>
       <View style={styles.buttonContainer}>
-        <AppButton
+        { organization &&
+        <AppCheckButton
           onPress={handleFollowButtonPress}
-          type={buttonType}
-          title={buttonText}
-        />
+          title="Follow"
+          altTitle="Unfollow"
+          isChecked={organization.isSubscribed}
+        /> }
       </View>
       <FlatList
         data={events}

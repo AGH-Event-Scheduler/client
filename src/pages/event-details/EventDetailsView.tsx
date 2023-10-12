@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { fetchEventDetails } from "../../api/EventApiUtils";
+import { fetchEventDetails } from "../../api/event-api-utils";
 import { OrgEvent } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 
