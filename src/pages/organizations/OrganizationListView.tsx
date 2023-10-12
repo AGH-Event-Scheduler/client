@@ -4,7 +4,7 @@ import { OrganizationListCard } from "./OrganizationListCard";
 import { useIsFocused } from "@react-navigation/native";
 import { Organization } from "../../api/types";
 import {
-  fetchOrganizations, 
+  fetchOrganizations,
   updateSubscriptionStatus,
 } from "../../api/organization-api-utils";
 
