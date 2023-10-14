@@ -1,7 +1,13 @@
-import React, {useState} from "react";
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {globalStyles} from "../styles/GlobalStyles";
-import {Ionicons} from "@expo/vector-icons"; // Make sure to install @expo/vector-icons
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { globalStyles } from "../styles/GlobalStyles";
+import { Ionicons } from "@expo/vector-icons"; // Make sure to install @expo/vector-icons
 
 interface TextInputContainerProps {
   label: string;
@@ -15,15 +21,15 @@ interface TextInputContainerProps {
 }
 
 export const TextInputContainer: React.FC<TextInputContainerProps> = ({
-                                                                        label,
-                                                                        placeholder,
-                                                                        value,
-                                                                        onChangeText,
-                                                                        description,
-                                                                        linkText,
-                                                                        onLinkPress,
-                                                                        isPassword = false,
-                                                                      }) => {
+  label,
+  placeholder,
+  value,
+  onChangeText,
+  description,
+  linkText,
+  onLinkPress,
+  isPassword = false,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -42,7 +48,10 @@ export const TextInputContainer: React.FC<TextInputContainerProps> = ({
           secureTextEntry={!showPassword && isPassword}
         />
         {isPassword && (
-          <TouchableOpacity onPress={togglePasswordVisibility} style={styles.toggleButton}>
+          <TouchableOpacity
+            onPress={togglePasswordVisibility}
+            style={styles.toggleButton}
+          >
             <Ionicons
               name={showPassword ? "eye-off" : "eye"}
               size={24}
@@ -80,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9F9F9",
     elevation: 4,
     shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: {width: 0, height: 3},
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 1,
     shadowRadius: 4,
     padding: 10,

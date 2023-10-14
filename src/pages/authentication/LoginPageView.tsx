@@ -1,25 +1,41 @@
-import React, {useState} from "react";
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {AppButton} from "../../components/AppButton";
-import {TextInputContainer} from "../../components/TextInputContainer";
-import {globalStyles} from "../../styles/GlobalStyles";
+import React, { useState } from "react";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { AppButton } from "../../components/AppButton";
+import { TextInputContainer } from "../../components/TextInputContainer";
+import { globalStyles } from "../../styles/GlobalStyles";
+import { signInUser } from "../../api/authentication-api-utils";
+import { useNavigation } from "@react-navigation/native";
 
 export const LoginPageView = () => {
-  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@(student\.)?agh\.edu\.pl$/;
     return emailRegex.test(email);
   };
 
-  const handleSignIn = () => {
-    if (!validateEmail(login)) {
+  const handleSignIn = async () => {
+    if (!validateEmail(email)) {
       Alert.alert("Invalid Email", "Please enter a valid email address.");
       return;
-    }
+    } else {
+      try {
+        const user = await signInUser(email, password);
 
-    console.log("Sign in");
+        if (user) {
+          console.log("User logged in:", user);
+          // @ts-ignore
+          navigation.navigate("Main");
+        } else {
+          Alert.alert("Login Failed", "Please check your email and password.");
+        }
+      } catch (error) {
+        console.error("Login error:", error.message);
+        Alert.alert("Error", "An error occurred during login.");
+      }
+    }
   };
 
   const handleSignUp = () => {
@@ -48,11 +64,10 @@ export const LoginPageView = () => {
       <TextInputContainer
         label="Email"
         placeholder="email@agh.edu.pl"
-        value={login}
-        onChangeText={(text) => setLogin(text)}
+        value={email}
+        onChangeText={(text) => setEmail(text)}
         description="AGH domain email address"
       />
-
       <TextInputContainer
         label="Password"
         placeholder="password"
@@ -65,16 +80,20 @@ export const LoginPageView = () => {
       />
 
       <View style={styles.dividerContainer}>
-        <AppButton onPress={handleSignIn} type="primary" title={"\t\tSign in\t\t"}/>
+        <AppButton
+          onPress={handleSignIn}
+          type="primary"
+          title={"\t\tSign in\t\t"}
+        />
       </View>
 
       <View style={styles.dividerContainer}>
-        <View style={styles.dividerLine}/>
+        <View style={styles.dividerLine} />
         <Text style={styles.dividerText}>Do not have an account? </Text>
         <TouchableOpacity onPress={handleSignUp}>
           <Text style={styles.dividerTextLink}>Sign up!</Text>
         </TouchableOpacity>
-        <View style={styles.dividerLine}/>
+        <View style={styles.dividerLine} />
       </View>
 
       <View style={styles.dividerContainer}>
@@ -82,8 +101,18 @@ export const LoginPageView = () => {
       </View>
 
       <View style={styles.additionalMethodsContainer}>
-        <AppButton onPress={handleUseAGHAccount} type="primary" title={"Use AGH account"} fontSize={15}/>
-        <AppButton onPress={handleContinueAsGuest} type="greyedOut" title={"Continue as guest"} fontSize={15}/>
+        <AppButton
+          onPress={handleUseAGHAccount}
+          type="primary"
+          title={"Use AGH account"}
+          fontSize={15}
+        />
+        <AppButton
+          onPress={handleContinueAsGuest}
+          type="greyedOut"
+          title={"Continue as guest"}
+          fontSize={15}
+        />
       </View>
     </View>
   );
@@ -100,7 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
     marginBottom: "20%",
-    marginTop: "10%"
+    marginTop: "10%",
   },
   titlePart1: {
     ...globalStyles.descriptionTitle,

@@ -1,7 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-type ButtonTypes = "primary" | "secondary" | "destructive" | "disabled" | "greyedOut";
+type ButtonTypes =
+  | "primary"
+  | "secondary"
+  | "destructive"
+  | "disabled"
+  | "greyedOut";
 
 interface ButtonProps {
   onPress: () => void;
@@ -10,7 +15,12 @@ interface ButtonProps {
   fontSize?: number; // Optional property for font size
 }
 
-export const AppButton = ({ onPress, type, title, fontSize = 20 }: ButtonProps) => {
+export const AppButton = ({
+  onPress,
+  type,
+  title,
+  fontSize = 20,
+}: ButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -21,7 +31,7 @@ export const AppButton = ({ onPress, type, title, fontSize = 20 }: ButtonProps) 
       </Text>
     </TouchableOpacity>
   );
-}
+};
 
 const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
   primary: StyleSheet.create({
