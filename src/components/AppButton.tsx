@@ -1,24 +1,27 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-type ButtonTypes = "primary" | "secondary" | "destructive" | "disabled";
+type ButtonTypes = "primary" | "secondary" | "destructive" | "disabled" | "greyedOut";
 
 interface ButtonProps {
   onPress: () => void;
   type: ButtonTypes;
   title: string;
+  fontSize?: number; // Optional property for font size
 }
 
-export const AppButton = ({ onPress, type, title }: ButtonProps) => {
+export const AppButton = ({ onPress, type, title, fontSize = 20 }: ButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[styles.button, buttonTypes[type].button]}
     >
-      <Text style={[styles.text, buttonTypes[type].text]}>{title}</Text>
+      <Text style={[styles.text, { fontSize }, buttonTypes[type].text]}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
-};
+}
 
 const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
   primary: StyleSheet.create({
@@ -48,6 +51,14 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       color: "white",
     },
   }),
+  greyedOut: StyleSheet.create({
+    button: {
+      backgroundColor: "#A9A9A9",
+    },
+    text: {
+      color: "white",
+    },
+  }),
   disabled: StyleSheet.create({
     button: {
       backgroundColor: "grey",
@@ -64,10 +75,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
   },
-
   text: {
     textAlign: "center",
-    fontSize: 20,
     fontWeight: "400",
   },
 });
