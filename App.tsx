@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { OrganizationListView } from "./src/pages/organizations/OrganizationListView";
@@ -7,15 +8,40 @@ import { OrganizationDetailsView } from "./src/pages/organization-details/Organi
 import { EventDetailsView } from "./src/pages/event-details/EventDetailsView";
 import { SamplePage } from "./src/pages/SamplePage";
 import { LoginPageView } from "./src/pages/authentication/LoginPageView";
+import { UserService } from "./src/services/UserService";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [firstScreen, setFirstScreen] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    UserService.getLoginStatus()
+      .then((isLoggedIn) => {
+        setFirstScreen(isLoggedIn ? "Main" : "Login");
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setFirstScreen("Login");
+        console.error(err)
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false, animation: "fade" }}
-        initialRouteName="Login"
+        initialRouteName={firstScreen}
       >
         <Stack.Screen name="Login" component={AuthenticationStack} />
         <Stack.Screen name="Main" component={MainStack} />
@@ -23,7 +49,6 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
 const MainStack = () => {
   return (
     <ViewLayoutStructure navbarVisible={true}>
