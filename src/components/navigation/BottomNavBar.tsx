@@ -1,17 +1,19 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 export const BottomNavBar = () => {
+  const {t} = useTranslation();
   return (
     <View style={styles.menuContainer}>
       <View style={styles.menuItem}>
         <Feather name="star" size={24} color="black" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Favourite</Text>
+        <Text style={styles.menuText}>{t('general.favourite')}</Text>
       </View>
       <View style={styles.menuItem}>
         <Feather name="users" size={24} color="black" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Organizations</Text>
+        <Text style={styles.menuText}>{t('general.organizations')}</Text>
       </View>
       <View style={styles.menuItem}>
         <Feather
@@ -20,7 +22,7 @@ export const BottomNavBar = () => {
           color="black"
           style={styles.menuIcon}
         />
-        <Text style={styles.menuText}>Calendar</Text>
+        <Text style={styles.menuText}>{t('general.calendar')}</Text>
       </View>
       <View style={styles.menuItem}>
         <Feather
@@ -29,7 +31,7 @@ export const BottomNavBar = () => {
           color="black"
           style={styles.menuIcon}
         />
-        <Text style={styles.menuText}>Feed</Text>
+        <Text style={styles.menuText}>{t('general.feed')}</Text>
       </View>
     </View>
   );

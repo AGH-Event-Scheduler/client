@@ -7,8 +7,11 @@ import {
 } from "../../api/OrganizationApiUtils";
 import { OrganizationListCard } from "./OrganizationListCard";
 import { useIsFocused } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 export const OrganizationListView = ({ navigation }) => {
+  const {t} = useTranslation();
+  
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -53,10 +56,10 @@ export const OrganizationListView = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Organizations</Text>
+      <Text style={styles.title}>{t('general.organizations')}</Text>
       <TextInput
         style={styles.searchInput}
-        placeholder="Search..."
+        placeholder={`${t('general.search')}...`}
         value={searchQuery}
         onChangeText={setSearchQuery}
       />

@@ -4,8 +4,10 @@ import { useIsFocused } from "@react-navigation/native";
 import { fetchEventDetails } from "../../api/EventApiUtils";
 import { OrgEvent } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
+import { useTranslation } from "react-i18next";
 
 export const EventDetailsView = ({ navigation, route }) => {
+  const {t} = useTranslation();
   const [event, setEvent] = useState<OrgEvent>();
 
   const eventId = route.params.eventId;
@@ -36,7 +38,7 @@ export const EventDetailsView = ({ navigation, route }) => {
         style={[globalStyles.date, globalStyles.boldText]}
       >{`${event?.startDate.getDay()}.${event?.startDate.getMonth()} ${event?.startDate.getHours()}:${event?.startDate.getMinutes()} - ${event?.endDate.getHours()}:${event?.endDate.getMinutes()}`}</Text>
       <Text style={[globalStyles.title]}>{event?.location}</Text>
-      <Text style={[globalStyles.descriptionTitle]}>Description</Text>
+      <Text style={[globalStyles.descriptionTitle]}>{t('general.description')}</Text>
       <Text style={[globalStyles.description]}>{event?.description}</Text>
     </View>
   );

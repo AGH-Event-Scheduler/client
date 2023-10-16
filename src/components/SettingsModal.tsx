@@ -18,9 +18,9 @@ export const SettingsModal = ({ isVisible, onClose }) => {
 
   const toggleLanguage = () => {
     setLanguage((prevLanguage) =>
-    prevLanguage === "pl" ? "en" : "pl",
+      prevLanguage === "pl" ? "en" : "pl", 
     );
-    
+    console.log(language)
     i18next.changeLanguage(language)
   };
 
@@ -34,9 +34,9 @@ export const SettingsModal = ({ isVisible, onClose }) => {
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.modalContainer}>
           <View style={styles.settingsContainer}>
-            <Text style={globalStyles.title}>{t('settings')}</Text>
+            <Text style={globalStyles.title}>{t('general.settings')}</Text>
             <View style={styles.languageToggleContainer}>
-              <Text style={globalStyles.description}>Language:</Text>
+              <Text style={globalStyles.description}>{t('general.language')}:</Text>
               <Button title={language} onPress={toggleLanguage} />
             </View>
           </View>
