@@ -1,7 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-type ButtonTypes = "primary" | "secondary" | "destructive" | "disabled";
+export enum ButtonTypes {
+  Primary = "primary",
+  Secondary = "secondary",
+  Destructive = "destructive",
+  Disabled = "disabled",
+}
 
 interface ButtonProps {
   onPress: () => void;

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
-import {
-  fetchOrganizations,
-  Organization,
-  updateSubscriptionStatus,
-} from "../../api/OrganizationApiUtils";
 import { OrganizationListCard } from "./OrganizationListCard";
 import { useIsFocused } from "@react-navigation/native";
+import { Organization } from "../../api/types";
+import {
+  fetchOrganizations,
+  updateSubscriptionStatus,
+} from "../../api/organization-api-utils";
 import { useTranslation } from "react-i18next";
 
 export const OrganizationListView = ({ navigation }) => {
@@ -69,7 +69,7 @@ export const OrganizationListView = ({ navigation }) => {
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
           <OrganizationListCard
-            imageSource={{ uri: item.imageUrl }}
+            imageSource={{ uri: item?.logoImage.mediumUrl }}
             text={item.name}
             isLiked={item.isSubscribed}
             onCardPress={() => handleCardPress(item)}

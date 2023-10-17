@@ -1,18 +1,29 @@
-export interface Organization {
-  id: number;
-  imageUrl: string;
-  name: string;
-  isSubscribed: boolean;
+export interface Image {
+  smallUrl: string;
+  mediumUrl: string;
+  bigUrl: string;
 }
 
-export interface OrgEvent {
+interface BaseEntity {
   id: number;
-  imageUrl: string;
+  creationDate: string;
+  lastUpdatedDate: string;
+}
+
+export interface Organization extends BaseEntity {
   name: string;
+  logoImage: Image;
+  backgroundImage: Image;
+  isSubscribed: boolean;
   description: string;
-  startDate: Date;
-  endDate: Date;
+}
+
+export interface Event extends BaseEntity {
+  name: string;
+  backgroundImage: Image;
+  description: string;
+  startDate: string;
+  endDate: string;
   location: string;
-  organizationName: string;
-  lastEdit: Date;
+  organization: Organization;
 }
