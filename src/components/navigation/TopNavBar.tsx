@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { resetToRouteName } from "./BottomNavBar";
 
-const TopNavBar = () => {
+export const TopNavBar = () => {
   const navigation = useNavigation();
 
   return (
