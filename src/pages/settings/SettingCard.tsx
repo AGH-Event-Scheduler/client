@@ -10,9 +10,9 @@ export const SettingCard = ({ title, iconName, setting }: SettingProps) => {
   const SettingTypeButton = {
     Account: <AppNewPageButton page={setting} />,
     Information: <AppNewPageButton page={setting} />,
-    Language: <AppSwitchButton onToggle={() => changeLanguage()} />,
-    Notifications: <AppSwitchButton onToggle={() => console.log("switch toggled")}/>,
-    Darkmode: <AppSwitchButton onToggle={() => console.log("switch toggled")}/>,
+    Language: <AppSwitchButton onToggle={() => changeLanguage()} isEnabled={i18next.language == "pl"} />,
+    Notifications: <AppSwitchButton onToggle={() => console.log("switch toggled")} isEnabled={false}/>,
+    Darkmode: <AppSwitchButton onToggle={() => console.log("switch toggled")} isEnabled={false}/>,
   }
 
   const changeLanguage = () =>
