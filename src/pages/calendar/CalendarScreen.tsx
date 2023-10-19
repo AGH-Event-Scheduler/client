@@ -16,36 +16,38 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import {
   DateRange,
   getDatesInRange,
+  getFirstAndLastDayOfWeek,
   isInDateRange,
   isTheSameDay,
 } from "./utils/date-ranges";
 import { AntDesign } from "@expo/vector-icons";
+import { LoadingView } from "../../components/loading/LoadingView";
 
 export const CalendarScreen = () => {
   const [selectedWeek, setSelectedWeek] = useState<DateRange>();
-  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState(true);
   const [agendaItems, setAgendaItems] = useState<SectionType>();
   const childWeeklyCalendarRef = useRef(null);
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    // isFocused &&
-    // setDateRange(getFirstAndLastDayOfWeek());
+    isFocused && setSelectedWeek(getFirstAndLastDayOfWeek(selectedDate));
   }, [isFocused]);
 
   useEffect(() => {
-    // if (dateRange) {
-    //   fetchAgendaItemsInDateRange({
-    //     startDate: dateRange.startDate,
-    //     endDate: dateRange.endDate,
-    //   });
-    // }
+    if (selectedWeek) {
+      fetchAgendaItemsInDateRange({
+        startDate: selectedWeek.startDate,
+        endDate: selectedWeek.endDate,
+      });
+    }
   }, [selectedWeek]);
 
   const fetchAgendaItemsInDateRange = useCallback(
     async ({ startDate, endDate }: DateRange) => {
       setIsLoading(true);
+
       const eventsByDate = await fetchEventsInDateRange(startDate, endDate);
 
       const toAgendaListItem = (
@@ -72,7 +74,10 @@ export const CalendarScreen = () => {
       });
 
       setAgendaItems(results);
-      // console.log(Object.keys(results));
+
+      childWeeklyCalendarRef.current.updateMarkedDays(
+        Object.keys(eventsByDate),
+      );
 
       setIsLoading(false);
     },
@@ -80,11 +85,19 @@ export const CalendarScreen = () => {
   );
 
   const onDayChange = (date: Date) => {
-    setSelectedDate(date);
+    if (!selectedDate || !isTheSameDay(date, selectedDate)) {
+      setSelectedDate(date);
+    }
   };
 
   const onWeekChange = (dateRange: DateRange) => {
-    setSelectedWeek(dateRange);
+    if (
+      !selectedWeek ||
+      (!isTheSameDay(dateRange.startDate, selectedWeek.startDate) &&
+        !isTheSameDay(dateRange.endDate, selectedWeek.endDate))
+    ) {
+      setSelectedWeek(dateRange);
+    }
   };
 
   return (
@@ -95,7 +108,7 @@ export const CalendarScreen = () => {
         onDayChange={onDayChange}
         onWeekChange={onWeekChange}
       />
-      <DateSectionList sections={agendaItems} />
+      {isLoading ? <LoadingView /> : <DateSectionList sections={agendaItems} />}
       {selectedWeek && !isInDateRange(new Date(), selectedWeek) ? (
         <TouchableOpacity
           onPress={() => childWeeklyCalendarRef.current.changeDate(new Date())}
@@ -118,14 +131,15 @@ const styles = StyleSheet.create({
     left: 10,
     bottom: 30,
     backgroundColor: "white",
-    padding: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 5,
     borderColor: "#016531",
-    borderWidth: 2,
+    borderWidth: 1,
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: { width: -1, height: 1 },
     shadowOpacity: 1,

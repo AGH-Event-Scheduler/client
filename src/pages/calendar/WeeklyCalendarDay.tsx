@@ -36,7 +36,16 @@ export const WeeklyCalendarDay = (props: WeeklyCalendarDayProps) => {
             : styles.defaultRoundContainerColor,
         ]}
       >
-        {props.marked ? <View style={styles.mark}></View> : null}
+        {props.marked ? (
+          <View
+            style={[
+              styles.mark,
+              props.selected
+                ? styles.selectedMarkColor
+                : styles.defaultMarkColor,
+            ]}
+          ></View>
+        ) : null}
         <Text
           style={[
             styles.day,
@@ -70,7 +79,7 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 100,
     position: "absolute",
-    top: 5,
+    top: 3.5,
   },
   dayLabel: {
     fontWeight: "bold",

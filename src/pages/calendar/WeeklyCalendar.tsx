@@ -29,13 +29,13 @@ import { AntDesign } from "@expo/vector-icons";
 interface WeeklyCalendarProps {
   style?;
 
+  showHeader?: boolean;
+
   onDayChange?: (newSelectedDate: Date, previousSelectedDate: Date) => void;
   onWeekChange?: (
     newDateRange: DateRange,
     previousDateRande: DateRange,
   ) => void;
-
-  getMarkedDates?: (dateRange: DateRange) => Date[];
 
   selectedDate: Date;
 }
@@ -45,14 +45,16 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
     changeDate: (date: Date) => {
       changeDate(date);
     },
+    updateMarkedDays: (markedDates: string[]) => {
+      setMarkedDates(markedDates);
+    },
   }));
 
   const [selectedDate, setSelectedDate] = useState<Date>(props.selectedDate);
   const [selectedWeek, setSelectedWeek] = useState<DateRange>(
     getFirstAndLastDayOfWeek(props.selectedDate),
   );
-  const [markedDates, setMarkedDates] = useState<Date[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [markedDates, setMarkedDates] = useState<string[]>([]);
 
   const changeDate = (newDate: Date) => {
     const previousDate = selectedDate;
@@ -76,14 +78,6 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
       props.onDayChange(newDate, previousDate);
     }
   };
-
-  useEffect(() => {
-    if (props.getMarkedDates) {
-      setIsLoading(true);
-      setMarkedDates(props.getMarkedDates(selectedWeek));
-    }
-    setIsLoading(false);
-  }, [selectedWeek]);
 
   const handleLeftClick = () => {
     var previousWeek = getFirstAndLastDayOfWeek(
@@ -126,10 +120,11 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
 
   return (
     <View style={[styles.wrapper, props.style]}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>{toMonthName(selectedDate)}</Text>
-        {isLoading ? <ActivityIndicator size={"small"} /> : null}
-      </View>
+      {props.showHeader ? (
+        <View style={styles.header}>
+          <Text style={styles.headerText}>{toMonthName(selectedDate)}</Text>
+        </View>
+      ) : null}
       <View style={[styles.container]}>
         <TouchableOpacity onPress={handleLeftClick}>
           <AntDesign name="left" size={24} color="#016531" />
@@ -139,7 +134,7 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
             (date: Date) => {
               return renderWeeklyCalendarDay(
                 isTheSameDay(date, selectedDate),
-                markedDates.includes(date),
+                markedDates.includes(toSimpleDateString(date)),
                 date,
               );
             },
