@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons"
 import React from "react"
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native"
+import { StyleSheet, View, Text } from "react-native"
 import { AppSwitchButton } from "../../components/AppSwitchButton"
 import { SettingProps } from "./SettingsView"
 import { AppNewPageButton } from "../../components/AppNewPageButton"
