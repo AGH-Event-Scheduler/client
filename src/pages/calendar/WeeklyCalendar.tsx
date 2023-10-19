@@ -1,4 +1,11 @@
-import React, { Component, useCallback, useEffect, useState } from "react";
+import React, {
+  Component,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import {
   StyleSheet,
   View,
@@ -33,7 +40,13 @@ interface WeeklyCalendarProps {
   selectedDate: Date;
 }
 
-export const WeeklyCalendar = (props: WeeklyCalendarProps) => {
+const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
+  useImperativeHandle(ref, () => ({
+    changeDate: (date: Date) => {
+      changeDate(date);
+    },
+  }));
+
   const [selectedDate, setSelectedDate] = useState<Date>(props.selectedDate);
   const [selectedWeek, setSelectedWeek] = useState<DateRange>(
     getFirstAndLastDayOfWeek(props.selectedDate),
@@ -43,11 +56,6 @@ export const WeeklyCalendar = (props: WeeklyCalendarProps) => {
 
   const changeDate = (newDate: Date) => {
     const previousDate = selectedDate;
-
-    setSelectedDate(newDate);
-    if (props.onDayChange) {
-      props.onDayChange(newDate, previousDate);
-    }
 
     if (
       !isTheSameDay(
@@ -61,6 +69,11 @@ export const WeeklyCalendar = (props: WeeklyCalendarProps) => {
         props.onWeekChange(newWeek, previousWeek);
       }
       setSelectedWeek(newWeek);
+    }
+
+    setSelectedDate(newDate);
+    if (props.onDayChange) {
+      props.onDayChange(newDate, previousDate);
     }
   };
 
@@ -136,15 +149,11 @@ export const WeeklyCalendar = (props: WeeklyCalendarProps) => {
           <AntDesign name="right" size={24} color="#016531" />
         </TouchableOpacity>
       </View>
-      {/* {!isInDateRange(new Date(), selectedWeek) ? (
-                    <TouchableOpacity onPress={() => changeDate(new Date())} style={[styles.todayButtonWrapper]}>
-                        <Text style={styles.todayButtonText}>TODAY</Text>
-                        <AntDesign name="upcircle" size={18} style={styles.todayButtonText} />
-                    </TouchableOpacity>
-                ) : null} */}
     </View>
   );
 };
+
+export default forwardRef(WeeklyCalendar);
 
 const styles = StyleSheet.create({
   wrapper: {
