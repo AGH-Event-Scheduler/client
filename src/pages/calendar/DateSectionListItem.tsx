@@ -1,4 +1,3 @@
-import isEmpty from "lodash/isEmpty";
 import React, { useCallback } from "react";
 import {
   StyleSheet,
@@ -6,48 +5,48 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Button,
   Image,
 } from "react-native";
 import { OrganizationEvent } from "../../api/types";
-import { AgendaEntry } from "react-native-calendars";
 
-export interface AgendaListItem extends OrganizationEvent {
+export interface DateSectionListItem extends OrganizationEvent {
   displayFullDates: boolean;
 }
 
-interface ItemProps {
-  item: AgendaListItem;
+interface DateSectionListItemProps {
+  item: DateSectionListItem;
 }
 
-const AgendaItem = (props: ItemProps) => {
+const DateSectionListItemCard = (props: DateSectionListItemProps) => {
   const { item } = props;
 
   const itemPressed = useCallback(() => {
-    Alert.alert(item.id.toString());
+    Alert.alert(item.toString());
   }, []);
 
-  // if (isEmpty(item)) {
-  //   return (
-  //     <View>
-  //       <Text>No Events Planned Today</Text>
-  //     </View>
-  //   );
-  // }
-
   return (
-    <TouchableOpacity style={[styles.container]} onPress={itemPressed}>
-      {/* <Text>{item.name} - {item.organization.name}</Text> */}
+    <TouchableOpacity
+      key={item.id}
+      style={[styles.container]}
+      onPress={itemPressed}
+    >
+      <Text>
+        {item.name} - {item.organization.name}
+      </Text>
 
-      {/* <View style={styles.imageContainer}>
-        <Image source={item.org} style={styles.image} resizeMode="contain" />
+      <View style={styles.imageContainer}>
+        <Image
+          source={item.organization.logoImage.smallUrl}
+          style={styles.image}
+          resizeMode="contain"
+        />
       </View>
-      <Text style={styles.text}>{text}</Text> */}
+      <Text style={styles.text}>{item.name}</Text>
     </TouchableOpacity>
   );
 };
 
-export default AgendaItem;
+export default DateSectionListItemCard;
 
 const styles = StyleSheet.create({
   container: {

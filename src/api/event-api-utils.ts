@@ -1,4 +1,4 @@
-import { formatDate } from "../utils/date";
+import { toSimpleDateString } from "../utils/date";
 import { fetchApi } from "./api-utils";
 import { OrganizationEvent } from "./types";
 
@@ -12,9 +12,9 @@ export const fetchEventsInDateRange = async (
   endDate: Date,
 ): Promise<{ [date: string]: OrganizationEvent[] }> => {
   var response = await fetchApi(
-    `/events/byDate?startDate=${formatDate(startDate)}&endDate=${formatDate(
-      endDate,
-    )}`,
+    `/events/byDate?startDate=${toSimpleDateString(
+      startDate,
+    )}&endDate=${toSimpleDateString(endDate)}`,
   );
   return response.json();
 };
