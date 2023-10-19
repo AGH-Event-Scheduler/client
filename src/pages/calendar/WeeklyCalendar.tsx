@@ -56,28 +56,22 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
   );
   const [markedDates, setMarkedDates] = useState<string[]>([]);
 
-  const changeDate = (newDate: Date) => {
-    const previousDate = selectedDate;
-
-    if (
-      !isTheSameDay(
-        getFirstAndLastDayOfWeek(previousDate).startDate,
-        getFirstAndLastDayOfWeek(newDate).startDate,
-      )
-    ) {
-      const previousWeek = selectedWeek;
-      const newWeek = getFirstAndLastDayOfWeek(newDate);
-      if (props.onWeekChange) {
-        props.onWeekChange(newWeek, previousWeek);
-      }
-      setSelectedWeek(newWeek);
-    }
-
-    setSelectedDate(newDate);
-    if (props.onDayChange) {
-      props.onDayChange(newDate, previousDate);
-    }
+  const changeDate = (date: Date) => {
+    setSelectedWeek(getFirstAndLastDayOfWeek(date));
+    setSelectedDate(date);
   };
+
+  useEffect(() => {
+    if (props.onDayChange) {
+      props.onDayChange(selectedDate, selectedDate);
+    }
+  }, [selectedDate]);
+
+  useEffect(() => {
+    if (props.onWeekChange) {
+      props.onWeekChange(selectedWeek, selectedWeek);
+    }
+  }, [selectedWeek]);
 
   const handleLeftClick = () => {
     var previousWeek = getFirstAndLastDayOfWeek(
