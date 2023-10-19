@@ -46,6 +46,8 @@ export const TextInputContainer: React.FC<TextInputContainerProps> = ({
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={!showPassword && isPassword}
+          autoCapitalize="none"
+          autoCorrect={false}
         />
         {isPassword && (
           <TouchableOpacity

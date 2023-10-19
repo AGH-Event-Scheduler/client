@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
-import { OrganizationListCard } from "./OrganizationListCard";
-import { useIsFocused } from "@react-navigation/native";
-import { Organization } from "../../api/types";
-import {
-  fetchOrganizations,
-  updateSubscriptionStatus,
-} from "../../api/organization-api-utils";
+import React, {useEffect, useState} from "react";
+import {FlatList, StyleSheet, Text, TextInput, View} from "react-native";
+import {OrganizationListCard} from "./OrganizationListCard";
+import {useIsFocused} from "@react-navigation/native";
+import {Organization} from "../../api/types";
+import {fetchOrganizations, updateSubscriptionStatus,} from "../../api/organization-api-utils";
+import {UserService} from "../../services/UserService";
 
-export const OrganizationListView = ({ navigation }) => {
+export const OrganizationListView = ({navigation, onlySubscribed}) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -16,7 +14,8 @@ export const OrganizationListView = ({ navigation }) => {
   useEffect(() => {
     const fetchOrganizationsData = async () => {
       try {
-        const organizationsList = await fetchOrganizations();
+        const user = await UserService.getUser();
+        const organizationsList = await fetchOrganizations({subscribed: onlySubscribed, userId: user.id});
         setOrganizations(organizationsList);
       } catch (error) {
         console.log("Fetching organizations list error", error);

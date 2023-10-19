@@ -5,11 +5,11 @@ import { User } from "../api/types";
 
 export class UserService {
   static async loginUser(email, password) {
-    let user: Promise<User>;
+    let user: User;
     try {
-      user = signInUser(email, password);
+      user = await signInUser(email, password);
       if (user != null) {
-        console.log("User logged in:");
+        console.log("User logged in:", user);
         await this.storeUser(user);
         await this.setLoginStatus(true);
         return true;

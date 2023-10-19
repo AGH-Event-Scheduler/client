@@ -9,7 +9,7 @@ interface LoginRequest {
 export const signInUser = async (
   email: string,
   password: string,
-): Promise<User | null> => {
+): Promise<User> => {
   let loginRequest: LoginRequest = {
     email: email,
     password: password,
