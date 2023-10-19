@@ -11,17 +11,14 @@ import { globalStyles } from "../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import i18next from "../localization/i18next";
 
-
 export const SettingsModal = ({ isVisible, onClose }) => {
   const [language, setLanguage] = useState("pl");
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const toggleLanguage = () => {
-    setLanguage((prevLanguage) =>
-      prevLanguage === "pl" ? "en" : "pl", 
-    );
-    console.log(language)
-    i18next.changeLanguage(language)
+    setLanguage((prevLanguage) => (prevLanguage === "pl" ? "en" : "pl"));
+    console.log(language);
+    i18next.changeLanguage(language);
   };
 
   return (
@@ -34,9 +31,11 @@ export const SettingsModal = ({ isVisible, onClose }) => {
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.modalContainer}>
           <View style={styles.settingsContainer}>
-            <Text style={globalStyles.title}>{t('general.settings')}</Text>
+            <Text style={globalStyles.title}>{t("general.settings")}</Text>
             <View style={styles.languageToggleContainer}>
-              <Text style={globalStyles.description}>{t('general.language')}:</Text>
+              <Text style={globalStyles.description}>
+                {t("general.language")}:
+              </Text>
               <Button title={language} onPress={toggleLanguage} />
             </View>
           </View>

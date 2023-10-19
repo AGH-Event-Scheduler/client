@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-export const NavBarButton = ({ name, iconName, onPress }) => {
+export const NavBarButton = ({ title, iconName, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.menuItem}>
@@ -12,7 +12,7 @@ export const NavBarButton = ({ name, iconName, onPress }) => {
           color="black"
           style={styles.menuIcon}
         />
-        <Text style={styles.menuText}>{name}</Text>
+        <Text style={styles.menuText}>{title}</Text>
       </View>
     </TouchableOpacity>
   );

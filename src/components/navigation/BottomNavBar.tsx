@@ -7,6 +7,7 @@ import {
 } from "@react-navigation/native";
 import { NavBarButton } from "./BottomNavBarButton";
 import HideWithKeyboard from "react-native-hide-with-keyboard";
+import { useTranslation } from "react-i18next";
 
 export const resetToRouteName = (
   navigation: NavigationProp<any>,
@@ -21,12 +22,13 @@ export const resetToRouteName = (
 };
 
 export interface DisplayBottomNavBarButton {
-  name: string;
+  title: string;
   iconName: string;
   routeName: string;
 }
 
 export const BottomNavBar = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -37,17 +39,25 @@ export const BottomNavBar = () => {
 
   // TODO: Refactor once users are introduced
   const buttonsToDisplay: DisplayBottomNavBarButton[] = [
-    { name: "Favourite", iconName: "star", routeName: "Favourite" },
-    { name: "Organizations", iconName: "users", routeName: "Organizations" },
-    { name: "Calendar", iconName: "calendar", routeName: "Calendar" },
-    { name: "Feed", iconName: "feather", routeName: "Feed" },
+    { title: t("general.favourite"), iconName: "star", routeName: "Favourite" },
     {
-      name: "Create organization",
+      title: t("general.organizations"),
+      iconName: "users",
+      routeName: "Organizations",
+    },
+    {
+      title: t("general.calendar"),
+      iconName: "calendar",
+      routeName: "Calendar",
+    },
+    { title: t("general.feed"), iconName: "feather", routeName: "Feed" },
+    {
+      title: t("general.create-organization"),
       iconName: "plus",
       routeName: "Create organization",
     },
     {
-      name: "Your organizations",
+      title: t("general.your-organizations"),
       iconName: "user-check",
       routeName: "Your organizations",
     },
@@ -65,7 +75,7 @@ export const BottomNavBar = () => {
           {topRow.map((buttonToDisplay, index) => (
             <NavBarButton
               key={index}
-              name={buttonToDisplay.name}
+              title={buttonToDisplay.title}
               iconName={buttonToDisplay.iconName}
               onPress={() => {
                 resetToRouteName(navigation, buttonToDisplay.routeName);
@@ -77,7 +87,7 @@ export const BottomNavBar = () => {
           {bottomRow.map((buttonToDisplay, index) => (
             <NavBarButton
               key={index}
-              name={buttonToDisplay.name}
+              title={buttonToDisplay.title}
               iconName={buttonToDisplay.iconName}
               onPress={() => {
                 resetToRouteName(navigation, buttonToDisplay.routeName);
@@ -87,7 +97,7 @@ export const BottomNavBar = () => {
           {topRow.length > 0 ? (
             !isExpanded ? (
               <NavBarButton
-                name="More"
+                title={t("general.more")}
                 iconName="arrow-up"
                 onPress={() => {
                   expandNavBar();
@@ -95,7 +105,7 @@ export const BottomNavBar = () => {
               />
             ) : (
               <NavBarButton
-                name="Less"
+                title={t("general.less")}
                 iconName="arrow-down"
                 onPress={() => {
                   expandNavBar();

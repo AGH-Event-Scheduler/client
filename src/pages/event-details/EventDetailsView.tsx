@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 export const EventDetailsView = ({ route }) => {
   const [event, setEvent] = useState<Event>();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const eventId = route.params.eventId;
 
@@ -39,7 +39,9 @@ export const EventDetailsView = ({ route }) => {
       </Text>
 
       <Text style={[globalStyles.title]}>{event?.location}</Text>
-      <Text style={[globalStyles.descriptionTitle]}>{t('general.description')}</Text>
+      <Text style={[globalStyles.descriptionTitle]}>
+        {t("general.description")}
+      </Text>
       <Text style={[globalStyles.description]}>{event?.description}</Text>
     </ScrollView>
   );
