@@ -1,0 +1,23 @@
+{
+  "general": {
+    "calendar": "Kalendarz",
+    "description": "Opis",
+    "favourite": "Ulubione",
+    "feed": "Aktualności",
+    "language": "Język",
+    "organizations": "Organizacje",
+    "settings": "Ustawienia",
+    "search": "Szukaj",
+    "your-organizations": "Twoje organizacje",
+    "create-organization": "Stwórz organizacje",
+    "less": "Mniej",
+    "more": "Więcej"
+  },
+  "settings": {
+    "account": "Konto",
+    "language": "Język",
+    "notifications": "Powiadomienia",
+    "dark-mode": "Ciemny tryb",
+    "information": "Informacja"
+  }
+}

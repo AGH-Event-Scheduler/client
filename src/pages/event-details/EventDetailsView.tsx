@@ -4,9 +4,11 @@ import { useIsFocused } from "@react-navigation/native";
 import { fetchEventDetails } from "../../api/event-api-utils";
 import { Event } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
+import { useTranslation } from "react-i18next";
 
 export const EventDetailsView = ({ route }) => {
   const [event, setEvent] = useState<Event>();
+  const { t } = useTranslation();
 
   const eventId = route.params.eventId;
 
@@ -37,7 +39,9 @@ export const EventDetailsView = ({ route }) => {
       </Text>
 
       <Text style={[globalStyles.title]}>{event?.location}</Text>
-      <Text style={[globalStyles.descriptionTitle]}>Description</Text>
+      <Text style={[globalStyles.descriptionTitle]}>
+        {t("general.description")}
+      </Text>
       <Text style={[globalStyles.description]}>{event?.description}</Text>
     </ScrollView>
   );
