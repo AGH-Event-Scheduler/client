@@ -5,15 +5,28 @@ import { AppSwitchButton } from "../../components/AppSwitchButton";
 import { SettingProps } from "./SettingsView";
 import { AppNewPageButton } from "../../components/AppNewPageButton";
 import i18next from "../../localization/i18next";
+import {
+  AppDropdownSelect,
+  DropdownSelectData,
+} from "../../components/AppDropdownSelect";
+import { languages } from "../../localization/languages";
 
 export const SettingCard = ({ title, iconName, setting }: SettingProps) => {
+  const handleItemSelect = (code: string) => {
+    console.log(code);
+    i18next.changeLanguage(code);
+  };
+
   const SettingTypeButton = {
     Account: <AppNewPageButton page={setting} />,
     Information: <AppNewPageButton page={setting} />,
     Language: (
-      <AppSwitchButton
-        onToggle={() => changeLanguage()}
-        isEnabled={i18next.language == "pl"}
+      <AppDropdownSelect
+        data={mapLanguagesToDropdownSelectData()}
+        currentItem={mapCurrentLanguageToDropdownSelectData()}
+        onItemSelect={(item: DropdownSelectData) =>
+          handleItemSelect(item.index)
+        }
       />
     ),
     Notifications: (
@@ -30,13 +43,10 @@ export const SettingCard = ({ title, iconName, setting }: SettingProps) => {
     ),
   };
 
-  const changeLanguage = () =>
-    i18next.language == "pl"
-      ? i18next.changeLanguage("en")
-      : i18next.changeLanguage("pl");
-
   return (
-    <View style={styles.menuItem}>
+    <View
+      style={[styles.menuItem, setting === "Language" ? { zIndex: 1 } : {}]}
+    >
       <View style={styles.iconText}>
         <Feather name={iconName} size={24} color="black" />
         <Text style={styles.menuText}>{title}</Text>
@@ -51,7 +61,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "baseline",
+    alignItems: "center",
     minWidth: "20%",
     paddingVertical: 10,
   },
@@ -68,3 +78,16 @@ const styles = StyleSheet.create({
     minWidth: "30%",
   },
 });
+
+const mapLanguagesToDropdownSelectData = (): DropdownSelectData[] => {
+  return languages.map<DropdownSelectData>((language) => {
+    return { index: language.index, value: language.translation };
+  });
+};
+
+const mapCurrentLanguageToDropdownSelectData = (): DropdownSelectData => {
+  return {
+    index: i18next.language,
+    value: i18next.t(`languages.${i18next.language}`),
+  };
+};

@@ -1,4 +1,8 @@
 {
+  "languages": {
+    "pl": "Polski",
+    "en": "English"
+  },
   "general": {
     "calendar": "Kalendarz",
     "description": "Opis",

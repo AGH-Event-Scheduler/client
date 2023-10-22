@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Switch } from "react-native";
-import i18next from "../localization/i18next";
 
 export const AppSwitchButton = ({ onToggle, isEnabled }) => {
   const [_isEnabled, setIsEnabled] = useState(isEnabled);
