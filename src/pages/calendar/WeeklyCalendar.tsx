@@ -31,11 +31,8 @@ interface WeeklyCalendarProps {
 
   showHeader?: boolean;
 
-  onDayChange?: (newSelectedDate: Date, previousSelectedDate: Date) => void;
-  onWeekChange?: (
-    newDateRange: DateRange,
-    previousDateRande: DateRange,
-  ) => void;
+  onDayChange?: (newSelectedDate: Date) => void;
+  onWeekChange?: (newDateRange: DateRange) => void;
 
   selectedDate: Date;
 }
@@ -63,13 +60,13 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
 
   useEffect(() => {
     if (props.onDayChange) {
-      props.onDayChange(selectedDate, selectedDate);
+      props.onDayChange(selectedDate);
     }
   }, [selectedDate]);
 
   useEffect(() => {
     if (props.onWeekChange) {
-      props.onWeekChange(selectedWeek, selectedWeek);
+      props.onWeekChange(selectedWeek);
     }
   }, [selectedWeek]);
 

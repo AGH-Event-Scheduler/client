@@ -8,6 +8,11 @@ import {
   Image,
 } from "react-native";
 import { OrganizationEvent } from "../../api/types";
+import {
+  toBeautifiedDateTimeString,
+  toBeautifiedTimeString,
+} from "../../utils/date";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 
 export interface DateSectionListItem extends OrganizationEvent {
   displayFullDates: boolean;
@@ -19,29 +24,41 @@ interface DateSectionListItemProps {
 
 const DateSectionListItemCard = (props: DateSectionListItemProps) => {
   const { item } = props;
+  const navigation = useNavigation();
 
   const itemPressed = useCallback(() => {
-    Alert.alert(item.toString());
+    navigation.dispatch(CommonActions.navigate("Event", { eventId: item.id }));
   }, []);
+
+  const getDate = (date: Date, displayFullDates: boolean) => {
+    if (displayFullDates) {
+      return toBeautifiedDateTimeString(date);
+    }
+    return toBeautifiedTimeString(date);
+  };
 
   return (
     <TouchableOpacity
       key={item.id}
-      style={[styles.container]}
+      style={[styles.mainWrapper]}
       onPress={itemPressed}
     >
-      <Text>
-        {item.name} - {item.organization.name}
-      </Text>
-
       <View style={styles.imageContainer}>
         <Image
-          source={item.organization.logoImage.smallUrl}
+          source={{ uri: item.organization.logoImage.smallUrl }}
           style={styles.image}
           resizeMode="contain"
         />
       </View>
-      <Text style={styles.text}>{item.name}</Text>
+      <View style={[styles.container]}>
+        <Text style={[styles.eventName]}>{item.name}</Text>
+        <Text style={[styles.datetime]}>
+          {getDate(new Date(item.startDate), item.displayFullDates)} -{" "}
+          {getDate(new Date(item.endDate), item.displayFullDates)}
+        </Text>
+        <Text style={[styles.location]}>{item.location}</Text>
+        <Text style={[styles.organizationName]}>{item.organization.name}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -49,12 +66,11 @@ const DateSectionListItemCard = (props: DateSectionListItemProps) => {
 export default DateSectionListItemCard;
 
 const styles = StyleSheet.create({
-  container: {
-    marginLeft: 2,
-    marginRight: 2,
+  mainWrapper: {
+    marginVertical: 3,
     flexDirection: "row",
     alignItems: "center",
-    padding: 24,
+    padding: 12,
     borderRadius: 13,
     borderColor: "#D6D6D6",
     borderWidth: 1,
@@ -63,11 +79,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -1, height: 1 },
     shadowOpacity: 1,
     shadowRadius: 2,
+    gap: 5,
+  },
+  container: {
+    flexDirection: "column",
   },
   imageContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 18,
+    width: 70,
+    height: 70,
+    borderRadius: 100,
     overflow: "hidden",
     marginRight: 10,
   },
@@ -75,21 +95,24 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
   },
-  text: {
-    flex: 1,
-    marginRight: "5%",
-    fontSize: 19,
-    fontWeight: "500",
-    flexWrap: "wrap",
+  eventName: {
+    fontWeight: "bold",
+    fontSize: 18,
+    color: "black",
   },
-  likeIconContainer: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    padding: 15,
+  organizationName: {
+    color: "black",
+    fontSize: 12,
+    fontWeight: "bold",
   },
-  likeIconStyle: {
-    textShadowColor: "grey",
-    textShadowRadius: 2,
+  datetime: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#016531",
+  },
+  location: {
+    fontSize: 13,
+    color: "black",
+    fontWeight: "bold",
   },
 });

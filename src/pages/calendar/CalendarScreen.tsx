@@ -9,7 +9,7 @@ import { toSimpleDateString } from "../../utils/date";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchEventsInDateRange } from "../../api/event-api-utils";
 import { OrganizationEvent } from "../../api/types";
-import { DateSectionList, SectionType } from "./DateSectionList";
+import DateSectionList, { EventsByDates } from "./DateSectionList";
 import { DateSectionListItem } from "./DateSectionListItem";
 import WeeklyCalendar from "./WeeklyCalendar";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
@@ -27,7 +27,7 @@ export const CalendarScreen = () => {
   const [selectedWeek, setSelectedWeek] = useState<DateRange>();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState(true);
-  const [agendaItems, setAgendaItems] = useState<SectionType>();
+  const [agendaItems, setAgendaItems] = useState<EventsByDates>();
   const childWeeklyCalendarRef = useRef(null);
 
   const isFocused = useIsFocused();
@@ -62,7 +62,7 @@ export const CalendarScreen = () => {
         };
       };
 
-      const results: SectionType = {};
+      const results: EventsByDates = {};
       getDatesInRange(startDate, endDate).forEach((date) => {
         const dateString = toSimpleDateString(date);
         if (eventsByDate.hasOwnProperty(dateString)) {
