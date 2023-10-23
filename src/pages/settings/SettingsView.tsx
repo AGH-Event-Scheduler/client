@@ -51,7 +51,7 @@ export const SettingsView = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{t("general.settings")}</Text>
-      <View style={styles.settingsList}>
+      <View style={[styles.settingsList, { zIndex: 10 }]}>
         {settingsList.map((item) => (
           <SettingCard
             key={item.title}
