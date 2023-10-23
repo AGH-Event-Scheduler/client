@@ -18,11 +18,11 @@ export interface DateSectionListItem extends OrganizationEvent {
   displayFullDates: boolean;
 }
 
-interface DateSectionListItemProps {
+interface DateSectionListCardProps {
   item: DateSectionListItem;
 }
 
-const DateSectionListItemCard = (props: DateSectionListItemProps) => {
+const EventDateSectionListCard = (props: DateSectionListCardProps) => {
   const { item } = props;
   const navigation = useNavigation();
 
@@ -63,7 +63,7 @@ const DateSectionListItemCard = (props: DateSectionListItemProps) => {
   );
 };
 
-export default DateSectionListItemCard;
+export default EventDateSectionListCard;
 
 const styles = StyleSheet.create({
   mainWrapper: {

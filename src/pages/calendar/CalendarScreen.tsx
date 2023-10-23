@@ -1,17 +1,13 @@
-import React, {
-  MutableRefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toSimpleDateString } from "../../utils/date";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchEventsInDateRange } from "../../api/event-api-utils";
 import { OrganizationEvent } from "../../api/types";
-import DateSectionList, { EventsByDates } from "./DateSectionList";
-import { DateSectionListItem } from "./DateSectionListItem";
-import WeeklyCalendar from "./WeeklyCalendar";
+import EventDateSectionList, {
+  EventsByDates,
+} from "../../components/event-date-section-list/EventDateSectionList";
+import { DateSectionListItem } from "../../components/event-date-section-list/EventDateSectionListCard";
+import WeeklyCalendar from "../../components/weekly-calendar/WeeklyCalendar";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import {
   DateRange,
@@ -19,7 +15,7 @@ import {
   getFirstAndLastDayOfWeek,
   isInDateRange,
   isTheSameDay,
-} from "./utils/date-ranges";
+} from "../../components/weekly-calendar/utils/date-ranges";
 import { AntDesign } from "@expo/vector-icons";
 import { LoadingView } from "../../components/loading/LoadingView";
 
@@ -116,7 +112,10 @@ export const CalendarScreen = () => {
       {isLoading ? (
         <LoadingView />
       ) : (
-        <DateSectionList ref={childDateSectionListRef} sections={agendaItems} />
+        <EventDateSectionList
+          ref={childDateSectionListRef}
+          sections={agendaItems}
+        />
       )}
       {selectedWeek && !isInDateRange(new Date(), selectedWeek) ? (
         <TouchableOpacity

@@ -1,21 +1,16 @@
-import DateSectionListItemCard, {
+import EventDateSectionListCard, {
   DateSectionListItem,
-} from "./DateSectionListItem";
+} from "./EventDateSectionListCard";
 import React, {
-  Component,
   forwardRef,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useRef,
-  useState,
 } from "react";
 import { SectionList, StyleSheet, Text, View } from "react-native";
 import {
   toBeautifiedDateString,
-  toDayDateString,
   toDayOfWeekName,
-  toMonthName,
   toSimpleDateString,
 } from "../../utils/date";
 
@@ -23,7 +18,7 @@ export interface EventsByDates {
   [date: string]: DateSectionListItem[];
 }
 
-interface DateSectionListProps {
+interface EventDateSectionListProps {
   sections: EventsByDates;
 }
 
@@ -32,7 +27,7 @@ interface SectionListItem {
   data: DateSectionListItem[];
 }
 
-const DateSectionList = (props: DateSectionListProps, ref) => {
+const EventDateSectionList = (props: EventDateSectionListProps, ref) => {
   useImperativeHandle(ref, () => ({
     scrollTo: (date: Date) => {
       scrollToDate(date);
@@ -73,7 +68,7 @@ const DateSectionList = (props: DateSectionListProps, ref) => {
   }, []);
 
   const renderItem = useCallback(({ item }) => {
-    return <DateSectionListItemCard key={item.id} item={item} />;
+    return <EventDateSectionListCard key={item.id} item={item} />;
   }, []);
 
   const renderNoContent = ({ section }) => {
@@ -98,7 +93,7 @@ const DateSectionList = (props: DateSectionListProps, ref) => {
   );
 };
 
-export default forwardRef(DateSectionList);
+export default forwardRef(EventDateSectionList);
 
 const styles = StyleSheet.create({
   headerWrapper: {
