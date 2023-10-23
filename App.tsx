@@ -7,6 +7,7 @@ import { OrganizationDetailsView } from "./src/pages/organization-details/Organi
 import { EventDetailsView } from "./src/pages/event-details/EventDetailsView";
 import { SamplePage } from "./src/pages/SamplePage";
 import { CalendarScreen } from "./src/pages/calendar/CalendarScreen";
+import { EventSearchScreen } from "./src/pages/event-search/EventSearchScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ export default function App() {
           <Stack.Screen name="Settings" component={SamplePage} />
           <Stack.Screen name="Create organization" component={SamplePage} />
           <Stack.Screen name="Your organizations" component={SamplePage} />
+          <Stack.Screen name="Event Search" component={EventSearchScreen} />
 
           {/* Sub pages */}
           <Stack.Screen

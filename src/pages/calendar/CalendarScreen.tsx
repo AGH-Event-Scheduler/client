@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toSimpleDateString } from "../../utils/date";
-import { useIsFocused } from "@react-navigation/native";
+import {
+  CommonActions,
+  useIsFocused,
+  useNavigation,
+} from "@react-navigation/native";
 import { fetchEventsInDateRange } from "../../api/event-api-utils";
 import { OrganizationEvent } from "../../api/types";
 import EventDateSectionList, {
@@ -18,6 +22,7 @@ import {
 } from "../../components/weekly-calendar/utils/date-ranges";
 import { AntDesign } from "@expo/vector-icons";
 import { LoadingView } from "../../components/loading/LoadingView";
+import { SearchBar } from "../../components/SearchBar";
 
 export const CalendarScreen = () => {
   const [selectedWeek, setSelectedWeek] = useState<DateRange>();
@@ -27,10 +32,7 @@ export const CalendarScreen = () => {
   const childWeeklyCalendarRef = useRef(null);
   const childDateSectionListRef = useRef(null);
 
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    isFocused && setSelectedWeek(getFirstAndLastDayOfWeek(selectedDate));
-  }, [isFocused]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (selectedWeek) {
@@ -103,6 +105,14 @@ export const CalendarScreen = () => {
 
   return (
     <View style={styles.wrapper}>
+      <View>
+        <SearchBar
+          notEditable
+          onPress={() => {
+            navigation.dispatch(CommonActions.navigate("Event Search"));
+          }}
+        />
+      </View>
       <WeeklyCalendar
         ref={childWeeklyCalendarRef}
         selectedDate={new Date()}
