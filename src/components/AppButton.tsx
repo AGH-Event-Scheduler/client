@@ -40,6 +40,7 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       backgroundColor: "#FAFAFA",
       borderColor: "#016531",
       borderWidth: 2,
+      paddingVertical: 6
     },
     text: {
       color: "#016531",

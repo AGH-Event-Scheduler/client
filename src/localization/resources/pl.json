@@ -23,5 +23,9 @@
     "notifications": "Powiadomienia",
     "dark-mode": "Ciemny tryb",
     "information": "Informacja"
+  },
+  "organization-details": {
+    "follow": "Obserwuj",
+    "following": "Obserwujesz"
   }
 }

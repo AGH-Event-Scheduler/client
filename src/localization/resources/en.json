@@ -23,5 +23,9 @@
     "notifications": "Notifications",
     "dark-mode": "Dark mode",
     "information": "Information"
+  },
+  "organization-details": {
+    "follow": "Follow",
+    "following": "Following"
   }
 }
