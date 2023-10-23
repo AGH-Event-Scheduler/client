@@ -29,6 +29,7 @@ export const CalendarScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [agendaItems, setAgendaItems] = useState<EventsByDates>();
   const childWeeklyCalendarRef = useRef(null);
+  const childDateSectionListRef = useRef(null);
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -43,6 +44,12 @@ export const CalendarScreen = () => {
       });
     }
   }, [selectedWeek]);
+
+  useEffect(() => {
+    if (selectedDate && !isLoading) {
+      childDateSectionListRef.current?.scrollTo(selectedDate);
+    }
+  }, [selectedDate, isLoading]);
 
   const fetchAgendaItemsInDateRange = useCallback(
     async ({ startDate, endDate }: DateRange) => {
@@ -75,7 +82,7 @@ export const CalendarScreen = () => {
 
       setAgendaItems(results);
 
-      childWeeklyCalendarRef.current.updateMarkedDays(
+      childWeeklyCalendarRef.current?.updateMarkedDays(
         Object.keys(eventsByDate),
       );
 
@@ -85,9 +92,7 @@ export const CalendarScreen = () => {
   );
 
   const onDayChange = (date: Date) => {
-    if (!selectedDate || !isTheSameDay(date, selectedDate)) {
-      setSelectedDate(date);
-    }
+    setSelectedDate(date);
   };
 
   const onWeekChange = (dateRange: DateRange) => {
@@ -108,7 +113,11 @@ export const CalendarScreen = () => {
         onDayChange={onDayChange}
         onWeekChange={onWeekChange}
       />
-      {isLoading ? <LoadingView /> : <DateSectionList sections={agendaItems} />}
+      {isLoading ? (
+        <LoadingView />
+      ) : (
+        <DateSectionList ref={childDateSectionListRef} sections={agendaItems} />
+      )}
       {selectedWeek && !isInDateRange(new Date(), selectedWeek) ? (
         <TouchableOpacity
           onPress={() => childWeeklyCalendarRef.current.changeDate(new Date())}

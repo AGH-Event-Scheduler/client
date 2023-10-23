@@ -7,6 +7,7 @@ import React, {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useRef,
   useState,
 } from "react";
 import { SectionList, StyleSheet, Text, View } from "react-native";
@@ -15,6 +16,7 @@ import {
   toDayDateString,
   toDayOfWeekName,
   toMonthName,
+  toSimpleDateString,
 } from "../../utils/date";
 
 export interface EventsByDates {
@@ -32,8 +34,22 @@ interface SectionListItem {
 
 const DateSectionList = (props: DateSectionListProps, ref) => {
   useImperativeHandle(ref, () => ({
-    scrollTo: (date: Date) => {},
+    scrollTo: (date: Date) => {
+      scrollToDate(date);
+    },
   }));
+
+  const childSectionListRef = useRef<SectionList>(null);
+
+  const scrollToDate = (date: Date) => {
+    childSectionListRef.current.scrollToLocation({
+      animated: true,
+      itemIndex: 0,
+      sectionIndex: Object.keys(props.sections).indexOf(
+        toSimpleDateString(date),
+      ),
+    });
+  };
 
   const toDateSectionListItems = (eventByDates: EventsByDates) => {
     return Object.keys(eventByDates).map((date: string) => {
@@ -73,6 +89,7 @@ const DateSectionList = (props: DateSectionListProps, ref) => {
 
   return (
     <SectionList
+      ref={childSectionListRef}
       sections={toDateSectionListItems(props.sections)}
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
