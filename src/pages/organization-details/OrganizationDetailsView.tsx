@@ -14,7 +14,7 @@ import { Event, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import useFollowButtonStyle from "../../hooks/useFollowButtonStyle";
 import { AppButton } from "../../components/AppButton";
-import { fetchOrganizationDetails } from "../../api/organization-api-utils";
+import { getOrganizationById } from "../../api/organization-api-utils";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const [organization, setOrganization] = useState<Organization>();
@@ -29,7 +29,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
 
   const fetchOrganizationDetailsData = async (organizationId: number) => {
     try {
-      const organization = await fetchOrganizationDetails(organizationId);
+      const organization = await getOrganizationById(organizationId);
       setOrganization(organization);
 
       const events = await fetchOrganizationEvents(organizationId);

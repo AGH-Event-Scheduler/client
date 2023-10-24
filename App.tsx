@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import {ActivityIndicator, View} from "react-native";
-import {NavigationContainer} from "@react-navigation/native";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {UserService} from "./src/services/UserService";
-import {MainStack} from "./src/navigationstacks/MainStack";
-import {AuthenticationStack} from "./src/navigationstacks/AuthenticationStack";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { AuthenticationService } from "./src/services/AuthenticationService";
+import { MainStack } from "./src/navigationstacks/MainStack";
+import { AuthenticationStack } from "./src/navigationstacks/AuthenticationStack";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +13,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    UserService.getLoginStatus()
+    AuthenticationService.getLoginStatus()
       .then((isLoggedIn) => {
         setFirstScreen(isLoggedIn ? "Main" : "Login");
         setLoading(false);
@@ -21,7 +21,7 @@ export default function App() {
       .catch((err) => {
         setLoading(false);
         setFirstScreen("Login");
-        console.error(err)
+        console.error(err);
       });
   }, []);
 
@@ -40,13 +40,12 @@ export default function App() {
         initialRouteName={firstScreen}
       >
         <Stack.Screen name="Login">
-          {() => <AuthenticationStack stack={Stack}/>}
+          {() => <AuthenticationStack stack={Stack} />}
         </Stack.Screen>
         <Stack.Screen name="Main">
-          {() => <MainStack stack={Stack}/>}
+          {() => <MainStack stack={Stack} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
-
-};
+}

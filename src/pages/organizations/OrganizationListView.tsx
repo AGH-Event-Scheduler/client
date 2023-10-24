@@ -1,12 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {FlatList, StyleSheet, Text, TextInput, View} from "react-native";
-import {OrganizationListCard} from "./OrganizationListCard";
-import {useIsFocused} from "@react-navigation/native";
-import {Organization} from "../../api/types";
-import {fetchOrganizations, updateSubscriptionStatus,} from "../../api/organization-api-utils";
-import {UserService} from "../../services/UserService";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import { OrganizationListCard } from "./OrganizationListCard";
+import { useIsFocused } from "@react-navigation/native";
+import { Organization } from "../../api/types";
+import {
+  getAllOrganizationsWithStatusByUser,
+  subscribeToOrganization,
+  unsubscribeFromOrganization,
+} from "../../api/organization-api-utils";
 
-export const OrganizationListView = ({navigation, onlySubscribed}) => {
+export const OrganizationListView = ({ navigation, onlySubscribed }) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -14,8 +17,8 @@ export const OrganizationListView = ({navigation, onlySubscribed}) => {
   useEffect(() => {
     const fetchOrganizationsData = async () => {
       try {
-        const user = await UserService.getUser();
-        const organizationsList = await fetchOrganizations({subscribed: onlySubscribed, userId: user.id});
+        const organizationsList: Organization[] =
+          await getAllOrganizationsWithStatusByUser(onlySubscribed);
         setOrganizations(organizationsList);
       } catch (error) {
         console.log("Fetching organizations list error", error);
@@ -31,15 +34,29 @@ export const OrganizationListView = ({navigation, onlySubscribed}) => {
 
   const handleStarPress = async (organization) => {
     console.log(`Clicked star: ${organization.name}`);
-    const updatedOrganizations = organizations.map((org) => {
+    const updatedOrganizations = organizations.map(async (org) => {
       if (org.id === organization.id) {
         const updatedStatus = !org.isSubscribed;
-        updateSubscriptionStatus(organization.id, updatedStatus);
-        return { ...org, isSubscribed: updatedStatus };
+
+        try {
+          if (updatedStatus === true) {
+            await subscribeToOrganization(organization.id);
+          } else {
+            await unsubscribeFromOrganization(organization.id);
+          }
+          return { ...org, isSubscribed: updatedStatus };
+        } catch (error) {
+          console.error("Error handling organization subscription:", error);
+          return org; // If an error occurs, return the original organization
+        }
       }
       return org;
     });
-    setOrganizations(updatedOrganizations);
+
+    // Wait for all promises to resolve before updating the state
+    const updatedOrganizationsResolved =
+      await Promise.all(updatedOrganizations);
+    setOrganizations(updatedOrganizationsResolved);
   };
 
   const filteredOrganizations = organizations

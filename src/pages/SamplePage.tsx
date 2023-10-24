@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { AppButton } from "../components/AppButton";
-import { UserService } from "../services/UserService";
+import { AuthenticationService } from "../services/AuthenticationService";
 import { useNavigation } from "@react-navigation/native";
 
 export const SamplePage = () => {
@@ -12,7 +12,9 @@ export const SamplePage = () => {
       <AppButton
         onPress={() => {
           // @ts-ignore
-          UserService.logoutUser().then(() => navigation.navigate("Login"));
+          AuthenticationService.removeAuthToken().then(() =>
+            navigation.navigate("Login"),
+          );
         }}
         type="secondary"
         title={"Hello World"}

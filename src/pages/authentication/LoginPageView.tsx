@@ -4,7 +4,7 @@ import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
-import { UserService } from "../../services/UserService";
+import { AuthenticationService } from "../../services/AuthenticationService";
 
 export const LoginPageView = () => {
   const [email, setEmail] = useState("");
@@ -21,13 +21,16 @@ export const LoginPageView = () => {
       Alert.alert("Invalid Email", "Please enter a valid email address.");
       return;
     } else {
-      const isLogged = await UserService.loginUser(email, password);
-
-      if (isLogged) {
-        // @ts-ignore
-        navigation.navigate("Main");
-      } else {
-        Alert.alert("Login Failed", "Please check your email and password.");
+      try {
+        if (await AuthenticationService.authenticate(email, password)) {
+          console.log("Login successful!");
+          // @ts-ignore
+          navigation.navigate("Main");
+        } else {
+          Alert.alert("Login Failed", "Please check your email and password."); // Handle unsuccessful login
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
       }
     }
   };

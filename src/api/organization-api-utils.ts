@@ -1,60 +1,93 @@
-import {fetchApi, Method} from "./api-utils";
-import {Organization} from "./types";
-import {UserService} from "../services/UserService";
+import { fetchApi, Method } from "./api-utils";
+import { Organization } from "./types";
 
-
-interface FetchOrganizationsOptions {
-  userId?: string;
-  subscribed?: boolean;
-}
-
-export const fetchOrganizations = async (
-  options?: FetchOrganizationsOptions
+export const getAllOrganizationsWithStatusByUser = async (
+  onlySubscribed = false,
 ): Promise<Organization[]> => {
-  let response: Response;
-  if (options && options.userId && options.subscribed) {
-    response = await fetchApi(`/organizations/${options.userId}/subscribed`);
-  } else if (options && options.userId) {
-    response = await fetchApi(`/organizations/${options.userId}`);
-  } else {
-    response = await fetchApi("/organizations");
-  }
-  return response.json();
-};
+  const endpoint = onlySubscribed
+    ? "/organizations/subscribed"
+    : "/organizations";
 
-export const fetchOrganizationDetails = async (
-  organizationId: number,
-): Promise<Organization> => {
-  const user = await UserService.getUser();
-  let response: Response;
-  if (user) {
-    response = await fetchApi(`/organizations/details/${organizationId}/${user.id}`);
-  } else {
-    response = await fetchApi(`/organizations/details/${organizationId}`);
-  }
-  return response.json();
-};
-
-export const updateSubscriptionStatus = async (
-  organizationId: number,
-  updatedStatus: boolean,
-) => {
   try {
-    const user = await UserService.getUser();
-    var response = await fetchApi(
-      `/organizations/details/${organizationId}/subscription/${user.id}`,
-      Method.PATCH,
-      updatedStatus,
-    );
+    const response = await fetchApi(endpoint, Method.GET);
+    const data = await response.json();
 
-    console.log("updateSubscriptionStatus PARAMS:",organizationId,updatedStatus,user.id)
     if (response.ok) {
-      console.log(`Subscription status updated for organization ${organizationId}`);
+      return data as Organization[];
     } else {
-      console.error(`Failed to update subscription status for organization ${organizationId}`);
-      console.log(response.json())
+      console.error(
+        `Fetching organizations${
+          onlySubscribed ? " (subscribed)" : ""
+        } failed:`,
+        data,
+      );
+      return null;
     }
   } catch (error) {
-    console.error('Error fetching user:', error);
+    console.error(
+      `Error fetching organizations${onlySubscribed ? " (subscribed)" : ""}:`,
+      error,
+    );
+    throw error;
+  }
+};
+
+export const getOrganizationById = async (
+  organizationId: number,
+): Promise<Organization> => {
+  const endpoint = `/organizations/${organizationId}`;
+
+  try {
+    const response = await fetchApi(endpoint, Method.GET);
+    const data = await response.json();
+
+    if (response.ok) {
+      return data as Organization;
+    } else {
+      console.error("Fetching organization by ID failed:", data);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching organization by ID:", error);
+    throw error;
+  }
+};
+
+export const subscribeToOrganization = async (
+  organizationId: number,
+): Promise<boolean> => {
+  const endpoint = "/organizations/subscribe";
+  try {
+    const response = await fetchApi(endpoint, Method.POST, null, true, {
+      organizationId: organizationId,
+    });
+
+    if (!response.ok) {
+      console.error("Subscription failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during subscription:", error);
+    throw error;
+  }
+};
+
+export const unsubscribeFromOrganization = async (
+  organizationId: number,
+): Promise<boolean> => {
+  const endpoint = "/organizations/unsubscribe";
+  try {
+    const response = await fetchApi(endpoint, Method.POST, null, true, {
+      organizationId: organizationId,
+    });
+    if (!response.ok) {
+      console.error("Unsubscribing failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during Unsubscribing:", error);
+    throw error;
   }
 };
