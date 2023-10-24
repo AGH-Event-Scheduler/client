@@ -31,7 +31,7 @@ export const EventOrganizationListCard = ({
         <Image source={imageSource} style={styles.image} resizeMode="contain" />
       </View>
       <Text style={styles.text}>{name}</Text>
-
+      <Text style={styles.text}>{startDate.toLocaleDateString()}</Text>
       <Text style={styles.text}>{location}</Text>
     </TouchableOpacity>
   );

@@ -1,12 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-type ButtonTypes =
-  | "primary"
-  | "secondary"
-  | "destructive"
-  | "disabled"
-  | "greyedOut";
+export enum ButtonTypes {
+  Primary = "primary",
+  Secondary = "secondary",
+  Destructive = "destructive",
+  Disabled = "disabled",
+  GreyedOut = "greyedOut",
+}
 
 interface ButtonProps {
   onPress: () => void;
@@ -48,6 +49,7 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       backgroundColor: "#FAFAFA",
       borderColor: "#016531",
       borderWidth: 2,
+      paddingVertical: 6,
     },
     text: {
       color: "#016531",

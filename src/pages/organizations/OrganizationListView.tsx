@@ -8,8 +8,11 @@ import {
   subscribeToOrganization,
   unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
+import { useTranslation } from "react-i18next";
 
-export const OrganizationListView = ({ navigation, onlySubscribed }) => {
+export const OrganizationListView = ({ navigation, onlySubscribed  }) => {
+  const { t } = useTranslation();
+
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -47,13 +50,12 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
           return { ...org, isSubscribed: updatedStatus };
         } catch (error) {
           console.error("Error handling organization subscription:", error);
-          return org; // If an error occurs, return the original organization
+          return org;
         }
       }
       return org;
     });
 
-    // Wait for all promises to resolve before updating the state
     const updatedOrganizationsResolved =
       await Promise.all(updatedOrganizations);
     setOrganizations(updatedOrganizationsResolved);
@@ -69,10 +71,10 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Organizations</Text>
+      <Text style={styles.title}>{t("general.organizations")}</Text>
       <TextInput
         style={styles.searchInput}
-        placeholder="Search..."
+        placeholder={`${t("general.search")}...`}
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
