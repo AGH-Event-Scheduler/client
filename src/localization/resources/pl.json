@@ -14,6 +14,7 @@
     "search": "Szukaj",
     "your-organizations": "Twoje organizacje",
     "create-organization": "Stwórz organizacje",
+    "all-events": "Wszystkie wydarzenia",
     "less": "Mniej",
     "more": "Więcej"
   },
@@ -27,5 +28,9 @@
   "organization-details": {
     "follow": "Obserwuj",
     "following": "Obserwujesz"
+  },
+  "all-events": {
+    "upcoming": "Nadchodzące",
+    "past": "Dawne"
   }
 }

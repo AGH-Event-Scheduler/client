@@ -9,6 +9,7 @@ export const SamplePage = () => {
         onPress={() => {}}
         type="secondary"
         title={"Hello World"}
+        size="default"
       ></AppButton>
     </View>
   );

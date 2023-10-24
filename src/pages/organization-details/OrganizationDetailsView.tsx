@@ -18,6 +18,7 @@ import {
   updateSubscriptionStatus,
 } from "../../api/organization-api-utils";
 import { useTranslation } from "react-i18next";
+import { AppLinkButton } from "../../components/AppLinkButton";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -62,6 +63,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     }
   };
 
+  const handleSeeAllEventsPress = () => {
+    navigation.navigate("All events", { organizationId: organization.id });
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={globalStyles.imageContainer}>
@@ -82,7 +87,8 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
           />
         )}
       </View>
-      <View style={{ flex: 1, width: "100%" }}>
+      <View style={styles.eventsContainer}>
+        <AppLinkButton title="See all" onPress={handleSeeAllEventsPress} />
         <FlatList
           data={events}
           keyExtractor={(item) => item.id?.toString()}
@@ -123,5 +129,12 @@ const styles = StyleSheet.create({
     ...globalStyles.title,
     marginTop: 30,
     marginBottom: 16,
+  },
+  eventsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 5,
+    alignItems: "flex-end",
+    width: "100%",
   },
 });
