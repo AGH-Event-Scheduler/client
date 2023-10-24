@@ -12,14 +12,12 @@ import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { Event, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
-import useFollowButtonStyle from "../../hooks/useFollowButtonStyle";
-import { AppButton } from "../../components/AppButton";
-import { getOrganizationById } from "../../api/organization-api-utils";
-import { AppCheckButton } from "../../components/AppCheckButton";
 import {
-  fetchOrganizationDetails,
-  updateSubscriptionStatus,
+  getOrganizationById,
+  subscribeToOrganization,
+  unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
+import { AppCheckButton } from "../../components/AppCheckButton";
 import { useTranslation } from "react-i18next";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
@@ -31,10 +29,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   const organizationId = route.params.organizationId;
 
   useEffect(() => {
-const fetchOrganizationDetailsData = async (organizationId: number) => {
-    try {
-      const organization = await getOrganizationById(organizationId);
-      setOrganization(organization);
+    const fetchOrganizationDetailsData = async (organizationId: number) => {
+      try {
+        const organization = await getOrganizationById(organizationId);
+        setOrganization(organization);
 
         const events = await fetchOrganizationEvents(organizationId);
         setEvents(events);
@@ -58,10 +56,15 @@ const fetchOrganizationDetailsData = async (organizationId: number) => {
         isSubscribed: !organization.isSubscribed,
       });
 
-      await updateSubscriptionStatus(
-        organization.id,
-        !organization.isSubscribed,
-      );
+      try {
+        if (organization.isSubscribed === false) {
+          await subscribeToOrganization(organization.id);
+        } else {
+          await unsubscribeFromOrganization(organization.id);
+        }
+      } catch (error) {
+        console.error("Error handling organization subscription:", error);
+      }
     }
   };
 

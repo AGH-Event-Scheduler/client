@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {ActivityIndicator, View} from "react-native";
-import {NavigationContainer} from "@react-navigation/native";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {I18nextProvider} from "react-i18next";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { I18nextProvider } from "react-i18next";
 import i18next from "./src/localization/i18next";
 import { AuthenticationService } from "./src/services/AuthenticationService";
 import { MainStack } from "./src/navigationstacks/MainStack";
@@ -38,17 +38,17 @@ export default function App() {
   return (
     <NavigationContainer>
       <I18nextProvider i18n={i18next}>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false, animation: "fade" }}
-        initialRouteName={firstScreen}
-      >
-        <Stack.Screen name="Login">
-          {() => <AuthenticationStack stack={Stack} />}
-        </Stack.Screen>
-        <Stack.Screen name="Main">
-          {() => <MainStack stack={Stack} />}
-        </Stack.Screen>
-      </Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false, animation: "fade" }}
+          initialRouteName={firstScreen}
+        >
+          <Stack.Screen name="Login">
+            {() => <AuthenticationStack stack={Stack} />}
+          </Stack.Screen>
+          <Stack.Screen name="Main">
+            {() => <MainStack stack={Stack} />}
+          </Stack.Screen>
+        </Stack.Navigator>
       </I18nextProvider>
     </NavigationContainer>
   );

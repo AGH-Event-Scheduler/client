@@ -10,7 +10,7 @@ import {
 } from "../../api/organization-api-utils";
 import { useTranslation } from "react-i18next";
 
-export const OrganizationListView = ({ navigation, onlySubscribed  }) => {
+export const OrganizationListView = ({ navigation, onlySubscribed }) => {
   const { t } = useTranslation();
 
   const [organizations, setOrganizations] = useState<Organization[]>([]);
