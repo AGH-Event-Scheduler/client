@@ -51,11 +51,6 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
 
   const handleFollowButtonPress = async () => {
     if (organization) {
-      setOrganization({
-        ...organization,
-        isSubscribed: !organization.isSubscribed,
-      });
-
       try {
         if (organization.isSubscribed === false) {
           await subscribeToOrganization(organization.id);
@@ -65,6 +60,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
       } catch (error) {
         console.error("Error handling organization subscription:", error);
       }
+      setOrganization({
+        ...organization,
+        isSubscribed: !organization.isSubscribed,
+      });
     }
   };
 
