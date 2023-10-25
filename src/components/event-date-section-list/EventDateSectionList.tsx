@@ -89,6 +89,7 @@ const EventDateSectionList = (props: EventDateSectionListProps, ref) => {
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
       renderSectionFooter={renderNoContent}
+      onScrollToIndexFailed={() => {}}
     />
   );
 };
