@@ -1,19 +1,34 @@
+import { toSimpleDateString } from "../utils/date";
 import { fetchApi } from "./api-utils";
-import { Event } from "./types";
+import { OrganizationEvent } from "./types";
 
-export const fetchEvents = async (): Promise<Event[]> => {
+export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
   var response = await fetchApi("/events");
+  return response.json();
+};
+
+export const fetchEventsInDateRange = async (
+  startDate: Date,
+  endDate: Date,
+): Promise<{ [date: string]: OrganizationEvent[] }> => {
+  var response = await fetchApi(
+    `/events/byDate?startDate=${toSimpleDateString(
+      startDate,
+    )}&endDate=${toSimpleDateString(endDate)}`,
+  );
   return response.json();
 };
 
 export const fetchOrganizationEvents = async (
   organizationId: number,
-): Promise<Event[]> => {
+): Promise<OrganizationEvent[]> => {
   var response = await fetchApi(`/events/organization/${organizationId}`);
   return response.json();
 };
 
-export const fetchEventDetails = async (eventId: number): Promise<Event> => {
+export const fetchEventDetails = async (
+  eventId: number,
+): Promise<OrganizationEvent> => {
   var response = await fetchApi(`/events/${eventId}`);
   return response.json();
 };

@@ -10,7 +10,7 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
-import { Event, Organization } from "../../api/types";
+import { OrganizationEvent, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import {
@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [organization, setOrganization] = useState<Organization>(null);
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<OrganizationEvent[]>([]);
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
@@ -43,7 +43,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     isFocused && fetchOrganizationDetailsData(organizationId);
   }, [isFocused]);
 
-  const handleCardPress = (event: Event) => {
+  const handleCardPress = (event: OrganizationEvent) => {
     console.log(`Clicked card: ${event.name}`);
     navigation.navigate("Event", { eventId: event.id });
   };

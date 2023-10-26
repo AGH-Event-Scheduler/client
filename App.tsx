@@ -9,6 +9,8 @@ import { SamplePage } from "./src/pages/SamplePage";
 import { SettingsView } from "./src/pages/settings/SettingsView";
 import { I18nextProvider } from "react-i18next";
 import i18next from "./src/localization/i18next";
+import { CalendarScreen } from "./src/pages/calendar/CalendarScreen";
+import { EventSearchScreen } from "./src/pages/event-search/EventSearchScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +35,8 @@ export default function App() {
             <Stack.Screen name="Settings" component={SettingsView} />
             <Stack.Screen name="Create organization" component={SamplePage} />
             <Stack.Screen name="Your organizations" component={SamplePage} />
+            <Stack.Screen name="Event Search" component={EventSearchScreen} />
+            <Stack.Screen name="Calendar" component={CalendarScreen} />
 
             {/* Sub pages */}
             <Stack.Screen

@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { AppButton } from "../components/AppButton";
+import { AppButton, ButtonTypes } from "../components/AppButton";
 
 export const SamplePage = () => {
   return (
     <View style={styles.container}>
       <AppButton
         onPress={() => {}}
-        type="secondary"
+        type={ButtonTypes.Secondary}
         title={"Hello World"}
       ></AppButton>
     </View>
