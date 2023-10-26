@@ -19,6 +19,7 @@ import {
 } from "../../api/organization-api-utils";
 import { useTranslation } from "react-i18next";
 import { AppLinkButton } from "../../components/AppLinkButton";
+import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -34,7 +35,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
         const organization = await fetchOrganizationDetails(organizationId);
         setOrganization(organization);
 
-        const events = await fetchOrganizationEvents(organizationId);
+        const events = await fetchOrganizationEvents(
+          organizationId,
+          AllEventsViewTypeOption.Upcoming,
+        );
         setEvents(events);
       } catch (error) {
         console.log("Fetching organization details error", error);

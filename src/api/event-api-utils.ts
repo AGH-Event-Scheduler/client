@@ -1,3 +1,4 @@
+import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { fetchApi } from "./api-utils";
 import { Event } from "./types";
 
@@ -8,8 +9,11 @@ export const fetchEvents = async (): Promise<Event[]> => {
 
 export const fetchOrganizationEvents = async (
   organizationId: number,
+  eventsType: AllEventsViewTypeOption,
 ): Promise<Event[]> => {
-  var response = await fetchApi(`/events/organization/${organizationId}`);
+  var response = await fetchApi(
+    `/events/organization/${organizationId}?type=${eventsType}`,
+  );
   return response.json();
 };
 

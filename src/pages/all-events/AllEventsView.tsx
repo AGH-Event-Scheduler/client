@@ -1,56 +1,59 @@
-import React, { useEffect, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { View, StyleSheet, Text, TextInput, FlatList } from "react-native"
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { View, StyleSheet, Text, TextInput, FlatList } from "react-native";
 import { EventOrganizationListCard } from "../organization-details/EventOrganizationListCard";
 import { Event } from "../../api/types";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import { AppToggleButton } from "../../components/AppToggleButton";
 
-enum AllEventsViewTypeOption {
-  Upcoming = "upcoming",
-  Past = "past"
+export enum AllEventsViewTypeOption {
+  Upcoming = "UPCOMING",
+  Past = "PAST",
 }
 
 interface ToggleButtonItem {
-  key: AllEventsViewTypeOption,
-  title: string
+  key: AllEventsViewTypeOption;
+  title: string;
 }
-
 
 export const AllEventsView = ({ navigation, route }) => {
   const { t } = useTranslation();
   const toggleButtonItems: ToggleButtonItem[] = [
-    { key: AllEventsViewTypeOption.Upcoming, title: t("all-events.upcoming")},
-    { key: AllEventsViewTypeOption.Past, title: t("all-events.past")}
-  ]
+    { key: AllEventsViewTypeOption.Upcoming, title: t("all-events.upcoming") },
+    { key: AllEventsViewTypeOption.Past, title: t("all-events.past") },
+  ];
   const [searchQuery, setSearchQuery] = useState("");
   const [events, setEvents] = useState<Event[]>([]);
-  const [currentView, setCurrentView] = useState<ToggleButtonItem>(toggleButtonItems[0]);
+  const [eventsType, setEventsType] = useState<ToggleButtonItem>(
+    toggleButtonItems[0],
+  );
   const isFocused = useIsFocused();
-  
+
   const organizationId = route.params.organizationId;
 
-  
   useEffect(() => {
     const loadOrganizationEvents = async () => {
       try {
-        const events = await fetchOrganizationEvents(organizationId);
+        const events = await fetchOrganizationEvents(
+          organizationId,
+          eventsType.key,
+        );
         setEvents(events);
       } catch (error) {
         console.log("Fetching organization details error", error);
       }
-    }; 
+    };
     isFocused && loadOrganizationEvents();
-  }, [isFocused, currentView]);
+  }, [isFocused, eventsType]);
 
   const handleCardPress = (event: Event) => {
     navigation.navigate("Event", { eventId: event.id });
-  }
+  };
 
   const handleNavButtonPress = (view: ToggleButtonItem) => {
-    setCurrentView(view);
-  }
+    setEventsType(view);
+  };
 
   return (
     <View style={styles.container}>
@@ -58,7 +61,7 @@ export const AllEventsView = ({ navigation, route }) => {
       <View style={styles.navigationContainer}>
         <AppToggleButton
           items={toggleButtonItems}
-          currentSelection={currentView}
+          currentSelection={eventsType}
           onSelect={(item) => handleNavButtonPress(item)}
           size="default"
         />
@@ -70,23 +73,23 @@ export const AllEventsView = ({ navigation, route }) => {
         onChangeText={setSearchQuery}
       />
       <FlatList
-          data={events}
-          keyExtractor={(item) => item.id?.toString()}
-          renderItem={({ item }) => (
-            <EventOrganizationListCard
-              imageSource={{ uri: item?.backgroundImage.mediumUrl }}
-              name={item.name}
-              location={item.location}
-              onCardPress={() => handleCardPress(item)}
-              startDate={new Date(item.startDate)}
-              style={styles.card}
-            />
-          )}
-          showsVerticalScrollIndicator={true}
-        />
+        data={events}
+        keyExtractor={(item) => item.id?.toString()}
+        renderItem={({ item }) => (
+          <EventOrganizationListCard
+            imageSource={{ uri: item?.backgroundImage.mediumUrl }}
+            name={item.name}
+            location={item.location}
+            onCardPress={() => handleCardPress(item)}
+            startDate={new Date(item.startDate)}
+            style={styles.card}
+          />
+        )}
+        showsVerticalScrollIndicator={true}
+      />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -120,6 +123,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     paddingVertical: 10,
-  }
+  },
 });
-  
