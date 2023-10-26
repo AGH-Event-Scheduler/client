@@ -68,6 +68,7 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
         onPress={() => {
           navigation.navigate("Organization Search");
         }}
+        style={{ marginTop: 10 }}
       />
       <FlatList
         data={organizations}
@@ -95,25 +96,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginTop: 16,
-    marginBottom: 8,
-    color: "#B0BCC4",
-  },
-  searchInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#CCCCCC",
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    marginBottom: 16,
-  },
   listContainer: {
     flexGrow: 1,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: 10,
   },
 });

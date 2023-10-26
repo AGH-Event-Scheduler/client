@@ -44,11 +44,11 @@ export const OrganizationListCard = ({
           <FontAwesome
             name="star"
             size={26}
-            color="yellow"
+            color="#016531"
             style={styles.likeIconStyle}
           />
         ) : (
-          <FontAwesome name="star-o" size={26} color="grey" />
+          <FontAwesome name="star-o" size={26} color="#016531" />
         )}
       </TouchableOpacity>
     </TouchableOpacity>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginRight: 2,
     flexDirection: "row",
     alignItems: "center",
-    padding: 24,
+    padding: 12,
     borderRadius: 13,
     borderColor: "#D6D6D6",
     borderWidth: 1,
@@ -72,11 +72,11 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   imageContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 18,
+    width: 70,
+    height: 70,
+    borderRadius: 5,
     overflow: "hidden",
-    marginRight: 10,
+    marginRight: 15,
   },
   image: {
     flex: 1,

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Button,
   StyleSheet,
@@ -9,6 +10,7 @@ import {
 } from "react-native";
 
 interface SearchBarProps {
+  style?: any;
   onSearchChange?: (searchTerm: string) => void;
   autoFocus?: boolean;
 
@@ -17,6 +19,7 @@ interface SearchBarProps {
 }
 
 export const SearchBar = (props: SearchBarProps) => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -31,9 +34,11 @@ export const SearchBar = (props: SearchBarProps) => {
 
   if (props.notEditable) {
     return (
-      <TouchableOpacity onPress={props.onPress}>
+      <TouchableOpacity style={[props.style]} onPress={props.onPress}>
         <View style={[styles.searchInput, styles.searchButton]}>
-          <Text style={[styles.searchButtonText]}>Search...</Text>
+          <Text style={[styles.searchButtonText]}>
+            {t("searchbar.placeholder")}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -43,8 +48,8 @@ export const SearchBar = (props: SearchBarProps) => {
     <TextInput
       autoFocus={props.autoFocus}
       editable={true}
-      style={styles.searchInput}
-      placeholder="Search..."
+      style={[styles.searchInput, props.style]}
+      placeholder={t("searchbar.placeholder")}
       onChangeText={(e) => {
         setSearchTerm(e);
       }}

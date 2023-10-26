@@ -87,9 +87,9 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 70,
     height: 70,
-    borderRadius: 100,
+    borderRadius: 5,
     overflow: "hidden",
-    marginRight: 10,
+    marginRight: 15,
   },
   image: {
     flex: 1,

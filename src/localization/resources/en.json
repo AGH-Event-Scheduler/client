@@ -18,7 +18,9 @@
     "create-organization": "Create organization",
     "all-events": "All events",
     "less": "Less",
-    "more": "More"
+    "more": "More",
+    "event-search": "Search Event",
+    "organization-search": "Search Organization"
   },
   "settings": {
     "account": "Account",
@@ -37,5 +39,8 @@
   },
   "calendar": {
     "empty-date": "No events on this date."
+  },
+  "searchbar": {
+    "placeholder": "Search..."
   }
 }

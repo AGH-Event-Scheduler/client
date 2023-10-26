@@ -107,6 +107,7 @@ export const CalendarScreen = () => {
     <View style={styles.wrapper}>
       <View>
         <SearchBar
+          style={{ marginTop: 10 }}
           notEditable
           onPress={() => {
             navigation.dispatch(CommonActions.navigate("Event Search"));
