@@ -11,8 +11,8 @@ export const SamplePage = () => {
     <View style={styles.container}>
       <AppButton
         onPress={() => {
-          // @ts-ignore
           AuthenticationService.removeAuthToken().then(() =>
+            // @ts-ignore
             navigation.navigate("Login"),
           );
         }}
