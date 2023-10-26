@@ -12,11 +12,12 @@ import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { OrganizationEvent, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
-import { AppCheckButton } from "../../components/AppCheckButton";
 import {
-  fetchOrganizationDetails,
-  updateSubscriptionStatus,
+  getOrganizationById,
+  subscribeToOrganization,
+  unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
+import { AppCheckButton } from "../../components/AppCheckButton";
 import { useTranslation } from "react-i18next";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
@@ -30,7 +31,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   useEffect(() => {
     const fetchOrganizationDetailsData = async (organizationId: number) => {
       try {
-        const organization = await fetchOrganizationDetails(organizationId);
+        const organization = await getOrganizationById(organizationId);
         setOrganization(organization);
 
         const events = await fetchOrganizationEvents(organizationId);
@@ -50,15 +51,19 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
 
   const handleFollowButtonPress = async () => {
     if (organization) {
+      try {
+        if (organization.isSubscribed === false) {
+          await subscribeToOrganization(organization.id);
+        } else {
+          await unsubscribeFromOrganization(organization.id);
+        }
+      } catch (error) {
+        console.error("Error handling organization subscription:", error);
+      }
       setOrganization({
         ...organization,
         isSubscribed: !organization.isSubscribed,
       });
-
-      await updateSubscriptionStatus(
-        organization.id,
-        !organization.isSubscribed,
-      );
     }
   };
 

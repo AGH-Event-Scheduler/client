@@ -27,3 +27,8 @@ export interface OrganizationEvent extends BaseEntity {
   location: string;
   organization: Organization;
 }
+
+export interface User extends BaseEntity {
+  email: string;
+  password: string;
+}

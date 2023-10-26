@@ -6,21 +6,30 @@ export enum ButtonTypes {
   Secondary = "secondary",
   Destructive = "destructive",
   Disabled = "disabled",
+  GreyedOut = "greyedOut",
 }
 
 interface ButtonProps {
   onPress: () => void;
   type: ButtonTypes;
   title: string;
+  fontSize?: number; // Optional property for font size
 }
 
-export const AppButton = ({ onPress, type, title }: ButtonProps) => {
+export const AppButton = ({
+  onPress,
+  type,
+  title,
+  fontSize = 20,
+}: ButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[styles.button, buttonTypes[type].button]}
     >
-      <Text style={[styles.text, buttonTypes[type].text]}>{title}</Text>
+      <Text style={[styles.text, { fontSize }, buttonTypes[type].text]}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -54,6 +63,14 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       color: "white",
     },
   }),
+  greyedOut: StyleSheet.create({
+    button: {
+      backgroundColor: "#A9A9A9",
+    },
+    text: {
+      color: "white",
+    },
+  }),
   disabled: StyleSheet.create({
     button: {
       backgroundColor: "grey",
@@ -70,10 +87,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
   },
-
   text: {
     textAlign: "center",
-    fontSize: 20,
     fontWeight: "400",
   },
 });
