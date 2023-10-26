@@ -17,8 +17,10 @@ import {
   fetchOrganizationDetails,
   updateSubscriptionStatus,
 } from "../../api/organization-api-utils";
+import { useTranslation } from "react-i18next";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
+  const { t } = useTranslation();
   const [organization, setOrganization] = useState<Organization>(null);
   const [events, setEvents] = useState<OrganizationEvent[]>([]);
   const isFocused = useIsFocused();
@@ -74,8 +76,8 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
         {organization && (
           <AppCheckButton
             onPress={handleFollowButtonPress}
-            title="Follow"
-            altTitle="Unfollow"
+            title={t("organization-details.follow")}
+            altTitle={t("organization-details.following")}
             isChecked={organization.isSubscribed}
           />
         )}

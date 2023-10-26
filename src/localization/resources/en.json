@@ -1,0 +1,31 @@
+{
+  "languages": {
+    "pl": "Polski",
+    "en": "English"
+  },
+  "general": {
+    "calendar": "Calendar",
+    "description": "Description",
+    "favourite": "Favourite",
+    "feed": "Feed",
+    "language": "Language",
+    "organizations": "Organizations",
+    "settings": "Settings",
+    "search": "Search",
+    "your-organizations": "Your organizations",
+    "create-organization": "Create organization",
+    "less": "Less",
+    "more": "More"
+  },
+  "settings": {
+    "account": "Account",
+    "language": "Language",
+    "notifications": "Notifications",
+    "dark-mode": "Dark mode",
+    "information": "Information"
+  },
+  "organization-details": {
+    "follow": "Follow",
+    "following": "Following"
+  }
+}
