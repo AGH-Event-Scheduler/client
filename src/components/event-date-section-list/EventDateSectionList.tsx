@@ -13,6 +13,7 @@ import {
   toDayOfWeekName,
   toSimpleDateString,
 } from "../../utils/date";
+import { useTranslation } from "react-i18next";
 
 export interface EventsByDates {
   [date: string]: DateSectionListItem[];
@@ -28,6 +29,8 @@ interface SectionListItem {
 }
 
 const EventDateSectionList = (props: EventDateSectionListProps, ref) => {
+  const { t } = useTranslation();
+
   useImperativeHandle(ref, () => ({
     scrollTo: (date: Date) => {
       scrollToDate(date);
@@ -75,7 +78,7 @@ const EventDateSectionList = (props: EventDateSectionListProps, ref) => {
     if (section.data.length == 0) {
       return (
         <View style={[styles.noEventWrapper]}>
-          <Text style={[styles.noEventText]}>{"No events on this day."}</Text>
+          <Text style={[styles.noEventText]}>{t("calendar.empty-date")}</Text>
         </View>
       );
     }

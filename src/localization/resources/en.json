@@ -32,5 +32,8 @@
   "all-events": {
     "upcoming": "Upcoming",
     "past": "Past"
+  },
+  "calendar": {
+    "empty-date": "No events on this date."
   }
 }
