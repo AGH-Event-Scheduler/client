@@ -10,6 +10,8 @@
     "feed": "Feed",
     "language": "Language",
     "organizations": "Organizations",
+    "organization": "Organization",
+    "event": "Event",
     "settings": "Settings",
     "search": "Search",
     "your-organizations": "Your organizations",
