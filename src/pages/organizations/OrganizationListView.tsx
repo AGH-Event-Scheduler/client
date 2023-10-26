@@ -9,12 +9,12 @@ import {
   unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
 import { useTranslation } from "react-i18next";
+import { SearchBar } from "../../components/SearchBar";
 
 export const OrganizationListView = ({ navigation, onlySubscribed }) => {
   const { t } = useTranslation();
 
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -61,25 +61,16 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
     setOrganizations(updatedOrganizationsResolved);
   };
 
-  const filteredOrganizations = organizations
-    ? organizations.filter(
-        (org: Organization) =>
-          org.name &&
-          org.name.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-    : [];
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t("general.organizations")}</Text>
-      <TextInput
-        style={styles.searchInput}
-        placeholder={`${t("general.search")}...`}
-        value={searchQuery}
-        onChangeText={setSearchQuery}
+      <SearchBar
+        notEditable
+        onPress={() => {
+          navigation.navigate("Organization Search");
+        }}
       />
       <FlatList
-        data={filteredOrganizations}
+        data={organizations}
         keyExtractor={(item) => item.id?.toString()}
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
