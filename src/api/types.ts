@@ -18,7 +18,7 @@ export interface Organization extends BaseEntity {
   description: string;
 }
 
-export interface Event extends BaseEntity {
+export interface OrganizationEvent extends BaseEntity {
   name: string;
   backgroundImage: Image;
   description: string;

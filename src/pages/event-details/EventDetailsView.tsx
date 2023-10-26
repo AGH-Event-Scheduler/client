@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchEventDetails } from "../../api/event-api-utils";
-import { Event } from "../../api/types";
+import { OrganizationEvent } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 
 export const EventDetailsView = ({ route }) => {
-  const [event, setEvent] = useState<Event>();
   const { t } = useTranslation();
+  const [event, setEvent] = useState<OrganizationEvent>();
 
   const eventId = route.params.eventId;
 
