@@ -39,14 +39,14 @@ export default function App() {
     <NavigationContainer>
       <I18nextProvider i18n={i18next}>
         <Stack.Navigator
-          screenOptions={{ headerShown: false, animation: "fade" }}
+          screenOptions={{ headerShown: false }}
           initialRouteName={firstScreen}
         >
           <Stack.Screen name="Login">
-            {() => <AuthenticationStack stack={Stack} />}
+            {() => <AuthenticationStack stack={createNativeStackNavigator()} />}
           </Stack.Screen>
           <Stack.Screen name="Main">
-            {() => <MainStack stack={Stack} />}
+            {() => <MainStack stack={createNativeStackNavigator()} />}
           </Stack.Screen>
         </Stack.Navigator>
       </I18nextProvider>

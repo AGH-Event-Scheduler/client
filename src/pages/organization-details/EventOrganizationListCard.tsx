@@ -51,7 +51,6 @@ export const EventOrganizationListCard = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 5,
     flexDirection: "column",
     alignItems: "center",
     borderColor: "#D6D6D6",

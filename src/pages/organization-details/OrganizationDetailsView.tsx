@@ -97,7 +97,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
       <Text style={styles.title}>{organization?.name}</Text>
       <Text style={globalStyles.description}>{organization?.description}</Text>
       <View style={[styles.eventContainer]}>
-        <AppLinkButton title={t("all-events.see-all")} onPress={handleSeeAllEventsPress} />
+        <AppLinkButton
+          title={t("all-events.see-all")}
+          onPress={handleSeeAllEventsPress}
+        />
         <FlatList
           data={events}
           keyExtractor={(item) => item.id?.toString()}
@@ -123,6 +126,7 @@ const styles = StyleSheet.create({
   card: {
     width: 300,
     height: 200,
+    marginHorizontal: 10,
   },
   container: {
     flex: 1,
@@ -145,12 +149,5 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     alignItems: "flex-end",
     gap: 10,
-  },
-  eventsContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 5,
-    alignItems: "flex-end",
-    width: "100%",
   },
 });
