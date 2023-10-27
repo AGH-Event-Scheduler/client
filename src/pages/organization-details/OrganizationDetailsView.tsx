@@ -10,13 +10,14 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
-import { Event, Organization } from "../../api/types";
+import { OrganizationEvent, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
-import { AppCheckButton } from "../../components/AppCheckButton";
 import {
-  fetchOrganizationDetails,
-  updateSubscriptionStatus,
+  getOrganizationById,
+  subscribeToOrganization,
+  unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
+import { AppCheckButton } from "../../components/AppCheckButton";
 import { useTranslation } from "react-i18next";
 import { AppLinkButton } from "../../components/AppLinkButton";
 import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
@@ -24,7 +25,7 @@ import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [organization, setOrganization] = useState<Organization>(null);
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<OrganizationEvent[]>([]);
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
@@ -32,7 +33,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   useEffect(() => {
     const fetchOrganizationDetailsData = async (organizationId: number) => {
       try {
-        const organization = await fetchOrganizationDetails(organizationId);
+        const organization = await getOrganizationById(organizationId);
         setOrganization(organization);
 
         const events = await fetchOrganizationEvents(
@@ -48,22 +49,26 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     isFocused && fetchOrganizationDetailsData(organizationId);
   }, [isFocused]);
 
-  const handleCardPress = (event: Event) => {
+  const handleCardPress = (event: OrganizationEvent) => {
     console.log(`Clicked card: ${event.name}`);
     navigation.navigate("Event", { eventId: event.id });
   };
 
   const handleFollowButtonPress = async () => {
     if (organization) {
+      try {
+        if (organization.isSubscribed === false) {
+          await subscribeToOrganization(organization.id);
+        } else {
+          await unsubscribeFromOrganization(organization.id);
+        }
+      } catch (error) {
+        console.error("Error handling organization subscription:", error);
+      }
       setOrganization({
         ...organization,
         isSubscribed: !organization.isSubscribed,
       });
-
-      await updateSubscriptionStatus(
-        organization.id,
-        !organization.isSubscribed,
-      );
     }
   };
 

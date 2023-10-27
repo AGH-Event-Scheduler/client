@@ -1,13 +1,22 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { AppButton } from "../components/AppButton";
+import { AppButton, ButtonTypes } from "../components/AppButton";
+import { AuthenticationService } from "../services/AuthenticationService";
+import { useNavigation } from "@react-navigation/native";
 
 export const SamplePage = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <AppButton
-        onPress={() => {}}
-        type="secondary"
+        onPress={() => {
+          AuthenticationService.removeAuthToken().then(() =>
+            // @ts-ignore
+            navigation.navigate("Login"),
+          );
+        }}
+        type={ButtonTypes.Secondary}
         title={"Hello World"}
         size="default"
       ></AppButton>

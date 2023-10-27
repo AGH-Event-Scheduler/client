@@ -4,12 +4,13 @@ import { OrganizationListCard } from "./OrganizationListCard";
 import { useIsFocused } from "@react-navigation/native";
 import { Organization } from "../../api/types";
 import {
-  fetchOrganizations,
-  updateSubscriptionStatus,
+  getAllOrganizationsWithStatusByUser,
+  subscribeToOrganization,
+  unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
 import { useTranslation } from "react-i18next";
 
-export const OrganizationListView = ({ navigation }) => {
+export const OrganizationListView = ({ navigation, onlySubscribed }) => {
   const { t } = useTranslation();
 
   const [organizations, setOrganizations] = useState<Organization[]>([]);
@@ -19,7 +20,8 @@ export const OrganizationListView = ({ navigation }) => {
   useEffect(() => {
     const fetchOrganizationsData = async () => {
       try {
-        const organizationsList = await fetchOrganizations();
+        const organizationsList: Organization[] =
+          await getAllOrganizationsWithStatusByUser(onlySubscribed);
         setOrganizations(organizationsList);
       } catch (error) {
         console.log("Fetching organizations list error", error);
@@ -35,15 +37,28 @@ export const OrganizationListView = ({ navigation }) => {
 
   const handleStarPress = async (organization) => {
     console.log(`Clicked star: ${organization.name}`);
-    const updatedOrganizations = organizations.map((org) => {
+    const updatedOrganizations = organizations.map(async (org) => {
       if (org.id === organization.id) {
         const updatedStatus = !org.isSubscribed;
-        updateSubscriptionStatus(organization.id, updatedStatus);
-        return { ...org, isSubscribed: updatedStatus };
+
+        try {
+          if (updatedStatus === true) {
+            await subscribeToOrganization(organization.id);
+          } else {
+            await unsubscribeFromOrganization(organization.id);
+          }
+          return { ...org, isSubscribed: updatedStatus };
+        } catch (error) {
+          console.error("Error handling organization subscription:", error);
+          return org;
+        }
       }
       return org;
     });
-    setOrganizations(updatedOrganizations);
+
+    const updatedOrganizationsResolved =
+      await Promise.all(updatedOrganizations);
+    setOrganizations(updatedOrganizationsResolved);
   };
 
   const filteredOrganizations = organizations

@@ -1,19 +1,14 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 type ButtonTypes =
   | "primary"
   | "secondary"
   | "destructive"
-  | "disabled"
+  | "gray"
   | "toggleDefault"
   | "toggleChecked";
+
 export type ButtonSize = "default" | "small";
 interface ButtonProps {
   onPress: () => void;
@@ -71,9 +66,9 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       color: "white",
     },
   }),
-  disabled: StyleSheet.create({
+  gray: StyleSheet.create({
     button: {
-      backgroundColor: "grey",
+      backgroundColor: "gray",
     },
     text: {
       color: "white",
@@ -129,7 +124,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 12,
   },
-
   text: {
     textAlign: "center",
     fontWeight: "400",

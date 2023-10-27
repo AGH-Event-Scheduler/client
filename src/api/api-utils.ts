@@ -1,5 +1,7 @@
 // when testing on expo choose computer's ip instead of localhost
-export const baseUrl = "http://192.168.0.103:8080/api";
+import { AuthenticationService } from "../services/AuthenticationService";
+
+export const baseUrl = "http://192.168.0.115:8080/api";
 
 export enum Method {
   GET = "GET",
@@ -13,26 +15,50 @@ export const fetchApi = async (
   endpoint: string,
   method: Method = Method.GET,
   body: any = null,
+  isAuthorized: boolean = true,
+  queryParams: Record<string, any> = {},
 ): Promise<Response> => {
-  var options: RequestInit = { method: method.toString() };
+  let options: RequestInit = { method: method.toString() };
+
+  if (isAuthorized) {
+    const token = await AuthenticationService.getAuthToken();
+    console.log(`Token ${token}`);
+    if (token) {
+      options.headers = {
+        ...options.headers,
+        Authorization: `Bearer ${token}`,
+      };
+    }
+  }
+
   if (method !== Method.GET) {
     options = {
       ...options,
       headers: {
+        ...options.headers,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     };
   }
 
-  console.log(`${method} ${baseUrl}${endpoint}`);
+  const queryString = Object.keys(queryParams)
+    .map(
+      (key) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`,
+    )
+    .join("&");
+
+  const urlWithParams = queryString
+    ? `${baseUrl}${endpoint}?${queryString}`
+    : `${baseUrl}${endpoint}`;
+
+  console.log(`${method} ${urlWithParams}`);
 
   try {
-    return await fetch(`${baseUrl}${endpoint}`, options);
+    return await fetch(urlWithParams, options);
   } catch (reason) {
-    console.log(
-      `Error while fetching ${baseUrl}${endpoint}. Reason: ${reason}`,
-    );
+    console.log(`Error while fetching ${urlWithParams}. Reason: ${reason}`);
     throw reason;
   }
 };
