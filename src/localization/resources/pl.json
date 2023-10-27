@@ -10,13 +10,18 @@
     "feed": "Aktualności",
     "language": "Język",
     "organizations": "Organizacje",
+    "organization": "Organizacja",
+    "event": "Wydarzenie",
     "settings": "Ustawienia",
     "search": "Szukaj",
     "your-organizations": "Twoje organizacje",
     "create-organization": "Stwórz organizacje",
     "all-events": "Wszystkie wydarzenia",
     "less": "Mniej",
-    "more": "Więcej"
+    "more": "Więcej",
+    "event-search": "Szukaj wydarzeń",
+    "organization-search": "Szukaj Organizacji",
+    "login": "Logowanie"
   },
   "settings": {
     "account": "Konto",
@@ -31,6 +36,16 @@
   },
   "all-events": {
     "upcoming": "Nadchodzące",
-    "past": "Dawne"
+    "past": "Dawne",
+    "see-all": "Zobacz wszystkie"
+  },
+  "calendar": {
+    "empty-date": "Brak wydarzeń w tym dniu."
+  },
+  "searchbar": {
+    "placeholder": "Szukaj..."
+  },
+  "event-details": {
+    "last-edit": "Ostatnio modyfikowane"
   }
 }

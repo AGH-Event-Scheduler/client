@@ -1,5 +1,9 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  toBeautifiedDateTimeString,
+  toBeautifiedTimeString,
+} from "../../utils/date";
 
 interface EventListCardProps {
   imageSource: { uri: string };
@@ -28,23 +32,27 @@ export const EventOrganizationListCard = ({
       onPress={handleCardPress}
     >
       <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} resizeMode="contain" />
+        <Image source={imageSource} style={styles.image} />
       </View>
-      <Text style={styles.text}>{name}</Text>
-      <Text style={styles.text}>{startDate.toLocaleDateString()}</Text>
-      <Text style={styles.text}>{location}</Text>
+      <View style={[styles.textContainer]}>
+        <Text numberOfLines={1} style={styles.text}>
+          {name}
+        </Text>
+        <Text numberOfLines={1} style={styles.date}>
+          {toBeautifiedDateTimeString(startDate)}
+        </Text>
+        <Text numberOfLines={1} style={styles.location}>
+          {location}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 2,
-    marginRight: 2,
     flexDirection: "column",
     alignItems: "center",
-    padding: 24,
-    borderRadius: 13,
     borderColor: "#D6D6D6",
     borderWidth: 1,
     backgroundColor: "#FFFFFF",
@@ -54,31 +62,33 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   imageContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 18,
+    width: "100%",
+    height: "55%",
+    borderRadius: 0,
     overflow: "hidden",
-    marginRight: 10,
   },
   image: {
     flex: 1,
     resizeMode: "cover",
   },
   text: {
-    flex: 1,
     fontSize: 19,
-    fontWeight: "500",
-    flexWrap: "wrap",
+    fontWeight: "bold",
   },
-  likeIconContainer: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    padding: 15,
+  textContainer: {
+    width: "100%",
+    padding: 10,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
   },
-  likeIconStyle: {
-    textShadowColor: "black",
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 2,
+  date: {
+    color: "#016531",
+    fontWeight: "bold",
+    fontSize: 17,
+  },
+  location: {
+    fontWeight: "bold",
+    fontSize: 15,
   },
 });

@@ -10,13 +10,18 @@
     "feed": "Feed",
     "language": "Language",
     "organizations": "Organizations",
+    "organization": "Organization",
+    "event": "Event",
     "settings": "Settings",
     "search": "Search",
     "your-organizations": "Your organizations",
     "create-organization": "Create organization",
     "all-events": "All events",
     "less": "Less",
-    "more": "More"
+    "more": "More",
+    "event-search": "Search Event",
+    "organization-search": "Search Organization",
+    "login": "Log In"
   },
   "settings": {
     "account": "Account",
@@ -31,6 +36,16 @@
   },
   "all-events": {
     "upcoming": "Upcoming",
-    "past": "Past"
+    "past": "Past",
+    "see-all": "See all"
+  },
+  "calendar": {
+    "empty-date": "No events on this date."
+  },
+  "searchbar": {
+    "placeholder": "Search..."
+  },
+  "event-details": {
+    "last-edit": "Last edited"
   }
 }

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, StyleSheet, Text, TextInput, FlatList } from "react-native";
 import { EventOrganizationListCard } from "../organization-details/EventOrganizationListCard";
-import { Event } from "../../api/types";
+import { OrganizationEvent } from "../../api/types";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import { AppToggleButton } from "../../components/AppToggleButton";
+import { LoadingView } from "../../components/loading/LoadingView";
 
 export enum AllEventsViewTypeOption {
   Upcoming = "UPCOMING",
@@ -24,16 +25,18 @@ export const AllEventsView = ({ navigation, route }) => {
     { key: AllEventsViewTypeOption.Past, title: t("all-events.past") },
   ];
   const [searchQuery, setSearchQuery] = useState("");
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<OrganizationEvent[]>([]);
   const [eventsType, setEventsType] = useState<ToggleButtonItem>(
     toggleButtonItems[0],
   );
   const isFocused = useIsFocused();
+  const [isLoading, setIsLoading] = useState(true);
 
   const organizationId = route.params.organizationId;
 
   useEffect(() => {
     const loadOrganizationEvents = async () => {
+      setIsLoading(true);
       try {
         const events = await fetchOrganizationEvents(
           organizationId,
@@ -43,11 +46,12 @@ export const AllEventsView = ({ navigation, route }) => {
       } catch (error) {
         console.log("Fetching organization details error", error);
       }
+      setIsLoading(false);
     };
     isFocused && loadOrganizationEvents();
   }, [isFocused, eventsType]);
 
-  const handleCardPress = (event: Event) => {
+  const handleCardPress = (event: OrganizationEvent) => {
     navigation.navigate("Event", { eventId: event.id });
   };
 
@@ -57,7 +61,6 @@ export const AllEventsView = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t("general.all-events")}</Text>
       <View style={styles.navigationContainer}>
         <AppToggleButton
           items={toggleButtonItems}
@@ -72,21 +75,26 @@ export const AllEventsView = ({ navigation, route }) => {
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
-      <FlatList
-        data={events}
-        keyExtractor={(item) => item.id?.toString()}
-        renderItem={({ item }) => (
-          <EventOrganizationListCard
-            imageSource={{ uri: item?.backgroundImage.mediumUrl }}
-            name={item.name}
-            location={item.location}
-            onCardPress={() => handleCardPress(item)}
-            startDate={new Date(item.startDate)}
-            style={styles.card}
-          />
-        )}
-        showsVerticalScrollIndicator={true}
-      />
+      {isLoading ? (
+        <LoadingView />
+      ) : (
+        <FlatList
+          data={events}
+          keyExtractor={(item) => item.id?.toString()}
+          renderItem={({ item }) => (
+            <EventOrganizationListCard
+              imageSource={{ uri: item?.backgroundImage.mediumUrl }}
+              name={item.name}
+              location={item.location}
+              onCardPress={() => handleCardPress(item)}
+              startDate={new Date(item.startDate)}
+              style={styles.card}
+            />
+          )}
+          showsVerticalScrollIndicator={true}
+          contentContainerStyle={styles.listContainer}
+        />
+      )}
     </View>
   );
 };
@@ -114,14 +122,18 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flexGrow: 1,
+    alignItems: "center",
   },
   card: {
     marginBottom: 16,
+    width: 300,
+    height: 200,
   },
   navigationContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
     paddingVertical: 10,
+    marginTop: 10,
   },
 });

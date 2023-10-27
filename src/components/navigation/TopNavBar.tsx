@@ -38,12 +38,11 @@ export const TopNavBar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "10%",
+    height: "8%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
     paddingHorizontal: 16,
-    paddingTop: 5,
   },
   textContainer: {
     padding: 12,

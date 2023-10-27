@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { AppButton } from "../components/AppButton";
 import { AuthenticationService } from "../services/AuthenticationService";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 
 export const SamplePage = () => {
   const navigation = useNavigation();
@@ -12,8 +12,12 @@ export const SamplePage = () => {
       <AppButton
         onPress={() => {
           AuthenticationService.removeAuthToken().then(() =>
-            // @ts-ignore
-            navigation.navigate("Login"),
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: "Login" }],
+              }),
+            ),
           );
         }}
         type="secondary"

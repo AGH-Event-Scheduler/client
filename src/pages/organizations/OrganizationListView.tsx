@@ -9,16 +9,19 @@ import {
   unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
 import { useTranslation } from "react-i18next";
+import { SearchBar } from "../../components/SearchBar";
+import { LoadingView } from "../../components/loading/LoadingView";
 
 export const OrganizationListView = ({ navigation, onlySubscribed }) => {
   const { t } = useTranslation();
 
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const isFocused = useIsFocused();
   useEffect(() => {
     const fetchOrganizationsData = async () => {
+      setIsLoading(true);
       try {
         const organizationsList: Organization[] =
           await getAllOrganizationsWithStatusByUser(onlySubscribed);
@@ -26,6 +29,7 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
       } catch (error) {
         console.log("Fetching organizations list error", error);
       }
+      setIsLoading(false);
     };
     isFocused && fetchOrganizationsData();
   }, [isFocused]);
@@ -61,39 +65,35 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
     setOrganizations(updatedOrganizationsResolved);
   };
 
-  const filteredOrganizations = organizations
-    ? organizations.filter(
-        (org: Organization) =>
-          org.name &&
-          org.name.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-    : [];
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t("general.organizations")}</Text>
-      <TextInput
-        style={styles.searchInput}
-        placeholder={`${t("general.search")}...`}
-        value={searchQuery}
-        onChangeText={setSearchQuery}
+      <SearchBar
+        notEditable
+        onPress={() => {
+          navigation.navigate("Organization Search");
+        }}
+        style={{ marginTop: 10 }}
       />
-      <FlatList
-        data={filteredOrganizations}
-        keyExtractor={(item) => item.id?.toString()}
-        contentContainerStyle={styles.listContainer}
-        renderItem={({ item }) => (
-          <OrganizationListCard
-            imageSource={{ uri: item?.logoImage.mediumUrl }}
-            text={item.name}
-            isSubscribed={item.isSubscribed}
-            onCardPress={() => handleCardPress(item)}
-            onStarPress={() => handleStarPress(item)}
-            style={styles.card}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      {isLoading ? (
+        <LoadingView />
+      ) : (
+        <FlatList
+          data={organizations}
+          keyExtractor={(item) => item.id?.toString()}
+          contentContainerStyle={styles.listContainer}
+          renderItem={({ item }) => (
+            <OrganizationListCard
+              imageSource={{ uri: item?.logoImage.mediumUrl }}
+              text={item.name}
+              isSubscribed={item.isSubscribed}
+              onCardPress={() => handleCardPress(item)}
+              onStarPress={() => handleStarPress(item)}
+              style={styles.card}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };
@@ -104,25 +104,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginTop: 16,
-    marginBottom: 8,
-    color: "#B0BCC4",
-  },
-  searchInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#CCCCCC",
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    marginBottom: 16,
-  },
   listContainer: {
     flexGrow: 1,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: 10,
   },
 });

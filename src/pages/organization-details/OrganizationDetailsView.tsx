@@ -21,11 +21,14 @@ import { AppCheckButton } from "../../components/AppCheckButton";
 import { useTranslation } from "react-i18next";
 import { AppLinkButton } from "../../components/AppLinkButton";
 import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
+import { LoadingView } from "../../components/loading/LoadingView";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [organization, setOrganization] = useState<Organization>(null);
   const [events, setEvents] = useState<OrganizationEvent[]>([]);
+  const [organizationIsLoading, setOrganizationIsLoading] = useState(true);
+  const [eventsAreLoading, setEventsAreLoading] = useState(true);
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
@@ -33,16 +36,23 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   useEffect(() => {
     const fetchOrganizationDetailsData = async (organizationId: number) => {
       try {
+        setOrganizationIsLoading(true);
+        setEventsAreLoading(true);
+
         const organization = await getOrganizationById(organizationId);
         setOrganization(organization);
+        setOrganizationIsLoading(false);
 
         const events = await fetchOrganizationEvents(
           organizationId,
           AllEventsViewTypeOption.Upcoming,
         );
         setEvents(events);
+        setEventsAreLoading(false);
       } catch (error) {
         console.log("Fetching organization details error", error);
+        setOrganizationIsLoading(false);
+        setEventsAreLoading(false);
       }
     };
 
@@ -77,45 +87,61 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={globalStyles.imageContainer}>
-        <Image
-          source={{ uri: organization?.logoImage.smallUrl }}
-          style={globalStyles.image}
-        />
-      </View>
-      <Text style={styles.title}>{organization?.name}</Text>
-      <Text style={globalStyles.description}>{organization?.description}</Text>
-      <View style={styles.buttonContainer}>
-        {organization && (
-          <AppCheckButton
-            onPress={handleFollowButtonPress}
-            title={t("organization-details.follow")}
-            altTitle={t("organization-details.following")}
-            isChecked={organization.isSubscribed}
-          />
-        )}
-      </View>
-      <View style={styles.eventsContainer}>
-        <AppLinkButton title="See all" onPress={handleSeeAllEventsPress} />
-        <FlatList
-          data={events}
-          keyExtractor={(item) => item.id?.toString()}
-          horizontal={true}
-          renderItem={({ item }) => (
-            <EventOrganizationListCard
-              imageSource={{ uri: item?.backgroundImage.mediumUrl }}
-              name={item.name}
-              location={item.location}
-              onCardPress={() => handleCardPress(item)}
-              startDate={new Date(item.startDate)}
-              style={styles.card}
+    <View style={{ flex: 1 }}>
+      {organizationIsLoading ? (
+        <LoadingView />
+      ) : (
+        <ScrollView style={styles.container}>
+          <View style={globalStyles.imageContainer}>
+            <Image
+              source={{ uri: organization?.backgroundImage.bigUrl }}
+              style={globalStyles.image}
             />
-          )}
-          showsVerticalScrollIndicator={true}
-        />
-      </View>
-    </ScrollView>
+          </View>
+          <View style={styles.buttonContainer}>
+            {organization && (
+              <AppCheckButton
+                onPress={handleFollowButtonPress}
+                title={t("organization-details.follow")}
+                altTitle={t("organization-details.following")}
+                isChecked={organization.isSubscribed}
+              />
+            )}
+          </View>
+          <Text style={styles.title}>{organization?.name}</Text>
+          <Text style={globalStyles.description}>
+            {organization?.description}
+          </Text>
+          <View style={[styles.eventContainer]}>
+            <AppLinkButton
+              title={t("all-events.see-all")}
+              onPress={handleSeeAllEventsPress}
+              style={{ alignSelf: "flex-end" }}
+            />
+            {eventsAreLoading ? (
+              <LoadingView />
+            ) : (
+              <FlatList
+                data={events}
+                keyExtractor={(item) => item.id?.toString()}
+                horizontal={true}
+                renderItem={({ item }) => (
+                  <EventOrganizationListCard
+                    imageSource={{ uri: item?.backgroundImage.mediumUrl }}
+                    name={item?.name}
+                    location={item?.location}
+                    onCardPress={() => handleCardPress(item)}
+                    startDate={new Date(item?.startDate)}
+                    style={styles.card}
+                  />
+                )}
+                showsVerticalScrollIndicator={true}
+              />
+            )}
+          </View>
+        </ScrollView>
+      )}
+    </View>
   );
 };
 
@@ -123,27 +149,27 @@ const styles = StyleSheet.create({
   card: {
     width: 300,
     height: 200,
+    marginHorizontal: 10,
   },
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 16,
   },
   buttonContainer: {
     flex: 1,
     alignItems: "center",
-    marginVertical: 20,
+    marginVertical: 10,
   },
   title: {
     ...globalStyles.title,
-    marginTop: 30,
-    marginBottom: 16,
+    marginTop: 10,
+    marginBottom: 10,
   },
-  eventsContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 5,
-    alignItems: "flex-end",
+  eventContainer: {
+    flex: 1,
     width: "100%",
+    marginVertical: 20,
+    alignItems: "center",
+    gap: 10,
   },
 });
