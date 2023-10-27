@@ -20,7 +20,8 @@
     "less": "Less",
     "more": "More",
     "event-search": "Search Event",
-    "organization-search": "Search Organization"
+    "organization-search": "Search Organization",
+    "login": "Log In"
   },
   "settings": {
     "account": "Account",

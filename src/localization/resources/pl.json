@@ -20,7 +20,8 @@
     "less": "Mniej",
     "more": "Więcej",
     "event-search": "Szukaj wydarzeń",
-    "organization-search": "Szukaj Organizacji"
+    "organization-search": "Szukaj Organizacji",
+    "login": "Logowanie"
   },
   "settings": {
     "account": "Konto",

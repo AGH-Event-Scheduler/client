@@ -3,7 +3,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import { globalStyles } from "../../styles/GlobalStyles";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { AuthenticationService } from "../../services/AuthenticationService";
 
 export const LoginPageView = () => {
@@ -24,8 +24,13 @@ export const LoginPageView = () => {
       try {
         if (await AuthenticationService.authenticate(email, password)) {
           console.log("Login successful!");
-          // @ts-ignore
-          navigation.navigate("Main");
+
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: "Main" }],
+            }),
+          );
         } else {
           Alert.alert("Login Failed", "Please check your email and password."); // Handle unsuccessful login
         }
