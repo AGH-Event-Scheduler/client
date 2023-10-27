@@ -10,15 +10,18 @@ import {
 } from "../../api/organization-api-utils";
 import { useTranslation } from "react-i18next";
 import { SearchBar } from "../../components/SearchBar";
+import { LoadingView } from "../../components/loading/LoadingView";
 
 export const OrganizationListView = ({ navigation, onlySubscribed }) => {
   const { t } = useTranslation();
 
   const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const isFocused = useIsFocused();
   useEffect(() => {
     const fetchOrganizationsData = async () => {
+      setIsLoading(true);
       try {
         const organizationsList: Organization[] =
           await getAllOrganizationsWithStatusByUser(onlySubscribed);
@@ -26,6 +29,7 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
       } catch (error) {
         console.log("Fetching organizations list error", error);
       }
+      setIsLoading(false);
     };
     isFocused && fetchOrganizationsData();
   }, [isFocused]);
@@ -70,22 +74,26 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
         }}
         style={{ marginTop: 10 }}
       />
-      <FlatList
-        data={organizations}
-        keyExtractor={(item) => item.id?.toString()}
-        contentContainerStyle={styles.listContainer}
-        renderItem={({ item }) => (
-          <OrganizationListCard
-            imageSource={{ uri: item?.logoImage.mediumUrl }}
-            text={item.name}
-            isSubscribed={item.isSubscribed}
-            onCardPress={() => handleCardPress(item)}
-            onStarPress={() => handleStarPress(item)}
-            style={styles.card}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      {isLoading ? (
+        <LoadingView />
+      ) : (
+        <FlatList
+          data={organizations}
+          keyExtractor={(item) => item.id?.toString()}
+          contentContainerStyle={styles.listContainer}
+          renderItem={({ item }) => (
+            <OrganizationListCard
+              imageSource={{ uri: item?.logoImage.mediumUrl }}
+              text={item.name}
+              isSubscribed={item.isSubscribed}
+              onCardPress={() => handleCardPress(item)}
+              onStarPress={() => handleStarPress(item)}
+              style={styles.card}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };
