@@ -14,6 +14,7 @@
     "search": "Search",
     "your-organizations": "Your organizations",
     "create-organization": "Create organization",
+    "all-events": "All events",
     "less": "Less",
     "more": "More"
   },
@@ -27,5 +28,9 @@
   "organization-details": {
     "follow": "Follow",
     "following": "Following"
+  },
+  "all-events": {
+    "upcoming": "Upcoming",
+    "past": "Past"
   }
 }

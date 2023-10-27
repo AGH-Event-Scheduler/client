@@ -5,7 +5,7 @@ import { FontAwesome } from "@expo/vector-icons";
 interface OrganizationListCardProps {
   imageSource: { uri: string };
   text: string;
-  isLiked: boolean;
+  isSubscribed: boolean;
   onCardPress: () => void;
   onStarPress: () => void;
   style?: any;
@@ -14,7 +14,7 @@ interface OrganizationListCardProps {
 export const OrganizationListCard = ({
   imageSource,
   text,
-  isLiked,
+  isSubscribed,
   onCardPress,
   onStarPress,
   style,
@@ -40,7 +40,7 @@ export const OrganizationListCard = ({
         style={styles.likeIconContainer}
         onPress={handleStarPress}
       >
-        {isLiked ? (
+        {isSubscribed ? (
           <FontAwesome
             name="star"
             size={26}

@@ -26,8 +26,9 @@ export const TopNavBar = () => {
         onPress={() => {
           resetToRouteName(navigation, "Settings");
         }}
+        style={styles.settingsButton}
       >
-        <View style={styles.iconContainer}>
+        <View>
           <Feather name="settings" size={24} color="black" />
         </View>
       </TouchableOpacity>
@@ -37,15 +38,15 @@ export const TopNavBar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "4%",
+    height: "10%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    paddingRight: 16,
+    paddingHorizontal: 16,
     paddingTop: 5,
   },
   textContainer: {
-    marginRight: 8,
+    padding: 12,
   },
   greenText: {
     fontSize: 22,
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#BC022C",
   },
-  iconContainer: {
-    marginLeft: 8,
+  settingsButton: {
+    padding: 12,
   },
 });

@@ -19,6 +19,8 @@ import {
 } from "../../api/organization-api-utils";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { useTranslation } from "react-i18next";
+import { AppLinkButton } from "../../components/AppLinkButton";
+import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -34,7 +36,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
         const organization = await getOrganizationById(organizationId);
         setOrganization(organization);
 
-        const events = await fetchOrganizationEvents(organizationId);
+        const events = await fetchOrganizationEvents(
+          organizationId,
+          AllEventsViewTypeOption.Upcoming,
+        );
         setEvents(events);
       } catch (error) {
         console.log("Fetching organization details error", error);
@@ -67,6 +72,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     }
   };
 
+  const handleSeeAllEventsPress = () => {
+    navigation.navigate("All events", { organizationId: organization.id });
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={globalStyles.imageContainer}>
@@ -87,7 +96,8 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
           />
         )}
       </View>
-      <View style={{ flex: 1, width: "100%" }}>
+      <View style={styles.eventsContainer}>
+        <AppLinkButton title="See all" onPress={handleSeeAllEventsPress} />
         <FlatList
           data={events}
           keyExtractor={(item) => item.id?.toString()}
@@ -128,5 +138,12 @@ const styles = StyleSheet.create({
     ...globalStyles.title,
     marginTop: 30,
     marginBottom: 16,
+  },
+  eventsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 5,
+    alignItems: "flex-end",
+    width: "100%",
   },
 });

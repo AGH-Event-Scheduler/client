@@ -1,33 +1,35 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-export enum ButtonTypes {
-  Primary = "primary",
-  Secondary = "secondary",
-  Destructive = "destructive",
-  Disabled = "disabled",
-  GreyedOut = "greyedOut",
-}
+type ButtonTypes =
+  | "primary"
+  | "secondary"
+  | "destructive"
+  | "gray"
+  | "toggleDefault"
+  | "toggleChecked";
 
+export type ButtonSize = "default" | "small";
 interface ButtonProps {
   onPress: () => void;
   type: ButtonTypes;
   title: string;
-  fontSize?: number; // Optional property for font size
+  size: ButtonSize;
 }
 
-export const AppButton = ({
-  onPress,
-  type,
-  title,
-  fontSize = 20,
-}: ButtonProps) => {
+export const AppButton = ({ onPress, type, title, size }: ButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.button, buttonTypes[type].button]}
+      style={[
+        styles.button,
+        buttonTypes[type].button,
+        buttonSizes[size].button,
+      ]}
     >
-      <Text style={[styles.text, { fontSize }, buttonTypes[type].text]}>
+      <Text
+        style={[styles.text, buttonTypes[type].text, buttonSizes[size].text]}
+      >
         {title}
       </Text>
     </TouchableOpacity>
@@ -50,6 +52,7 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       borderColor: "#016531",
       borderWidth: 2,
       paddingVertical: 6,
+      paddingHorizontal: 18,
     },
     text: {
       color: "#016531",
@@ -63,7 +66,7 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       color: "white",
     },
   }),
-  greyedOut: StyleSheet.create({
+  gray: StyleSheet.create({
     button: {
       backgroundColor: "#A9A9A9",
     },
@@ -71,12 +74,46 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       color: "white",
     },
   }),
-  disabled: StyleSheet.create({
+  toggleChecked: StyleSheet.create({
     button: {
-      backgroundColor: "grey",
+      backgroundColor: "#016531",
+      borderColor: "#016531",
+      borderRadius: 20,
     },
     text: {
-      color: "white",
+      color: "#FFFFFF",
+    },
+  }),
+  toggleDefault: StyleSheet.create({
+    button: {
+      backgroundColor: "#FAFAFA",
+      borderColor: "#016531",
+      borderWidth: 2,
+      paddingVertical: 6,
+      paddingHorizontal: 18,
+      borderRadius: 20,
+    },
+    text: {
+      color: "#016531",
+    },
+  }),
+};
+
+const buttonSizes: Record<ButtonSize, { button: any; text: any }> = {
+  default: StyleSheet.create({
+    button: {
+      minWidth: 150,
+    },
+    text: {
+      fontSize: 20,
+    },
+  }),
+  small: StyleSheet.create({
+    button: {
+      minWidth: 110,
+    },
+    text: {
+      fontSize: 14,
     },
   }),
 };
@@ -85,7 +122,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 8,
     paddingHorizontal: 20,
-    borderRadius: 8,
+    borderRadius: 12,
   },
   text: {
     textAlign: "center",

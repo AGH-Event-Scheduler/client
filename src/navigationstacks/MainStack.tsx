@@ -7,6 +7,7 @@ import React from "react";
 import { SettingsView } from "../pages/settings/SettingsView";
 import { EventSearchScreen } from "../pages/event-search/EventSearchScreen";
 import { CalendarScreen } from "../pages/calendar/CalendarScreen";
+import { AllEventsView } from "../pages/all-events/AllEventsView";
 
 export const MainStack = ({ stack }) => {
   return (
@@ -39,6 +40,7 @@ export const MainStack = ({ stack }) => {
         <stack.Screen name="Event" component={EventDetailsView} />
         <stack.Screen name="Account" component={SamplePage} />
         <stack.Screen name="Information" component={SamplePage} />
+        <stack.Screen name="All events" component={AllEventsView} />
       </stack.Navigator>
     </ViewLayoutStructure>
   );

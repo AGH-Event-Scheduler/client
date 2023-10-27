@@ -55,7 +55,7 @@ export const AppDropdownSelect = ({
               style={styles.buttonExpanded}
               onPress={() => handleExpandedPress(item)}
             >
-              <Text style={styles.textExpanded}>{item.value}</Text>
+              <Text style={styles.text}>{item.value}</Text>
               {item.index === selectedItem.index ? (
                 <Feather name={"check"} size={14} color="black" />
               ) : null}
@@ -93,12 +93,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 6,
     zIndex: 100,
-  },
-  textExpanded: {
-    textAlign: "center",
-    fontSize: 12,
-    fontWeight: "500",
-    marginRight: "auto",
   },
   buttonExpanded: {
     display: "flex",

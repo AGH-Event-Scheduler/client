@@ -1,3 +1,4 @@
+import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { toSimpleDateString } from "../utils/date";
 import { fetchApi } from "./api-utils";
 import { OrganizationEvent } from "./types";
@@ -21,8 +22,12 @@ export const fetchEventsInDateRange = async (
 
 export const fetchOrganizationEvents = async (
   organizationId: number,
+  eventsType: AllEventsViewTypeOption,
 ): Promise<OrganizationEvent[]> => {
-  var response = await fetchApi(`/events/organization/${organizationId}`);
+  var response = await fetchApi(
+    `/events/organization/${organizationId}?type=${eventsType}`,
+  );
+
   return response.json();
 };
 

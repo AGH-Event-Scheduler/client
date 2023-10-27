@@ -81,6 +81,7 @@ export const LoginPageView = () => {
           onPress={handleSignIn}
           type="primary"
           title={"\t\tSign in\t\t"}
+          size="default"
         />
       </View>
 
@@ -102,13 +103,13 @@ export const LoginPageView = () => {
           onPress={handleUseAGHAccount}
           type="primary"
           title={"Use AGH account"}
-          fontSize={15}
+          size="small"
         />
         <AppButton
           onPress={handleContinueAsGuest}
-          type="greyedOut"
+          type="gray"
           title={"Continue as guest"}
-          fontSize={15}
+          size="small"
         />
       </View>
     </View>

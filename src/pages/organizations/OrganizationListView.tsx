@@ -86,7 +86,7 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
           <OrganizationListCard
             imageSource={{ uri: item?.logoImage.mediumUrl }}
             text={item.name}
-            isLiked={item.isSubscribed}
+            isSubscribed={item.isSubscribed}
             onCardPress={() => handleCardPress(item)}
             onStarPress={() => handleStarPress(item)}
             style={styles.card}

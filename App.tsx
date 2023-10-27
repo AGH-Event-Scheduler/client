@@ -4,9 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { I18nextProvider } from "react-i18next";
 import i18next from "./src/localization/i18next";
-import { AuthenticationService } from "./src/services/AuthenticationService";
 import { MainStack } from "./src/navigationstacks/MainStack";
 import { AuthenticationStack } from "./src/navigationstacks/AuthenticationStack";
+import { AuthenticationService } from "./src/services/AuthenticationService";
 
 const Stack = createNativeStackNavigator();
 
