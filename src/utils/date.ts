@@ -36,7 +36,7 @@ export function toDayDateString(date: Date) {
 }
 
 export function toBeautifiedDateString(date: Date) {
-  return `${toDayDateString(date)}, ${toMonthName(date)}`;
+  return `${toDayDateString(date)} ${toMonthName(date)}`;
 }
 
 export function toBeautifiedTimeString(date: Date) {
@@ -47,5 +47,5 @@ export function toBeautifiedTimeString(date: Date) {
 }
 
 export function toBeautifiedDateTimeString(date: Date) {
-  return `${toBeautifiedDateString} ${toBeautifiedTimeString(date)}`;
+  return `${toBeautifiedDateString(date)}, ${toBeautifiedTimeString(date)}`;
 }

@@ -35,7 +35,8 @@
   },
   "all-events": {
     "upcoming": "Upcoming",
-    "past": "Past"
+    "past": "Past",
+    "see-all": "See all"
   },
   "calendar": {
     "empty-date": "No events on this date."

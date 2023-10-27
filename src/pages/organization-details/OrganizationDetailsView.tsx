@@ -80,12 +80,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     <ScrollView style={styles.container}>
       <View style={globalStyles.imageContainer}>
         <Image
-          source={{ uri: organization?.logoImage.smallUrl }}
+          source={{ uri: organization?.backgroundImage.bigUrl }}
           style={globalStyles.image}
         />
       </View>
-      <Text style={styles.title}>{organization?.name}</Text>
-      <Text style={globalStyles.description}>{organization?.description}</Text>
       <View style={styles.buttonContainer}>
         {organization && (
           <AppCheckButton
@@ -96,8 +94,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
           />
         )}
       </View>
-      <View style={styles.eventsContainer}>
-        <AppLinkButton title="See all" onPress={handleSeeAllEventsPress} />
+      <Text style={styles.title}>{organization?.name}</Text>
+      <Text style={globalStyles.description}>{organization?.description}</Text>
+      <View style={[styles.eventContainer]}>
+        <AppLinkButton title={t("all-events.see-all")} onPress={handleSeeAllEventsPress} />
         <FlatList
           data={events}
           keyExtractor={(item) => item.id?.toString()}
@@ -105,10 +105,10 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
           renderItem={({ item }) => (
             <EventOrganizationListCard
               imageSource={{ uri: item?.backgroundImage.mediumUrl }}
-              name={item.name}
-              location={item.location}
+              name={item?.name}
+              location={item?.location}
               onCardPress={() => handleCardPress(item)}
-              startDate={new Date(item.startDate)}
+              startDate={new Date(item?.startDate)}
               style={styles.card}
             />
           )}
@@ -132,12 +132,19 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     alignItems: "center",
-    marginVertical: 20,
+    marginVertical: 10,
   },
   title: {
     ...globalStyles.title,
-    marginTop: 30,
-    marginBottom: 16,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  eventContainer: {
+    flex: 1,
+    width: "100%",
+    marginVertical: 20,
+    alignItems: "flex-end",
+    gap: 10,
   },
   eventsContainer: {
     display: "flex",
