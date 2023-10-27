@@ -13,6 +13,7 @@ import {
   toBeautifiedTimeString,
 } from "../../utils/date";
 import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 export interface DateSectionListItem extends OrganizationEvent {
   displayFullDates: boolean;
@@ -23,6 +24,8 @@ interface DateSectionListCardProps {
 }
 
 const EventDateSectionListCard = (props: DateSectionListCardProps) => {
+  const { t, i18n } = useTranslation();
+
   const { item } = props;
   const navigation = useNavigation();
 
@@ -32,9 +35,9 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
 
   const getDate = (date: Date, displayFullDates: boolean) => {
     if (displayFullDates) {
-      return toBeautifiedDateTimeString(date);
+      return toBeautifiedDateTimeString(date, i18n.language);
     }
-    return toBeautifiedTimeString(date);
+    return toBeautifiedTimeString(date, i18n.language);
   };
 
   return (

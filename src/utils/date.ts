@@ -19,33 +19,39 @@ export function toSimpleDateString(date = new Date()) {
   return [year, month, day].join("-");
 }
 
-export function toDayShortcut(date: Date) {
-  return date.toLocaleString("default", { weekday: "narrow" })[0];
+export function toDayShortcut(date: Date, locale: string = "default") {
+  return date.toLocaleString(locale, { weekday: "narrow" })[0];
 }
 
-export function toDayOfWeekName(date: Date) {
-  return date.toLocaleString("default", { weekday: "long" }).split(",")[0];
+export function toDayOfWeekName(date: Date, locale: string = "default") {
+  return date.toLocaleString(locale, { weekday: "long" }).split(",")[0];
 }
 
-export function toMonthName(date: Date) {
-  return date.toLocaleString("default", { month: "long" });
+export function toMonthName(date: Date, locale: string = "default") {
+  return date.toLocaleString(locale, { month: "long" });
 }
 
-export function toDayDateString(date: Date) {
-  return date.toLocaleString("default", { day: "2-digit" });
+export function toDayDateString(date: Date, locale: string = "default") {
+  return date.toLocaleString(locale, { day: "2-digit" });
 }
 
-export function toBeautifiedDateString(date: Date) {
-  return `${toDayDateString(date)} ${toMonthName(date)}`;
+export function toBeautifiedDateString(date: Date, locale: string = "default") {
+  return `${toDayDateString(date, locale)} ${toMonthName(date, locale)}`;
 }
 
-export function toBeautifiedTimeString(date: Date) {
-  return date.toLocaleTimeString("default", {
+export function toBeautifiedTimeString(date: Date, locale: string = "default") {
+  return date.toLocaleTimeString(locale, {
     hour: "2-digit",
     minute: "2-digit",
   });
 }
 
-export function toBeautifiedDateTimeString(date: Date) {
-  return `${toBeautifiedDateString(date)}, ${toBeautifiedTimeString(date)}`;
+export function toBeautifiedDateTimeString(
+  date: Date,
+  locale: string = "default",
+) {
+  return `${toBeautifiedDateString(date, locale)}, ${toBeautifiedTimeString(
+    date,
+    locale,
+  )}`;
 }

@@ -25,6 +25,8 @@ import {
 } from "./utils/date-ranges";
 import { toMonthName, toSimpleDateString } from "../../utils/date";
 import { AntDesign } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+import { languages } from "../../localization/languages";
 
 interface WeeklyCalendarProps {
   style?;
@@ -38,6 +40,8 @@ interface WeeklyCalendarProps {
 }
 
 const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
+  const { t, i18n } = useTranslation();
+
   useImperativeHandle(ref, () => ({
     changeDate: (date: Date) => {
       changeDate(date);
@@ -113,7 +117,9 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
     <View style={[styles.wrapper, props.style]}>
       {props.showHeader ? (
         <View style={styles.header}>
-          <Text style={styles.headerText}>{toMonthName(selectedDate)}</Text>
+          <Text style={styles.headerText}>
+            {toMonthName(selectedDate, i18n.language)}
+          </Text>
         </View>
       ) : null}
       <View style={[styles.container]}>

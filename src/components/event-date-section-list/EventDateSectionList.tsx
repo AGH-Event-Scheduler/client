@@ -29,7 +29,7 @@ interface SectionListItem {
 }
 
 const EventDateSectionList = (props: EventDateSectionListProps, ref) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useImperativeHandle(ref, () => ({
     scrollTo: (date: Date) => {
@@ -60,8 +60,8 @@ const EventDateSectionList = (props: EventDateSectionListProps, ref) => {
 
   const renderSectionHeader = useCallback(({ section }) => {
     const date = new Date(section.title);
-    const dayMonth = toBeautifiedDateString(date);
-    const dayOfWeek = toDayOfWeekName(date);
+    const dayMonth = toBeautifiedDateString(date, i18n.language);
+    const dayOfWeek = toDayOfWeekName(date, i18n.language);
     return (
       <View key={section.title} style={[styles.headerWrapper]}>
         <Text style={[styles.header, styles.headerTop]}>{dayMonth}</Text>

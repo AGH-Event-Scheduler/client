@@ -4,6 +4,7 @@ import {
   toBeautifiedDateTimeString,
   toBeautifiedTimeString,
 } from "../../utils/date";
+import { useTranslation } from "react-i18next";
 
 interface EventListCardProps {
   imageSource: { uri: string };
@@ -26,6 +27,8 @@ export const EventOrganizationListCard = ({
     onCardPress();
   };
 
+  const { t, i18n } = useTranslation();
+
   return (
     <TouchableOpacity
       style={[styles.container, style]}
@@ -39,7 +42,7 @@ export const EventOrganizationListCard = ({
           {name}
         </Text>
         <Text numberOfLines={1} style={styles.date}>
-          {toBeautifiedDateTimeString(startDate)}
+          {toBeautifiedDateTimeString(startDate, i18n.language)}
         </Text>
         <Text numberOfLines={1} style={styles.location}>
           {location}
