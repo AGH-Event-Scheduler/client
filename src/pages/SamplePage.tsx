@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { AppButton, ButtonTypes } from "../components/AppButton";
+import { AppButton } from "../components/AppButton";
 import { AuthenticationService } from "../services/AuthenticationService";
 import { useNavigation } from "@react-navigation/native";
 
@@ -16,7 +16,7 @@ export const SamplePage = () => {
             navigation.navigate("Login"),
           );
         }}
-        type={ButtonTypes.Secondary}
+        type="secondary"
         title={"Hello World"}
         size="default"
       ></AppButton>

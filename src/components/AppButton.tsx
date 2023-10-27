@@ -68,7 +68,7 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
   }),
   gray: StyleSheet.create({
     button: {
-      backgroundColor: "gray",
+      backgroundColor: "#A9A9A9",
     },
     text: {
       color: "white",
@@ -113,7 +113,7 @@ const buttonSizes: Record<ButtonSize, { button: any; text: any }> = {
       minWidth: 110,
     },
     text: {
-      fontSize: 16,
+      fontSize: 14,
     },
   }),
 };
