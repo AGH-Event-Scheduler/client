@@ -47,7 +47,6 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
         <Image
           source={{ uri: item.organization.logoImage.smallUrl }}
           style={styles.image}
-          resizeMode="contain"
         />
       </View>
       <View style={[styles.container]}>
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    resizeMode: "cover",
+    resizeMode: "contain",
   },
   eventName: {
     fontWeight: "bold",

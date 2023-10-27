@@ -61,7 +61,7 @@ export const EventDetailsView = ({ navigation, route }) => {
             style={styles.organizationContainer}
             onPress={() => {
               navigation.navigate("Organization", {
-                organizationId: event.organization.id,
+                organizationId: event?.organization.id,
               });
             }}
           >
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   organizationLogo: {
     flex: 1,
-    resizeMode: "cover",
+    resizeMode: "contain",
   },
   organizationName: {
     fontWeight: "bold",
