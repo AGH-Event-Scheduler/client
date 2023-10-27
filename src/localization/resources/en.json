@@ -43,5 +43,8 @@
   },
   "searchbar": {
     "placeholder": "Search..."
+  },
+  "event-details": {
+    "last-edit": "Last edited"
   }
 }
