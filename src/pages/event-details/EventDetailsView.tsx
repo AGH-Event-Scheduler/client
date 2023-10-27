@@ -17,6 +17,7 @@ import { toBeautifiedDateTimeString } from "../../utils/date";
 export const EventDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [event, setEvent] = useState<OrganizationEvent>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const eventId = route.params.eventId;
 
@@ -26,12 +27,14 @@ export const EventDetailsView = ({ navigation, route }) => {
   }, [isFocused]);
 
   const fetchEventDetailsData = async () => {
+    setIsLoading(true);
     try {
       const event = await fetchEventDetails(eventId);
       setEvent(event);
     } catch (error) {
       console.log("Fetching event details error", error);
     }
+    setIsLoading(false);
   };
 
   return (

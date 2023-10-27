@@ -21,11 +21,14 @@ import { AppCheckButton } from "../../components/AppCheckButton";
 import { useTranslation } from "react-i18next";
 import { AppLinkButton } from "../../components/AppLinkButton";
 import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
+import { LoadingView } from "../../components/loading/LoadingView";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [organization, setOrganization] = useState<Organization>(null);
   const [events, setEvents] = useState<OrganizationEvent[]>([]);
+  const [organizationIsLoading, setOrganizationIsLoading] = useState(true);
+  const [eventsAreLoading, setEventsAreLoading] = useState(true);
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
@@ -33,16 +36,23 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   useEffect(() => {
     const fetchOrganizationDetailsData = async (organizationId: number) => {
       try {
+        setOrganizationIsLoading(true);
+        setEventsAreLoading(true);
+
         const organization = await getOrganizationById(organizationId);
         setOrganization(organization);
+        setOrganizationIsLoading(false);
 
         const events = await fetchOrganizationEvents(
           organizationId,
           AllEventsViewTypeOption.Upcoming,
         );
         setEvents(events);
+        setEventsAreLoading(false);
       } catch (error) {
         console.log("Fetching organization details error", error);
+        setOrganizationIsLoading(false);
+        setEventsAreLoading(false);
       }
     };
 
@@ -100,23 +110,28 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
         <AppLinkButton
           title={t("all-events.see-all")}
           onPress={handleSeeAllEventsPress}
+          style={{ alignSelf: "flex-end" }}
         />
-        <FlatList
-          data={events}
-          keyExtractor={(item) => item.id?.toString()}
-          horizontal={true}
-          renderItem={({ item }) => (
-            <EventOrganizationListCard
-              imageSource={{ uri: item?.backgroundImage.mediumUrl }}
-              name={item?.name}
-              location={item?.location}
-              onCardPress={() => handleCardPress(item)}
-              startDate={new Date(item?.startDate)}
-              style={styles.card}
-            />
-          )}
-          showsVerticalScrollIndicator={true}
-        />
+        {eventsAreLoading ? (
+          <LoadingView />
+        ) : (
+          <FlatList
+            data={events}
+            keyExtractor={(item) => item.id?.toString()}
+            horizontal={true}
+            renderItem={({ item }) => (
+              <EventOrganizationListCard
+                imageSource={{ uri: item?.backgroundImage.mediumUrl }}
+                name={item?.name}
+                location={item?.location}
+                onCardPress={() => handleCardPress(item)}
+                startDate={new Date(item?.startDate)}
+                style={styles.card}
+              />
+            )}
+            showsVerticalScrollIndicator={true}
+          />
+        )}
       </View>
     </ScrollView>
   );
@@ -146,7 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     marginVertical: 20,
-    alignItems: "flex-end",
+    alignItems: "center",
     gap: 10,
   },
 });
