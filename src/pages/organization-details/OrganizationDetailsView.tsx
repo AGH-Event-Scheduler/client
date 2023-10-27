@@ -87,53 +87,61 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={globalStyles.imageContainer}>
-        <Image
-          source={{ uri: organization?.backgroundImage.bigUrl }}
-          style={globalStyles.image}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        {organization && (
-          <AppCheckButton
-            onPress={handleFollowButtonPress}
-            title={t("organization-details.follow")}
-            altTitle={t("organization-details.following")}
-            isChecked={organization.isSubscribed}
-          />
-        )}
-      </View>
-      <Text style={styles.title}>{organization?.name}</Text>
-      <Text style={globalStyles.description}>{organization?.description}</Text>
-      <View style={[styles.eventContainer]}>
-        <AppLinkButton
-          title={t("all-events.see-all")}
-          onPress={handleSeeAllEventsPress}
-          style={{ alignSelf: "flex-end" }}
-        />
-        {eventsAreLoading ? (
-          <LoadingView />
-        ) : (
-          <FlatList
-            data={events}
-            keyExtractor={(item) => item.id?.toString()}
-            horizontal={true}
-            renderItem={({ item }) => (
-              <EventOrganizationListCard
-                imageSource={{ uri: item?.backgroundImage.mediumUrl }}
-                name={item?.name}
-                location={item?.location}
-                onCardPress={() => handleCardPress(item)}
-                startDate={new Date(item?.startDate)}
-                style={styles.card}
+    <View style={{ flex: 1 }}>
+      {organizationIsLoading ? (
+        <LoadingView />
+      ) : (
+        <ScrollView style={styles.container}>
+          <View style={globalStyles.imageContainer}>
+            <Image
+              source={{ uri: organization?.backgroundImage.bigUrl }}
+              style={globalStyles.image}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            {organization && (
+              <AppCheckButton
+                onPress={handleFollowButtonPress}
+                title={t("organization-details.follow")}
+                altTitle={t("organization-details.following")}
+                isChecked={organization.isSubscribed}
               />
             )}
-            showsVerticalScrollIndicator={true}
-          />
-        )}
-      </View>
-    </ScrollView>
+          </View>
+          <Text style={styles.title}>{organization?.name}</Text>
+          <Text style={globalStyles.description}>
+            {organization?.description}
+          </Text>
+          <View style={[styles.eventContainer]}>
+            <AppLinkButton
+              title={t("all-events.see-all")}
+              onPress={handleSeeAllEventsPress}
+              style={{ alignSelf: "flex-end" }}
+            />
+            {eventsAreLoading ? (
+              <LoadingView />
+            ) : (
+              <FlatList
+                data={events}
+                keyExtractor={(item) => item.id?.toString()}
+                horizontal={true}
+                renderItem={({ item }) => (
+                  <EventOrganizationListCard
+                    imageSource={{ uri: item?.backgroundImage.mediumUrl }}
+                    name={item?.name}
+                    location={item?.location}
+                    onCardPress={() => handleCardPress(item)}
+                    startDate={new Date(item?.startDate)}
+                    style={styles.card}
+                  />
+                )}
+                showsVerticalScrollIndicator={true}
+              />
+            )}
+          </View>
+        </ScrollView>
+      )}
+    </View>
   );
 };
 

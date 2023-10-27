@@ -13,6 +13,7 @@ import { OrganizationEvent } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
+import { LoadingView } from "../../components/loading/LoadingView";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -38,52 +39,60 @@ export const EventDetailsView = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={{ uri: event?.backgroundImage.bigUrl }}
-          style={styles.image}
-        />
-      </View>
-      <Text style={styles.eventName}>{event?.name}</Text>
+    <View style={{ flex: 1 }}>
+      {isLoading ? (
+        <LoadingView />
+      ) : (
+        <ScrollView style={styles.container}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={{ uri: event?.backgroundImage.bigUrl }}
+              style={styles.image}
+            />
+          </View>
+          <Text style={styles.eventName}>{event?.name}</Text>
 
-      <Text style={styles.date}>{`${toBeautifiedDateTimeString(
-        new Date(event?.startDate),
-      )} - ${toBeautifiedDateTimeString(new Date(event?.endDate))}`}</Text>
-      <Text style={styles.location}>{event?.location}</Text>
+          <Text style={styles.date}>{`${toBeautifiedDateTimeString(
+            new Date(event?.startDate),
+          )} - ${toBeautifiedDateTimeString(new Date(event?.endDate))}`}</Text>
+          <Text style={styles.location}>{event?.location}</Text>
 
-      <TouchableOpacity
-        style={styles.organizationContainer}
-        onPress={() => {
-          navigation.navigate("Organization", {
-            organizationId: event.organization.id,
-          });
-        }}
-      >
-        <View style={styles.organizationImageContainer}>
-          <Image
-            source={{ uri: event?.organization.logoImage.smallUrl }}
-            style={styles.organizationLogo}
-          />
-        </View>
-        <View style={styles.organizationText}>
-          <Text style={styles.organizationName}>
-            {event?.organization.name}
+          <TouchableOpacity
+            style={styles.organizationContainer}
+            onPress={() => {
+              navigation.navigate("Organization", {
+                organizationId: event.organization.id,
+              });
+            }}
+          >
+            <View style={styles.organizationImageContainer}>
+              <Image
+                source={{ uri: event?.organization.logoImage.smallUrl }}
+                style={styles.organizationLogo}
+              />
+            </View>
+            <View style={styles.organizationText}>
+              <Text style={styles.organizationName}>
+                {event?.organization.name}
+              </Text>
+              <Text style={styles.lastEdit}>
+                <Text style={{ fontWeight: "bold" }}>{`${t(
+                  "event-details.last-edit",
+                )}: `}</Text>
+                <Text>{`${toBeautifiedDateTimeString(
+                  new Date(event?.lastUpdatedDate),
+                )}`}</Text>
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <Text style={styles.descriptionHeader}>
+            {t("general.description")}
           </Text>
-          <Text style={styles.lastEdit}>
-            <Text style={{ fontWeight: "bold" }}>{`${t(
-              "event-details.last-edit",
-            )}: `}</Text>
-            <Text>{`${toBeautifiedDateTimeString(
-              new Date(event?.lastUpdatedDate),
-            )}`}</Text>
-          </Text>
-        </View>
-      </TouchableOpacity>
-
-      <Text style={styles.descriptionHeader}>{t("general.description")}</Text>
-      <Text style={styles.description}>{event?.description}</Text>
-    </ScrollView>
+          <Text style={styles.description}>{event?.description}</Text>
+        </ScrollView>
+      )}
+    </View>
   );
 };
 
