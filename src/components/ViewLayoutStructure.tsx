@@ -1,13 +1,12 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { BottomNavBar } from "./navigation/BottomNavBar";
-import { TopNavBar } from "./navigation/TopNavBar";
+import { BottomNavBar } from "./navigation/bottom/BottomNavBar";
+import { TopNavBarRight } from "./navigation/top/TopNavBarRight";
 
 export const ViewLayoutStructure = ({ children, navbarVisible }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <TopNavBar />
       <View style={styles.contentContainer}>{children}</View>
       {navbarVisible && <BottomNavBar />}
     </SafeAreaView>

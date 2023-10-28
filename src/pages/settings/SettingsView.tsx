@@ -50,7 +50,6 @@ export const SettingsView = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t("general.settings")}</Text>
       <View style={[styles.settingsList, { zIndex: 10 }]}>
         {settingsList.map((item) => (
           <SettingCard
@@ -70,13 +69,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginTop: 16,
-    marginBottom: 8,
-    color: "#B0BCC4",
   },
   settingsList: {
     marginTop: 32,

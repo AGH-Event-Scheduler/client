@@ -2,7 +2,7 @@ import React from "react";
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { resetToRouteName } from "./navigation/BottomNavBar";
+import { resetToRouteName } from "./navigation/bottom/BottomNavBar";
 
 export const AppNewPageButton = ({ page }) => {
   const navigation = useNavigation();

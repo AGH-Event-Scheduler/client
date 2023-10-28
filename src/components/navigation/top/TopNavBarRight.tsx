@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { resetToRouteName } from "./BottomNavBar";
+import { resetToRouteName } from "../bottom/BottomNavBar";
 
-export const TopNavBar = () => {
+export const TopNavBarRight = () => {
   const navigation = useNavigation();
 
   return (
@@ -38,14 +38,13 @@ export const TopNavBar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "8%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    paddingHorizontal: 16,
+    gap: 5,
   },
   textContainer: {
-    padding: 12,
+    padding: 8,
   },
   greenText: {
     fontSize: 22,
@@ -63,6 +62,6 @@ const styles = StyleSheet.create({
     color: "#BC022C",
   },
   settingsButton: {
-    padding: 12,
+    padding: 8,
   },
 });
