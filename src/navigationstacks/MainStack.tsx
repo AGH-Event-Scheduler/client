@@ -10,14 +10,37 @@ import { CalendarScreen } from "../pages/calendar/CalendarScreen";
 import { useTranslation } from "react-i18next";
 import { OrganizationSearchScreen } from "../pages/organization-search/OrganizationSearchScreen";
 import { AllEventsView } from "../pages/all-events/AllEventsView";
+import { TopNavBarRight } from "../components/navigation/top/TopNavBarRight";
+import { Header } from "react-native/Libraries/NewAppScreen";
+import { getHeaderTitle } from "@react-navigation/elements";
+import { TopNavBar } from "../components/navigation/top/TopNavBar";
+import { BackButton } from "../components/navigation/top/BackButton";
+import { Platform } from "react-native";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
+  const animationType = Platform.OS === "ios" ? "none" : "fade";
 
   return (
     <ViewLayoutStructure navbarVisible={true}>
       <stack.Navigator
-        screenOptions={{ headerShown: true, animation: "fade" }}
+        screenOptions={{
+          headerShown: true,
+          animation: animationType,
+          header: ({ navigation, route, options, back }) => {
+            const title = getHeaderTitle(options, route.name);
+
+            return (
+              <TopNavBar
+                leftSection={
+                  back ? <BackButton navigation={navigation} /> : undefined
+                }
+                rightSection={<TopNavBarRight />}
+                title={title}
+              />
+            );
+          },
+        }}
         initialRouteName="Home"
       >
         {/* Main pages */}

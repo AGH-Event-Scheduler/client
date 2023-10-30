@@ -16,7 +16,7 @@ import { toBeautifiedDateTimeString } from "../../utils/date";
 import { LoadingView } from "../../components/loading/LoadingView";
 
 export const EventDetailsView = ({ navigation, route }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [event, setEvent] = useState<OrganizationEvent>();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -54,7 +54,11 @@ export const EventDetailsView = ({ navigation, route }) => {
 
           <Text style={styles.date}>{`${toBeautifiedDateTimeString(
             new Date(event?.startDate),
-          )} - ${toBeautifiedDateTimeString(new Date(event?.endDate))}`}</Text>
+            i18n.language,
+          )} - ${toBeautifiedDateTimeString(
+            new Date(event?.endDate),
+            i18n.language,
+          )}`}</Text>
           <Text style={styles.location}>{event?.location}</Text>
 
           <TouchableOpacity
@@ -81,6 +85,7 @@ export const EventDetailsView = ({ navigation, route }) => {
                 )}: `}</Text>
                 <Text>{`${toBeautifiedDateTimeString(
                   new Date(event?.lastUpdatedDate),
+                  i18n.language,
                 )}`}</Text>
               </Text>
             </View>

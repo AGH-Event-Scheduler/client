@@ -6,6 +6,7 @@ import {
   toSimpleDateString,
 } from "../../utils/date";
 import { isTheSameDay } from "./utils/date-ranges";
+import { useTranslation } from "react-i18next";
 
 interface WeeklyCalendarDayProps {
   marked: boolean;
@@ -15,12 +16,14 @@ interface WeeklyCalendarDayProps {
 }
 
 export const WeeklyCalendarDay = (props: WeeklyCalendarDayProps) => {
+  const { t, i18n } = useTranslation();
+
   const getDayLabel = (day: Date) => {
-    return toDayShortcut(day);
+    return toDayShortcut(day, i18n.language);
   };
 
   const getDay = (day: Date) => {
-    return toDayDateString(day);
+    return toDayDateString(day, i18n.language);
   };
 
   return (
