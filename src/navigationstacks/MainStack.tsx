@@ -16,6 +16,7 @@ import { getHeaderTitle } from "@react-navigation/elements";
 import { TopNavBar } from "../components/navigation/top/TopNavBar";
 import { BackButton } from "../components/navigation/top/BackButton";
 import { Platform } from "react-native";
+import { CreateEventScreen } from "../pages/create-event/CreateEventScreen";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -46,7 +47,7 @@ export const MainStack = ({ stack }) => {
         {/* Main pages */}
         <stack.Screen
           name="Home"
-          component={SamplePage}
+          component={CreateEventScreen}
           options={{ title: "Home" }}
         />
         <stack.Screen
