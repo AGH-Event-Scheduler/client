@@ -30,7 +30,6 @@ export const AuthenticationStack = ({ stack }) => {
                 }
                 rightSection={<TopNavBarRightLogin />}
                 title={title}
-                style={undefined}
               />
             );
           },

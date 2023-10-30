@@ -37,7 +37,6 @@ export const MainStack = ({ stack }) => {
                 }
                 rightSection={<TopNavBarRight />}
                 title={title}
-                style={undefined}
               />
             );
           },

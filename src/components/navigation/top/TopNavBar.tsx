@@ -8,7 +8,12 @@ export interface TopNavBarProps {
   style?: any;
 }
 
-export const TopNavBar = ({ leftSection, rightSection, title, style }) => {
+export const TopNavBar = ({
+  leftSection = undefined,
+  rightSection = undefined,
+  title,
+  style = undefined,
+}) => {
   return (
     <View style={[styles.mainContainer, style]}>
       <View style={styles.leftSectionStyle}>{leftSection}</View>
