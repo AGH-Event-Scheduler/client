@@ -91,5 +91,24 @@
     "last-name-placeholder": "Nazwisko",
     "agh-domain-email-description": "Adres email z domeny AGH",
     "password-placeholder": "Hasło"
+  },
+  "create-event": {
+    "upload-image": "Wybierz obraz",
+    "update-image": "Zmien obraz",
+    "at-least-one-translation-required-info": "(Wartosci w przynajmniej jednym jezyku sa wymagane)",
+    "name-label": "Nazwa",
+    "provide-event-name": "Podaj nazwe wydarzenia...",
+    "description-label": "Opis",
+    "provide-event-description": "Podaj opis wydarzenia...",
+    "location-label": "Lokalizacja",
+    "provide-event-location": "Podaj lokalizacje wydarzenia...",
+    "start-date-label": "Czas Poczatku",
+    "end-date-label": "Czas Konca",
+    "set-start-date": "Ustaw Poczatek",
+    "set-end-date": "Ustaw Koniec",
+    "submit": "Zatwierdz",
+    "background-image-required-error": "Zdjecie w tle wydarzenia jest wymagane",
+    "at-least-one-translation-required-error": "Przynajmniej jedna translacja jest wymagana",
+    "start-date-not-vefore-end-date-error": "Czas poczatku musi byc przed czasem konca"
   }
 }

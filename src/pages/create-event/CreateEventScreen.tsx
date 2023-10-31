@@ -108,7 +108,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
   const validateImage = (field: Field, backgroundImageUri: string, errors) => {
     if (!backgroundImageUri) {
-      errors[field] = "Event background image is required";
+      errors[field] = t("create-event.background-image-required-error");
       return false;
     }
     return true;
@@ -120,7 +120,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
     errors,
   ) => {
     if (!/\S/.test(state[Language.PL]) && !/\S/.test(state[Language.ENG])) {
-      errors[field] = "At least one translation need to be provided";
+      errors[field] = t("create-event.at-least-one-translation-required-error");
       return false;
     }
     return true;
@@ -133,7 +133,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
     errors,
   ) => {
     if (startDate.valueOf() >= endDate.valueOf()) {
-      errors[field] = "Start date must be before end date";
+      errors[field] = t("create-event.start-date-not-vefore-end-date-error");
       return false;
     }
     return true;
@@ -147,7 +147,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
             <Image style={styles.image} source={{ uri: backgroundImageUri }} />
           </View>
           <AppButton
-            title="Update Image"
+            title={t("create-event.update-image")}
             onPress={onUploadImageButtonPress}
             type={"secondary"}
             size={"default"}
@@ -155,8 +155,11 @@ export const CreateEventScreen = ({ navigation, route }) => {
         </View>
       ) : (
         <View style={styles.imageUploadSection}>
+          <View
+            style={[styles.imageContainer, { backgroundColor: "#FAFAFA" }]}
+          ></View>
           <AppButton
-            title="Upload Image"
+            title={t("create-event.upload-image")}
             onPress={onUploadImageButtonPress}
             type={"primary"}
             size={"default"}
@@ -196,11 +199,11 @@ export const CreateEventScreen = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
         <Text style={{ textAlign: "center" }}>
-          {"(Translation in at least one language need to be provided)"}
+          {t("create-event.at-least-one-translation-required-info")}
         </Text>
         <TextInputContainer
-          label="Name"
-          placeholder="Provide event name..."
+          label={t("create-event.name-label")}
+          placeholder={t("create-event.provide-event-name")}
           value={name[language]}
           onChangeText={(text) => {
             var value = { ...name };
@@ -213,8 +216,8 @@ export const CreateEventScreen = ({ navigation, route }) => {
         />
 
         <TextInputContainer
-          label="Description"
-          placeholder="Provide event description..."
+          label={t("create-event.description-label")}
+          placeholder={t("create-event.provide-event-description")}
           value={description[language]}
           onChangeText={(text) => {
             var value = { ...description };
@@ -228,8 +231,8 @@ export const CreateEventScreen = ({ navigation, route }) => {
         />
 
         <TextInputContainer
-          label="Location"
-          placeholder="Provide event location..."
+          label={t("create-event.location-label")}
+          placeholder={t("create-event.provide-event-location")}
           value={location[language]}
           onChangeText={(text) => {
             var value = { ...location };
@@ -249,12 +252,14 @@ export const CreateEventScreen = ({ navigation, route }) => {
           ]}
         >
           <View style={styles.dateField}>
-            <Text style={globalStyles.descriptionTitle}>{"Start date"}</Text>
+            <Text style={globalStyles.descriptionTitle}>
+              {t("create-event.start-date-label")}
+            </Text>
             <Text style={styles.date}>
               {toBeautifiedDateTimeString(startDate, i18n.language)}
             </Text>
             <AppButton
-              title="Set start date"
+              title={t("create-event.set-start-date")}
               onPress={() => {
                 setPickingDate(PickingDate.StartDate);
               }}
@@ -264,12 +269,14 @@ export const CreateEventScreen = ({ navigation, route }) => {
           </View>
 
           <View style={styles.dateField}>
-            <Text style={globalStyles.descriptionTitle}>{"End date"}</Text>
+            <Text style={globalStyles.descriptionTitle}>
+              {t("create-event.end-date-label")}
+            </Text>
             <Text style={styles.date}>
               {toBeautifiedDateTimeString(endDate, i18n.language)}
             </Text>
             <AppButton
-              title="Set end date"
+              title={t("create-event.set-end-date")}
               onPress={() => {
                 setPickingDate(PickingDate.EndDate);
               }}
@@ -316,7 +323,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
       <View style={styles.submitContainer}>
         <AppButton
-          title="Submit"
+          title={t("create-event.submit")}
           onPress={submitForm}
           type={"primary"}
           size={"default"}
