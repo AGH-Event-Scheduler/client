@@ -1,6 +1,6 @@
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { toSimpleDateString } from "../utils/date";
-import { fetchApi } from "./api-utils";
+import { FormDataFileUpload, MultiLanguageText, fetchApi } from "./api-utils";
 import { OrganizationEvent } from "./types";
 
 export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
@@ -36,4 +36,24 @@ export const fetchEventDetails = async (
 ): Promise<OrganizationEvent> => {
   var response = await fetchApi(`/events/${eventId}`);
   return response.json();
+};
+
+export const createEvent = async (
+  organizationId: number,
+  name: MultiLanguageText,
+  description: MultiLanguageText,
+  location: MultiLanguageText,
+  startDate: Date,
+  endDate: Date,
+  formDataImage: FormDataFileUpload,
+) => {
+  console.log(
+    organizationId,
+    name,
+    description,
+    location,
+    startDate,
+    endDate,
+    formDataImage,
+  );
 };

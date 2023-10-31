@@ -3,6 +3,22 @@ import { AuthenticationService } from "../services/AuthenticationService";
 
 export const baseUrl = "http://192.168.232.58:8080/api";
 
+export enum Language {
+  PL = "pl",
+  ENG = "eng",
+}
+
+export interface MultiLanguageText {
+  pl: string;
+  eng: string;
+}
+
+export interface FormDataFileUpload {
+  type: string;
+  uri: string;
+  name: string;
+}
+
 export enum Method {
   GET = "GET",
   PATCH = "PATCH",

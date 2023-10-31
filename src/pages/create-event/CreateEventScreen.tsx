@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { fetchEventDetails } from "../../api/event-api-utils";
+import { createEvent, fetchEventDetails } from "../../api/event-api-utils";
 import { OrganizationEvent } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
@@ -22,21 +22,17 @@ import { TextInputContainer } from "../../components/TextInputContainer";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import CountryFlag from "react-native-country-flag";
 import { FormError } from "../../components/FormError";
-
-enum Language {
-  PL = "pl",
-  ENG = "eng",
-}
+import {
+  FormDataFileUpload,
+  Language,
+  MultiLanguageText,
+} from "../../api/api-utils";
 
 enum PickingDate {
   StartDate,
   EndDate,
   NO,
 }
-
-type TranslatableTextInput = {
-  [language in Language]: string;
-};
 
 enum Field {
   IMAGE = "img",
@@ -48,17 +44,18 @@ enum Field {
 
 export const CreateEventScreen = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
-  const [backgroundImageUri, setBackgroundImageUri] = useState(null);
+  const [backgroundImage, setBackgroundImageUri] =
+    useState<FormDataFileUpload>(null);
 
   const [language, setLanguage] = useState<Language>(
     i18n.language === "pl" ? Language.PL : Language.ENG,
   );
-  const [name, setName] = useState<TranslatableTextInput>({ pl: "", eng: "" });
-  const [description, setDescription] = useState<TranslatableTextInput>({
+  const [name, setName] = useState<MultiLanguageText>({ pl: "", eng: "" });
+  const [description, setDescription] = useState<MultiLanguageText>({
     pl: "",
     eng: "",
   });
-  const [location, setLocation] = useState<TranslatableTextInput>({
+  const [location, setLocation] = useState<MultiLanguageText>({
     pl: "",
     eng: "",
   });
@@ -83,13 +80,28 @@ export const CreateEventScreen = ({ navigation, route }) => {
       quality: 1,
     });
 
-    console.log(result.assets[0].uri);
-    setBackgroundImageUri(result.assets[0].uri);
+    console.log(result.assets[0]);
+    const asset = result.assets[0];
+    setBackgroundImageUri({
+      type: asset.type ? asset.type : "image",
+      uri: asset.uri,
+      name: asset.fileName ? asset.fileName : "Upload Image",
+    });
   };
 
   const submitForm = () => {
     if (runValidators()) {
       console.log("Form submitted successfully");
+
+      createEvent(
+        organizationId,
+        name,
+        description,
+        location,
+        startDate,
+        endDate,
+        backgroundImage,
+      );
     } else {
       Alert.alert(t("create-event.validation-failed-error"));
     }
@@ -98,7 +110,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
   const runValidators = () => {
     var newErrors = {};
     const validatorResults = [
-      validateImage(Field.IMAGE, backgroundImageUri, newErrors),
+      validateImage(Field.IMAGE, backgroundImage, newErrors),
       validateTextField(Field.NAME, name, newErrors),
       validateTextField(Field.DESCRIPTION, description, newErrors),
       validateTextField(Field.LOCATION, location, newErrors),
@@ -109,8 +121,12 @@ export const CreateEventScreen = ({ navigation, route }) => {
     return validatorResults.every((e) => e);
   };
 
-  const validateImage = (field: Field, backgroundImageUri: string, errors) => {
-    if (!backgroundImageUri) {
+  const validateImage = (
+    field: Field,
+    backgroundImage: FormDataFileUpload,
+    errors,
+  ) => {
+    if (!backgroundImage) {
       errors[field] = t("create-event.background-image-required-error");
       return false;
     }
@@ -119,7 +135,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
   const validateTextField = (
     field: Field,
-    state: TranslatableTextInput,
+    state: MultiLanguageText,
     errors,
   ) => {
     if (!/\S/.test(state[Language.PL]) && !/\S/.test(state[Language.ENG])) {
@@ -144,10 +160,10 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      {backgroundImageUri ? (
+      {backgroundImage ? (
         <View style={styles.imageUploadSection}>
           <View style={styles.imageContainer}>
-            <Image style={styles.image} source={{ uri: backgroundImageUri }} />
+            <Image style={styles.image} source={{ uri: backgroundImage.uri }} />
           </View>
           <AppButton
             title={t("create-event.update-image")}
