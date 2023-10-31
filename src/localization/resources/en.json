@@ -22,7 +22,8 @@
     "event-search": "Search Event",
     "organization-search": "Search Organization",
     "login": "Log In",
-    "register": "Register"
+    "register": "Register",
+    "create-event": "Add Event"
   },
   "settings": {
     "account": "Account",

@@ -22,7 +22,8 @@
     "event-search": "Szukaj wydarzeń",
     "organization-search": "Szukaj Organizacji",
     "login": "Logowanie",
-    "register": "Rejestracja"
+    "register": "Rejestracja",
+    "create-event": "Dodaj wydarzenie"
   },
   "settings": {
     "account": "Konto",

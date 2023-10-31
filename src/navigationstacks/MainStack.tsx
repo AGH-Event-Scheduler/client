@@ -47,7 +47,7 @@ export const MainStack = ({ stack }) => {
         {/* Main pages */}
         <stack.Screen
           name="Home"
-          component={CreateEventScreen}
+          component={SamplePage}
           options={{ title: "Home" }}
         />
         <stack.Screen
@@ -128,6 +128,11 @@ export const MainStack = ({ stack }) => {
           name="Information"
           component={SamplePage}
           options={{ title: t("settings.information") }}
+        />
+        <stack.Screen
+          name="Create Event"
+          component={CreateEventScreen}
+          options={{ title: t("general.create-event") }}
         />
       </stack.Navigator>
     </ViewLayoutStructure>

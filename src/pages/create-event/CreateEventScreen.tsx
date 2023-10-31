@@ -72,7 +72,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
   const [errors, setErrors] = useState<{ [field: string]: string }>({});
 
-  // const organizationId = route.params.organizationId;
+  const organizationId = route.params.organizationId;
 
   const onUploadImageButtonPress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

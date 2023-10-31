@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 import { AppLinkButton } from "../../components/AppLinkButton";
 import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 import { LoadingView } from "../../components/loading/LoadingView";
+import { AppButton } from "../../components/AppButton";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -99,6 +100,16 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
+            <AppButton
+              onPress={() => {
+                navigation.navigate("Create Event", {
+                  organizationId: organization.id,
+                });
+              }}
+              type={"secondary"}
+              title={t("general.create-event")}
+              size={"default"}
+            />
             {organization && (
               <AppCheckButton
                 onPress={handleFollowButtonPress}
@@ -159,6 +170,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     marginVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   title: {
     ...globalStyles.title,
