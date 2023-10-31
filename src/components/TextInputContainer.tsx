@@ -9,6 +9,7 @@ import {
 import { globalStyles } from "../styles/GlobalStyles";
 import { Ionicons } from "@expo/vector-icons"; // Make sure to install @expo/vector-icons
 import { MaterialIcons } from "@expo/vector-icons";
+import { FormError } from "./FormError";
 
 interface TextInputContainerProps {
   label: string;
@@ -79,12 +80,7 @@ export const TextInputContainer: React.FC<TextInputContainerProps> = ({
           </TouchableOpacity>
         )}
       </View>
-      {error && errorText ? (
-        <View style={styles.errorContainer}>
-          <MaterialIcons name="error" size={18} color="red" />
-          <Text style={styles.errorText}>{errorText}</Text>
-        </View>
-      ) : null}
+      {error && errorText ? <FormError errorText={errorText} /> : null}
       <View style={styles.descriptionContainer}>
         {description ? (
           <Text style={styles.description}>{description}</Text>

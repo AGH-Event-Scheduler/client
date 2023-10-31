@@ -20,6 +20,7 @@ import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import CountryFlag from "react-native-country-flag";
+import { FormError } from "../../components/FormError";
 
 enum Language {
   PL = "pl",
@@ -35,6 +36,14 @@ enum PickingDate {
 type TranslatableTextInput = {
   [language in Language]: string;
 };
+
+enum Field {
+  IMAGE = "img",
+  NAME = "name",
+  DESCRIPTION = "dsc",
+  LOCATION = "loc",
+  DATE = "date",
+}
 
 export const CreateEventScreen = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
@@ -53,9 +62,14 @@ export const CreateEventScreen = ({ navigation, route }) => {
     eng: "",
   });
 
+  const beginStartDate = new Date();
+  const beginEndDate = new Date(beginStartDate);
+  beginEndDate.setHours(beginEndDate.getHours() + 1);
   const [pickingDate, setPickingDate] = useState<PickingDate>(PickingDate.NO);
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>(beginStartDate);
+  const [endDate, setEndDate] = useState<Date>(beginEndDate);
+
+  const [errors, setErrors] = useState<{ [field: string]: string }>({});
 
   // const organizationId = route.params.organizationId;
 
@@ -70,6 +84,59 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
     console.log(result.assets[0].uri);
     setBackgroundImageUri(result.assets[0].uri);
+  };
+
+  const submitForm = () => {
+    if (runValidators()) {
+      console.log("Form submitted successfully");
+    }
+  };
+
+  const runValidators = () => {
+    var newErrors = {};
+    const validatorResults = [
+      validateImage(Field.IMAGE, backgroundImageUri, newErrors),
+      validateTextField(Field.NAME, name, newErrors),
+      validateTextField(Field.DESCRIPTION, description, newErrors),
+      validateTextField(Field.LOCATION, location, newErrors),
+      validateDate(Field.DATE, startDate, endDate, newErrors),
+    ];
+    setErrors(newErrors);
+
+    return validatorResults.every((e) => e);
+  };
+
+  const validateImage = (field: Field, backgroundImageUri: string, errors) => {
+    if (!backgroundImageUri) {
+      errors[field] = "Event background image is required";
+      return false;
+    }
+    return true;
+  };
+
+  const validateTextField = (
+    field: Field,
+    state: TranslatableTextInput,
+    errors,
+  ) => {
+    if (!/\S/.test(state[Language.PL]) && !/\S/.test(state[Language.ENG])) {
+      errors[field] = "At least one translation need to be provided";
+      return false;
+    }
+    return true;
+  };
+
+  const validateDate = (
+    field: Field,
+    startDate: Date,
+    endDate: Date,
+    errors,
+  ) => {
+    if (startDate.valueOf() >= endDate.valueOf()) {
+      errors[field] = "Start date must be before end date";
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -94,6 +161,12 @@ export const CreateEventScreen = ({ navigation, route }) => {
             type={"primary"}
             size={"default"}
           />
+          {Field.IMAGE in errors ? (
+            <FormError
+              errorText={errors[Field.IMAGE]}
+              style={{ marginTop: 5 }}
+            />
+          ) : null}
         </View>
       )}
 
@@ -123,11 +196,11 @@ export const CreateEventScreen = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
         <Text style={{ textAlign: "center" }}>
-          {"(Empty values are copied from other language by default)"}
+          {"(Translation in at least one language need to be provided)"}
         </Text>
         <TextInputContainer
           label="Name"
-          placeholder="Provide event name in..."
+          placeholder="Provide event name..."
           value={name[language]}
           onChangeText={(text) => {
             var value = { ...name };
@@ -135,6 +208,8 @@ export const CreateEventScreen = ({ navigation, route }) => {
             setName(value);
           }}
           description=""
+          error={Field.NAME in errors}
+          errorText={errors[Field.NAME]}
         />
 
         <TextInputContainer
@@ -148,6 +223,8 @@ export const CreateEventScreen = ({ navigation, route }) => {
           }}
           description=""
           multiline={true}
+          error={Field.DESCRIPTION in errors}
+          errorText={errors[Field.DESCRIPTION]}
         />
 
         <TextInputContainer
@@ -160,41 +237,63 @@ export const CreateEventScreen = ({ navigation, route }) => {
             setLocation(value);
           }}
           description=""
+          error={Field.LOCATION in errors}
+          errorText={errors[Field.LOCATION]}
         />
       </View>
-      <View style={styles.dateSection}>
-        <View style={styles.dateField}>
-          <Text style={styles.date}>
-            {toBeautifiedDateTimeString(startDate)}
-          </Text>
-          <AppButton
-            title="Set start date"
-            onPress={() => {
-              setPickingDate(PickingDate.StartDate);
-            }}
-            type={"primary"}
-            size={"small"}
-          />
-        </View>
+      <View style={[styles.dateSection]}>
+        <View
+          style={[
+            styles.dateSectionDates,
+            Field.DATE in errors ? styles.inputError : null,
+          ]}
+        >
+          <View style={styles.dateField}>
+            <Text style={globalStyles.descriptionTitle}>{"Start date"}</Text>
+            <Text style={styles.date}>
+              {toBeautifiedDateTimeString(startDate, i18n.language)}
+            </Text>
+            <AppButton
+              title="Set start date"
+              onPress={() => {
+                setPickingDate(PickingDate.StartDate);
+              }}
+              type={"primary"}
+              size={"small"}
+            />
+          </View>
 
-        <View style={styles.dateField}>
-          <Text style={styles.date}>{toBeautifiedDateTimeString(endDate)}</Text>
-          <AppButton
-            title="Set end date"
-            onPress={() => {
-              setPickingDate(PickingDate.EndDate);
-            }}
-            type={"primary"}
-            size={"small"}
-          />
+          <View style={styles.dateField}>
+            <Text style={globalStyles.descriptionTitle}>{"End date"}</Text>
+            <Text style={styles.date}>
+              {toBeautifiedDateTimeString(endDate, i18n.language)}
+            </Text>
+            <AppButton
+              title="Set end date"
+              onPress={() => {
+                setPickingDate(PickingDate.EndDate);
+              }}
+              type={"primary"}
+              size={"small"}
+            />
+          </View>
         </View>
+        {Field.DATE in errors ? (
+          <FormError
+            errorText={errors[Field.DATE]}
+            style={{ alignSelf: "center" }}
+          />
+        ) : null}
 
         <DateTimePickerModal
           isVisible={pickingDate !== PickingDate.NO}
           mode="datetime"
           onConfirm={(date: Date) => {
             if (pickingDate === PickingDate.StartDate) {
+              const dateDiff = endDate.valueOf() - startDate.valueOf();
+              const newEndDate = new Date(date.valueOf() + dateDiff);
               setStartDate(date);
+              setEndDate(newEndDate);
               setPickingDate(PickingDate.NO);
             } else if (pickingDate === PickingDate.EndDate) {
               setEndDate(date);
@@ -205,7 +304,22 @@ export const CreateEventScreen = ({ navigation, route }) => {
             setPickingDate(PickingDate.NO);
           }}
           locale={i18n.language}
-          date={new Date()}
+          date={
+            pickingDate === PickingDate.StartDate
+              ? startDate
+              : pickingDate === PickingDate.EndDate
+              ? endDate
+              : new Date()
+          }
+        />
+      </View>
+
+      <View style={styles.submitContainer}>
+        <AppButton
+          title="Submit"
+          onPress={submitForm}
+          type={"primary"}
+          size={"default"}
         />
       </View>
     </ScrollView>
@@ -253,9 +367,18 @@ const styles = StyleSheet.create({
   },
   dateSection: {
     marginBottom: 30,
+    gap: 5,
+  },
+  inputError: {
+    borderColor: "red",
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  dateSectionDates: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+    padding: 10,
   },
   date: {
     color: "#016531",
@@ -266,5 +389,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     gap: 10,
+  },
+  submitContainer: {
+    marginBottom: 30,
   },
 });
