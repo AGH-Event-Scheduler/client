@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Button,
   Image,
   ScrollView,
@@ -89,6 +90,8 @@ export const CreateEventScreen = ({ navigation, route }) => {
   const submitForm = () => {
     if (runValidators()) {
       console.log("Form submitted successfully");
+    } else {
+      Alert.alert(t("create-event.validation-failed-error"));
     }
   };
 
