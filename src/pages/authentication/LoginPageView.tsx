@@ -5,11 +5,13 @@ import { TextInputContainer } from "../../components/TextInputContainer";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { AuthenticationService } from "../../services/AuthenticationService";
+import { useTranslation } from "react-i18next";
 
 export const LoginPageView = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@(student\.)?agh\.edu\.pl$/;
@@ -17,14 +19,19 @@ export const LoginPageView = () => {
   };
 
   const handleSignIn = async () => {
+    if (!email || !password) {
+      Alert.alert(
+        t("login.missing-information"),
+        t("login.fill-required-fields"),
+      );
+      return;
+    }
     if (!validateEmail(email)) {
-      Alert.alert("Invalid Email", "Please enter a valid email address.");
+      Alert.alert(t("login.invalid-email"), t("login.valid-email-address"));
       return;
     } else {
       try {
         if (await AuthenticationService.authenticate(email, password)) {
-          console.log("Login successful!");
-
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
@@ -32,16 +39,17 @@ export const LoginPageView = () => {
             }),
           );
         } else {
-          Alert.alert("Login Failed", "Please check your email and password."); // Handle unsuccessful login
+          Alert.alert(t("login.login-failed"), t("login.check-email-password"));
         }
       } catch (error) {
-        console.error("Error during login:", error);
+        console.error(t("login.login-error"), error);
       }
     }
   };
 
   const handleSignUp = () => {
-    console.log("Sign up link pressed");
+    // @ts-ignore
+    navigation.navigate("Register");
   };
 
   const handleForgotPassword = () => {
@@ -49,34 +57,34 @@ export const LoginPageView = () => {
   };
 
   const handleUseAGHAccount = () => {
-    console.log("Use AGH account button pressed");
+    console.log("Use agh account pressed");
   };
 
   const handleContinueAsGuest = () => {
-    console.log("Continue as guest button pressed");
+    console.log("Continue as a guest pressed");
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.titlePart1}>Welcome to</Text>
+        <Text style={styles.titlePart1}>{t("login.welcome-to")}</Text>
         <Text style={styles.titlePart2}> AGH Events Hub</Text>
       </View>
 
       <TextInputContainer
-        label="Email"
-        placeholder="email@agh.edu.pl"
+        label={t("login.email-label")}
+        placeholder={t("login.email-placeholder")}
         value={email}
         onChangeText={(text) => setEmail(text)}
-        description="AGH domain email address"
+        description={t("login.AGH-domain-email-address")}
       />
       <TextInputContainer
-        label="Password"
-        placeholder="password"
+        label={t("login.password-label")}
+        placeholder={t("login.password-placeholder")}
         value={password}
         onChangeText={(text) => setPassword(text)}
-        description="minimum password length: 8"
-        linkText="Forgot password?"
+        description={t("login.password-min-length-description")}
+        linkText={t("login.forgot-password-link")}
         onLinkPress={() => handleForgotPassword()}
         isPassword={true}
       />
@@ -85,35 +93,35 @@ export const LoginPageView = () => {
         <AppButton
           onPress={handleSignIn}
           type="primary"
-          title={"\t\tSign in\t\t"}
+          title={t("login.sign-in")}
           size="default"
         />
       </View>
 
       <View style={styles.dividerContainer}>
         <View style={styles.dividerLine} />
-        <Text style={styles.dividerText}>Do not have an account? </Text>
+        <Text style={styles.dividerText}>{t("login.no-account-question")}</Text>
         <TouchableOpacity onPress={handleSignUp}>
-          <Text style={styles.dividerTextLink}>Sign up!</Text>
+          <Text style={styles.dividerTextLink}>{t("login.sign-up")}</Text>
         </TouchableOpacity>
         <View style={styles.dividerLine} />
       </View>
 
       <View style={styles.dividerContainer}>
-        <Text style={styles.dividerText}>or</Text>
+        <Text style={styles.dividerText}>{t("login.or")}</Text>
       </View>
 
       <View style={styles.additionalMethodsContainer}>
         <AppButton
           onPress={handleUseAGHAccount}
           type="primary"
-          title={"Use AGH account"}
+          title={t("login.use-agh-account")}
           size="small"
         />
         <AppButton
           onPress={handleContinueAsGuest}
           type="gray"
-          title={"Continue as guest"}
+          title={t("login.continue-as-guest")}
           size="small"
         />
       </View>

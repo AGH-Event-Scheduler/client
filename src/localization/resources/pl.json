@@ -21,7 +21,8 @@
     "more": "Więcej",
     "event-search": "Szukaj wydarzeń",
     "organization-search": "Szukaj Organizacji",
-    "login": "Logowanie"
+    "login": "Logowanie",
+    "register": "Rejestracja"
   },
   "settings": {
     "account": "Konto",
@@ -47,5 +48,48 @@
   },
   "event-details": {
     "last-edit": "Ostatnio modyfikowane"
+  },
+  "login": {
+    "welcome-to": "Witaj w",
+    "email-label": "Email",
+    "email-placeholder": "email@agh.edu.pl",
+    "AGH-domain-email-address": "Adres email z domeny AGH",
+    "password-label": "Hasło",
+    "password-placeholder": "hasło",
+    "password-min-length-description": "Minimalna długość hasła: 8",
+    "forgot-password-link": "Zapomniałeś hasła?",
+    "sign-in": "Zaloguj się",
+    "missing-information": "Brakujące informacje",
+    "fill-required-fields": "Proszę wypełnić wszystkie wymagane pola.",
+    "invalid-email": "Nieprawidłowy adres email",
+    "valid-email-address": "Proszę podać prawidłowy adres email.",
+    "login-failed": "Logowanie nieudane",
+    "check-email-password": "Sprawdź swój email i hasło.",
+    "login-error": "Błąd podczas logowania:",
+    "no-account-question": "Nie masz konta? ",
+    "sign-up": "Zarejestruj się!",
+    "or": "lub",
+    "use-agh-account": "Użyj konta AGH",
+    "continue-as-guest": "Kontynuuj jako gość"
+  },
+  "registration": {
+    "email-placeholder": "email@agh.edu.pl",
+    "first-name-label": "Imię",
+    "last-name-label": "Nazwisko",
+    "email-label": "Email",
+    "password-label": "Hasło",
+    "repeat-password-label": "Powtórz hasło",
+    "password-min-length-description": "Minimalna długość hasła: 8",
+    "password-match-description": "Hasła muszą być identyczne",
+    "register-button": "Załóż konto",
+    "missing-information": "Brakujące informacje",
+    "all-fields-required": "Proszę wypełnić wszystkie wymagane pola",
+    "invalid-email": "Nieprawidłowy adres email",
+    "registration-failed": "Rejestracja nieudana",
+    "registration-error": "Błąd rejestracji",
+    "name-placeholder": "Imię",
+    "last-name-placeholder": "Nazwisko",
+    "agh-domain-email-description": "Adres email z domeny AGH",
+    "password-placeholder": "Hasło"
   }
 }

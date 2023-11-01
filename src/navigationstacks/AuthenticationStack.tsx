@@ -7,6 +7,7 @@ import { TopNavBar } from "../components/navigation/top/TopNavBar";
 import { BackButton } from "../components/navigation/top/BackButton";
 import { TopNavBarRightLogin } from "../components/navigation/top/TopNavBarRightLogin";
 import { Platform } from "react-native";
+import { RegisterPageView } from "../pages/authentication/RegisterPageView";
 
 // Move the Stack creation outside the component
 
@@ -41,6 +42,11 @@ export const AuthenticationStack = ({ stack }) => {
           name="Log in"
           component={LoginPageView}
           options={{ title: t("general.login") }}
+        />
+        <stack.Screen
+          name="Register"
+          component={RegisterPageView}
+          options={{ title: t("general.register") }}
         />
       </stack.Navigator>
     </ViewLayoutStructure>
