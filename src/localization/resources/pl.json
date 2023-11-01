@@ -74,7 +74,7 @@
   },
   "registration": {
     "email-placeholder": "email@agh.edu.pl",
-    "first-name-label": "Imie",
+    "first-name-label": "Imię",
     "last-name-label": "Nazwisko",
     "email-label": "Email",
     "password-label": "Hasło",
