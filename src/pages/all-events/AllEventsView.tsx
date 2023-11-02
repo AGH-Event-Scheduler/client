@@ -83,7 +83,7 @@ export const AllEventsView = ({ navigation, route }) => {
           keyExtractor={(item) => item.id?.toString()}
           renderItem={({ item }) => (
             <EventOrganizationListCard
-              imageSource={{ uri: item?.backgroundImage.mediumUrl }}
+              image={item?.backgroundImage}
               name={item.name}
               location={item.location}
               onCardPress={() => handleCardPress(item)}

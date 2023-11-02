@@ -14,6 +14,7 @@ import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
 import { LoadingView } from "../../components/loading/LoadingView";
+import { EventHubImage } from "../../components/EventHubImage";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
@@ -45,9 +46,9 @@ export const EventDetailsView = ({ navigation, route }) => {
       ) : (
         <ScrollView style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: event?.backgroundImage.bigUrl }}
-              style={styles.image}
+            <EventHubImage
+              imageId={event.backgroundImage.imageId}
+              filename={event.backgroundImage.bigFilename}
             />
           </View>
           <Text style={styles.eventName}>{event?.name}</Text>
@@ -70,9 +71,9 @@ export const EventDetailsView = ({ navigation, route }) => {
             }}
           >
             <View style={styles.organizationImageContainer}>
-              <Image
-                source={{ uri: event?.organization.logoImage.smallUrl }}
-                style={styles.organizationLogo}
+              <EventHubImage
+                imageId={event.organization.logoImage.imageId}
+                filename={event.organization.logoImage.mediumFilename}
               />
             </View>
             <View style={styles.organizationText}>
@@ -148,10 +149,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     overflow: "hidden",
     marginRight: 15,
-  },
-  organizationLogo: {
-    flex: 1,
-    resizeMode: "contain",
   },
   organizationName: {
     fontWeight: "bold",

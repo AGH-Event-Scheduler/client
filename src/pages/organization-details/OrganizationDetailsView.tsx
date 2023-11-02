@@ -23,6 +23,7 @@ import { AppLinkButton } from "../../components/AppLinkButton";
 import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
+import { EventHubImage } from "../../components/EventHubImage";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -94,9 +95,9 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
       ) : (
         <ScrollView style={styles.container}>
           <View style={globalStyles.imageContainer}>
-            <Image
-              source={{ uri: organization?.backgroundImage.bigUrl }}
-              style={globalStyles.image}
+            <EventHubImage
+              imageId={organization?.backgroundImage.imageId}
+              filename={organization?.backgroundImage.bigFilename}
             />
           </View>
           <View style={styles.buttonContainer}>
@@ -138,7 +139,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                 horizontal={true}
                 renderItem={({ item }) => (
                   <EventOrganizationListCard
-                    imageSource={{ uri: item?.backgroundImage.mediumUrl }}
+                    image={item?.backgroundImage}
                     name={item?.name}
                     location={item?.location}
                     onCardPress={() => handleCardPress(item)}

@@ -1,13 +1,15 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   toBeautifiedDateTimeString,
   toBeautifiedTimeString,
 } from "../../utils/date";
 import { useTranslation } from "react-i18next";
+import { EventHubImage } from "../../components/EventHubImage";
+import { Image } from "../../api/types";
 
 interface EventListCardProps {
-  imageSource: { uri: string };
+  image: Image;
   name: string;
   location: string;
   startDate: Date;
@@ -16,7 +18,7 @@ interface EventListCardProps {
 }
 
 export const EventOrganizationListCard = ({
-  imageSource,
+  image,
   name,
   location,
   startDate,
@@ -35,7 +37,10 @@ export const EventOrganizationListCard = ({
       onPress={handleCardPress}
     >
       <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} />
+        <EventHubImage
+          imageId={image.imageId}
+          filename={image.mediumFilename}
+        />
       </View>
       <View style={[styles.textContainer]}>
         <Text numberOfLines={1} style={styles.text}>
@@ -69,10 +74,6 @@ const styles = StyleSheet.create({
     height: "55%",
     borderRadius: 0,
     overflow: "hidden",
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
   },
   text: {
     fontSize: 19,

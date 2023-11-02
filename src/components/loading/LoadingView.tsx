@@ -1,9 +1,9 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 
-export const LoadingView = () => {
+export const LoadingView = ({ style = undefined }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <ActivityIndicator size={"large"} />
     </View>
   );

@@ -1,7 +1,8 @@
 export interface Image {
-  smallUrl: string;
-  mediumUrl: string;
-  bigUrl: string;
+  imageId: string;
+  smallFilename: string;
+  mediumFilename: string;
+  bigFilename: string;
 }
 
 interface BaseEntity {

@@ -83,7 +83,7 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
           contentContainerStyle={styles.listContainer}
           renderItem={({ item }) => (
             <OrganizationListCard
-              imageSource={{ uri: item?.logoImage.mediumUrl }}
+              image={item?.logoImage}
               text={item.name}
               isSubscribed={item.isSubscribed}
               onCardPress={() => handleCardPress(item)}
