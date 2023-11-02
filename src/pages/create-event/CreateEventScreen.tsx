@@ -27,6 +27,7 @@ import {
   Language,
   MultiLanguageText,
 } from "../../api/api-utils";
+import * as mime from "react-native-mime-types";
 
 enum PickingDate {
   StartDate,
@@ -80,20 +81,27 @@ export const CreateEventScreen = ({ navigation, route }) => {
       quality: 1,
     });
 
-    console.log(result.assets[0]);
     const asset = result.assets[0];
+
+    const uri = asset.uri;
+    const type = mime.lookup(asset.uri);
+    if (!type || !mime.extension(type)) {
+      return;
+    }
+    const name = `image.${mime.extension(type)}`;
+
     setBackgroundImageUri({
-      type: asset.type ? asset.type : "image",
-      uri: asset.uri,
-      name: asset.fileName ? asset.fileName : "Upload Image",
+      type: type,
+      uri: uri,
+      name: name,
     });
   };
 
-  const submitForm = () => {
+  const submitForm = async () => {
     if (runValidators()) {
       console.log("Form submitted successfully");
 
-      createEvent(
+      await createEvent(
         organizationId,
         name,
         description,

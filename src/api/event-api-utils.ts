@@ -1,8 +1,12 @@
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
-import { toSimpleDateString } from "../utils/date";
-import { FormDataFileUpload, MultiLanguageText, fetchApi } from "./api-utils";
+import { toSimpleDateString, toUTCDate } from "../utils/date";
+import {
+  FormDataFileUpload,
+  Method,
+  MultiLanguageText,
+  fetchApi,
+} from "./api-utils";
 import { OrganizationEvent } from "./types";
-
 export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
   var response = await fetchApi("/events");
   return response.json();
@@ -56,4 +60,21 @@ export const createEvent = async (
     endDate,
     formDataImage,
   );
+
+  const formData = new FormData();
+
+  // @ts-ignore
+  formData.append("backgroundImage", formDataImage);
+  formData.append("name", JSON.stringify(name));
+  formData.append("description", JSON.stringify(description));
+  formData.append("location", JSON.stringify(location));
+  formData.append("startDate", toUTCDate(startDate).getTime().toString());
+  formData.append("endDate", toUTCDate(endDate).getTime().toString());
+
+  var response = await fetchApi(
+    `/events/organization/${organizationId}`,
+    Method.POST,
+    formData,
+  );
+  return response.json();
 };

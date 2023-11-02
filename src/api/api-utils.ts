@@ -1,7 +1,7 @@
 // when testing on expo choose computer's ip instead of localhost
 import { AuthenticationService } from "../services/AuthenticationService";
 
-export const baseUrl = "http://192.168.232.58:8080/api";
+export const baseUrl = "http://192.168.100.115:8080/api";
 
 export enum Language {
   PL = "pl",
@@ -52,9 +52,10 @@ export const fetchApi = async (
       ...options,
       headers: {
         ...options.headers,
-        "Content-Type": "application/json",
+        "Content-Type":
+          body instanceof FormData ? "multipart/form-data" : "application/json",
       },
-      body: JSON.stringify(body),
+      body: body instanceof FormData ? body : JSON.stringify(body),
     };
   }
 
