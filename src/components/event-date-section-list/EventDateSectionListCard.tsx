@@ -57,8 +57,6 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
         <Text style={[styles.eventName]}>{item.name}</Text>
         <Text style={[styles.datetime]}>
           {getDate(new Date(item.startDate), item.displayFullDates)} -{" "}
-        </Text>
-        <Text style={[styles.datetime]}>
           {getDate(new Date(item.endDate), item.displayFullDates)}
         </Text>
         <Text style={[styles.location]}>{item.location}</Text>
