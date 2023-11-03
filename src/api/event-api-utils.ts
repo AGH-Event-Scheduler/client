@@ -68,8 +68,11 @@ export const createEvent = async (
   formData.append("name", JSON.stringify(name));
   formData.append("description", JSON.stringify(description));
   formData.append("location", JSON.stringify(location));
-  formData.append("startDate", toUTCDate(startDate).getTime().toString());
-  formData.append("endDate", toUTCDate(endDate).getTime().toString());
+  formData.append(
+    "startDateTimestamp",
+    toUTCDate(startDate).getTime().toString(),
+  );
+  formData.append("endDateTimestamp", toUTCDate(endDate).getTime().toString());
 
   var response = await fetchApi(
     `/events/organization/${organizationId}`,
