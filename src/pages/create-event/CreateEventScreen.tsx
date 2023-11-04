@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  Button,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { useIsFocused } from "@react-navigation/native";
-import { createEvent, fetchEventDetails } from "../../api/event-api-utils";
-import { OrganizationEvent } from "../../api/types";
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { createEvent } from "../../api/event-api-utils";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
@@ -20,7 +9,6 @@ import * as ImagePicker from "expo-image-picker";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import CountryFlag from "react-native-country-flag";
 import { FormError } from "../../components/FormError";
 import {
   FormDataFileUpload,
@@ -29,7 +17,7 @@ import {
 } from "../../api/api-utils";
 import * as mime from "react-native-mime-types";
 import { FormLanguageSelector } from "../../components/FormLanguageSelector";
-import { languages } from "../../localization/languages";
+import { Field, useEventFormValidation } from "./EventFormValidationHook";
 
 enum PickingDate {
   StartDate,
@@ -37,17 +25,9 @@ enum PickingDate {
   NO,
 }
 
-enum Field {
-  IMAGE = "img",
-  NAME = "name",
-  DESCRIPTION = "dsc",
-  LOCATION = "loc",
-  DATE = "date",
-}
-
 export const CreateEventScreen = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
-
+  const { errors, runValidators } = useEventFormValidation();
   const [isLoading, setIsLoading] = useState(false);
 
   const [backgroundImage, setBackgroundImageUri] =
@@ -73,8 +53,6 @@ export const CreateEventScreen = ({ navigation, route }) => {
   const [pickingDate, setPickingDate] = useState<PickingDate>(PickingDate.NO);
   const [startDate, setStartDate] = useState<Date>(beginStartDate);
   const [endDate, setEndDate] = useState<Date>(beginEndDate);
-
-  const [errors, setErrors] = useState<{ [field: string]: string }>({});
 
   const organizationId = route.params.organizationId;
 
@@ -104,10 +82,19 @@ export const CreateEventScreen = ({ navigation, route }) => {
   };
 
   const submitForm = async () => {
-    if (runValidators()) {
+    if (
+      runValidators(
+        backgroundImage,
+        name,
+        description,
+        location,
+        startDate,
+        endDate,
+      )
+    ) {
       setIsLoading(true);
       try {
-        const event = await createEvent(
+        await createEvent(
           organizationId,
           name,
           description,
@@ -126,61 +113,6 @@ export const CreateEventScreen = ({ navigation, route }) => {
     } else {
       Alert.alert(t("create-event.validation-failed-error"));
     }
-  };
-
-  const runValidators = () => {
-    var newErrors = {};
-    const validatorResults = [
-      validateImage(Field.IMAGE, backgroundImage, newErrors),
-      validateTextField(Field.NAME, name, newErrors),
-      validateTextField(Field.DESCRIPTION, description, newErrors),
-      validateTextField(Field.LOCATION, location, newErrors),
-      validateDate(Field.DATE, startDate, endDate, newErrors),
-    ];
-    setErrors(newErrors);
-
-    return validatorResults.every((e) => e);
-  };
-
-  const validateImage = (
-    field: Field,
-    backgroundImage: FormDataFileUpload,
-    errors,
-  ) => {
-    if (!backgroundImage) {
-      errors[field] = t("create-event.background-image-required-error");
-      return false;
-    }
-    return true;
-  };
-
-  const validateTextField = (
-    field: Field,
-    state: MultiLanguageText,
-    errors,
-  ) => {
-    if (!/\S/.test(state[Language.PL]) && !/\S/.test(state[Language.ENG])) {
-      errors[field] = t("create-event.at-least-one-translation-required-error");
-      return false;
-    }
-    return true;
-  };
-
-  const validateDate = (
-    field: Field,
-    startDate: Date,
-    endDate: Date,
-    errors,
-  ) => {
-    if (startDate.valueOf() < new Date().valueOf()) {
-      errors[field] = t("create-event.start-date-in-the-past-error");
-      return false;
-    }
-    if (startDate.valueOf() >= endDate.valueOf()) {
-      errors[field] = t("create-event.start-date-not-before-end-date-error");
-      return false;
-    }
-    return true;
   };
 
   return (
