@@ -1,7 +1,7 @@
 // when testing on expo choose computer's ip instead of localhost
 import { AuthenticationService } from "../services/AuthenticationService";
 
-export const baseUrl = "http://192.168.100.115:8080";
+export const baseUrl = "http://192.168.0.115:8080";
 export const baseApiUrl = `${baseUrl}/api`;
 
 export enum Language {

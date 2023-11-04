@@ -28,6 +28,8 @@ import {
   MultiLanguageText,
 } from "../../api/api-utils";
 import * as mime from "react-native-mime-types";
+import { FormLanguageSelector } from "../../components/FormLanguageSelector";
+import { languages } from "../../localization/languages";
 
 enum PickingDate {
   StartDate,
@@ -51,7 +53,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
   const [backgroundImage, setBackgroundImageUri] =
     useState<FormDataFileUpload>(null);
 
-  const [language, setLanguage] = useState<Language>(
+  const [currentFormLanguage, setCurrentFormLanguage] = useState<Language>(
     i18n.language === "pl" ? Language.PL : Language.ENG,
   );
   const [name, setName] = useState<MultiLanguageText>({ pl: "", eng: "" });
@@ -217,40 +219,21 @@ export const CreateEventScreen = ({ navigation, route }) => {
           )}
 
           <View style={styles.textSection}>
-            <View style={styles.languageSelect}>
-              <TouchableOpacity
-                style={styles.flagContainer}
-                onPress={() => {
-                  setLanguage(Language.PL);
-                }}
-              >
-                <CountryFlag
-                  isoCode="pl"
-                  size={language === Language.PL ? 32 : 23}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.flagContainer}
-                onPress={() => {
-                  setLanguage(Language.ENG);
-                }}
-              >
-                <CountryFlag
-                  isoCode="gb"
-                  size={language === Language.ENG ? 32 : 23}
-                />
-              </TouchableOpacity>
-            </View>
+            <FormLanguageSelector
+              onLanguageChange={(language) => {
+                setCurrentFormLanguage(language);
+              }}
+            />
             <Text style={{ textAlign: "center" }}>
               {t("create-event.at-least-one-translation-required-info")}
             </Text>
             <TextInputContainer
               label={t("create-event.name-label")}
               placeholder={t("create-event.provide-event-name")}
-              value={name[language]}
+              value={name[currentFormLanguage]}
               onChangeText={(text) => {
                 var value = { ...name };
-                value[language] = text;
+                value[currentFormLanguage] = text;
                 setName(value);
               }}
               description=""
@@ -261,10 +244,10 @@ export const CreateEventScreen = ({ navigation, route }) => {
             <TextInputContainer
               label={t("create-event.description-label")}
               placeholder={t("create-event.provide-event-description")}
-              value={description[language]}
+              value={description[currentFormLanguage]}
               onChangeText={(text) => {
                 var value = { ...description };
-                value[language] = text;
+                value[currentFormLanguage] = text;
                 setDescription(value);
               }}
               description=""
@@ -276,10 +259,10 @@ export const CreateEventScreen = ({ navigation, route }) => {
             <TextInputContainer
               label={t("create-event.location-label")}
               placeholder={t("create-event.provide-event-location")}
-              value={location[language]}
+              value={location[currentFormLanguage]}
               onChangeText={(text) => {
                 var value = { ...location };
-                value[language] = text;
+                value[currentFormLanguage] = text;
                 setLocation(value);
               }}
               description=""
@@ -406,16 +389,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 10,
     marginBottom: 30,
-  },
-  languageSelect: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 30,
-  },
-  flagContainer: {
-    borderWidth: 1,
-    flex: 0,
   },
   dateSection: {
     marginBottom: 30,
