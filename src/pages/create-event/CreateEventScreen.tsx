@@ -67,6 +67,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
   });
 
   const beginStartDate = new Date();
+  beginStartDate.setHours(beginStartDate.getHours() + 1);
   const beginEndDate = new Date(beginStartDate);
   beginEndDate.setHours(beginEndDate.getHours() + 1);
   const [pickingDate, setPickingDate] = useState<PickingDate>(PickingDate.NO);
@@ -119,6 +120,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
           navigation.navigate("Event", { eventId: result.id });
         });
       } catch (e) {
+        setIsLoading(false);
         Alert.alert(e);
       }
     } else {
@@ -170,8 +172,12 @@ export const CreateEventScreen = ({ navigation, route }) => {
     endDate: Date,
     errors,
   ) => {
+    if (startDate.valueOf() < new Date().valueOf()) {
+      errors[field] = t("create-event.start-date-in-the-past-error");
+      return false;
+    }
     if (startDate.valueOf() >= endDate.valueOf()) {
-      errors[field] = t("create-event.start-date-not-vefore-end-date-error");
+      errors[field] = t("create-event.start-date-not-before-end-date-error");
       return false;
     }
     return true;

@@ -110,7 +110,8 @@
     "submit": "Submit",
     "background-image-required-error": "Event background image is required",
     "at-least-one-translation-required-error": "At least one translation need to be provided",
-    "start-date-not-vefore-end-date-error": "Start date must be before end date",
+    "start-date-not-before-end-date-error": "Start date must be before end date",
+    "start-date-in-the-past-error": "Start date cannot be in the past",
     "validation-failed-error": "Incorrect data provided. Review the problems and try again."
   }
 }
