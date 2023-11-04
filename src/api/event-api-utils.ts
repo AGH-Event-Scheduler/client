@@ -1,8 +1,12 @@
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
-import { toSimpleDateString } from "../utils/date";
-import { fetchApi } from "./api-utils";
+import { toSimpleDateString, toUTCDate } from "../utils/date";
+import {
+  FormDataFileUpload,
+  Method,
+  MultiLanguageText,
+  fetchApi,
+} from "./api-utils";
 import { OrganizationEvent } from "./types";
-
 export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
   var response = await fetchApi("/events");
   return response.json();
@@ -35,5 +39,45 @@ export const fetchEventDetails = async (
   eventId: number,
 ): Promise<OrganizationEvent> => {
   var response = await fetchApi(`/events/${eventId}`);
+  return response.json();
+};
+
+export const createEvent = async (
+  organizationId: number,
+  name: MultiLanguageText,
+  description: MultiLanguageText,
+  location: MultiLanguageText,
+  startDate: Date,
+  endDate: Date,
+  formDataImage: FormDataFileUpload,
+) => {
+  console.log(
+    organizationId,
+    name,
+    description,
+    location,
+    startDate,
+    endDate,
+    formDataImage,
+  );
+
+  const formData = new FormData();
+
+  // @ts-ignore
+  formData.append("backgroundImage", formDataImage);
+  formData.append("name", JSON.stringify(name));
+  formData.append("description", JSON.stringify(description));
+  formData.append("location", JSON.stringify(location));
+  formData.append(
+    "startDateTimestamp",
+    toUTCDate(startDate).getTime().toString(),
+  );
+  formData.append("endDateTimestamp", toUTCDate(endDate).getTime().toString());
+
+  var response = await fetchApi(
+    `/events/organization/${organizationId}`,
+    Method.POST,
+    formData,
+  );
   return response.json();
 };

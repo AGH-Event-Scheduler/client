@@ -77,6 +77,7 @@ export const LoginPageView = () => {
         value={email}
         onChangeText={(text) => setEmail(text)}
         description={t("login.AGH-domain-email-address")}
+        style={{ marginBottom: 20 }}
       />
       <TextInputContainer
         label={t("login.password-label")}
@@ -87,6 +88,7 @@ export const LoginPageView = () => {
         linkText={t("login.forgot-password-link")}
         onLinkPress={() => handleForgotPassword()}
         isPassword={true}
+        style={{ marginBottom: 20 }}
       />
 
       <View style={styles.dividerContainer}>

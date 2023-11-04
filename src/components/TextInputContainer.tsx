@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { globalStyles } from "../styles/GlobalStyles";
 import { Ionicons } from "@expo/vector-icons"; // Make sure to install @expo/vector-icons
+import { MaterialIcons } from "@expo/vector-icons";
+import { FormError } from "./FormError";
 
 interface TextInputContainerProps {
   label: string;
@@ -17,7 +19,12 @@ interface TextInputContainerProps {
   description: string;
   linkText?: string;
   onLinkPress?: () => void;
+  maxLength?: number;
+  error?: boolean;
+  errorText?: string;
+  multiline?: boolean;
   isPassword?: boolean; // Indicates whether it's a password input
+  style?: any;
 }
 
 export const TextInputContainer: React.FC<TextInputContainerProps> = ({
@@ -28,7 +35,12 @@ export const TextInputContainer: React.FC<TextInputContainerProps> = ({
   description,
   linkText,
   onLinkPress,
+  maxLength = 3000,
+  multiline = false,
   isPassword = false,
+  error = false,
+  errorText = "",
+  style = undefined,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -37,17 +49,23 @@ export const TextInputContainer: React.FC<TextInputContainerProps> = ({
   };
 
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, style]}>
       <Text style={globalStyles.descriptionTitle}>{label}</Text>
       <View style={styles.inputWrapper}>
         <TextInput
-          style={styles.input}
+          style={[
+            styles.input,
+            multiline ? styles.inputMultiline : null,
+            error ? styles.inputError : null,
+          ]}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={!showPassword && isPassword}
           autoCapitalize="none"
           autoCorrect={false}
+          multiline={multiline}
+          maxLength={maxLength}
         />
         {isPassword && (
           <TouchableOpacity
@@ -62,11 +80,14 @@ export const TextInputContainer: React.FC<TextInputContainerProps> = ({
           </TouchableOpacity>
         )}
       </View>
-      <View style={styles.linkContainer}>
-        <Text style={styles.description}>{description}</Text>
+      {error && errorText ? <FormError errorText={errorText} /> : null}
+      <View style={styles.descriptionContainer}>
+        {description ? (
+          <Text style={styles.description}>{description}</Text>
+        ) : null}
         {linkText && onLinkPress && (
           <TouchableOpacity onPress={onLinkPress}>
-            <Text style={styles.forgotPasswordLink}>{linkText}</Text>
+            <Text style={styles.linkText}>{linkText}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -77,7 +98,6 @@ export const TextInputContainer: React.FC<TextInputContainerProps> = ({
 const styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
-    marginBottom: 20,
   },
   inputWrapper: {
     position: "relative",
@@ -97,6 +117,21 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+  inputMultiline: {
+    height: 200,
+    textAlignVertical: "top",
+  },
+  inputError: {
+    borderColor: "red",
+  },
+  errorContainer: {
+    flexDirection: "row",
+    gap: 3,
+    alignItems: "center",
+  },
+  errorText: {
+    color: "red",
+  },
   toggleButton: {
     position: "absolute",
     top: 10,
@@ -107,12 +142,12 @@ const styles = StyleSheet.create({
     color: "gray",
     flex: 1,
   },
-  linkContainer: {
+  descriptionContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  forgotPasswordLink: {
+  linkText: {
     color: "#016531",
     fontSize: 12,
     marginLeft: 5,

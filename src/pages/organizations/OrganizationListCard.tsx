@@ -1,9 +1,11 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { EventHubImage } from "../../components/EventHubImage";
+import { Image } from "../../api/types";
 
 interface OrganizationListCardProps {
-  imageSource: { uri: string };
+  image: Image;
   text: string;
   isSubscribed: boolean;
   onCardPress: () => void;
@@ -12,7 +14,7 @@ interface OrganizationListCardProps {
 }
 
 export const OrganizationListCard = ({
-  imageSource,
+  image,
   text,
   isSubscribed,
   onCardPress,
@@ -33,7 +35,7 @@ export const OrganizationListCard = ({
       onPress={handleCardPress}
     >
       <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} resizeMode="contain" />
+        <EventHubImage imageId={image.imageId} filename={image.smallFilename} />
       </View>
       <Text style={styles.text}>{text}</Text>
       <TouchableOpacity

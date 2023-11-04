@@ -1,7 +1,24 @@
 // when testing on expo choose computer's ip instead of localhost
 import { AuthenticationService } from "../services/AuthenticationService";
 
-export const baseUrl = "http://192.168.0.115:8080/api";
+export const baseUrl = "http://192.168.0.115:8080";
+export const baseApiUrl = `${baseUrl}/api`;
+
+export enum Language {
+  PL = "pl",
+  ENG = "eng",
+}
+
+export interface MultiLanguageText {
+  pl: string;
+  eng: string;
+}
+
+export interface FormDataFileUpload {
+  type: string;
+  uri: string;
+  name: string;
+}
 
 export enum Method {
   GET = "GET",
@@ -36,9 +53,10 @@ export const fetchApi = async (
       ...options,
       headers: {
         ...options.headers,
-        "Content-Type": "application/json",
+        "Content-Type":
+          body instanceof FormData ? "multipart/form-data" : "application/json",
       },
-      body: JSON.stringify(body),
+      body: body instanceof FormData ? body : JSON.stringify(body),
     };
   }
 
@@ -50,8 +68,8 @@ export const fetchApi = async (
     .join("&");
 
   const urlWithParams = queryString
-    ? `${baseUrl}${endpoint}?${queryString}`
-    : `${baseUrl}${endpoint}`;
+    ? `${baseApiUrl}${endpoint}?${queryString}`
+    : `${baseApiUrl}${endpoint}`;
 
   console.log(`${method} ${urlWithParams}`);
 
@@ -61,4 +79,8 @@ export const fetchApi = async (
     console.log(`Error while fetching ${urlWithParams}. Reason: ${reason}`);
     throw reason;
   }
+};
+
+export const getImageUrl = (imageId: string, filename: string): string => {
+  return `${baseUrl}/images/${imageId}/${filename}`;
 };

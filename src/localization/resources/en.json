@@ -22,7 +22,8 @@
     "event-search": "Search Event",
     "organization-search": "Search Organization",
     "login": "Log In",
-    "register": "Register"
+    "register": "Register",
+    "create-event": "Add Event"
   },
   "settings": {
     "account": "Account",
@@ -91,5 +92,30 @@
     "last-name-placeholder": "Last name",
     "agh-domain-email-description": "AGH domain email address",
     "password-placeholder": "Password"
+  },
+  "create-event": {
+    "upload-image": "Upload Image",
+    "update-image": "Update Image",
+    "at-least-one-translation-required-info": "(Values in at least one language need to be provided)",
+    "name-label": "Name",
+    "provide-event-name": "Provide event name...",
+    "description-label": "Description",
+    "provide-event-description": "Provide event description...",
+    "location-label": "Location",
+    "provide-event-location": "Provide event location...",
+    "start-date-label": "Start Date",
+    "end-date-label": "End Date",
+    "set-start-date": "Set Start Date",
+    "set-end-date": "Set End Date",
+    "submit": "Submit",
+    "background-image-required-error": "Event background image is required",
+    "at-least-one-translation-required-error": "At least one translation need to be provided",
+    "start-date-not-before-end-date-error": "Start date must be before end date",
+    "start-date-in-the-past-error": "Start date cannot be in the past",
+    "validation-failed-error": "Incorrect data provided. Review the problems and try again.",
+    "calendar": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
   }
 }

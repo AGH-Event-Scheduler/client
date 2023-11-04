@@ -14,6 +14,7 @@ import {
 } from "../../utils/date";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import { EventHubImage } from "../EventHubImage";
 
 export interface DateSectionListItem extends OrganizationEvent {
   displayFullDates: boolean;
@@ -47,9 +48,9 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
       onPress={itemPressed}
     >
       <View style={styles.imageContainer}>
-        <Image
-          source={{ uri: item.organization.logoImage.smallUrl }}
-          style={styles.image}
+        <EventHubImage
+          imageId={item.organization.logoImage.imageId}
+          filename={item.organization.logoImage.smallFilename}
         />
       </View>
       <View style={[styles.container]}>
@@ -92,10 +93,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     overflow: "hidden",
     marginRight: 15,
-  },
-  image: {
-    flex: 1,
-    resizeMode: "contain",
   },
   eventName: {
     fontWeight: "bold",
