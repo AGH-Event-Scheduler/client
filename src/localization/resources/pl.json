@@ -112,6 +112,10 @@
     "at-least-one-translation-required-error": "Przynajmniej jedna translacja jest wymagana",
     "start-date-not-before-end-date-error": "Czas poczatku musi byc przed czasem konca",
     "start-date-in-the-past-error": "Czas poczatku nie moze byc w przeszlosci",
-    "validation-failed-error": "Podano niewlasciwe dane. Popraw problemy i sprobuj ponownie."
+    "validation-failed-error": "Podano niewlasciwe dane. Popraw problemy i sprobuj ponownie.",
+    "calendar": {
+      "confirm": "Wybierz",
+      "cancel": "Anuluj"
+    }
   }
 }

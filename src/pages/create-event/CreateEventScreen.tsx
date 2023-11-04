@@ -17,7 +17,7 @@ import {
 } from "../../api/api-utils";
 import * as mime from "react-native-mime-types";
 import { FormLanguageSelector } from "../../components/FormLanguageSelector";
-import { Field, useEventFormValidation } from "./EventFormValidationHook";
+import { Field, useEventFormValidation } from "./useEventFormValidation";
 
 enum PickingDate {
   StartDate,
@@ -282,6 +282,9 @@ export const CreateEventScreen = ({ navigation, route }) => {
                   ? endDate
                   : new Date()
               }
+              textColor="black"
+              confirmTextIOS={t("create-event.calendar.confirm")}
+              cancelTextIOS={t("create-event.calendar.cancel")}
             />
           </View>
 

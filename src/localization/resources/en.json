@@ -112,6 +112,10 @@
     "at-least-one-translation-required-error": "At least one translation need to be provided",
     "start-date-not-before-end-date-error": "Start date must be before end date",
     "start-date-in-the-past-error": "Start date cannot be in the past",
-    "validation-failed-error": "Incorrect data provided. Review the problems and try again."
+    "validation-failed-error": "Incorrect data provided. Review the problems and try again.",
+    "calendar": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
   }
 }
