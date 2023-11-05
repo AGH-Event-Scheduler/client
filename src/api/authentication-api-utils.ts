@@ -10,7 +10,7 @@ export const register = async (
   const body = { email, password, firstName, lastName };
 
   try {
-    const response = await fetchApi(endpoint, Method.POST, body);
+    const response = await fetchApi(endpoint, Method.POST, body, false);
     const data = await response.json();
 
     if (response.ok) {
@@ -33,9 +33,8 @@ export const authenticate = async (
   const body = { email, password };
 
   try {
-    const response = await fetchApi(endpoint, Method.POST, body);
+    const response = await fetchApi(endpoint, Method.POST, body, false);
     const data = await response.json();
-    console.log(data);
     if (response.ok) {
       console.log("OK LOGGED");
       return data as AuthenticationResponse;
@@ -55,5 +54,6 @@ export interface AuthenticationRequest {
 }
 
 export interface AuthenticationResponse {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 }

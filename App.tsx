@@ -15,7 +15,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AuthenticationService.getLoginStatus()
+    AuthenticationService.getLoginStatus() //FIXME
       .then((isLoggedIn) => {
         setFirstScreen(isLoggedIn ? "Main" : "Login");
         setLoading(false);

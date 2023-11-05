@@ -6,6 +6,7 @@ import { globalStyles } from "../../styles/GlobalStyles";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { AuthenticationService } from "../../services/AuthenticationService";
 import { useTranslation } from "react-i18next";
+import { authenticate } from "../../api/authentication-api-utils";
 
 export const LoginPageView = () => {
   const [email, setEmail] = useState("");
@@ -31,7 +32,8 @@ export const LoginPageView = () => {
       return;
     } else {
       try {
-        if (await AuthenticationService.authenticate(email, password)) {
+        const response = await authenticate(email, password);
+        if (await AuthenticationService.authenticate(response)) {
           navigation.dispatch(
             CommonActions.reset({
               index: 0,

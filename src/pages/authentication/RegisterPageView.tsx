@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { AuthenticationService } from "../../services/AuthenticationService";
 import { useTranslation } from "react-i18next";
+import { register } from "../../api/authentication-api-utils";
 
 export const RegisterPageView = () => {
   const [email, setEmail] = useState("");
@@ -37,15 +38,8 @@ export const RegisterPageView = () => {
       return;
     } else {
       try {
-        if (
-          await AuthenticationService.register(
-            email,
-            password,
-            firstName,
-            lastName,
-          )
-        ) {
-          // @ts-ignore
+        const response = await register(email, password, firstName, lastName);
+        if (await AuthenticationService.authenticate(response)) {
           navigation.dispatch(
             CommonActions.reset({
               index: 0,

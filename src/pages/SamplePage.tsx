@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { AppButton } from "../components/AppButton";
-import { AuthenticationService } from "../services/AuthenticationService";
 import { CommonActions, useNavigation } from "@react-navigation/native";
+import { AuthenticationService } from "../services/AuthenticationService";
 
 export const SamplePage = () => {
   const navigation = useNavigation();
@@ -11,14 +11,14 @@ export const SamplePage = () => {
     <View style={styles.container}>
       <AppButton
         onPress={() => {
-          AuthenticationService.removeAuthToken().then(() =>
+          AuthenticationService.logout().then(() => {
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,
                 routes: [{ name: "Login" }],
               }),
-            ),
-          );
+            );
+          });
         }}
         type="secondary"
         title={"Hello World"}

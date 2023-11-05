@@ -1,7 +1,8 @@
 // when testing on expo choose computer's ip instead of localhost
 import { AuthenticationService } from "../services/AuthenticationService";
+import { AuthenticationResponse } from "./authentication-api-utils";
 
-export const baseUrl = "http://192.168.0.115:8080";
+export const baseUrl = "http://localhost:8080";
 export const baseApiUrl = `${baseUrl}/api`;
 
 export enum Language {
@@ -27,6 +28,8 @@ export enum Method {
   POST = "POST",
   DELETE = "DELETE",
 }
+
+let refreshed = false; // TODO jak pozbyć się tej flagi bez dodawania kolejnych parametrów ? ma ktoś pomysł?
 
 export const fetchApi = async (
   endpoint: string,
@@ -74,7 +77,15 @@ export const fetchApi = async (
   console.log(`${method} ${urlWithParams}`);
 
   try {
-    return await fetch(urlWithParams, options);
+    let response = await fetch(urlWithParams, options);
+
+    if (response.status === 403 && isAuthorized && !refreshed) {
+      refreshed = true;
+      response = await tryRefreshAndRetry(endpoint, method, body, queryParams);
+    } else {
+      refreshed = false;
+    }
+    return response;
   } catch (reason) {
     console.log(`Error while fetching ${urlWithParams}. Reason: ${reason}`);
     throw reason;
@@ -83,4 +94,57 @@ export const fetchApi = async (
 
 export const getImageUrl = (imageId: string, filename: string): string => {
   return `${baseUrl}/images/${imageId}/${filename}`;
+};
+
+const tryRefreshAndRetry = async (
+  endpoint: string,
+  method: Method,
+  body: any,
+  queryParams: Record<string, any>,
+): Promise<Response> => {
+  try {
+    console.log("403 -> Refreshing TOKEN");
+    await AuthenticationService.getRefreshToken()
+      .then(refreshAccessToken)
+      .then(AuthenticationService.authenticate);
+    return await fetchApi(endpoint, method, body, true, queryParams);
+  } catch (error) {
+    alert("Your session has expired. Please log in again.");
+    AuthenticationService.logout().then(() => {
+      //TODO nie wiem jak zrobić tu nawigację do głównego ekranu
+    });
+  }
+};
+
+const refreshAccessToken = async (
+  refreshToken: string,
+): Promise<AuthenticationResponse | null> => {
+  try {
+    let options: RequestInit = { method: "POST" };
+
+    options = {
+      ...options,
+      headers: {
+        ...options.headers,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    };
+
+    const urlWithParams = `${baseApiUrl}/authentication/refresh`;
+    console.log(`${urlWithParams}`);
+
+    const response = await fetch(urlWithParams, options);
+    const data = await response.json();
+
+    if (response.ok) {
+      return data as AuthenticationResponse;
+    } else {
+      console.error("Access token refresh failed:", data);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error refreshing access token:", error);
+    throw error;
+  }
 };
