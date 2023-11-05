@@ -30,6 +30,13 @@ export const RegisterPageView = () => {
       );
       return;
     }
+    if (password != repeatedPassword) {
+      Alert.alert(
+        t("registration.invalid-password"),
+        t("registration.password-match-description"),
+      );
+      return;
+    }
     if (!validateEmail(email)) {
       Alert.alert(
         t("registration.invalid-email"),

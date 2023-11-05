@@ -91,7 +91,8 @@
     "name-placeholder": "First name",
     "last-name-placeholder": "Last name",
     "agh-domain-email-description": "AGH domain email address",
-    "password-placeholder": "Password"
+    "password-placeholder": "Password",
+    "invalid-password": "Invalid Password"
   },
   "create-event": {
     "upload-image": "Upload Image",
