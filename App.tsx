@@ -7,6 +7,8 @@ import i18next from "./src/localization/i18next";
 import { MainStack } from "./src/navigationstacks/MainStack";
 import { AuthenticationStack } from "./src/navigationstacks/AuthenticationStack";
 import { AuthenticationService } from "./src/services/AuthenticationService";
+import { refreshAccessToken } from "./src/api/api-utils";
+import { authenticate } from "./src/api/authentication-api-utils";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +17,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AuthenticationService.getLoginStatus() //FIXME
+    AuthenticationService.getRefreshToken()
+      .then(refreshAccessToken)
+      .then(AuthenticationService.authenticate)
       .then((isLoggedIn) => {
         setFirstScreen(isLoggedIn ? "Main" : "Login");
         setLoading(false);
@@ -23,7 +27,6 @@ export default function App() {
       .catch((err) => {
         setLoading(false);
         setFirstScreen("Login");
-        console.error(err);
       });
   }, []);
 

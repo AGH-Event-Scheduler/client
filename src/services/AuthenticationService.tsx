@@ -5,21 +5,10 @@ const TOKEN_KEY = "authToken";
 const REFRESH_TOKEN_KEY = "refreshToken";
 
 export class AuthenticationService {
-  static async getLoginStatus(): Promise<boolean> {
-    try {
-      const token = await AsyncStorage.getItem(TOKEN_KEY);
-      return !!token;
-    } catch (error) {
-      console.error("Error checking login status:", error);
-      return false;
-    }
-  }
-
   static async authenticate(
     response: AuthenticationResponse,
   ): Promise<boolean> {
     if (response) {
-      console.log(response.accessToken + "  HELLO  " + response.refreshToken);
       await AsyncStorage.setItem(TOKEN_KEY, response.accessToken);
       await AsyncStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken);
       return true;

@@ -116,7 +116,7 @@ const tryRefreshAndRetry = async (
   }
 };
 
-const refreshAccessToken = async (
+export const refreshAccessToken = async (
   refreshToken: string,
 ): Promise<AuthenticationResponse | null> => {
   try {
@@ -140,11 +140,11 @@ const refreshAccessToken = async (
     if (response.ok) {
       return data as AuthenticationResponse;
     } else {
-      console.error("Access token refresh failed:", data);
+      console.log("Access token refresh failed:", data);
       return null;
     }
   } catch (error) {
-    console.error("Error refreshing access token:", error);
+    console.log("Error refreshing access token:", error);
     throw error;
   }
 };
