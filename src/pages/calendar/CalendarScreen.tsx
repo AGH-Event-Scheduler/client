@@ -25,8 +25,11 @@ import { LoadingView } from "../../components/loading/LoadingView";
 import { SearchBar } from "../../components/SearchBar";
 
 export const CalendarScreen = () => {
-  const [selectedWeek, setSelectedWeek] = useState<DateRange>();
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const dateNow = new Date();
+  const [selectedWeek, setSelectedWeek] = useState<DateRange>(
+    getFirstAndLastDayOfWeek(dateNow),
+  );
+  const [selectedDate, setSelectedDate] = useState<Date>(dateNow);
   const [isLoading, setIsLoading] = useState(true);
   const [agendaItems, setAgendaItems] = useState<EventsByDates>();
   const childWeeklyCalendarRef = useRef(null);
@@ -47,7 +50,7 @@ export const CalendarScreen = () => {
     if (selectedDate && !isLoading) {
       childDateSectionListRef.current?.scrollTo(selectedDate);
     }
-  }, [selectedDate, isLoading]);
+  }, [selectedDate]);
 
   const getAgendaItemsInDateRange = useCallback(
     async ({ startDate, endDate }: DateRange) => {
@@ -86,7 +89,7 @@ export const CalendarScreen = () => {
 
       setIsLoading(false);
     },
-    [],
+    [selectedWeek],
   );
 
   const onDayChange = (date: Date) => {
@@ -94,13 +97,8 @@ export const CalendarScreen = () => {
   };
 
   const onWeekChange = (dateRange: DateRange) => {
-    if (
-      !selectedWeek ||
-      (!isTheSameDay(dateRange.startDate, selectedWeek.startDate) &&
-        !isTheSameDay(dateRange.endDate, selectedWeek.endDate))
-    ) {
-      setSelectedWeek(dateRange);
-    }
+    console.log("onWeekChange");
+    setSelectedWeek(dateRange);
   };
 
   return (
@@ -116,7 +114,7 @@ export const CalendarScreen = () => {
       </View>
       <WeeklyCalendar
         ref={childWeeklyCalendarRef}
-        selectedDate={new Date()}
+        selectedDate={dateNow}
         onDayChange={onDayChange}
         onWeekChange={onWeekChange}
       />

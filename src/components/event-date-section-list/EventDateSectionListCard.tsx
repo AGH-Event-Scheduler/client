@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
   Alert,
@@ -25,7 +25,7 @@ interface DateSectionListCardProps {
   item: DateSectionListItem;
 }
 
-const EventDateSectionListCard = (props: DateSectionListCardProps) => {
+const EventDateSectionListCard = memo((props: DateSectionListCardProps) => {
   const { t, i18n } = useTranslation();
 
   const { item } = props;
@@ -65,7 +65,7 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
       </View>
     </TouchableOpacity>
   );
-};
+});
 
 export default EventDateSectionListCard;
 
