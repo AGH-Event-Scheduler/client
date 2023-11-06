@@ -1,15 +1,13 @@
 import { fetchApi, Method } from "./api-utils";
 import { Organization } from "./types";
 
-export const getAllOrganizationsWithStatusByUser = async (
+export const fetchAllOrganizationsWithStatusByUser = async (
   onlySubscribed = false,
 ): Promise<Organization[]> => {
-  const endpoint = onlySubscribed
-    ? "/organizations/subscribed"
-    : "/organizations";
+  const url = onlySubscribed ? "/organizations/subscribed" : "/organizations";
 
   try {
-    const response = await fetchApi(endpoint, Method.GET);
+    const response = await fetchApi({ url: url });
     const data = await response.json();
 
     if (response.ok) {
@@ -32,13 +30,13 @@ export const getAllOrganizationsWithStatusByUser = async (
   }
 };
 
-export const getOrganizationById = async (
+export const fetchOrganizationById = async (
   organizationId: number,
 ): Promise<Organization> => {
-  const endpoint = `/organizations/${organizationId}`;
+  const url = `/organizations/${organizationId}`;
 
   try {
-    const response = await fetchApi(endpoint, Method.GET);
+    const response = await fetchApi({ url: url });
     const data = await response.json();
 
     if (response.ok) {
@@ -56,10 +54,14 @@ export const getOrganizationById = async (
 export const subscribeToOrganization = async (
   organizationId: number,
 ): Promise<boolean> => {
-  const endpoint = "/organizations/subscribe";
+  const url = "/organizations/subscribe";
   try {
-    const response = await fetchApi(endpoint, Method.POST, null, true, {
-      organizationId: organizationId,
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        organizationId: organizationId,
+      },
     });
 
     if (!response.ok) {
@@ -76,10 +78,14 @@ export const subscribeToOrganization = async (
 export const unsubscribeFromOrganization = async (
   organizationId: number,
 ): Promise<boolean> => {
-  const endpoint = "/organizations/unsubscribe";
+  const url = "/organizations/unsubscribe";
   try {
-    const response = await fetchApi(endpoint, Method.POST, null, true, {
-      organizationId: organizationId,
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        organizationId: organizationId,
+      },
     });
     if (!response.ok) {
       console.error("Unsubscribing failed:", response.statusText);

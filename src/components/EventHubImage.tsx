@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { AppButton, ButtonSize } from "./AppButton";

@@ -1,17 +1,17 @@
 // when testing on expo choose computer's ip instead of localhost
 import { AuthenticationService } from "../services/AuthenticationService";
 
-export const baseUrl = "http://192.168.0.115:8080";
+export const baseUrl = "http://192.168.0.103:8080";
 export const baseApiUrl = `${baseUrl}/api`;
 
 export enum Language {
-  PL = "pl",
-  ENG = "eng",
+  PL = "PL",
+  EN = "EN",
 }
 
 export interface MultiLanguageText {
-  pl: string;
-  eng: string;
+  PL: string;
+  EN: string;
 }
 
 export interface FormDataFileUpload {
@@ -28,13 +28,21 @@ export enum Method {
   DELETE = "DELETE",
 }
 
-export const fetchApi = async (
-  endpoint: string,
-  method: Method = Method.GET,
-  body: any = null,
-  isAuthorized: boolean = true,
-  queryParams: Record<string, any> = {},
-): Promise<Response> => {
+export interface FetchApiParams {
+  url: string;
+  method?: Method;
+  body?: any;
+  isAuthorized?: boolean;
+  queryParams?: Record<string, any>;
+}
+
+export const fetchApi = async ({
+  url,
+  method = Method.GET,
+  body = null,
+  isAuthorized = true,
+  queryParams = {},
+}: FetchApiParams): Promise<Response> => {
   let options: RequestInit = { method: method.toString() };
 
   if (isAuthorized) {
@@ -68,8 +76,8 @@ export const fetchApi = async (
     .join("&");
 
   const urlWithParams = queryString
-    ? `${baseApiUrl}${endpoint}?${queryString}`
-    : `${baseApiUrl}${endpoint}`;
+    ? `${baseApiUrl}${url}?${queryString}`
+    : `${baseApiUrl}${url}`;
 
   console.log(`${method} ${urlWithParams}`);
 

@@ -25,19 +25,18 @@ export const EventDetailsView = ({ navigation, route }) => {
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    isFocused && fetchEventDetailsData();
+    const getEventDetailsData = async () => {
+      setIsLoading(true);
+      try {
+        const event = await fetchEventDetails(eventId);
+        setEvent(event);
+      } catch (error) {
+        console.log("Fetching event details error", error);
+      }
+      setIsLoading(false);
+    };
+    isFocused && getEventDetailsData();
   }, [isFocused]);
-
-  const fetchEventDetailsData = async () => {
-    setIsLoading(true);
-    try {
-      const event = await fetchEventDetails(eventId);
-      setEvent(event);
-    } catch (error) {
-      console.log("Fetching event details error", error);
-    }
-    setIsLoading(false);
-  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -72,8 +71,8 @@ export const EventDetailsView = ({ navigation, route }) => {
           >
             <View style={styles.organizationImageContainer}>
               <EventHubImage
-                imageId={event.organization.logoImage.imageId}
-                filename={event.organization.logoImage.mediumFilename}
+                imageId={event?.organization.logoImage.imageId}
+                filename={event?.organization.logoImage.mediumFilename}
               />
             </View>
             <View style={styles.organizationText}>

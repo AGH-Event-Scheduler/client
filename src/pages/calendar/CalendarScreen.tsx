@@ -36,7 +36,7 @@ export const CalendarScreen = () => {
 
   useEffect(() => {
     if (selectedWeek) {
-      fetchAgendaItemsInDateRange({
+      getAgendaItemsInDateRange({
         startDate: selectedWeek.startDate,
         endDate: selectedWeek.endDate,
       });
@@ -49,7 +49,7 @@ export const CalendarScreen = () => {
     }
   }, [selectedDate, isLoading]);
 
-  const fetchAgendaItemsInDateRange = useCallback(
+  const getAgendaItemsInDateRange = useCallback(
     async ({ startDate, endDate }: DateRange) => {
       setIsLoading(true);
 
