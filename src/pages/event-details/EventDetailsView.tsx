@@ -42,7 +42,6 @@ export const EventDetailsView = ({ navigation, route }) => {
     isFocused && getEventDetailsData();
   }, [isFocused]);
 
-
   return (
     <View style={{ flex: 1 }}>
       {isLoading ? (

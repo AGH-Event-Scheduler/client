@@ -11,5 +11,5 @@ export const languages: Language[] = [
 ];
 
 export const getCurrentLanguage = (): string => {
-  return i18next.language.toLocaleUpperCase()
-}
+  return i18next.language.toLocaleUpperCase();
+};

@@ -17,7 +17,7 @@ export const EventHubImage = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const source = getImageUrl(imageId, filename);
-  
+
   return (
     <View style={{ flex: 1 }}>
       <View style={StyleSheet.absoluteFillObject}>

@@ -21,7 +21,8 @@ export const fetchEventsInDateRange = async (
   var response = await fetchApi(
     `/events/byDate?startDate=${toSimpleDateString(
       startDate,
-    )}&endDate=${toSimpleDateString(endDate)}`,
+    )}&endDate=${toSimpleDateString(endDate)}
+    &language=${getCurrentLanguage()}`,
   );
   return response.json();
 };
@@ -40,7 +41,9 @@ export const fetchOrganizationEvents = async (
 export const fetchEventDetails = async (
   eventId: number,
 ): Promise<OrganizationEvent> => {
-  var response = await fetchApi(`/events/${eventId}?language=${getCurrentLanguage()}`);
+  var response = await fetchApi(
+    `/events/${eventId}?language=${getCurrentLanguage()}`,
+  );
   return response.json();
 };
 

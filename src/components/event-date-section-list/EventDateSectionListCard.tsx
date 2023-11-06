@@ -29,7 +29,7 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
   const { t, i18n } = useTranslation();
 
   const { item } = props;
-  const [itemOrganization, setItemOrganization] = useState(null)
+  const [itemOrganization, setItemOrganization] = useState(null);
   const navigation = useNavigation();
 
   const itemPressed = useCallback(() => {
@@ -39,7 +39,7 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
   useEffect(() => {
     const organization = getOrganizationById(props.item.organizationId);
     setItemOrganization(organization);
-  }, [props.item])
+  }, [props.item]);
 
   const getDate = (date: Date, displayFullDates: boolean) => {
     if (displayFullDates) {
