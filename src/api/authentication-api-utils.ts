@@ -6,11 +6,15 @@ export const register = async (
   firstName: string,
   lastName: string,
 ): Promise<AuthenticationResponse | null> => {
-  const endpoint = "/authentication/register";
+  const url = "/authentication/register";
   const body = { email, password, firstName, lastName };
 
   try {
-    const response = await fetchApi(endpoint, Method.POST, body);
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      body: body,
+    });
     const data = await response.json();
 
     if (response.ok) {
@@ -29,11 +33,15 @@ export const authenticate = async (
   email: string,
   password: string,
 ): Promise<AuthenticationResponse | null> => {
-  const endpoint = "/authentication/authenticate";
+  const url = "/authentication/authenticate";
   const body = { email, password };
 
   try {
-    const response = await fetchApi(endpoint, Method.POST, body);
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      body: body,
+    });
     const data = await response.json();
     console.log(data);
     if (response.ok) {

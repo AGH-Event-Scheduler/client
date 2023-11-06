@@ -13,7 +13,7 @@ import { globalStyles } from "../../styles/GlobalStyles";
 import { OrganizationEvent, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import {
-  getOrganizationById,
+  fetchOrganizationById,
   subscribeToOrganization,
   unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
@@ -41,7 +41,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
         setOrganizationIsLoading(true);
         setEventsAreLoading(true);
 
-        const organization = await getOrganizationById(organizationId);
+        const organization = await fetchOrganizationById(organizationId);
         setOrganization(organization);
         setOrganizationIsLoading(false);
 

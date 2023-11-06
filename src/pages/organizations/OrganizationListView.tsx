@@ -4,7 +4,7 @@ import { OrganizationListCard } from "./OrganizationListCard";
 import { useIsFocused } from "@react-navigation/native";
 import { Organization } from "../../api/types";
 import {
-  getAllOrganizationsWithStatusByUser,
+  fetchAllOrganizationsWithStatusByUser,
   subscribeToOrganization,
   unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
@@ -24,7 +24,7 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
       setIsLoading(true);
       try {
         const organizationsList: Organization[] =
-          await getAllOrganizationsWithStatusByUser(onlySubscribed);
+          await fetchAllOrganizationsWithStatusByUser(onlySubscribed);
         setOrganizations(organizationsList);
       } catch (error) {
         console.log("Fetching organizations list error", error);

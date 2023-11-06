@@ -15,7 +15,7 @@ import {
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { EventHubImage } from "../EventHubImage";
-import { getOrganizationById } from "../../api/organization-api-utils";
+import { fetchOrganizationById } from "../../api/organization-api-utils";
 
 export interface DateSectionListItem extends OrganizationEvent {
   displayFullDates: boolean;
