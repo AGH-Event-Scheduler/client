@@ -1,4 +1,5 @@
 import { fetchApi, Method } from "./api-utils";
+import { AuthenticationService } from "../services/AuthenticationService";
 
 export const register = async (
   email: string,
@@ -44,6 +45,27 @@ export const authenticate = async (
     }
   } catch (error) {
     console.error("Error during authentication:", error);
+    throw error;
+  }
+};
+
+export const logout = async () => {
+  const endpoint = "/authentication/logout";
+
+  try {
+    const response = await fetchApi(endpoint, Method.POST, null, false, {
+      refreshToken: AuthenticationService.getRefreshToken(),
+    });
+
+    if (response.ok) {
+      console.log("OK LOGGED OUT");
+      return true;
+    } else {
+      console.error("Logging out failed:");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error during logging out :", error);
     throw error;
   }
 };

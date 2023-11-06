@@ -30,7 +30,12 @@
     "language": "Język",
     "notifications": "Powiadomienia",
     "dark-mode": "Ciemny tryb",
-    "information": "Informacja"
+    "information": "Informacja",
+    "account-details": {
+      "sign-out": "Wyloguj się",
+      "name": "Użytkownik",
+      "email": "Email"
+    }
   },
   "organization-details": {
     "follow": "Obserwuj",

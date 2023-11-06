@@ -10,16 +10,7 @@ export const SamplePage = () => {
   return (
     <View style={styles.container}>
       <AppButton
-        onPress={() => {
-          AuthenticationService.logout().then(() => {
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [{ name: "Login" }],
-              }),
-            );
-          });
-        }}
+        onPress={() => {}}
         type="secondary"
         title={"Hello World"}
         size="default"

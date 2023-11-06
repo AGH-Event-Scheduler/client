@@ -18,11 +18,8 @@ export class AuthenticationService {
 
   static async logout(): Promise<boolean> {
     try {
-      // Remove tokens
       await AuthenticationService.removeAuthToken();
       await AuthenticationService.removeRefreshToken();
-
-      // Return a boolean indicating success/failure if needed
       return true;
     } catch (error) {
       console.error("Error during logout:", error);

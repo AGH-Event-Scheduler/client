@@ -1,6 +1,7 @@
 // when testing on expo choose computer's ip instead of localhost
 import { AuthenticationService } from "../services/AuthenticationService";
-import { AuthenticationResponse } from "./authentication-api-utils";
+import { AuthenticationResponse, logout } from "./authentication-api-utils";
+import { Alert } from "react-native";
 
 export const baseUrl = "http://localhost:8080";
 export const baseApiUrl = `${baseUrl}/api`;
@@ -110,9 +111,20 @@ const tryRefreshAndRetry = async (
     return await fetchApi(endpoint, method, body, true, queryParams);
   } catch (error) {
     alert("Your session has expired. Please log in again.");
-    AuthenticationService.logout().then(() => {
-      //TODO nie wiem jak zrobić tu nawigację do głównego ekranu
-    });
+    try {
+      await logout().then((loggedOut) => {
+        if (loggedOut) {
+          AuthenticationService.logout().then(() => {
+            //TODO nie wiem jak zrobić tu nawigację do głównego ekranu
+          });
+        } else {
+          Alert.alert("Error during logging out");
+        }
+      });
+    } catch (error) {
+      console.log("Error refreshing access token:", error);
+      throw error;
+    }
   }
 };
 
