@@ -9,18 +9,16 @@ import {
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { fetchEventDetails } from "../../api/event-api-utils";
-import { Organization, OrganizationEvent } from "../../api/types";
+import { OrganizationEvent } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { EventHubImage } from "../../components/EventHubImage";
-import { getOrganizationById } from "../../api/organization-api-utils";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
   const [event, setEvent] = useState<OrganizationEvent>();
-  const [eventOrganization, setEventOrganization] = useState<Organization>();
   const [isLoading, setIsLoading] = useState(true);
 
   const eventId = route.params.eventId;
@@ -31,9 +29,7 @@ export const EventDetailsView = ({ navigation, route }) => {
       setIsLoading(true);
       try {
         const event = await fetchEventDetails(eventId);
-        const organization = await getOrganizationById(event.organizationId);
         setEvent(event);
-        setEventOrganization(organization);
       } catch (error) {
         console.log("Fetching event details error", error);
       }
@@ -69,19 +65,19 @@ export const EventDetailsView = ({ navigation, route }) => {
             style={styles.organizationContainer}
             onPress={() => {
               navigation.navigate("Organization", {
-                organizationId: event?.organizationId,
+                organizationId: event?.organization.id,
               });
             }}
           >
             <View style={styles.organizationImageContainer}>
               <EventHubImage
-                imageId={eventOrganization.logoImage.imageId}
-                filename={eventOrganization.logoImage.mediumFilename}
+                imageId={event?.organization.logoImage.imageId}
+                filename={event?.organization.logoImage.mediumFilename}
               />
             </View>
             <View style={styles.organizationText}>
               <Text style={styles.organizationName}>
-                {eventOrganization.name}
+                {event?.organization.name}
               </Text>
               <Text style={styles.lastEdit}>
                 <Text style={{ fontWeight: "bold" }}>{`${t(

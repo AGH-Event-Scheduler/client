@@ -26,7 +26,7 @@ export interface OrganizationEvent extends BaseEntity {
   startDate: string;
   endDate: string;
   location: string;
-  organizationId: number;
+  organization: Organization;
 }
 
 export interface User extends BaseEntity {

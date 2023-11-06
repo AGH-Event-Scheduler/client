@@ -29,17 +29,11 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
   const { t, i18n } = useTranslation();
 
   const { item } = props;
-  const [itemOrganization, setItemOrganization] = useState(null);
   const navigation = useNavigation();
 
   const itemPressed = useCallback(() => {
     navigation.dispatch(CommonActions.navigate("Event", { eventId: item.id }));
   }, []);
-
-  useEffect(() => {
-    const organization = getOrganizationById(props.item.organizationId);
-    setItemOrganization(organization);
-  }, [props.item]);
 
   const getDate = (date: Date, displayFullDates: boolean) => {
     if (displayFullDates) {
@@ -56,8 +50,8 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
     >
       <View style={styles.imageContainer}>
         <EventHubImage
-          imageId={itemOrganization?.logoImage?.imageId}
-          filename={itemOrganization?.logoImage?.smallFilename}
+          imageId={item.organization?.logoImage?.imageId}
+          filename={item.organization?.logoImage?.smallFilename}
         />
       </View>
       <View style={[styles.container]}>
@@ -67,7 +61,7 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
           {getDate(new Date(item.endDate), item.displayFullDates)}
         </Text>
         <Text style={[styles.location]}>{item.location}</Text>
-        <Text style={[styles.organizationName]}>{itemOrganization?.name}</Text>
+        <Text style={[styles.organizationName]}>{item.organization?.name}</Text>
       </View>
     </TouchableOpacity>
   );
