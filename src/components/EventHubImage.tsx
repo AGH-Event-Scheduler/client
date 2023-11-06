@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { AppButton, ButtonSize } from "./AppButton";
@@ -17,15 +17,17 @@ export const EventHubImage = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const source = getImageUrl(imageId, filename);
-
+  
   return (
     <View style={{ flex: 1 }}>
-      <LoadingView style={{ display: isLoading ? null : "none" }} />
+      <View style={StyleSheet.absoluteFillObject}>
+        <LoadingView style={{ display: isLoading ? null : "none" }} />
+      </View>
       <Image
         source={{ uri: source }}
         onLoadEnd={() => setIsLoading(false)}
         alt="X"
-        style={[styles.image, { display: isLoading ? "none" : null }]}
+        style={[styles.image]}
       />
     </View>
   );

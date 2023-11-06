@@ -1,3 +1,5 @@
+import i18next from "../localization/i18next";
+import { getCurrentLanguage } from "../localization/languages";
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { toSimpleDateString, toUTCDate } from "../utils/date";
 import {
@@ -29,7 +31,7 @@ export const fetchOrganizationEvents = async (
   eventsType: AllEventsViewTypeOption,
 ): Promise<OrganizationEvent[]> => {
   var response = await fetchApi(
-    `/events/organization/${organizationId}?type=${eventsType}`,
+    `/events/organization/${organizationId}?type=${eventsType}&language=${getCurrentLanguage()}`,
   );
 
   return response.json();
@@ -38,7 +40,7 @@ export const fetchOrganizationEvents = async (
 export const fetchEventDetails = async (
   eventId: number,
 ): Promise<OrganizationEvent> => {
-  var response = await fetchApi(`/events/${eventId}`);
+  var response = await fetchApi(`/events/${eventId}?language=${getCurrentLanguage()}`);
   return response.json();
 };
 

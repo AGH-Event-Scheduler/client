@@ -9,3 +9,7 @@ export const languages: Language[] = [
   { index: "pl", translation: i18next.t("languages.pl") },
   { index: "en", translation: i18next.t("languages.en") },
 ];
+
+export const getCurrentLanguage = (): string => {
+  return i18next.language.toLocaleUpperCase()
+}

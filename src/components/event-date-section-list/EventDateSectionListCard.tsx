@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
   Alert,
@@ -15,6 +15,7 @@ import {
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { EventHubImage } from "../EventHubImage";
+import { getOrganizationById } from "../../api/organization-api-utils";
 
 export interface DateSectionListItem extends OrganizationEvent {
   displayFullDates: boolean;
@@ -28,11 +29,17 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
   const { t, i18n } = useTranslation();
 
   const { item } = props;
+  const [itemOrganization, setItemOrganization] = useState(null)
   const navigation = useNavigation();
 
   const itemPressed = useCallback(() => {
     navigation.dispatch(CommonActions.navigate("Event", { eventId: item.id }));
   }, []);
+
+  useEffect(() => {
+    const organization = getOrganizationById(props.item.organizationId);
+    setItemOrganization(organization);
+  }, [props.item])
 
   const getDate = (date: Date, displayFullDates: boolean) => {
     if (displayFullDates) {
@@ -49,8 +56,8 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
     >
       <View style={styles.imageContainer}>
         <EventHubImage
-          imageId={item.organization.logoImage.imageId}
-          filename={item.organization.logoImage.smallFilename}
+          imageId={itemOrganization?.logoImage?.imageId}
+          filename={itemOrganization?.logoImage?.smallFilename}
         />
       </View>
       <View style={[styles.container]}>
@@ -60,7 +67,7 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
           {getDate(new Date(item.endDate), item.displayFullDates)}
         </Text>
         <Text style={[styles.location]}>{item.location}</Text>
-        <Text style={[styles.organizationName]}>{item.organization.name}</Text>
+        <Text style={[styles.organizationName]}>{itemOrganization?.name}</Text>
       </View>
     </TouchableOpacity>
   );

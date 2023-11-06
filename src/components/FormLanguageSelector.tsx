@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import { AppButton, ButtonSize } from "./AppButton";
-import { LoadingView } from "./loading/LoadingView";
-import { Language, getImageUrl } from "../api/api-utils";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { Language } from "../api/api-utils";
 import { useTranslation } from "react-i18next";
 import CountryFlag from "react-native-country-flag";
 
@@ -17,7 +15,7 @@ export const FormLanguageSelector = ({
   const { t, i18n } = useTranslation();
 
   const [currentFormLanguage, setCurrentFormLanguage] = useState<Language>(
-    i18n.language === "pl" ? Language.PL : Language.ENG,
+    i18n.language === "pl" ? Language.PL : Language.EN,
   );
 
   useEffect(() => {
@@ -40,12 +38,12 @@ export const FormLanguageSelector = ({
       <TouchableOpacity
         style={styles.flagContainer}
         onPress={() => {
-          setCurrentFormLanguage(Language.ENG);
+          setCurrentFormLanguage(Language.EN);
         }}
       >
         <CountryFlag
           isoCode="gb"
-          size={currentFormLanguage === Language.ENG ? 32 : 23}
+          size={currentFormLanguage === Language.EN ? 32 : 23}
         />
       </TouchableOpacity>
     </View>
