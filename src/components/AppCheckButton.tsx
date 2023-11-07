@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AppButton, ButtonTypes } from "./AppButton";
+import { AppButton, ButtonSize, ButtonTypes } from "./AppButton";
 import React from "react";
 
 interface CheckButtonProps {
@@ -7,6 +7,7 @@ interface CheckButtonProps {
   title: string;
   altTitle?: string;
   isChecked: boolean;
+  size?: ButtonSize;
 }
 
 export const AppCheckButton = ({
@@ -14,6 +15,7 @@ export const AppCheckButton = ({
   title,
   altTitle,
   isChecked,
+  size = "default",
 }: CheckButtonProps) => {
   const [buttonType, setButtonType] = useState<ButtonTypes>(
     isChecked ? "secondary" : "primary",
@@ -32,7 +34,7 @@ export const AppCheckButton = ({
       onPress={onPress}
       title={buttonText}
       type={buttonType}
-      size={"default"}
+      size={size}
     ></AppButton>
   );
 };

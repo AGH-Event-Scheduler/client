@@ -50,7 +50,7 @@ export const EventDetailsView = ({ navigation, route }) => {
               filename={event.backgroundImage.bigFilename}
             />
           </View>
-          <Text style={styles.eventName}>{event?.name}</Text>
+          <Text style={styles.eventName}>{event?.nameTranslated}</Text>
 
           <Text style={styles.date}>{`${toBeautifiedDateTimeString(
             new Date(event?.startDate),
@@ -59,25 +59,25 @@ export const EventDetailsView = ({ navigation, route }) => {
             new Date(event?.endDate),
             i18n.language,
           )}`}</Text>
-          <Text style={styles.location}>{event?.location}</Text>
+          <Text style={styles.location}>{event?.locationTranslated}</Text>
 
           <TouchableOpacity
             style={styles.organizationContainer}
             onPress={() => {
               navigation.navigate("Organization", {
-                organizationId: event?.organization.id,
+                organizationId: event?.underOrganization.id,
               });
             }}
           >
             <View style={styles.organizationImageContainer}>
               <EventHubImage
-                imageId={event?.organization.logoImage.imageId}
-                filename={event?.organization.logoImage.mediumFilename}
+                imageId={event.underOrganization.logoImage.imageId}
+                filename={event.underOrganization.logoImage.mediumFilename}
               />
             </View>
             <View style={styles.organizationText}>
               <Text style={styles.organizationName}>
-                {event?.organization.name}
+                {event?.underOrganization.name}
               </Text>
               <Text style={styles.lastEdit}>
                 <Text style={{ fontWeight: "bold" }}>{`${t(
@@ -94,7 +94,7 @@ export const EventDetailsView = ({ navigation, route }) => {
           <Text style={styles.descriptionHeader}>
             {t("general.description")}
           </Text>
-          <Text style={styles.description}>{event?.description}</Text>
+          <Text style={styles.description}>{event?.descriptionTranslated}</Text>
         </ScrollView>
       )}
     </View>

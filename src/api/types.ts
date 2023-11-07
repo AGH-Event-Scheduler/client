@@ -20,13 +20,13 @@ export interface Organization extends BaseEntity {
 }
 
 export interface OrganizationEvent extends BaseEntity {
-  name: string;
+  nameTranslated: string;
   backgroundImage: Image;
-  description: string;
+  descriptionTranslated: string;
   startDate: string;
   endDate: string;
-  location: string;
-  organization: Organization;
+  locationTranslated: string;
+  underOrganization: Organization;
 }
 
 export interface User extends BaseEntity {

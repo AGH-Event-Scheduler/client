@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-type ButtonTypes =
+export type ButtonTypes =
   | "primary"
   | "secondary"
   | "destructive"
