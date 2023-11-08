@@ -4,10 +4,13 @@ import { Organization } from "./types";
 export const fetchAllOrganizationsWithStatusByUser = async (
   onlySubscribed = false,
 ): Promise<Organization[]> => {
-  const url = onlySubscribed ? "/organizations/subscribed" : "/organizations";
+  const url = "/organizations";
+  const queryParams = {
+    subscribedOnly: onlySubscribed,
+  };
 
   try {
-    const response = await fetchApi({ url: url });
+    const response = await fetchApi({ url: url, queryParams: queryParams });
     const data = await response.json();
 
     if (response.ok) {

@@ -18,7 +18,7 @@ export const fetchEventsInDateRange = async (
   endDate: Date,
 ): Promise<{ [date: string]: OrganizationEvent[] }> => {
   var response = await fetchApi({
-    url: "/events/byDate",
+    url: "/events/groupedByDate",
     queryParams: {
       startDate: toSimpleDateString(startDate),
       endDate: toSimpleDateString(endDate),
@@ -33,10 +33,11 @@ export const fetchOrganizationEvents = async (
   eventsType: AllEventsViewTypeOption,
 ): Promise<OrganizationEvent[]> => {
   var response = await fetchApi({
-    url: `/events/organization/${organizationId}`,
+    url: `/events`,
     queryParams: {
       type: eventsType,
       language: getCurrentLanguage(),
+      organizationId: organizationId,
     },
   });
 
