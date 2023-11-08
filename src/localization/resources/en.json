@@ -42,7 +42,10 @@
     "see-all": "See all"
   },
   "calendar": {
-    "empty-date": "No events on this date."
+    "empty-date": "No events on this date.",
+    "saved": "Saved",
+    "following": "Following",
+    "all": "All"
   },
   "searchbar": {
     "placeholder": "Search..."

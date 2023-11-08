@@ -24,6 +24,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { SearchBar } from "../../components/SearchBar";
 import { AppCheckButton } from "../../components/AppCheckButton";
+import { useTranslation } from "react-i18next";
 
 enum EventFilter {
   SAVED,
@@ -32,6 +33,7 @@ enum EventFilter {
 }
 
 export const CalendarScreen = () => {
+  const { t } = useTranslation();
   const dateNow = new Date();
   const [selectedWeek, setSelectedWeek] = useState<DateRange>(
     getFirstAndLastDayOfWeek(dateNow),
@@ -120,7 +122,7 @@ export const CalendarScreen = () => {
           onPress={() => {
             setEventsFilter(EventFilter.SAVED);
           }}
-          title={"Saved"}
+          title={t("calendar.saved")}
           isChecked={eventsFilter === EventFilter.SAVED}
           size="small"
         />
@@ -128,7 +130,7 @@ export const CalendarScreen = () => {
           onPress={() => {
             setEventsFilter(EventFilter.FOLLOWING);
           }}
-          title={"Following"}
+          title={t("calendar.following")}
           isChecked={eventsFilter === EventFilter.FOLLOWING}
           size="small"
         />
@@ -136,7 +138,7 @@ export const CalendarScreen = () => {
           onPress={() => {
             setEventsFilter(EventFilter.ALL);
           }}
-          title={"All"}
+          title={t("calendar.all")}
           isChecked={eventsFilter === EventFilter.ALL}
           size="small"
         />
