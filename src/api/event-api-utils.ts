@@ -16,6 +16,8 @@ export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
 export const fetchEventsInDateRange = async (
   startDate: Date,
   endDate: Date,
+  savedOnly: boolean = false,
+  fromFollowedOnly: boolean = false,
 ): Promise<{ [date: string]: OrganizationEvent[] }> => {
   var response = await fetchApi({
     url: "/events/groupedByDate",
@@ -23,6 +25,8 @@ export const fetchEventsInDateRange = async (
       startDate: toSimpleDateString(startDate),
       endDate: toSimpleDateString(endDate),
       language: getCurrentLanguage(),
+      savedOnly: savedOnly,
+      fromFollowedOnly: fromFollowedOnly,
     },
   });
   return response.json();

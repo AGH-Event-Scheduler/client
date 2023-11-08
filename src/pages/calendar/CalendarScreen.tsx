@@ -63,9 +63,14 @@ export const CalendarScreen = () => {
 
     var eventsByDate: { [date: string]: OrganizationEvent[] };
     if (eventsFilter === EventFilter.SAVED) {
-      eventsByDate = await fetchEventsInDateRange(startDate, endDate);
+      eventsByDate = await fetchEventsInDateRange(startDate, endDate, true);
     } else if (eventsFilter === EventFilter.FOLLOWING) {
-      eventsByDate = await fetchEventsInDateRange(startDate, endDate);
+      eventsByDate = await fetchEventsInDateRange(
+        startDate,
+        endDate,
+        false,
+        true,
+      );
     } else {
       eventsByDate = await fetchEventsInDateRange(startDate, endDate);
     }
