@@ -97,3 +97,50 @@ export const createEvent = async (
   });
   return response.json();
 };
+
+export const saveEventInCalendar = async (
+  eventId: number,
+): Promise<boolean> => {
+  const url = "/events/save";
+  try {
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Saving failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during saving:", error);
+    throw error;
+  }
+};
+
+export const removeEventFromCalendar = async (
+  eventId: number,
+): Promise<boolean> => {
+  const url = "/events/remove";
+  try {
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+    if (!response.ok) {
+      console.error("Removing failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during removing:", error);
+    throw error;
+  }
+};

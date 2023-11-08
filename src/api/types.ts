@@ -27,6 +27,7 @@ export interface OrganizationEvent extends BaseEntity {
   endDate: string;
   locationTranslated: string;
   underOrganization: Organization;
+  isSaved: boolean;
 }
 
 export interface User extends BaseEntity {

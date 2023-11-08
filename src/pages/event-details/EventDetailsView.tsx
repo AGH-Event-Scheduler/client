@@ -8,13 +8,18 @@ import {
   View,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { fetchEventDetails } from "../../api/event-api-utils";
+import {
+  fetchEventDetails,
+  removeEventFromCalendar,
+  saveEventInCalendar,
+} from "../../api/event-api-utils";
 import { OrganizationEvent } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { EventHubImage } from "../../components/EventHubImage";
+import { AppCheckButton } from "../../components/AppCheckButton";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
@@ -38,6 +43,24 @@ export const EventDetailsView = ({ navigation, route }) => {
     isFocused && getEventDetailsData();
   }, [isFocused]);
 
+  const handleSaveButtonPress = async () => {
+    if (event) {
+      try {
+        if (event.isSaved) {
+          await removeEventFromCalendar(event.id);
+        } else {
+          await saveEventInCalendar(event.id);
+        }
+      } catch (error) {
+        console.error("Error handling organization subscription:", error);
+      }
+      setEvent({
+        ...event,
+        isSaved: !event.isSaved,
+      });
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       {isLoading ? (
@@ -50,6 +73,15 @@ export const EventDetailsView = ({ navigation, route }) => {
               filename={event.backgroundImage.bigFilename}
             />
           </View>
+          <View style={styles.buttonContainer}>
+            <AppCheckButton
+              onPress={handleSaveButtonPress}
+              title={t("event-details.save")}
+              altTitle={t("event-details.saved")}
+              isChecked={event.isSaved}
+            />
+          </View>
+
           <Text style={styles.eventName}>{event?.nameTranslated}</Text>
 
           <Text style={styles.date}>{`${toBeautifiedDateTimeString(
@@ -119,6 +151,13 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     maxHeight: 200,
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: "center",
+    marginVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   eventName: {
     fontSize: 19,

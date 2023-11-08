@@ -48,7 +48,9 @@
     "placeholder": "Szukaj..."
   },
   "event-details": {
-    "last-edit": "Ostatnio modyfikowane"
+    "last-edit": "Ostatnio modyfikowane",
+    "save": "Zapisz",
+    "saved": "Zapisane"
   },
   "login": {
     "welcome-to": "Witaj w",

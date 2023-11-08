@@ -48,7 +48,9 @@
     "placeholder": "Search..."
   },
   "event-details": {
-    "last-edit": "Last edited"
+    "last-edit": "Last edited",
+    "save": "Save",
+    "saved": "Saved"
   },
   "login": {
     "welcome-to": "Welcome to",
