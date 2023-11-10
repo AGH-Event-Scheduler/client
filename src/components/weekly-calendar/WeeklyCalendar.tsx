@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useRef,
   useState,
 } from "react";
 import {
@@ -57,22 +58,31 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
   );
   const [markedDates, setMarkedDates] = useState<string[]>([]);
 
+  const selectedDateStateRef = useRef<Date>(null);
+  selectedDateStateRef.current = selectedDate;
+  const selectedWeekStateRef = useRef<DateRange>(null);
+  selectedWeekStateRef.current = selectedWeek;
+
   const changeDate = (date: Date) => {
-    setSelectedWeek(getFirstAndLastDayOfWeek(date));
-    setSelectedDate(date);
+    const newSelectedWeek = getFirstAndLastDayOfWeek(date);
+    if (
+      !isTheSameDay(
+        newSelectedWeek.startDate,
+        selectedWeekStateRef.current.startDate,
+      )
+    ) {
+      setSelectedWeek(getFirstAndLastDayOfWeek(date));
+      if (props.onWeekChange) {
+        props.onWeekChange(newSelectedWeek);
+      }
+    }
+    if (!isTheSameDay(date, selectedDateStateRef.current)) {
+      setSelectedDate(date);
+      if (props.onDayChange) {
+        props.onDayChange(date);
+      }
+    }
   };
-
-  useEffect(() => {
-    if (props.onDayChange) {
-      props.onDayChange(selectedDate);
-    }
-  }, [selectedDate]);
-
-  useEffect(() => {
-    if (props.onWeekChange) {
-      props.onWeekChange(selectedWeek);
-    }
-  }, [selectedWeek]);
 
   const handleLeftClick = () => {
     var previousWeek = getFirstAndLastDayOfWeek(

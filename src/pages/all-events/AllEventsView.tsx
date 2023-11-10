@@ -84,8 +84,8 @@ export const AllEventsView = ({ navigation, route }) => {
           renderItem={({ item }) => (
             <EventOrganizationListCard
               image={item?.backgroundImage}
-              name={item.name}
-              location={item.location}
+              name={item.nameTranslated}
+              location={item.locationTranslated}
               onCardPress={() => handleCardPress(item)}
               startDate={new Date(item.startDate)}
               style={styles.card}

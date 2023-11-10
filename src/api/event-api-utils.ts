@@ -16,13 +16,17 @@ export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
 export const fetchEventsInDateRange = async (
   startDate: Date,
   endDate: Date,
+  savedOnly: boolean = false,
+  fromFollowedOnly: boolean = false,
 ): Promise<{ [date: string]: OrganizationEvent[] }> => {
   var response = await fetchApi({
-    url: "/events/byDate",
+    url: "/events/groupedByDate",
     queryParams: {
       startDate: toSimpleDateString(startDate),
       endDate: toSimpleDateString(endDate),
       language: getCurrentLanguage(),
+      savedOnly: savedOnly,
+      fromFollowedOnly: fromFollowedOnly,
     },
   });
   return response.json();
@@ -33,10 +37,11 @@ export const fetchOrganizationEvents = async (
   eventsType: AllEventsViewTypeOption,
 ): Promise<OrganizationEvent[]> => {
   var response = await fetchApi({
-    url: `/events/organization/${organizationId}`,
+    url: `/events`,
     queryParams: {
       type: eventsType,
       language: getCurrentLanguage(),
+      organizationId: organizationId,
     },
   });
 
@@ -91,4 +96,51 @@ export const createEvent = async (
     body: formData,
   });
   return response.json();
+};
+
+export const saveEventInCalendar = async (
+  eventId: number,
+): Promise<boolean> => {
+  const url = "/events/save";
+  try {
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Saving failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during saving:", error);
+    throw error;
+  }
+};
+
+export const removeEventFromCalendar = async (
+  eventId: number,
+): Promise<boolean> => {
+  const url = "/events/remove";
+  try {
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+    if (!response.ok) {
+      console.error("Removing failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during removing:", error);
+    throw error;
+  }
 };

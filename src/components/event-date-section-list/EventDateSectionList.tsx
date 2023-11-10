@@ -3,6 +3,7 @@ import EventDateSectionListCard, {
 } from "./EventDateSectionListCard";
 import React, {
   forwardRef,
+  memo,
   useCallback,
   useImperativeHandle,
   useRef,

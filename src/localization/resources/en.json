@@ -42,13 +42,18 @@
     "see-all": "See all"
   },
   "calendar": {
-    "empty-date": "No events on this date."
+    "empty-date": "No events on this date.",
+    "saved": "Saved",
+    "following": "Following",
+    "all": "All"
   },
   "searchbar": {
     "placeholder": "Search..."
   },
   "event-details": {
-    "last-edit": "Last edited"
+    "last-edit": "Last edited",
+    "save": "Save",
+    "saved": "Saved"
   },
   "login": {
     "welcome-to": "Welcome to",
