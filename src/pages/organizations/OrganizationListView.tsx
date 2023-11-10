@@ -17,6 +17,7 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
 
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -24,7 +25,10 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
       setIsLoading(true);
       try {
         const organizationsList: Organization[] =
-          await fetchAllOrganizationsWithStatusByUser(onlySubscribed);
+          await fetchAllOrganizationsWithStatusByUser(
+            onlySubscribed,
+            searchQuery,
+          );
         setOrganizations(organizationsList);
       } catch (error) {
         console.log("Fetching organizations list error", error);
@@ -32,7 +36,7 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
       setIsLoading(false);
     };
     isFocused && fetchOrganizationsData();
-  }, [isFocused]);
+  }, [isFocused, searchQuery]);
 
   const handleCardPress = (organization) => {
     console.log(`Clicked card: ${organization.name}`);
@@ -68,9 +72,8 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
   return (
     <View style={styles.container}>
       <SearchBar
-        notEditable
-        onPress={() => {
-          navigation.navigate("Organization Search");
+        onSearchChange={(searchTerm: string) => {
+          setSearchQuery(searchTerm);
         }}
         style={{ marginTop: 10 }}
       />
