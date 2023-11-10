@@ -1,14 +1,15 @@
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { toSimpleDateString, toUTCDate } from "../utils/date";
 import {
+  fetchApiWithRefresh,
   FormDataFileUpload,
   Method,
   MultiLanguageText,
-  fetchApi,
 } from "./api-utils";
 import { OrganizationEvent } from "./types";
+
 export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
-  var response = await fetchApi("/events");
+  var response = await fetchApiWithRefresh("/events");
   return response.json();
 };
 
@@ -16,7 +17,7 @@ export const fetchEventsInDateRange = async (
   startDate: Date,
   endDate: Date,
 ): Promise<{ [date: string]: OrganizationEvent[] }> => {
-  var response = await fetchApi(
+  var response = await fetchApiWithRefresh(
     `/events/byDate?startDate=${toSimpleDateString(
       startDate,
     )}&endDate=${toSimpleDateString(endDate)}`,
@@ -28,7 +29,7 @@ export const fetchOrganizationEvents = async (
   organizationId: number,
   eventsType: AllEventsViewTypeOption,
 ): Promise<OrganizationEvent[]> => {
-  var response = await fetchApi(
+  var response = await fetchApiWithRefresh(
     `/events/organization/${organizationId}?type=${eventsType}`,
   );
 
@@ -38,7 +39,7 @@ export const fetchOrganizationEvents = async (
 export const fetchEventDetails = async (
   eventId: number,
 ): Promise<OrganizationEvent> => {
-  var response = await fetchApi(`/events/${eventId}`);
+  var response = await fetchApiWithRefresh(`/events/${eventId}`);
   return response.json();
 };
 
@@ -74,7 +75,7 @@ export const createEvent = async (
   );
   formData.append("endDateTimestamp", toUTCDate(endDate).getTime().toString());
 
-  var response = await fetchApi(
+  var response = await fetchApiWithRefresh(
     `/events/organization/${organizationId}`,
     Method.POST,
     formData,

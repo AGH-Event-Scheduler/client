@@ -1,4 +1,4 @@
-import { fetchApi, Method } from "./api-utils";
+import { fetchApiWithRefresh, Method } from "./api-utils";
 import { Organization } from "./types";
 
 export const getAllOrganizationsWithStatusByUser = async (
@@ -9,7 +9,7 @@ export const getAllOrganizationsWithStatusByUser = async (
     : "/organizations";
 
   try {
-    const response = await fetchApi(endpoint, Method.GET);
+    const response = await fetchApiWithRefresh(endpoint, Method.GET);
     const data = await response.json();
 
     if (response.ok) {
@@ -38,7 +38,7 @@ export const getOrganizationById = async (
   const endpoint = `/organizations/${organizationId}`;
 
   try {
-    const response = await fetchApi(endpoint, Method.GET);
+    const response = await fetchApiWithRefresh(endpoint, Method.GET);
     const data = await response.json();
 
     if (response.ok) {
@@ -58,9 +58,15 @@ export const subscribeToOrganization = async (
 ): Promise<boolean> => {
   const endpoint = "/organizations/subscribe";
   try {
-    const response = await fetchApi(endpoint, Method.POST, null, true, {
-      organizationId: organizationId,
-    });
+    const response = await fetchApiWithRefresh(
+      endpoint,
+      Method.POST,
+      null,
+      true,
+      {
+        organizationId: organizationId,
+      },
+    );
 
     if (!response.ok) {
       console.error("Subscription failed:", response.statusText);
@@ -78,9 +84,15 @@ export const unsubscribeFromOrganization = async (
 ): Promise<boolean> => {
   const endpoint = "/organizations/unsubscribe";
   try {
-    const response = await fetchApi(endpoint, Method.POST, null, true, {
-      organizationId: organizationId,
-    });
+    const response = await fetchApiWithRefresh(
+      endpoint,
+      Method.POST,
+      null,
+      true,
+      {
+        organizationId: organizationId,
+      },
+    );
     if (!response.ok) {
       console.error("Unsubscribing failed:", response.statusText);
       return false;

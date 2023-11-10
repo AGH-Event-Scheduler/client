@@ -18,11 +18,8 @@ export class AuthenticationService {
 
   static async logout(): Promise<boolean> {
     try {
-      // Remove tokens
       await AuthenticationService.removeAuthToken();
       await AuthenticationService.removeRefreshToken();
-
-      // Return a boolean indicating success/failure if needed
       return true;
     } catch (error) {
       console.error("Error during logout:", error);
@@ -39,7 +36,7 @@ export class AuthenticationService {
     }
   }
 
-  static async getRefreshToken(): Promise<string | null> {
+  static async getRefreshToken(): Promise<string> {
     try {
       return await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
     } catch (error) {

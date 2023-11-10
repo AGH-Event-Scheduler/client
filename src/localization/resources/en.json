@@ -30,7 +30,12 @@
     "language": "Language",
     "notifications": "Notifications",
     "dark-mode": "Dark mode",
-    "information": "Information"
+    "information": "Information",
+    "account-details": {
+      "sign-out": "Sign out",
+      "name": "User",
+      "email": "Email"
+    }
   },
   "organization-details": {
     "follow": "Follow",
