@@ -36,7 +36,7 @@ export class AuthenticationService {
     }
   }
 
-  static async getRefreshToken(): Promise<string | null> {
+  static async getRefreshToken(): Promise<string> {
     try {
       return await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
     } catch (error) {

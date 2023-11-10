@@ -1,4 +1,4 @@
-import { fetchApi, Method } from "./api-utils";
+import { baseApiUrl, fetchApiWithRefresh, Method } from "./api-utils";
 import { AuthenticationService } from "../services/AuthenticationService";
 
 export const register = async (
@@ -11,7 +11,12 @@ export const register = async (
   const body = { email, password, firstName, lastName };
 
   try {
-    const response = await fetchApi(endpoint, Method.POST, body, false);
+    const response = await fetchApiWithRefresh(
+      endpoint,
+      Method.POST,
+      body,
+      false,
+    );
     const data = await response.json();
 
     if (response.ok) {
@@ -34,7 +39,12 @@ export const authenticate = async (
   const body = { email, password };
 
   try {
-    const response = await fetchApi(endpoint, Method.POST, body, false);
+    const response = await fetchApiWithRefresh(
+      endpoint,
+      Method.POST,
+      body,
+      false,
+    );
     const data = await response.json();
     if (response.ok) {
       console.log("OK LOGGED");
@@ -53,9 +63,16 @@ export const logout = async () => {
   const endpoint = "/authentication/logout";
 
   try {
-    const response = await fetchApi(endpoint, Method.POST, null, false, {
-      refreshToken: AuthenticationService.getRefreshToken(),
-    });
+    let refreshToken = await AuthenticationService.getRefreshToken();
+    const response = await fetchApiWithRefresh(
+      endpoint,
+      Method.POST,
+      null,
+      false,
+      {
+        refreshToken: refreshToken,
+      },
+    );
 
     if (response.ok) {
       console.log("OK LOGGED OUT");
@@ -67,6 +84,39 @@ export const logout = async () => {
   } catch (error) {
     console.error("Error during logging out :", error);
     throw error;
+  }
+};
+
+export const refreshAccessToken = async (
+  refreshToken: string,
+): Promise<AuthenticationResponse | null> => {
+  try {
+    let options: RequestInit = { method: "POST" };
+
+    options = {
+      ...options,
+      headers: {
+        ...options.headers,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    };
+
+    const urlWithParams = `${baseApiUrl}/authentication/refresh`;
+    console.log(`${urlWithParams}`);
+
+    const response = await fetch(urlWithParams, options);
+    const data = await response.json();
+
+    if (response.ok) {
+      return data as AuthenticationResponse;
+    } else {
+      console.log("Access token refresh failed:", data);
+      return null;
+    }
+  } catch (error) {
+    console.log("Error refreshing access token:", error);
+    return null;
   }
 };
 
