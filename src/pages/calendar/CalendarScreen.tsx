@@ -35,6 +35,7 @@ enum EventFilter {
 export const CalendarScreen = () => {
   const { t } = useTranslation();
   const dateNow = new Date();
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedWeek, setSelectedWeek] = useState<DateRange>(
     getFirstAndLastDayOfWeek(dateNow),
   );
@@ -51,7 +52,7 @@ export const CalendarScreen = () => {
 
   useEffect(() => {
     fetchAgendaItemsInSelectedWeek();
-  }, [selectedWeek, eventsFilter]);
+  }, [selectedWeek, eventsFilter, searchQuery]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -65,16 +66,26 @@ export const CalendarScreen = () => {
 
     var eventsByDate: { [date: string]: OrganizationEvent[] };
     if (eventsFilter === EventFilter.SAVED) {
-      eventsByDate = await fetchEventsInDateRange(startDate, endDate, true);
+      eventsByDate = await fetchEventsInDateRange(
+        startDate,
+        endDate,
+        searchQuery,
+        true,
+      );
     } else if (eventsFilter === EventFilter.FOLLOWING) {
       eventsByDate = await fetchEventsInDateRange(
         startDate,
         endDate,
+        searchQuery,
         false,
         true,
       );
     } else {
-      eventsByDate = await fetchEventsInDateRange(startDate, endDate);
+      eventsByDate = await fetchEventsInDateRange(
+        startDate,
+        endDate,
+        searchQuery,
+      );
     }
 
     const toAgendaListItem = (
@@ -105,7 +116,7 @@ export const CalendarScreen = () => {
     childWeeklyCalendarRef.current?.updateMarkedDays(Object.keys(eventsByDate));
 
     setIsLoading(false);
-  }, [selectedWeek, eventsFilter]);
+  }, [selectedWeek, eventsFilter, searchQuery]);
 
   const onDayChange = (date: Date) => {
     setSelectedDate(date);
@@ -145,11 +156,10 @@ export const CalendarScreen = () => {
       </View>
       <View>
         <SearchBar
-          style={{ marginTop: 10 }}
-          notEditable
-          onPress={() => {
-            navigation.dispatch(CommonActions.navigate("Event Search"));
+          onSearchChange={(searchTerm: string) => {
+            setSearchQuery(searchTerm);
           }}
+          style={{ marginTop: 10 }}
         />
       </View>
       <WeeklyCalendar
