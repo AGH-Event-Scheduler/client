@@ -7,6 +7,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import { AppToggleButton } from "../../components/AppToggleButton";
 import { LoadingView } from "../../components/loading/LoadingView";
+import { SearchBar } from "../../components/SearchBar";
 
 export enum AllEventsViewTypeOption {
   Upcoming = "UPCOMING",
@@ -41,6 +42,7 @@ export const AllEventsView = ({ navigation, route }) => {
         const events = await fetchOrganizationEvents(
           organizationId,
           eventsType.key,
+          searchQuery,
         );
         setEvents(events);
       } catch (error) {
@@ -49,7 +51,7 @@ export const AllEventsView = ({ navigation, route }) => {
       setIsLoading(false);
     };
     isFocused && loadOrganizationEvents();
-  }, [isFocused, eventsType]);
+  }, [isFocused, eventsType, searchQuery]);
 
   const handleCardPress = (event: OrganizationEvent) => {
     navigation.navigate("Event", { eventId: event.id });
@@ -69,11 +71,11 @@ export const AllEventsView = ({ navigation, route }) => {
           size="default"
         />
       </View>
-      <TextInput
-        style={styles.searchInput}
-        placeholder={`${t("general.search")}...`}
-        value={searchQuery}
-        onChangeText={setSearchQuery}
+      <SearchBar
+        onSearchChange={(searchTerm: string) => {
+          setSearchQuery(searchTerm);
+        }}
+        style={{ marginTop: 10 }}
       />
       {isLoading ? (
         <LoadingView />

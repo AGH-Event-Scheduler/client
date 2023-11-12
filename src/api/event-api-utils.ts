@@ -16,18 +16,27 @@ export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
 export const fetchEventsInDateRange = async (
   startDate: Date,
   endDate: Date,
+  nameSearchQuery: string = "",
   savedOnly: boolean = false,
   fromFollowedOnly: boolean = false,
 ): Promise<{ [date: string]: OrganizationEvent[] }> => {
+  const queryParams = {
+    startDate: toSimpleDateString(startDate),
+    endDate: toSimpleDateString(endDate),
+    language: getCurrentLanguage(),
+    savedOnly: savedOnly,
+    fromFollowedOnly: fromFollowedOnly,
+  };
+
+  console.log(nameSearchQuery, nameSearchQuery.length);
+
+  if (nameSearchQuery.length > 0) {
+    queryParams["name"] = nameSearchQuery;
+  }
+
   var response = await fetchApi({
     url: "/events/groupedByDate",
-    queryParams: {
-      startDate: toSimpleDateString(startDate),
-      endDate: toSimpleDateString(endDate),
-      language: getCurrentLanguage(),
-      savedOnly: savedOnly,
-      fromFollowedOnly: fromFollowedOnly,
-    },
+    queryParams: queryParams,
   });
   return response.json();
 };
@@ -35,14 +44,19 @@ export const fetchEventsInDateRange = async (
 export const fetchOrganizationEvents = async (
   organizationId: number,
   eventsType: AllEventsViewTypeOption,
+  nameSearchQuery = "",
 ): Promise<OrganizationEvent[]> => {
+  const queryParams = {
+    type: eventsType,
+    language: getCurrentLanguage(),
+    organizationId: organizationId,
+  };
+  if (nameSearchQuery.length > 0) {
+    queryParams["name"] = nameSearchQuery;
+  }
   var response = await fetchApi({
     url: `/events`,
-    queryParams: {
-      type: eventsType,
-      language: getCurrentLanguage(),
-      organizationId: organizationId,
-    },
+    queryParams: queryParams,
   });
 
   return response.json();

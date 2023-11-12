@@ -3,11 +3,15 @@ import { Organization } from "./types";
 
 export const fetchAllOrganizationsWithStatusByUser = async (
   onlySubscribed = false,
+  nameSearchQuery = "",
 ): Promise<Organization[]> => {
   const url = "/organizations";
   const queryParams = {
     subscribedOnly: onlySubscribed,
   };
+  if (nameSearchQuery !== "") {
+    queryParams["name"] = nameSearchQuery;
+  }
 
   try {
     const response = await fetchApi({ url: url, queryParams: queryParams });
