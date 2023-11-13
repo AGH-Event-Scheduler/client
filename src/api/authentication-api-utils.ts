@@ -1,5 +1,5 @@
-import { baseApiUrl, fetchApiWithRefresh, Method } from "./api-utils";
-import { AuthenticationService } from "../services/AuthenticationService";
+import {baseApiUrl, fetchApiWithRefresh, Method} from "./api-utils";
+import {AuthenticationService} from "../services/AuthenticationService";
 
 export const register = async (
   email: string,
@@ -7,16 +7,18 @@ export const register = async (
   firstName: string,
   lastName: string,
 ): Promise<Boolean> => {
-  const endpoint = "/authentication/register";
+  const url = "/authentication/register";
   const body = { email, password, firstName, lastName };
 
   try {
-    const response = await fetchApiWithRefresh(
-      endpoint,
-      Method.POST,
-      body,
-      false,
-    );
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      body: body,
+      isAuthorized: false,
+    });
+    const data = await response.json();
+
     if (response.ok) {
       return true;
     } else {
@@ -33,16 +35,16 @@ export const authenticate = async (
   email: string,
   password: string,
 ): Promise<AuthenticationResponse | null> => {
-  const endpoint = "/authentication/authenticate";
+  const url = "/authentication/authenticate";
   const body = { email, password };
 
   try {
-    const response = await fetchApiWithRefresh(
-      endpoint,
-      Method.POST,
-      body,
-      false,
-    );
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      body: body,
+      isAuthorized: false,
+    });
     const data = await response.json();
     if (response.ok) {
       console.log("OK LOGGED");
@@ -58,18 +60,18 @@ export const authenticate = async (
 };
 
 export const logout = async () => {
-  const endpoint = "/authentication/logout";
+  const url = "/authentication/logout";
 
   try {
     let refreshToken = await AuthenticationService.getRefreshToken();
-    const response = await fetchApiWithRefresh(
-      endpoint,
-      Method.POST,
-      null,
-      false,
-      {
+    const response = await fetchApiWithRefresh({
+        url: url,
+        method: Method.POST,
+        isAuthorized: false,
+        queryParams: {
         refreshToken: refreshToken,
-      },
+        },
+      }
     );
 
     if (response.ok) {

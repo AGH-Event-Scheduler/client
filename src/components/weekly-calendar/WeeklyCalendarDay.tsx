@@ -1,4 +1,10 @@
-import React, { Component, useCallback, useEffect, useState } from "react";
+import React, {
+  Component,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import {
   toDayDateString,
@@ -15,7 +21,7 @@ interface WeeklyCalendarDayProps {
   onPress?: () => void;
 }
 
-export const WeeklyCalendarDay = (props: WeeklyCalendarDayProps) => {
+export const WeeklyCalendarDay = memo((props: WeeklyCalendarDayProps) => {
   const { t, i18n } = useTranslation();
 
   const getDayLabel = (day: Date) => {
@@ -60,7 +66,7 @@ export const WeeklyCalendarDay = (props: WeeklyCalendarDayProps) => {
       </View>
     </TouchableOpacity>
   );
-};
+});
 
 const styles = StyleSheet.create({
   mainContainer: {

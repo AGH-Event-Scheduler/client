@@ -13,7 +13,7 @@ import { globalStyles } from "../../styles/GlobalStyles";
 import { OrganizationEvent, Organization } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import {
-  getOrganizationById,
+  fetchOrganizationById,
   subscribeToOrganization,
   unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
@@ -41,7 +41,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
         setOrganizationIsLoading(true);
         setEventsAreLoading(true);
 
-        const organization = await getOrganizationById(organizationId);
+        const organization = await fetchOrganizationById(organizationId);
         setOrganization(organization);
         setOrganizationIsLoading(false);
 
@@ -62,7 +62,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   }, [isFocused]);
 
   const handleCardPress = (event: OrganizationEvent) => {
-    console.log(`Clicked card: ${event.name}`);
+    console.log(`Clicked card: ${event.nameTranslated}`);
     navigation.navigate("Event", { eventId: event.id });
   };
 
@@ -140,8 +140,8 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                 renderItem={({ item }) => (
                   <EventOrganizationListCard
                     image={item?.backgroundImage}
-                    name={item?.name}
-                    location={item?.location}
+                    name={item?.nameTranslated}
+                    location={item?.locationTranslated}
                     onCardPress={() => handleCardPress(item)}
                     startDate={new Date(item?.startDate)}
                     style={styles.card}

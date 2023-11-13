@@ -23,10 +23,26 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { SearchBar } from "../../components/SearchBar";
+import { AppCheckButton } from "../../components/AppCheckButton";
+import { useTranslation } from "react-i18next";
+
+enum EventFilter {
+  SAVED,
+  FOLLOWING,
+  ALL,
+}
 
 export const CalendarScreen = () => {
-  const [selectedWeek, setSelectedWeek] = useState<DateRange>();
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const { t } = useTranslation();
+  const dateNow = new Date();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedWeek, setSelectedWeek] = useState<DateRange>(
+    getFirstAndLastDayOfWeek(dateNow),
+  );
+  const [selectedDate, setSelectedDate] = useState<Date>(dateNow);
+  const [eventsFilter, setEventsFilter] = useState<EventFilter>(
+    EventFilter.SAVED,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [agendaItems, setAgendaItems] = useState<EventsByDates>();
   const childWeeklyCalendarRef = useRef(null);
@@ -35,88 +51,120 @@ export const CalendarScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (selectedWeek) {
-      fetchAgendaItemsInDateRange({
-        startDate: selectedWeek.startDate,
-        endDate: selectedWeek.endDate,
-      });
-    }
-  }, [selectedWeek]);
+    fetchAgendaItemsInSelectedWeek();
+  }, [selectedWeek, eventsFilter, searchQuery]);
 
   useEffect(() => {
-    if (selectedDate && !isLoading) {
+    if (!isLoading) {
       childDateSectionListRef.current?.scrollTo(selectedDate);
     }
-  }, [selectedDate, isLoading]);
+  }, [selectedDate]);
 
-  const fetchAgendaItemsInDateRange = useCallback(
-    async ({ startDate, endDate }: DateRange) => {
-      setIsLoading(true);
+  const fetchAgendaItemsInSelectedWeek = useCallback(async () => {
+    const { startDate, endDate } = selectedWeek;
+    setIsLoading(true);
 
-      const eventsByDate = await fetchEventsInDateRange(startDate, endDate);
-
-      const toAgendaListItem = (
-        event: OrganizationEvent,
-      ): DateSectionListItem => {
-        return {
-          ...event,
-          displayFullDates: !isTheSameDay(
-            new Date(event.startDate),
-            new Date(event.endDate),
-          ),
-        };
-      };
-
-      const results: EventsByDates = {};
-      getDatesInRange(startDate, endDate).forEach((date) => {
-        const dateString = toSimpleDateString(date);
-        if (eventsByDate.hasOwnProperty(dateString)) {
-          const events: OrganizationEvent[] = eventsByDate[dateString];
-          results[dateString] = events.map(toAgendaListItem);
-        } else {
-          results[dateString] = [];
-        }
-      });
-
-      setAgendaItems(results);
-
-      childWeeklyCalendarRef.current?.updateMarkedDays(
-        Object.keys(eventsByDate),
+    var eventsByDate: { [date: string]: OrganizationEvent[] };
+    if (eventsFilter === EventFilter.SAVED) {
+      eventsByDate = await fetchEventsInDateRange(
+        startDate,
+        endDate,
+        searchQuery,
+        true,
       );
+    } else if (eventsFilter === EventFilter.FOLLOWING) {
+      eventsByDate = await fetchEventsInDateRange(
+        startDate,
+        endDate,
+        searchQuery,
+        false,
+        true,
+      );
+    } else {
+      eventsByDate = await fetchEventsInDateRange(
+        startDate,
+        endDate,
+        searchQuery,
+      );
+    }
 
-      setIsLoading(false);
-    },
-    [],
-  );
+    const toAgendaListItem = (
+      event: OrganizationEvent,
+    ): DateSectionListItem => {
+      return {
+        ...event,
+        displayFullDates: !isTheSameDay(
+          new Date(event.startDate),
+          new Date(event.endDate),
+        ),
+      };
+    };
+
+    const results: EventsByDates = {};
+    getDatesInRange(startDate, endDate).forEach((date) => {
+      const dateString = toSimpleDateString(date);
+      if (eventsByDate.hasOwnProperty(dateString)) {
+        const events: OrganizationEvent[] = eventsByDate[dateString];
+        results[dateString] = events.map(toAgendaListItem);
+      } else {
+        results[dateString] = [];
+      }
+    });
+
+    setAgendaItems(results);
+
+    childWeeklyCalendarRef.current?.updateMarkedDays(Object.keys(eventsByDate));
+
+    setIsLoading(false);
+  }, [selectedWeek, eventsFilter, searchQuery]);
 
   const onDayChange = (date: Date) => {
     setSelectedDate(date);
   };
 
   const onWeekChange = (dateRange: DateRange) => {
-    if (
-      !selectedWeek ||
-      (!isTheSameDay(dateRange.startDate, selectedWeek.startDate) &&
-        !isTheSameDay(dateRange.endDate, selectedWeek.endDate))
-    ) {
-      setSelectedWeek(dateRange);
-    }
+    setSelectedWeek(dateRange);
   };
 
   return (
     <View style={styles.wrapper}>
+      <View style={styles.buttonsContainer}>
+        <AppCheckButton
+          onPress={() => {
+            setEventsFilter(EventFilter.SAVED);
+          }}
+          title={t("calendar.saved")}
+          isChecked={eventsFilter === EventFilter.SAVED}
+          size="small"
+        />
+        <AppCheckButton
+          onPress={() => {
+            setEventsFilter(EventFilter.FOLLOWING);
+          }}
+          title={t("calendar.following")}
+          isChecked={eventsFilter === EventFilter.FOLLOWING}
+          size="small"
+        />
+        <AppCheckButton
+          onPress={() => {
+            setEventsFilter(EventFilter.ALL);
+          }}
+          title={t("calendar.all")}
+          isChecked={eventsFilter === EventFilter.ALL}
+          size="small"
+        />
+      </View>
       <View>
         <SearchBar
-          style={{ marginTop: 10 }}
-          notEditable
-          onPress={() => {
-            navigation.dispatch(CommonActions.navigate("Event Search"));
+          onSearchChange={(searchTerm: string) => {
+            setSearchQuery(searchTerm);
           }}
+          style={{ marginTop: 10 }}
         />
       </View>
       <WeeklyCalendar
         ref={childWeeklyCalendarRef}
-        selectedDate={new Date()}
+        selectedDate={dateNow}
         onDayChange={onDayChange}
         onWeekChange={onWeekChange}
       />
@@ -145,6 +193,12 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: "white",
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    marginTop: 5,
   },
   todayButtonWrapper: {
     position: "absolute",

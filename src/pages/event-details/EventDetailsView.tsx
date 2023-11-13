@@ -8,13 +8,18 @@ import {
   View,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { fetchEventDetails } from "../../api/event-api-utils";
+import {
+  fetchEventDetails,
+  removeEventFromCalendar,
+  saveEventInCalendar,
+} from "../../api/event-api-utils";
 import { OrganizationEvent } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { EventHubImage } from "../../components/EventHubImage";
+import { AppCheckButton } from "../../components/AppCheckButton";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
@@ -25,18 +30,35 @@ export const EventDetailsView = ({ navigation, route }) => {
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    isFocused && fetchEventDetailsData();
+    const getEventDetailsData = async () => {
+      setIsLoading(true);
+      try {
+        const event = await fetchEventDetails(eventId);
+        setEvent(event);
+      } catch (error) {
+        console.log("Fetching event details error", error);
+      }
+      setIsLoading(false);
+    };
+    isFocused && getEventDetailsData();
   }, [isFocused]);
 
-  const fetchEventDetailsData = async () => {
-    setIsLoading(true);
-    try {
-      const event = await fetchEventDetails(eventId);
-      setEvent(event);
-    } catch (error) {
-      console.log("Fetching event details error", error);
+  const handleSaveButtonPress = async () => {
+    if (event) {
+      try {
+        if (event.isSaved) {
+          await removeEventFromCalendar(event.id);
+        } else {
+          await saveEventInCalendar(event.id);
+        }
+      } catch (error) {
+        console.error("Error handling organization subscription:", error);
+      }
+      setEvent({
+        ...event,
+        isSaved: !event.isSaved,
+      });
     }
-    setIsLoading(false);
   };
 
   return (
@@ -51,7 +73,16 @@ export const EventDetailsView = ({ navigation, route }) => {
               filename={event.backgroundImage.bigFilename}
             />
           </View>
-          <Text style={styles.eventName}>{event?.name}</Text>
+          <View style={styles.buttonContainer}>
+            <AppCheckButton
+              onPress={handleSaveButtonPress}
+              title={t("event-details.save")}
+              altTitle={t("event-details.saved")}
+              isChecked={event.isSaved}
+            />
+          </View>
+
+          <Text style={styles.eventName}>{event?.nameTranslated}</Text>
 
           <Text style={styles.date}>{`${toBeautifiedDateTimeString(
             new Date(event?.startDate),
@@ -60,25 +91,25 @@ export const EventDetailsView = ({ navigation, route }) => {
             new Date(event?.endDate),
             i18n.language,
           )}`}</Text>
-          <Text style={styles.location}>{event?.location}</Text>
+          <Text style={styles.location}>{event?.locationTranslated}</Text>
 
           <TouchableOpacity
             style={styles.organizationContainer}
             onPress={() => {
               navigation.navigate("Organization", {
-                organizationId: event?.organization.id,
+                organizationId: event?.underOrganization.id,
               });
             }}
           >
             <View style={styles.organizationImageContainer}>
               <EventHubImage
-                imageId={event.organization.logoImage.imageId}
-                filename={event.organization.logoImage.mediumFilename}
+                imageId={event.underOrganization.logoImage.imageId}
+                filename={event.underOrganization.logoImage.mediumFilename}
               />
             </View>
             <View style={styles.organizationText}>
               <Text style={styles.organizationName}>
-                {event?.organization.name}
+                {event?.underOrganization.name}
               </Text>
               <Text style={styles.lastEdit}>
                 <Text style={{ fontWeight: "bold" }}>{`${t(
@@ -95,7 +126,7 @@ export const EventDetailsView = ({ navigation, route }) => {
           <Text style={styles.descriptionHeader}>
             {t("general.description")}
           </Text>
-          <Text style={styles.description}>{event?.description}</Text>
+          <Text style={styles.description}>{event?.descriptionTranslated}</Text>
         </ScrollView>
       )}
     </View>
@@ -120,6 +151,13 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     maxHeight: 200,
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: "center",
+    marginVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   eventName: {
     fontSize: 19,

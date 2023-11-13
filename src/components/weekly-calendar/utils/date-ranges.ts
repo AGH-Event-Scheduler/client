@@ -20,18 +20,21 @@ export const getFirstAndLastDayOfWeek = (date: Date): DateRange => {
   // Set the last day of the week (Sunday)
   lastDayOfWeek.setDate(currentDate.getDate() + daysToAdd);
 
+  firstDayOfWeek.setHours(0, 0, 0, 0);
+  lastDayOfWeek.setHours(0, 0, 0, 0);
+
   return { startDate: firstDayOfWeek, endDate: lastDayOfWeek };
 };
 
-export const getNextDay = (date: Date) => {
+export const getNextDay = (date: Date, offset: number = 1) => {
   const next = new Date(date);
-  next.setDate(date.getDate() + 1);
+  next.setDate(date.getDate() + offset);
   return next;
 };
 
-export const getPreviousDay = (date: Date) => {
+export const getPreviousDay = (date: Date, offset: number = 1) => {
   const next = new Date(date);
-  next.setDate(date.getDate() - 1);
+  next.setDate(date.getDate() - offset);
   return next;
 };
 

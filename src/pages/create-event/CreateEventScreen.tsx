@@ -34,16 +34,16 @@ export const CreateEventScreen = ({ navigation, route }) => {
     useState<FormDataFileUpload>(null);
 
   const [currentFormLanguage, setCurrentFormLanguage] = useState<Language>(
-    i18n.language === "pl" ? Language.PL : Language.ENG,
+    i18n.language === "pl" ? Language.PL : Language.EN,
   );
-  const [name, setName] = useState<MultiLanguageText>({ pl: "", eng: "" });
+  const [name, setName] = useState<MultiLanguageText>({ PL: "", EN: "" });
   const [description, setDescription] = useState<MultiLanguageText>({
-    pl: "",
-    eng: "",
+    PL: "",
+    EN: "",
   });
   const [location, setLocation] = useState<MultiLanguageText>({
-    pl: "",
-    eng: "",
+    PL: "",
+    EN: "",
   });
 
   const beginStartDate = new Date();

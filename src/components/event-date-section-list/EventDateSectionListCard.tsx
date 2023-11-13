@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
   Alert,
@@ -15,6 +15,7 @@ import {
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { EventHubImage } from "../EventHubImage";
+import { fetchOrganizationById } from "../../api/organization-api-utils";
 
 export interface DateSectionListItem extends OrganizationEvent {
   displayFullDates: boolean;
@@ -24,7 +25,7 @@ interface DateSectionListCardProps {
   item: DateSectionListItem;
 }
 
-const EventDateSectionListCard = (props: DateSectionListCardProps) => {
+const EventDateSectionListCard = memo((props: DateSectionListCardProps) => {
   const { t, i18n } = useTranslation();
 
   const { item } = props;
@@ -49,22 +50,24 @@ const EventDateSectionListCard = (props: DateSectionListCardProps) => {
     >
       <View style={styles.imageContainer}>
         <EventHubImage
-          imageId={item.organization.logoImage.imageId}
-          filename={item.organization.logoImage.smallFilename}
+          imageId={item.underOrganization.logoImage.imageId}
+          filename={item.underOrganization.logoImage.smallFilename}
         />
       </View>
       <View style={[styles.container]}>
-        <Text style={[styles.eventName]}>{item.name}</Text>
+        <Text style={[styles.eventName]}>{item.nameTranslated}</Text>
         <Text style={[styles.datetime]}>
           {getDate(new Date(item.startDate), item.displayFullDates)} -{" "}
           {getDate(new Date(item.endDate), item.displayFullDates)}
         </Text>
-        <Text style={[styles.location]}>{item.location}</Text>
-        <Text style={[styles.organizationName]}>{item.organization.name}</Text>
+        <Text style={[styles.location]}>{item.locationTranslated}</Text>
+        <Text style={[styles.organizationName]}>
+          {item.underOrganization.name}
+        </Text>
       </View>
     </TouchableOpacity>
   );
-};
+});
 
 export default EventDateSectionListCard;
 

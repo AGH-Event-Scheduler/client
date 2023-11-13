@@ -1,3 +1,4 @@
+import { getCurrentLanguage } from "../localization/languages";
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { toSimpleDateString, toUTCDate } from "../utils/date";
 import {
@@ -9,29 +10,55 @@ import {
 import { OrganizationEvent } from "./types";
 
 export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
-  var response = await fetchApiWithRefresh("/events");
+  var response = await fetchApiWithRefresh({ url: "/events" });
   return response.json();
 };
 
 export const fetchEventsInDateRange = async (
   startDate: Date,
   endDate: Date,
+  nameSearchQuery: string = "",
+  savedOnly: boolean = false,
+  fromFollowedOnly: boolean = false,
 ): Promise<{ [date: string]: OrganizationEvent[] }> => {
-  var response = await fetchApiWithRefresh(
-    `/events/byDate?startDate=${toSimpleDateString(
-      startDate,
-    )}&endDate=${toSimpleDateString(endDate)}`,
-  );
+  const queryParams = {
+    startDate: toSimpleDateString(startDate),
+    endDate: toSimpleDateString(endDate),
+    language: getCurrentLanguage(),
+    savedOnly: savedOnly,
+    fromFollowedOnly: fromFollowedOnly,
+  };
+
+  console.log(nameSearchQuery, nameSearchQuery.length);
+
+  if (nameSearchQuery.length > 0) {
+    queryParams["name"] = nameSearchQuery;
+  }
+
+  var response = await fetchApiWithRefresh({
+    url: "/events/groupedByDate",
+    queryParams: queryParams,
+  });
   return response.json();
 };
 
 export const fetchOrganizationEvents = async (
   organizationId: number,
   eventsType: AllEventsViewTypeOption,
+  nameSearchQuery = "",
 ): Promise<OrganizationEvent[]> => {
-  var response = await fetchApiWithRefresh(
-    `/events/organization/${organizationId}?type=${eventsType}`,
-  );
+  const queryParams = {
+    type: eventsType,
+    language: getCurrentLanguage(),
+    organizationId: organizationId,
+  };
+  if (nameSearchQuery.length > 0) {
+    queryParams["name"] = nameSearchQuery;
+  }
+  var response = await fetchApiWithRefresh({
+    url: `/events`,
+    queryParams: queryParams,
+  });
 
   return response.json();
 };
@@ -39,7 +66,10 @@ export const fetchOrganizationEvents = async (
 export const fetchEventDetails = async (
   eventId: number,
 ): Promise<OrganizationEvent> => {
-  var response = await fetchApiWithRefresh(`/events/${eventId}`);
+  var response = await fetchApiWithRefresh({
+    url: `/events/${eventId}`,
+    queryParams: { language: getCurrentLanguage() },
+  });
   return response.json();
 };
 
@@ -75,10 +105,57 @@ export const createEvent = async (
   );
   formData.append("endDateTimestamp", toUTCDate(endDate).getTime().toString());
 
-  var response = await fetchApiWithRefresh(
-    `/events/organization/${organizationId}`,
-    Method.POST,
-    formData,
-  );
+  var response = await fetchApiWithRefresh({
+    url: `/events/organization/${organizationId}`,
+    method: Method.POST,
+    body: formData,
+  });
   return response.json();
+};
+
+export const saveEventInCalendar = async (
+  eventId: number,
+): Promise<boolean> => {
+  const url = "/events/save";
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Saving failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during saving:", error);
+    throw error;
+  }
+};
+
+export const removeEventFromCalendar = async (
+  eventId: number,
+): Promise<boolean> => {
+  const url = "/events/remove";
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+    if (!response.ok) {
+      console.error("Removing failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during removing:", error);
+    throw error;
+  }
 };
