@@ -30,7 +30,12 @@
     "language": "Język",
     "notifications": "Powiadomienia",
     "dark-mode": "Ciemny tryb",
-    "information": "Informacja"
+    "information": "Informacja",
+    "account-details": {
+      "sign-out": "Wyloguj się",
+      "name": "Użytkownik",
+      "email": "Email"
+    }
   },
   "organization-details": {
     "follow": "Obserwuj",
@@ -92,11 +97,13 @@
     "all-fields-required": "Proszę wypełnić wszystkie wymagane pola",
     "invalid-email": "Nieprawidłowy adres email",
     "registration-failed": "Rejestracja nieudana",
+    "registration-success": "Rejestracja przebiegła pomyślnie",
     "registration-error": "Błąd rejestracji",
     "name-placeholder": "Imię",
     "last-name-placeholder": "Nazwisko",
     "agh-domain-email-description": "Adres email z domeny AGH",
-    "password-placeholder": "Hasło"
+    "password-placeholder": "Hasło",
+    "invalid-password": "Nieprawidłowe hasło"
   },
   "create-event": {
     "upload-image": "Wybierz obraz",

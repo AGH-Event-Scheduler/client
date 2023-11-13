@@ -1,52 +1,28 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { authenticate, register } from "../api/authentication-api-utils";
+import { AuthenticationResponse } from "../api/authentication-api-utils";
 
 const TOKEN_KEY = "authToken";
+const REFRESH_TOKEN_KEY = "refreshToken";
 
 export class AuthenticationService {
-  static async register(
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string,
+  static async authenticate(
+    response: AuthenticationResponse,
   ): Promise<boolean> {
-    try {
-      const response = await register(email, password, firstName, lastName);
-
-      if (response) {
-        await AsyncStorage.setItem(TOKEN_KEY, response.token);
-        return true;
-      }
-
-      return false;
-    } catch (error) {
-      console.error("Error during registration:", error);
-      throw error;
+    if (response) {
+      await AsyncStorage.setItem(TOKEN_KEY, response.accessToken);
+      await AsyncStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken);
+      return true;
     }
+    return false;
   }
 
-  static async getLoginStatus(): Promise<boolean> {
+  static async logout(): Promise<boolean> {
     try {
-      const token = await AsyncStorage.getItem(TOKEN_KEY);
-      return !!token;
+      await AuthenticationService.removeAuthToken();
+      await AuthenticationService.removeRefreshToken();
+      return true;
     } catch (error) {
-      console.error("Error checking login status:", error);
-      return false;
-    }
-  }
-
-  static async authenticate(email: string, password: string): Promise<boolean> {
-    try {
-      const response = await authenticate(email, password);
-      console.log(response);
-      if (response) {
-        await AsyncStorage.setItem(TOKEN_KEY, response.token);
-        return true;
-      }
-
-      return false;
-    } catch (error) {
-      console.error("Error during authentication:", error);
+      console.error("Error during logout:", error);
       throw error;
     }
   }
@@ -60,11 +36,29 @@ export class AuthenticationService {
     }
   }
 
-  static async removeAuthToken(): Promise<void> {
+  static async getRefreshToken(): Promise<string> {
+    try {
+      return await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
+    } catch (error) {
+      console.error("Error retrieving refresh token:", error);
+      return null;
+    }
+  }
+
+  private static async removeAuthToken(): Promise<void> {
     try {
       await AsyncStorage.removeItem(TOKEN_KEY);
     } catch (error) {
       console.error("Error removing authentication token:", error);
+      throw error;
+    }
+  }
+
+  private static async removeRefreshToken(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(REFRESH_TOKEN_KEY);
+    } catch (error) {
+      console.error("Error removing refresh token:", error);
       throw error;
     }
   }

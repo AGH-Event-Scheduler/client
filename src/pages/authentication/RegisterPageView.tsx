@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { AuthenticationService } from "../../services/AuthenticationService";
 import { useTranslation } from "react-i18next";
+import { register } from "../../api/authentication-api-utils";
 
 export const RegisterPageView = () => {
   const [email, setEmail] = useState("");
@@ -29,6 +30,13 @@ export const RegisterPageView = () => {
       );
       return;
     }
+    if (password != repeatedPassword) {
+      Alert.alert(
+        t("registration.invalid-password"),
+        t("registration.password-match-description"),
+      );
+      return;
+    }
     if (!validateEmail(email)) {
       Alert.alert(
         t("registration.invalid-email"),
@@ -37,19 +45,13 @@ export const RegisterPageView = () => {
       return;
     } else {
       try {
-        if (
-          await AuthenticationService.register(
-            email,
-            password,
-            firstName,
-            lastName,
-          )
-        ) {
-          // @ts-ignore
+        const response = await register(email, password, firstName, lastName);
+        if (response) {
+          Alert.alert(t("registration.registration-success"), t(""));
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
-              routes: [{ name: "Main" }],
+              routes: [{ name: "Login" }],
             }),
           );
         } else {

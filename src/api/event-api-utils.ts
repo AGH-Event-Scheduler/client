@@ -2,14 +2,15 @@ import { getCurrentLanguage } from "../localization/languages";
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { toSimpleDateString, toUTCDate } from "../utils/date";
 import {
+  fetchApiWithRefresh,
   FormDataFileUpload,
   Method,
   MultiLanguageText,
-  fetchApi,
 } from "./api-utils";
 import { OrganizationEvent } from "./types";
+
 export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
-  var response = await fetchApi({ url: "/events" });
+  var response = await fetchApiWithRefresh({ url: "/events" });
   return response.json();
 };
 
@@ -34,7 +35,7 @@ export const fetchEventsInDateRange = async (
     queryParams["name"] = nameSearchQuery;
   }
 
-  var response = await fetchApi({
+  var response = await fetchApiWithRefresh({
     url: "/events/groupedByDate",
     queryParams: queryParams,
   });
@@ -54,7 +55,7 @@ export const fetchOrganizationEvents = async (
   if (nameSearchQuery.length > 0) {
     queryParams["name"] = nameSearchQuery;
   }
-  var response = await fetchApi({
+  var response = await fetchApiWithRefresh({
     url: `/events`,
     queryParams: queryParams,
   });
@@ -65,7 +66,7 @@ export const fetchOrganizationEvents = async (
 export const fetchEventDetails = async (
   eventId: number,
 ): Promise<OrganizationEvent> => {
-  var response = await fetchApi({
+  var response = await fetchApiWithRefresh({
     url: `/events/${eventId}`,
     queryParams: { language: getCurrentLanguage() },
   });
@@ -104,7 +105,7 @@ export const createEvent = async (
   );
   formData.append("endDateTimestamp", toUTCDate(endDate).getTime().toString());
 
-  var response = await fetchApi({
+  var response = await fetchApiWithRefresh({
     url: `/events/organization/${organizationId}`,
     method: Method.POST,
     body: formData,
@@ -117,7 +118,7 @@ export const saveEventInCalendar = async (
 ): Promise<boolean> => {
   const url = "/events/save";
   try {
-    const response = await fetchApi({
+    const response = await fetchApiWithRefresh({
       url: url,
       method: Method.POST,
       queryParams: {
@@ -141,7 +142,7 @@ export const removeEventFromCalendar = async (
 ): Promise<boolean> => {
   const url = "/events/remove";
   try {
-    const response = await fetchApi({
+    const response = await fetchApiWithRefresh({
       url: url,
       method: Method.POST,
       queryParams: {

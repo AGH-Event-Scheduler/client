@@ -1,5 +1,7 @@
 // when testing on expo choose computer's ip instead of localhost
 import { AuthenticationService } from "../services/AuthenticationService";
+import { logout, refreshAccessToken } from "./authentication-api-utils";
+import { navigateToLogInPage } from "../utils/RootNavigation";
 
 export const baseUrl = "http://192.168.0.103:8080";
 export const baseApiUrl = `${baseUrl}/api`;
@@ -27,6 +29,8 @@ export enum Method {
   POST = "POST",
   DELETE = "DELETE",
 }
+
+let isRefreshing = false;
 
 export interface FetchApiParams {
   url: string;
@@ -85,7 +89,63 @@ export const fetchApi = async ({
     return await fetch(urlWithParams, options);
   } catch (reason) {
     console.log(`Error while fetching ${urlWithParams}. Reason: ${reason}`);
-    throw reason;
+  }
+};
+
+export const fetchApiWithRefresh = async ({
+  url,
+  method = Method.GET,
+  body = null,
+  isAuthorized = true,
+  queryParams = {},
+}: FetchApiParams): Promise<Response> => {
+  try {
+    let response = await fetchApi({
+      url: url,
+      method: method,
+      body: body,
+      isAuthorized: isAuthorized,
+      queryParams: queryParams,
+    });
+    if (response.status === 403 && isAuthorized && !isRefreshing) {
+      console.log("403 -> Refreshing TOKEN");
+      isRefreshing = true;
+      try {
+        await AuthenticationService.getRefreshToken()
+          .then(refreshAccessToken)
+          .then(AuthenticationService.authenticate);
+        response = await fetchApi({
+          url: url,
+          method: method,
+          body: body,
+          isAuthorized: true,
+          queryParams: queryParams,
+        });
+        if (response.status === 403 && isAuthorized) {
+          alert("Your session has expired. Please log in again.");
+          await logout().then((loggedOut) => {
+            if (loggedOut) {
+              console.log("Logged out");
+            } else {
+              console.error("Error during logging out");
+            }
+          });
+          AuthenticationService.logout().then(() => {
+            navigateToLogInPage();
+          });
+        } else {
+          return response;
+        }
+      } catch (refreshedError) {
+        return refreshedError;
+      } finally {
+        isRefreshing = false;
+      }
+    } else {
+      return response;
+    }
+  } catch (error) {
+    throw error;
   }
 };
 

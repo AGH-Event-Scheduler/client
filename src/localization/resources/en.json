@@ -30,7 +30,12 @@
     "language": "Language",
     "notifications": "Notifications",
     "dark-mode": "Dark mode",
-    "information": "Information"
+    "information": "Information",
+    "account-details": {
+      "sign-out": "Sign out",
+      "name": "User",
+      "email": "Email"
+    }
   },
   "organization-details": {
     "follow": "Follow",
@@ -91,12 +96,14 @@
     "missing-information": "Missing Information",
     "all-fields-required": "Please fill in all required fields",
     "invalid-email": "Invalid Email",
-    "registration-failed": "Registration Failed",
+    "registration-failed": "Registration failed",
+    "registration-success": "Successfully registered",
     "registration-error": "Registration error:",
     "name-placeholder": "First name",
     "last-name-placeholder": "Last name",
     "agh-domain-email-description": "AGH domain email address",
-    "password-placeholder": "Password"
+    "password-placeholder": "Password",
+    "invalid-password": "Invalid Password"
   },
   "create-event": {
     "upload-image": "Upload Image",

@@ -1,4 +1,4 @@
-import { fetchApi, Method } from "./api-utils";
+import { fetchApiWithRefresh, Method } from "./api-utils";
 import { Organization } from "./types";
 
 export const fetchAllOrganizationsWithStatusByUser = async (
@@ -14,7 +14,10 @@ export const fetchAllOrganizationsWithStatusByUser = async (
   }
 
   try {
-    const response = await fetchApi({ url: url, queryParams: queryParams });
+    const response = await fetchApiWithRefresh({
+      url: url,
+      queryParams: queryParams,
+    });
     const data = await response.json();
 
     if (response.ok) {
@@ -43,7 +46,7 @@ export const fetchOrganizationById = async (
   const url = `/organizations/${organizationId}`;
 
   try {
-    const response = await fetchApi({ url: url });
+    const response = await fetchApiWithRefresh({ url: url });
     const data = await response.json();
 
     if (response.ok) {
@@ -63,7 +66,7 @@ export const subscribeToOrganization = async (
 ): Promise<boolean> => {
   const url = "/organizations/subscribe";
   try {
-    const response = await fetchApi({
+    const response = await fetchApiWithRefresh({
       url: url,
       method: Method.POST,
       queryParams: {
@@ -87,7 +90,7 @@ export const unsubscribeFromOrganization = async (
 ): Promise<boolean> => {
   const url = "/organizations/unsubscribe";
   try {
-    const response = await fetchApi({
+    const response = await fetchApiWithRefresh({
       url: url,
       method: Method.POST,
       queryParams: {

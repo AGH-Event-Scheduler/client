@@ -7,6 +7,8 @@ import i18next from "./src/localization/i18next";
 import { MainStack } from "./src/navigationstacks/MainStack";
 import { AuthenticationStack } from "./src/navigationstacks/AuthenticationStack";
 import { AuthenticationService } from "./src/services/AuthenticationService";
+import { refreshAccessToken } from "./src/api/authentication-api-utils";
+import { navigationRef } from "./src/utils/RootNavigation";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +17,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AuthenticationService.getLoginStatus()
+    AuthenticationService.getRefreshToken()
+      .then(refreshAccessToken)
+      .then(AuthenticationService.authenticate)
       .then((isLoggedIn) => {
         setFirstScreen(isLoggedIn ? "Main" : "Login");
         setLoading(false);
@@ -23,7 +27,6 @@ export default function App() {
       .catch((err) => {
         setLoading(false);
         setFirstScreen("Login");
-        console.error(err);
       });
   }, []);
 
@@ -36,7 +39,7 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <I18nextProvider i18n={i18next}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}

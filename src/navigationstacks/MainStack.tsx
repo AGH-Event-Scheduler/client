@@ -17,6 +17,7 @@ import { TopNavBar } from "../components/navigation/top/TopNavBar";
 import { BackButton } from "../components/navigation/top/BackButton";
 import { Platform } from "react-native";
 import { CreateEventScreen } from "../pages/create-event/CreateEventScreen";
+import { AccountView } from "../pages/settings/AccountView";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -121,7 +122,7 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Account"
-          component={SamplePage}
+          component={AccountView}
           options={{ title: t("settings.account") }}
         />
         <stack.Screen
