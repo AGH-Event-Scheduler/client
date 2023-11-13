@@ -1,5 +1,5 @@
-import {baseApiUrl, fetchApiWithRefresh, Method} from "./api-utils";
-import {AuthenticationService} from "../services/AuthenticationService";
+import { baseApiUrl, fetchApiWithRefresh, Method } from "./api-utils";
+import { AuthenticationService } from "../services/AuthenticationService";
 
 export const register = async (
   email: string,
@@ -65,14 +65,13 @@ export const logout = async () => {
   try {
     let refreshToken = await AuthenticationService.getRefreshToken();
     const response = await fetchApiWithRefresh({
-        url: url,
-        method: Method.POST,
-        isAuthorized: false,
-        queryParams: {
+      url: url,
+      method: Method.POST,
+      isAuthorized: false,
+      queryParams: {
         refreshToken: refreshToken,
-        },
-      }
-    );
+      },
+    });
 
     if (response.ok) {
       console.log("OK LOGGED OUT");

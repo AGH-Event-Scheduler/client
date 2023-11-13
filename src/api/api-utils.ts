@@ -1,7 +1,7 @@
 // when testing on expo choose computer's ip instead of localhost
-import {AuthenticationService} from "../services/AuthenticationService";
-import {logout, refreshAccessToken} from "./authentication-api-utils";
-import {navigateToLogInPage} from "../utils/RootNavigation";
+import { AuthenticationService } from "../services/AuthenticationService";
+import { logout, refreshAccessToken } from "./authentication-api-utils";
+import { navigateToLogInPage } from "../utils/RootNavigation";
 
 export const baseUrl = "http://192.168.0.103:8080";
 export const baseApiUrl = `${baseUrl}/api`;
@@ -41,12 +41,12 @@ export interface FetchApiParams {
 }
 
 export const fetchApi = async ({
-                                 url,
-                                 method = Method.GET,
-                                 body = null,
-                                 isAuthorized = true,
-                                 queryParams = {},
-                               }: FetchApiParams): Promise<Response> => {
+  url,
+  method = Method.GET,
+  body = null,
+  isAuthorized = true,
+  queryParams = {},
+}: FetchApiParams): Promise<Response> => {
   let options: RequestInit = { method: method.toString() };
 
   if (isAuthorized) {
@@ -93,12 +93,12 @@ export const fetchApi = async ({
 };
 
 export const fetchApiWithRefresh = async ({
-                                            url,
-                                            method = Method.GET,
-                                            body = null,
-                                            isAuthorized = true,
-                                            queryParams = {},
-                                          }: FetchApiParams): Promise<Response> => {
+  url,
+  method = Method.GET,
+  body = null,
+  isAuthorized = true,
+  queryParams = {},
+}: FetchApiParams): Promise<Response> => {
   try {
     let response = await fetchApi({
       url: url,

@@ -1,5 +1,5 @@
-import {fetchApiWithRefresh, Method} from "./api-utils";
-import {Organization} from "./types";
+import { fetchApiWithRefresh, Method } from "./api-utils";
+import { Organization } from "./types";
 
 export const fetchAllOrganizationsWithStatusByUser = async (
   onlySubscribed = false,
@@ -14,7 +14,10 @@ export const fetchAllOrganizationsWithStatusByUser = async (
   }
 
   try {
-    const response = await fetchApiWithRefresh({url: url, queryParams: queryParams});
+    const response = await fetchApiWithRefresh({
+      url: url,
+      queryParams: queryParams,
+    });
     const data = await response.json();
 
     if (response.ok) {
@@ -43,7 +46,7 @@ export const fetchOrganizationById = async (
   const url = `/organizations/${organizationId}`;
 
   try {
-    const response = await fetchApiWithRefresh({url: url});
+    const response = await fetchApiWithRefresh({ url: url });
     const data = await response.json();
 
     if (response.ok) {
