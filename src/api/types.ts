@@ -1,3 +1,13 @@
+export enum Language {
+  PL = "PL",
+  EN = "EN",
+}
+
+export interface MultiLanguageText {
+  PL: string;
+  EN: string;
+}
+
 export interface Image {
   imageId: string;
   smallFilename: string;
@@ -26,6 +36,17 @@ export interface OrganizationEvent extends BaseEntity {
   startDate: string;
   endDate: string;
   locationTranslated: string;
+  underOrganization: Organization;
+  isSaved: boolean;
+}
+
+export interface FullOrganizationEvent extends BaseEntity {
+  nameMap: MultiLanguageText;
+  backgroundImage: Image;
+  descriptionMap: MultiLanguageText;
+  startDate: string;
+  endDate: string;
+  locationMap: MultiLanguageText;
   underOrganization: Organization;
   isSaved: boolean;
 }

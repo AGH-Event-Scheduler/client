@@ -5,8 +5,8 @@ import {
   fetchApiWithRefresh,
   FormDataFileUpload,
   Method,
-  MultiLanguageText,
 } from "./api-utils";
+import { FullOrganizationEvent, MultiLanguageText } from "./types";
 import { OrganizationEvent } from "./types";
 
 export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
@@ -73,6 +73,15 @@ export const fetchEventDetails = async (
   return response.json();
 };
 
+export const fetchFullEventDetails = async (
+  eventId: number,
+): Promise<FullOrganizationEvent> => {
+  var response = await fetchApiWithRefresh({
+    url: `/events/${eventId}/full`,
+  });
+  return response.json();
+};
+
 export const createEvent = async (
   organizationId: number,
   name: MultiLanguageText,
@@ -82,16 +91,6 @@ export const createEvent = async (
   endDate: Date,
   formDataImage: FormDataFileUpload,
 ) => {
-  console.log(
-    organizationId,
-    name,
-    description,
-    location,
-    startDate,
-    endDate,
-    formDataImage,
-  );
-
   const formData = new FormData();
 
   // @ts-ignore
@@ -108,6 +107,38 @@ export const createEvent = async (
   var response = await fetchApiWithRefresh({
     url: `/events/organization/${organizationId}`,
     method: Method.POST,
+    body: formData,
+  });
+  return response.json();
+};
+
+export const updateEvent = async (
+  eventId: number,
+  name: MultiLanguageText,
+  description: MultiLanguageText,
+  location: MultiLanguageText,
+  startDate: Date,
+  endDate: Date,
+  formDataImage?: FormDataFileUpload,
+) => {
+  const formData = new FormData();
+
+  if (formDataImage) {
+    // @ts-ignore
+    formData.append("backgroundImage", formDataImage);
+  }
+  formData.append("name", JSON.stringify(name));
+  formData.append("description", JSON.stringify(description));
+  formData.append("location", JSON.stringify(location));
+  formData.append(
+    "startDateTimestamp",
+    toUTCDate(startDate).getTime().toString(),
+  );
+  formData.append("endDateTimestamp", toUTCDate(endDate).getTime().toString());
+
+  var response = await fetchApiWithRefresh({
+    url: `/events/${eventId}`,
+    method: Method.PUT,
     body: formData,
   });
   return response.json();

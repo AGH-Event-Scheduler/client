@@ -75,6 +75,16 @@ export const EventDetailsView = ({ navigation, route }) => {
           </View>
           <View style={styles.buttonContainer}>
             <AppCheckButton
+              onPress={() => {
+                navigation.navigate("Update Event", {
+                  organizationId: event.underOrganization.id,
+                  editingEventId: event.id,
+                });
+              }}
+              title={t("event-details.edit-event")}
+              isChecked={true}
+            />
+            <AppCheckButton
               onPress={handleSaveButtonPress}
               title={t("event-details.save")}
               altTitle={t("event-details.saved")}
