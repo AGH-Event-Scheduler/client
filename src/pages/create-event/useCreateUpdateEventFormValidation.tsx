@@ -32,7 +32,13 @@ export const useCreateUpdateEventFormValidation = () => {
       validateTextField(Field.NAME, name, newErrors),
       validateTextField(Field.DESCRIPTION, description, newErrors),
       validateTextField(Field.LOCATION, location, newErrors),
-      validateDate(Field.DATE, startDate, endDate, newErrors),
+      validateStartDateBeforeEndDateDate(
+        Field.DATE,
+        startDate,
+        endDate,
+        newErrors,
+      ),
+      validateStartDateInThePast(Field.DATE, startDate, endDate, newErrors),
     ];
     setErrors(newErrors);
 
@@ -52,7 +58,12 @@ export const useCreateUpdateEventFormValidation = () => {
       validateTextField(Field.NAME, name, newErrors),
       validateTextField(Field.DESCRIPTION, description, newErrors),
       validateTextField(Field.LOCATION, location, newErrors),
-      validateDate(Field.DATE, startDate, endDate, newErrors),
+      validateStartDateBeforeEndDateDate(
+        Field.DATE,
+        startDate,
+        endDate,
+        newErrors,
+      ),
     ];
     setErrors(newErrors);
 
@@ -83,7 +94,20 @@ export const useCreateUpdateEventFormValidation = () => {
     return true;
   };
 
-  const validateDate = (
+  const validateStartDateBeforeEndDateDate = (
+    field: Field,
+    startDate: Date,
+    endDate: Date,
+    errors,
+  ) => {
+    if (startDate.valueOf() >= endDate.valueOf()) {
+      errors[field] = t("create-event.start-date-not-before-end-date-error");
+      return false;
+    }
+    return true;
+  };
+
+  const validateStartDateInThePast = (
     field: Field,
     startDate: Date,
     endDate: Date,
@@ -91,10 +115,6 @@ export const useCreateUpdateEventFormValidation = () => {
   ) => {
     if (startDate.valueOf() < new Date().valueOf()) {
       errors[field] = t("create-event.start-date-in-the-past-error");
-      return false;
-    }
-    if (startDate.valueOf() >= endDate.valueOf()) {
-      errors[field] = t("create-event.start-date-not-before-end-date-error");
       return false;
     }
     return true;

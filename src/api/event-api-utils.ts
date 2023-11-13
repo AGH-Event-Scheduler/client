@@ -98,11 +98,8 @@ export const createEvent = async (
   formData.append("name", JSON.stringify(name));
   formData.append("description", JSON.stringify(description));
   formData.append("location", JSON.stringify(location));
-  formData.append(
-    "startDateTimestamp",
-    toUTCDate(startDate).getTime().toString(),
-  );
-  formData.append("endDateTimestamp", toUTCDate(endDate).getTime().toString());
+  formData.append("startDateTimestamp", startDate.getTime().toString());
+  formData.append("endDateTimestamp", endDate.getTime().toString());
 
   var response = await fetchApiWithRefresh({
     url: `/events/organization/${organizationId}`,
@@ -130,11 +127,8 @@ export const updateEvent = async (
   formData.append("name", JSON.stringify(name));
   formData.append("description", JSON.stringify(description));
   formData.append("location", JSON.stringify(location));
-  formData.append(
-    "startDateTimestamp",
-    toUTCDate(startDate).getTime().toString(),
-  );
-  formData.append("endDateTimestamp", toUTCDate(endDate).getTime().toString());
+  formData.append("startDateTimestamp", startDate.getTime().toString());
+  formData.append("endDateTimestamp", endDate.getTime().toString());
 
   var response = await fetchApiWithRefresh({
     url: `/events/${eventId}`,
