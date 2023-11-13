@@ -6,7 +6,7 @@ export const register = async (
   password: string,
   firstName: string,
   lastName: string,
-): Promise<AuthenticationResponse | null> => {
+): Promise<Boolean> => {
   const endpoint = "/authentication/register";
   const body = { email, password, firstName, lastName };
 
@@ -17,13 +17,11 @@ export const register = async (
       body,
       false,
     );
-    const data = await response.json();
-
     if (response.ok) {
-      return data as AuthenticationResponse;
+      return true;
     } else {
-      console.error("Registration failed:", data);
-      return null;
+      console.error("Registration failed");
+      return false;
     }
   } catch (error) {
     console.error("Error during registration:", error);

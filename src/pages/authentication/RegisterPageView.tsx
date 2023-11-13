@@ -46,11 +46,12 @@ export const RegisterPageView = () => {
     } else {
       try {
         const response = await register(email, password, firstName, lastName);
-        if (await AuthenticationService.authenticate(response)) {
+        if (response) {
+          Alert.alert(t("registration.registration-success"), t(""));
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
-              routes: [{ name: "Main" }],
+              routes: [{ name: "Login" }],
             }),
           );
         } else {
