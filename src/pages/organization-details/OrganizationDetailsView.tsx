@@ -144,6 +144,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                     location={item?.locationTranslated}
                     onCardPress={() => handleCardPress(item)}
                     startDate={new Date(item?.startDate)}
+                    canceled={item?.canceled}
                     style={styles.card}
                   />
                 )}

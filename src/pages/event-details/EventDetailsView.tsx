@@ -108,8 +108,12 @@ export const EventDetailsView = ({ navigation, route }) => {
             <AppButton
               onPress={() => {
                 Alert.alert(
-                  t("event-details.confirm-cancel"),
-                  t("event-details.confirm-cancel-text"),
+                  !event.canceled
+                    ? t("event-details.confirm-cancel")
+                    : t("event-details.confirm-reenable"),
+                  !event.canceled
+                    ? t("event-details.confirm-cancel-text")
+                    : t("event-details.confirm-reenable-text"),
                   [
                     {
                       text: t("event-details.confirm"),
@@ -142,14 +146,22 @@ export const EventDetailsView = ({ navigation, route }) => {
 
           <Text style={styles.eventName}>{event?.nameTranslated}</Text>
 
-          <Text style={styles.date}>{`${toBeautifiedDateTimeString(
-            new Date(event?.startDate),
-            i18n.language,
-          )} - ${toBeautifiedDateTimeString(
-            new Date(event?.endDate),
-            i18n.language,
-          )}`}</Text>
-          <Text style={styles.location}>{event?.locationTranslated}</Text>
+          {!event.canceled ? (
+            <View>
+              <Text style={styles.date}>{`${toBeautifiedDateTimeString(
+                new Date(event?.startDate),
+                i18n.language,
+              )} - ${toBeautifiedDateTimeString(
+                new Date(event?.endDate),
+                i18n.language,
+              )}`}</Text>
+              <Text style={styles.location}>{event?.locationTranslated}</Text>
+            </View>
+          ) : (
+            <Text style={[styles.canceled]}>
+              {t("event-details.event-canceled")}
+            </Text>
+          )}
 
           <TouchableOpacity
             style={styles.organizationContainer}
@@ -260,5 +272,10 @@ const styles = StyleSheet.create({
   description: {
     ...globalStyles.description,
     marginBottom: 10,
+  },
+  canceled: {
+    fontSize: 18,
+    color: "#BC022C",
+    fontWeight: "bold",
   },
 });
