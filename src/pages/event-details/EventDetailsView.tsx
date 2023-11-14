@@ -65,6 +65,27 @@ export const EventDetailsView = ({ navigation, route }) => {
     }
   };
 
+  const showConfirmationPopup = () => {
+    Alert.alert(
+      !event.canceled
+        ? t("event-details.confirm-cancel")
+        : t("event-details.confirm-reenable"),
+      !event.canceled
+        ? t("event-details.confirm-cancel-text")
+        : t("event-details.confirm-reenable-text"),
+      [
+        {
+          text: t("event-details.confirm"),
+          onPress: !event.canceled ? handelCancelEvent : handleReenableEvent,
+        },
+        {
+          text: t("event-details.cancel"),
+          onPress: () => {},
+        },
+      ],
+    );
+  };
+
   const handelCancelEvent = async () => {
     setIsLoading(true);
     await cancelEvent(eventId).then(() => {
@@ -106,28 +127,7 @@ export const EventDetailsView = ({ navigation, route }) => {
               size="default"
             />
             <AppButton
-              onPress={() => {
-                Alert.alert(
-                  !event.canceled
-                    ? t("event-details.confirm-cancel")
-                    : t("event-details.confirm-reenable"),
-                  !event.canceled
-                    ? t("event-details.confirm-cancel-text")
-                    : t("event-details.confirm-reenable-text"),
-                  [
-                    {
-                      text: t("event-details.confirm"),
-                      onPress: !event.canceled
-                        ? handelCancelEvent
-                        : handleReenableEvent,
-                    },
-                    {
-                      text: t("event-details.cancel"),
-                      onPress: () => {},
-                    },
-                  ],
-                );
-              }}
+              onPress={showConfirmationPopup}
               title={
                 !event.canceled
                   ? t("event-details.cancel-event")
