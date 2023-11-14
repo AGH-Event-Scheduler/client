@@ -1,11 +1,7 @@
 import { getCurrentLanguage } from "../localization/languages";
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { toSimpleDateString, toUTCDate } from "../utils/date";
-import {
-  fetchApiWithRefresh,
-  FormDataFileUpload,
-  Method,
-} from "./api-utils";
+import { fetchApiWithRefresh, FormDataFileUpload, Method } from "./api-utils";
 import { FullOrganizationEvent, MultiLanguageText } from "./types";
 import { OrganizationEvent } from "./types";
 
@@ -188,7 +184,7 @@ export const removeEventFromCalendar = async (
 export const cancelEvent = async (eventId: number): Promise<boolean> => {
   const url = "/events/cancel";
   try {
-    const response = await fetchApi({
+    const response = await fetchApiWithRefresh({
       url: url,
       method: Method.POST,
       queryParams: {
@@ -209,7 +205,7 @@ export const cancelEvent = async (eventId: number): Promise<boolean> => {
 export const reenableEvent = async (eventId: number): Promise<boolean> => {
   const url = "/events/reenable";
   try {
-    const response = await fetchApi({
+    const response = await fetchApiWithRefresh({
       url: url,
       method: Method.POST,
       queryParams: {
