@@ -23,7 +23,9 @@
     "organization-search": "Search Organization",
     "login": "Log In",
     "register": "Register",
-    "create-event": "Add Event"
+    "create-event": "Add Event",
+    "update-event": "Update Event",
+    "edit-event": "Edit"
   },
   "settings": {
     "account": "Account",
@@ -58,7 +60,16 @@
   "event-details": {
     "last-edit": "Last edited",
     "save": "Save",
-    "saved": "Saved"
+    "saved": "Saved",
+    "event-canceled": "Event was canceled",
+    "cancel-event": "Cancel",
+    "reenable-event": "Reenable",
+    "confirm-cancel": "Confirm event canceletion",
+    "confirm-reenable": "Confirm event reenabling",
+    "confirm-cancel-text": "Are you sure you want to cancel the event?",
+    "confirm-reenable-text": "Are you sure you want to reenable the event?",
+    "confirm": "Yes",
+    "cancel": "No"
   },
   "login": {
     "welcome-to": "Welcome to",

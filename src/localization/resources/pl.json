@@ -23,7 +23,8 @@
     "organization-search": "Szukaj Organizacji",
     "login": "Logowanie",
     "register": "Rejestracja",
-    "create-event": "Dodaj wydarzenie"
+    "create-event": "Dodwanie wydarzenia",
+    "update-event": "Edycja wydarzenia"
   },
   "settings": {
     "account": "Konto",
@@ -58,7 +59,17 @@
   "event-details": {
     "last-edit": "Ostatnio modyfikowane",
     "save": "Zapisz",
-    "saved": "Zapisane"
+    "saved": "Zapisane",
+    "event-canceled": "Wydarzenie zostalo odwolane",
+    "cancel-event": "Odwolaj",
+    "reenable-event": "Wznow",
+    "confirm-cancel": "Potwierdz odwolanie wydarzenia",
+    "confirm-reenable": "Potwierdz wznowienie wydarzenia",
+    "confirm-cancel-text": "Czy na pewno chcesz odwolac to wydarzenie?",
+    "confirm-reenable-text": "Czy na pewno chcesz wznowic to wydarzenie?",
+    "confirm": "Tak",
+    "cancel": "Nie",
+    "edit-event": "Edytuj"
   },
   "login": {
     "welcome-to": "Witaj w",

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { Language } from "../api/api-utils";
+import { Language } from "../api/types";
 import { useTranslation } from "react-i18next";
 import CountryFlag from "react-native-country-flag";
 
