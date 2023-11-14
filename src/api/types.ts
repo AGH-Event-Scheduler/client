@@ -38,6 +38,7 @@ export interface OrganizationEvent extends BaseEntity {
   locationTranslated: string;
   underOrganization: Organization;
   isSaved: boolean;
+  canceled: boolean;
 }
 
 export interface FullOrganizationEvent extends BaseEntity {
@@ -47,8 +48,6 @@ export interface FullOrganizationEvent extends BaseEntity {
   startDate: string;
   endDate: string;
   locationMap: MultiLanguageText;
-  underOrganization: Organization;
-  isSaved: boolean;
 }
 
 export interface User extends BaseEntity {

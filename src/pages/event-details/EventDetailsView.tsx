@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -9,7 +10,9 @@ import {
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import {
+  cancelEvent,
   fetchEventDetails,
+  reenableEvent,
   removeEventFromCalendar,
   saveEventInCalendar,
 } from "../../api/event-api-utils";
@@ -20,6 +23,7 @@ import { toBeautifiedDateTimeString } from "../../utils/date";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { EventHubImage } from "../../components/EventHubImage";
 import { AppCheckButton } from "../../components/AppCheckButton";
+import { AppButton } from "../../components/AppButton";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
@@ -61,6 +65,22 @@ export const EventDetailsView = ({ navigation, route }) => {
     }
   };
 
+  const handelCancelEvent = async () => {
+    setIsLoading(true);
+    await cancelEvent(eventId).then(() => {
+      event.canceled = true;
+    });
+    setIsLoading(false);
+  };
+
+  const handleReenableEvent = async () => {
+    setIsLoading(true);
+    await reenableEvent(eventId).then(() => {
+      event.canceled = false;
+    });
+    setIsLoading(false);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       {isLoading ? (
@@ -74,7 +94,7 @@ export const EventDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
-            <AppCheckButton
+            <AppButton
               onPress={() => {
                 navigation.navigate("Update Event", {
                   organizationId: event.underOrganization.id,
@@ -82,7 +102,35 @@ export const EventDetailsView = ({ navigation, route }) => {
                 });
               }}
               title={t("event-details.edit-event")}
-              isChecked={true}
+              type="secondary"
+              size="default"
+            />
+            <AppButton
+              onPress={() => {
+                Alert.alert(
+                  t("event-details.confirm-cancel"),
+                  t("event-details.confirm-cancel-text"),
+                  [
+                    {
+                      text: t("event-details.confirm"),
+                      onPress: !event.canceled
+                        ? handelCancelEvent
+                        : handleReenableEvent,
+                    },
+                    {
+                      text: t("event-details.cancel"),
+                      onPress: () => {},
+                    },
+                  ],
+                );
+              }}
+              title={
+                !event.canceled
+                  ? t("event-details.cancel-event")
+                  : t("event-details.reenable-event")
+              }
+              type={!event.canceled ? "destructive" : "gray"}
+              size="default"
             />
             <AppCheckButton
               onPress={handleSaveButtonPress}
@@ -168,6 +216,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",
+    flexWrap: "wrap",
+    gap: 10,
   },
   eventName: {
     fontSize: 19,

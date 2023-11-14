@@ -184,3 +184,45 @@ export const removeEventFromCalendar = async (
     throw error;
   }
 };
+
+export const cancelEvent = async (eventId: number): Promise<boolean> => {
+  const url = "/events/cancel";
+  try {
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+    if (!response.ok) {
+      console.error("Canceling failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during canceling:", error);
+    throw error;
+  }
+};
+
+export const reenableEvent = async (eventId: number): Promise<boolean> => {
+  const url = "/events/reenable";
+  try {
+    const response = await fetchApi({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+    if (!response.ok) {
+      console.error("Reenabling failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during reenabling:", error);
+    throw error;
+  }
+};
