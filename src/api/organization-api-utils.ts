@@ -1,3 +1,4 @@
+import { getCurrentLanguage } from "../localization/languages";
 import { fetchApiWithRefresh, Method } from "./api-utils";
 import { Organization } from "./types";
 
@@ -8,6 +9,7 @@ export const fetchAllOrganizationsWithStatusByUser = async (
   const url = "/organizations";
   const queryParams = {
     subscribedOnly: onlySubscribed,
+    language: getCurrentLanguage(),  
   };
   if (nameSearchQuery !== "") {
     queryParams["name"] = nameSearchQuery;
@@ -44,9 +46,11 @@ export const fetchOrganizationById = async (
   organizationId: number,
 ): Promise<Organization> => {
   const url = `/organizations/${organizationId}`;
-
+  const queryParams = {
+    language: getCurrentLanguage(),
+  }
   try {
-    const response = await fetchApiWithRefresh({ url: url });
+    const response = await fetchApiWithRefresh({ url: url, queryParams: queryParams });
     const data = await response.json();
 
     if (response.ok) {
