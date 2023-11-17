@@ -9,7 +9,7 @@ export const fetchAllOrganizationsWithStatusByUser = async (
   const url = "/organizations";
   const queryParams = {
     subscribedOnly: onlySubscribed,
-    language: getCurrentLanguage(),  
+    language: getCurrentLanguage(),
   };
   if (nameSearchQuery !== "") {
     queryParams["name"] = nameSearchQuery;
@@ -48,9 +48,12 @@ export const fetchOrganizationById = async (
   const url = `/organizations/${organizationId}`;
   const queryParams = {
     language: getCurrentLanguage(),
-  }
+  };
   try {
-    const response = await fetchApiWithRefresh({ url: url, queryParams: queryParams });
+    const response = await fetchApiWithRefresh({
+      url: url,
+      queryParams: queryParams,
+    });
     const data = await response.json();
 
     if (response.ok) {
