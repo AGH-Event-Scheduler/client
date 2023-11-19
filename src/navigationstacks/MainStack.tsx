@@ -121,9 +121,9 @@ export const MainStack = ({ stack }) => {
           options={{ title: t("general.event") }}
         />
         <stack.Screen
-          name="Account"
-          component={AccountView}
-          options={{ title: t("settings.account") }}
+          name="ChangePassword"
+          component={SamplePage}
+          options={{ title: t("settings.account.change-password") }}
         />
         <stack.Screen
           name="Information"

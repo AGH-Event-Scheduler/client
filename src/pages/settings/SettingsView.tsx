@@ -1,7 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SettingCard } from "./SettingCard";
+import { AppDivider } from "../../components/AppDivider";
+import { LogoutCard } from "./LogoutCard";
+import { AccountSection } from "./AccountSection";
 
 export interface SettingProps {
   title: string;
@@ -10,22 +13,19 @@ export interface SettingProps {
 }
 
 export enum SettingType {
-  Account = "Account",
   Language = "Language",
   Notifications = "Notifications",
   DarkMode = "Darkmode",
   Information = "Information",
+  Logout = "Logout",
+  Email = "Email",
+  ChangePassword = "ChangePassword",
 }
 
 export const SettingsView = () => {
   const { t } = useTranslation();
 
   const settingsList: SettingProps[] = [
-    {
-      title: t("settings.account"),
-      iconName: "user",
-      setting: SettingType.Account,
-    },
     {
       title: t("settings.language"),
       iconName: "type",
@@ -49,8 +49,10 @@ export const SettingsView = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={[styles.settingsList, { zIndex: 10 }]}>
+        <AccountSection />
+        <AppDivider />
         {settingsList.map((item) => (
           <SettingCard
             key={item.title}
@@ -59,21 +61,27 @@ export const SettingsView = () => {
             setting={item.setting}
           ></SettingCard>
         ))}
+        <AppDivider />
+        <View style={styles.logoutCard}>
+          <LogoutCard />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 16,
   },
   settingsList: {
-    marginTop: 32,
     display: "flex",
     flexDirection: "column",
     gap: 30,
+    paddingVertical: 20,
+  },
+  logoutCard: {
+    alignSelf: "flex-end",
   },
 });

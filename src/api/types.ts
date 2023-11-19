@@ -54,3 +54,9 @@ export interface User extends BaseEntity {
   email: string;
   password: string;
 }
+
+export interface UserView {
+  email: string;
+  name: string;
+  lastname: string;
+}

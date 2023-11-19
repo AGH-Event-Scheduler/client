@@ -13,7 +13,6 @@ import { languages } from "../../localization/languages";
 
 export const SettingCard = ({ title, iconName, setting }: SettingProps) => {
   const handleItemSelect = (code: string) => {
-    console.log(code);
     i18next.changeLanguage(code);
   };
 
@@ -41,6 +40,7 @@ export const SettingCard = ({ title, iconName, setting }: SettingProps) => {
         isEnabled={false}
       />
     ),
+    ChangePassword: <AppNewPageButton page={setting} />,
   };
 
   return (
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   menuText: {
-    paddingTop: 3,
-    fontSize: 16,
+    paddingTop: 1,
+    fontSize: 18,
     fontWeight: "400",
   },
   iconText: {
