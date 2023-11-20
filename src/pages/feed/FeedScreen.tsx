@@ -68,6 +68,7 @@ export const FeedScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [feedFilter, setFeedFilter] = useState<FeedFilter>(FeedFilter.ALL);
 
+  const isFocused = useIsFocused();
   useEffect(() => {
     const fetchOrganizationsData = async () => {
       setIsLoading(true);
@@ -81,8 +82,8 @@ export const FeedScreen = ({ navigation }) => {
       }
       setIsLoading(false);
     };
-    fetchOrganizationsData();
-  }, [feedFilter]);
+    isFocused && fetchOrganizationsData();
+  }, [feedFilter, isFocused]);
 
   const handleCardPress = (notification: FeedNotification) => {
     console.log(`Clicked card: ${notification.type}`);

@@ -10,6 +10,7 @@ export const getFeed = async (
     queryParams: {
       language: getCurrentLanguage(),
       showNotSeenOnly: notSeenOnly,
+      size: 10, // TODO: replace with pagination in future
     },
   });
 
