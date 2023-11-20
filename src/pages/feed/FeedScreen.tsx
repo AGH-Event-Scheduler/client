@@ -24,7 +24,8 @@ import { SearchBar } from "../../components/SearchBar";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { getFeed, markNotificationAsSeen } from "../../api/feed-api-utils";
-import { FeedNotificationListCard, MarkType } from "./FeedNotificationListCard";
+import { FeedNotificationListCard } from "./FeedNotificationListCard";
+import { MarkType } from "./FeedNotificationListCardMark";
 
 enum FeedFilter {
   ALL,

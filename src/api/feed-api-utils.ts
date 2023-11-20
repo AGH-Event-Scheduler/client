@@ -23,5 +23,3 @@ export const markNotificationAsSeen = async (notificationId: number) => {
     method: Method.POST,
   });
 };
-
-export const markAllAsSeen = async () => {};
