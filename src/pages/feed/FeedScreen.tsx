@@ -40,13 +40,28 @@ export const FeedScreen = ({ navigation }) => {
   >([
     [
       FeedNotificationType.EVENT_CREATE,
-      'Organization {organization.name} has created an event {event.name} with description "{event.description}"',
+      t("feed.message-templates.event-create"),
     ],
-    [FeedNotificationType.EVENT_UPDATE, t("")],
-    [FeedNotificationType.EVENT_CANCEL, t("")],
-    [FeedNotificationType.EVENT_REENABLE, t("")],
-    [FeedNotificationType.ORGANIZATION_CREATE, t("")],
-    [FeedNotificationType.ORGANIZATION_UPDATE, t("")],
+    [
+      FeedNotificationType.EVENT_UPDATE,
+      t("feed.message-templates.event-update"),
+    ],
+    [
+      FeedNotificationType.EVENT_CANCEL,
+      t("feed.message-templates.event-cancel"),
+    ],
+    [
+      FeedNotificationType.EVENT_REENABLE,
+      t("feed.message-templates.event-reenable"),
+    ],
+    [
+      FeedNotificationType.ORGANIZATION_CREATE,
+      t("feed.message-templates.organization-create"),
+    ],
+    [
+      FeedNotificationType.ORGANIZATION_UPDATE,
+      t("feed.message-templates.organization-update"),
+    ],
   ]);
 
   const [notifications, setNotifications] = useState<FeedNotification[]>([]);
@@ -91,7 +106,7 @@ export const FeedScreen = ({ navigation }) => {
       item.type,
     )
       ? FeedNotificationTypeToMessageTemplateMap.get(item.type)
-      : t("");
+      : t("feed.message-templates.default");
     const organization = item.regardingOrganizationDto
       ? item.regardingOrganizationDto
       : item.regardingEventDTO.underOrganization;
