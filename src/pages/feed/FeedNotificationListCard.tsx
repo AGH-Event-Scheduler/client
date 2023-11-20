@@ -98,9 +98,12 @@ export const FeedNotificationListCard = memo(
             textBreakStrategy="simple"
             lineBreakStrategyIOS="standard"
           >
-            {messageParts.map(({ content, bold }) => {
+            {messageParts.map(({ content, bold }, index) => {
               return (
-                <Text style={[bold ? { fontWeight: "bold" } : null]}>
+                <Text
+                  key={index}
+                  style={[bold ? { fontWeight: "bold" } : null]}
+                >
                   {content}
                 </Text>
               );
