@@ -131,7 +131,6 @@ export const fetchUser = async () => {
     console.log("Cannot decode jwt token: ", error);
     return null;
   }
-
   const queryParams = {
     email: email,
   };
@@ -145,12 +144,10 @@ export const fetchUser = async () => {
     if (response.ok) {
       return data;
     } else {
-      console.log("Fetching user's name failed: ", data);
-      return null;
+      console.log("Fetching user failed: ", data);
     }
   } catch (error) {
-    console.log("Error while fetching user's name: ", error);
-    return null;
+    console.log("Error while fetching user: ", error);
   }
 };
 
