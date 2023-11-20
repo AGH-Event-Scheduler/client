@@ -1,13 +1,22 @@
 import React, { memo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, AntDesign, Entypo, Feather } from "@expo/vector-icons";
 import { EventHubImage } from "../../components/EventHubImage";
 import { Image, Organization, OrganizationEvent } from "../../api/types";
 import moment from "moment";
 import "moment/locale/pl";
 import { useTranslation } from "react-i18next";
 
+export enum MarkType {
+  CREATE,
+  EDIT,
+  CANCEL,
+  REENABLE,
+  REMINDER,
+}
+
 interface OrganizationListCardProps {
+  id: number;
   image: Image;
   messageTemplate: string;
   seen: boolean;
@@ -16,10 +25,12 @@ interface OrganizationListCardProps {
   onCardPress: () => void;
   style?: any;
   creationTime: Date;
+  markType: MarkType;
 }
 
 export const FeedNotificationListCard = memo(
   ({
+    id,
     image,
     messageTemplate,
     seen,
@@ -28,8 +39,53 @@ export const FeedNotificationListCard = memo(
     onCardPress,
     style,
     creationTime,
+    markType,
   }: OrganizationListCardProps) => {
     const { t, i18n } = useTranslation();
+
+    const getMarkColor = () => {
+      switch (markType) {
+        case MarkType.REENABLE: {
+        }
+        case MarkType.CREATE: {
+          return "#016531";
+        }
+        case MarkType.EDIT: {
+        }
+        case MarkType.CANCEL: {
+          return "#BC022C";
+        }
+        case MarkType.REMINDER: {
+          return "#000000";
+        }
+        default: {
+          return "#000000";
+        }
+      }
+    };
+
+    const getMarkIcon = () => {
+      switch (markType) {
+        case MarkType.REENABLE: {
+          return <Feather name="refresh-ccw" size={18} color="white" />;
+        }
+        case MarkType.CREATE: {
+          return <FontAwesome name="star" size={18} color="white" />;
+        }
+        case MarkType.EDIT: {
+          return <FontAwesome name="pencil" size={18} color="white" />;
+        }
+        case MarkType.CANCEL: {
+          return <Entypo name="cross" size={18} color="white" />;
+        }
+        case MarkType.REMINDER: {
+          return <FontAwesome name="bell" size={18} color="white" />;
+        }
+        default: {
+          return <AntDesign name="question" size={18} color="white" />;
+        }
+      }
+    };
 
     const handleCardPress = () => {
       onCardPress();
@@ -74,13 +130,16 @@ export const FeedNotificationListCard = memo(
       <TouchableOpacity
         style={[styles.container, style]}
         onPress={handleCardPress}
+        key={id}
       >
         <View style={styles.imageContainer}>
           <EventHubImage
             imageId={image.imageId}
             filename={image.smallFilename}
           />
-          <View>{/* mark */}</View>
+          <View style={[styles.mark, { backgroundColor: getMarkColor() }]}>
+            {getMarkIcon()}
+          </View>
         </View>
         <View style={styles.textContainer}>
           <Text
@@ -120,12 +179,20 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 5,
-    overflow: "hidden",
     marginRight: 15,
+    position: "relative",
   },
   image: {
     flex: 1,
     resizeMode: "contain",
+  },
+  mark: {
+    position: "absolute",
+    backgroundColor: "green",
+    borderRadius: 100,
+    padding: 6,
+    right: -5,
+    bottom: -5,
   },
   textContainer: {
     flexDirection: "column",

@@ -24,7 +24,7 @@ import { SearchBar } from "../../components/SearchBar";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { getFeed, markNotificationAsSeen } from "../../api/feed-api-utils";
-import { FeedNotificationListCard } from "./FeedNotificationListCard";
+import { FeedNotificationListCard, MarkType } from "./FeedNotificationListCard";
 
 enum FeedFilter {
   ALL,
@@ -62,6 +62,18 @@ export const FeedScreen = ({ navigation }) => {
       FeedNotificationType.ORGANIZATION_UPDATE,
       t("feed.message-templates.organization-update"),
     ],
+  ]);
+
+  const FeedNotificationTypeToMarkTypeMap = new Map<
+    FeedNotificationType,
+    MarkType
+  >([
+    [FeedNotificationType.EVENT_CREATE, MarkType.CREATE],
+    [FeedNotificationType.EVENT_UPDATE, MarkType.EDIT],
+    [FeedNotificationType.EVENT_CANCEL, MarkType.CANCEL],
+    [FeedNotificationType.EVENT_REENABLE, MarkType.REENABLE],
+    [FeedNotificationType.ORGANIZATION_CREATE, MarkType.CREATE],
+    [FeedNotificationType.ORGANIZATION_UPDATE, MarkType.EDIT],
   ]);
 
   const [notifications, setNotifications] = useState<FeedNotification[]>([]);
@@ -131,7 +143,7 @@ export const FeedScreen = ({ navigation }) => {
 
     return (
       <FeedNotificationListCard
-        key={item.id}
+        id={item.id}
         image={image}
         messageTemplate={messageTemplate}
         seen={item.seen}
@@ -140,6 +152,7 @@ export const FeedScreen = ({ navigation }) => {
         onCardPress={() => handleCardPress(item)}
         style={styles.card}
         creationTime={new Date(item.creationDate)}
+        markType={FeedNotificationTypeToMarkTypeMap.get(item.type)}
       />
     );
   };
