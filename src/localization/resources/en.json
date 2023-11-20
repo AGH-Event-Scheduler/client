@@ -28,15 +28,14 @@
     "edit-event": "Edit"
   },
   "settings": {
-    "account": "Account",
     "language": "Language",
     "notifications": "Notifications",
     "dark-mode": "Dark mode",
     "information": "Information",
-    "account-details": {
-      "sign-out": "Sign out",
-      "name": "User",
-      "email": "Email"
+    "logout": "Log out",
+    "account": {
+      "hello": "Hello,",
+      "change-password": "Change password"
     }
   },
   "organization-details": {

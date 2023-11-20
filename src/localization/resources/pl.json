@@ -27,15 +27,14 @@
     "update-event": "Edycja wydarzenia"
   },
   "settings": {
-    "account": "Konto",
     "language": "Język",
     "notifications": "Powiadomienia",
     "dark-mode": "Ciemny tryb",
     "information": "Informacja",
-    "account-details": {
-      "sign-out": "Wyloguj się",
-      "name": "Użytkownik",
-      "email": "Email"
+    "logout": "Wyloguj się",
+    "account": {
+      "hello": "Cześć,",
+      "change-password": "Zmień hasło"
     }
   },
   "organization-details": {
