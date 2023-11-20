@@ -18,6 +18,7 @@ import { BackButton } from "../components/navigation/top/BackButton";
 import { Platform } from "react-native";
 import { AccountView } from "../pages/settings/AccountView";
 import { CreateUpdateEventScreen } from "../pages/create-event/CreateUpdateEventScreen";
+import { FeedScreen } from "../pages/feed/FeedScreen";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -70,7 +71,7 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Feed"
-          component={SamplePage}
+          component={FeedScreen}
           options={{ title: t("general.feed") }}
         />
         <stack.Screen

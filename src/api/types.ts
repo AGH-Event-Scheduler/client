@@ -60,3 +60,19 @@ export interface UserView {
   name: string;
   lastname: string;
 }
+
+export enum FeedNotificationType {
+  EVENT_CREATE = "EVENT_CREATE",
+  EVENT_UPDATE = "EVENT_UPDATE",
+  EVENT_CANCEL = "EVENT_CANCEL",
+  EVENT_REENABLE = "EVENT_REENABLE",
+  ORGANIZATION_CREATE = "ORGANIZATION_CREATE",
+  ORGANIZATION_UPDATE = "ORGANIZATION_UPDATE",
+}
+
+export interface FeedNotification extends BaseEntity {
+  type: FeedNotificationType;
+  regardingOrganizationDto?: Organization;
+  regardingEventDTO?: OrganizationEvent;
+  seen: boolean;
+}

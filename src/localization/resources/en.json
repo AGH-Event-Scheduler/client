@@ -139,5 +139,18 @@
       "confirm": "Confirm",
       "cancel": "Cancel"
     }
+  },
+  "feed": {
+    "message-templates": {
+      "event-create": "Organization {organization.name} has created the event {event.name}: \"{event.description}\"",
+      "event-update": "Organization {organization.name} has updated the event {event.name}: \"{event.description}\"",
+      "event-cancel": "Organization {organization.name} has canceled the event {event.name}: \"{event.description}\"",
+      "event-reenable": "Organization {organization.name} has reenabled the event {event.name}: \"{event.description}\"",
+      "organization-create": "New organization {organization.name} has been created: \"{organization.description}\"",
+      "organization-update": "Organization {organization.name} has been updated: \"{organization.description}\"",
+      "default": "New notification"
+    },
+    "all": "All",
+    "not-seen": "Not seen"
   }
 }
