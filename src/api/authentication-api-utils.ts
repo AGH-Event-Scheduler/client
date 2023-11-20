@@ -1,7 +1,5 @@
 import { baseApiUrl, fetchApi, fetchApiWithRefresh, Method } from "./api-utils";
 import { AuthenticationService } from "../services/AuthenticationService";
-import { jwtDecode } from "jwt-decode";
-import "core-js/stable/atob";
 
 export const register = async (
   email: string,
@@ -122,23 +120,9 @@ export const refreshAccessToken = async (
 };
 
 export const fetchUser = async () => {
-  const token = await AuthenticationService.getAuthToken();
-  var email = "";
-  try {
-    const decoded = jwtDecode(token);
-    email = decoded.sub;
-  } catch (error) {
-    console.log("Cannot decode jwt token: ", error);
-    return null;
-  }
-  const queryParams = {
-    email: email,
-  };
-
   try {
     const response = await fetchApi({
       url: "/users",
-      queryParams: queryParams,
     });
     const data = await response.json();
     if (response.ok) {
