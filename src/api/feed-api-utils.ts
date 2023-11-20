@@ -1,5 +1,5 @@
 import { getCurrentLanguage } from "../localization/languages";
-import { fetchApiWithRefresh } from "./api-utils";
+import { Method, fetchApiWithRefresh } from "./api-utils";
 import { FeedNotification } from "./types";
 
 export const getFeed = async (
@@ -16,6 +16,11 @@ export const getFeed = async (
   return result.json();
 };
 
-export const markNotificationAsSeen = async (notificationId: number) => {};
+export const markNotificationAsSeen = async (notificationId: number) => {
+  return fetchApiWithRefresh({
+    url: `/feed/${notificationId}`,
+    method: Method.POST,
+  });
+};
 
 export const markAllAsSeen = async () => {};

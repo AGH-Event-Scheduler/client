@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 import { SearchBar } from "../../components/SearchBar";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppCheckButton } from "../../components/AppCheckButton";
-import { getFeed } from "../../api/feed-api-utils";
+import { getFeed, markNotificationAsSeen } from "../../api/feed-api-utils";
 import { FeedNotificationListCard } from "./FeedNotificationListCard";
 
 enum FeedFilter {
@@ -68,7 +68,6 @@ export const FeedScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [feedFilter, setFeedFilter] = useState<FeedFilter>(FeedFilter.ALL);
 
-  const isFocused = useIsFocused();
   useEffect(() => {
     const fetchOrganizationsData = async () => {
       setIsLoading(true);
@@ -82,14 +81,31 @@ export const FeedScreen = ({ navigation }) => {
       }
       setIsLoading(false);
     };
-    isFocused && fetchOrganizationsData();
-  }, [isFocused, feedFilter]);
+    fetchOrganizationsData();
+  }, [feedFilter]);
 
   const handleCardPress = (notification: FeedNotification) => {
     console.log(`Clicked card: ${notification.type}`);
 
-    // Navigate based on existance of regardingEvent / regarding Organization or type
-    // navigation.navigate("Organization", { organizationId: organization.id });
+    if (!notification.seen) {
+      markNotificationAsSeen(notification.id)
+        .then(() => {
+          console.log("Successfully marked notification as seen");
+        })
+        .catch(() => {
+          console.log("Error while marking notification as seen");
+        });
+    }
+
+    if (notification.regardingEventDTO) {
+      navigation.navigate("Event", {
+        eventId: notification.regardingEventDTO.id,
+      });
+    } else if (notification.regardingOrganizationDto) {
+      navigation.navigate("Organization", {
+        organizationId: notification.regardingOrganizationDto.id,
+      });
+    }
   };
 
   const renderFeedNotificationItem = ({
@@ -114,7 +130,7 @@ export const FeedScreen = ({ navigation }) => {
 
     return (
       <FeedNotificationListCard
-        key={index}
+        key={item.id}
         image={image}
         messageTemplate={messageTemplate}
         seen={item.seen}
