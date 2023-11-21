@@ -45,10 +45,12 @@ export const FeedScreen = ({ navigation }) => {
     { key: FeedFilter.ALL, title: t("feed.all") },
     { key: FeedFilter.NOT_SEEN, title: t("feed.not-seen") },
   ];
-  
+
   const [notifications, setNotifications] = useState<FeedNotification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [feedFilterItem, setFeedFilterItem] = useState<ToggleButtonItem>(toggleButtonItems[0]);
+  const [feedFilterItem, setFeedFilterItem] = useState<ToggleButtonItem>(
+    toggleButtonItems[0],
+  );
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -69,16 +71,16 @@ export const FeedScreen = ({ navigation }) => {
 
   const handleFilterButtonPress = (filter: ToggleButtonItem) => {
     setFeedFilterItem(filter);
-  }
+  };
 
   return (
     <View style={styles.container}>
       <View style={[styles.navigationContainer]}>
-        <AppToggleButton 
-        items={toggleButtonItems} 
-        currentSelection={feedFilterItem} 
-        onSelect={handleFilterButtonPress} 
-        size="default"
+        <AppToggleButton
+          items={toggleButtonItems}
+          currentSelection={feedFilterItem}
+          onSelect={handleFilterButtonPress}
+          size="default"
         />
       </View>
       {isLoading ? (

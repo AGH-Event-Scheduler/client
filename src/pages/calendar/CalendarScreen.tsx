@@ -38,13 +38,12 @@ interface ToggleButtonItem {
   title: string;
 }
 
-
 export const CalendarScreen = () => {
   const { t } = useTranslation();
   const toggleButtonItems: ToggleButtonItem[] = [
     { key: EventFilter.SAVED, title: t("calendar.saved") },
     { key: EventFilter.FOLLOWING, title: t("calendar.following") },
-    { key: EventFilter.ALL, title: t("calendar.all") }
+    { key: EventFilter.ALL, title: t("calendar.all") },
   ];
 
   const dateNow = new Date();
@@ -54,7 +53,7 @@ export const CalendarScreen = () => {
   );
   const [selectedDate, setSelectedDate] = useState<Date>(dateNow);
   const [eventsFilterItem, setEventsFilterItem] = useState<ToggleButtonItem>(
-    toggleButtonItems[0]
+    toggleButtonItems[0],
   );
   const [isLoading, setIsLoading] = useState(true);
   const [agendaItems, setAgendaItems] = useState<EventsByDates>();
@@ -62,7 +61,6 @@ export const CalendarScreen = () => {
   const childDateSectionListRef = useRef(null);
 
   const navigation = useNavigation();
-
 
   useEffect(() => {
     fetchAgendaItemsInSelectedWeek();
@@ -142,15 +140,15 @@ export const CalendarScreen = () => {
 
   const handleFilterButtonPress = (filter: ToggleButtonItem) => {
     setEventsFilterItem(filter);
-  }
+  };
 
   return (
     <View style={styles.wrapper}>
-      <AppToggleButton 
-      items={toggleButtonItems} 
-      currentSelection={eventsFilterItem} 
-      onSelect={handleFilterButtonPress}
-      size={"small"}
+      <AppToggleButton
+        items={toggleButtonItems}
+        currentSelection={eventsFilterItem}
+        onSelect={handleFilterButtonPress}
+        size={"small"}
       />
       <View>
         <SearchBar
