@@ -50,12 +50,7 @@ export interface FullOrganizationEvent extends BaseEntity {
   locationMap: MultiLanguageText;
 }
 
-export interface User extends BaseEntity {
-  email: string;
-  password: string;
-}
-
-export interface UserView {
+export interface User {
   email: string;
   name: string;
   lastname: string;
@@ -65,7 +60,7 @@ export enum FeedNotificationType {
   EVENT_CREATE = "EVENT_CREATE",
   EVENT_UPDATE = "EVENT_UPDATE",
   EVENT_CANCEL = "EVENT_CANCEL",
-  EVENT_REENABLE = "EVENT_REENABLE",
+  EVENT_REACTIVATE = "EVENT_REACTIVATE",
   ORGANIZATION_CREATE = "ORGANIZATION_CREATE",
   ORGANIZATION_UPDATE = "ORGANIZATION_UPDATE",
 }

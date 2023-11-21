@@ -12,7 +12,7 @@ import { useIsFocused } from "@react-navigation/native";
 import {
   cancelEvent,
   fetchEventDetails,
-  reenableEvent,
+  reactivateEvent,
   removeEventFromCalendar,
   saveEventInCalendar,
 } from "../../api/event-api-utils";
@@ -69,14 +69,14 @@ export const EventDetailsView = ({ navigation, route }) => {
     Alert.alert(
       !event.canceled
         ? t("event-details.confirm-cancel")
-        : t("event-details.confirm-reenable"),
+        : t("event-details.confirm-reactivate"),
       !event.canceled
         ? t("event-details.confirm-cancel-text")
-        : t("event-details.confirm-reenable-text"),
+        : t("event-details.confirm-reactivate-text"),
       [
         {
           text: t("event-details.confirm"),
-          onPress: !event.canceled ? handelCancelEvent : handleReenableEvent,
+          onPress: !event.canceled ? handelCancelEvent : handleReactivateEvent,
         },
         {
           text: t("event-details.cancel"),
@@ -94,9 +94,9 @@ export const EventDetailsView = ({ navigation, route }) => {
     setIsLoading(false);
   };
 
-  const handleReenableEvent = async () => {
+  const handleReactivateEvent = async () => {
     setIsLoading(true);
-    await reenableEvent(eventId).then(() => {
+    await reactivateEvent(eventId).then(() => {
       event.canceled = false;
     });
     setIsLoading(false);
@@ -131,7 +131,7 @@ export const EventDetailsView = ({ navigation, route }) => {
               title={
                 !event.canceled
                   ? t("event-details.cancel-event")
-                  : t("event-details.reenable-event")
+                  : t("event-details.reactivate-event")
               }
               type={!event.canceled ? "destructive" : "gray"}
               size="default"

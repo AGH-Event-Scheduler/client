@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 import { SettingProps, SettingType } from "./SettingsView";
 import { SettingCard } from "./SettingCard";
 import { fetchUser } from "../../api/authentication-api-utils";
-import { UserView } from "../../api/types";
+import { User } from "../../api/types";
 
 export const AccountSection = () => {
   const { t } = useTranslation();
-  const [user, setUser] = useState<UserView>({
+  const [user, setUser] = useState<User>({
     email: "",
     name: "",
     lastname: "",
@@ -16,7 +16,7 @@ export const AccountSection = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      const user = (await fetchUser()) as UserView;
+      const user = (await fetchUser()) as User;
       setUser(user);
     };
 

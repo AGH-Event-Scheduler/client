@@ -25,6 +25,7 @@ import { LoadingView } from "../../components/loading/LoadingView";
 import { SearchBar } from "../../components/SearchBar";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { useTranslation } from "react-i18next";
+import { AppToggleButton } from "../../components/AppToggleButton";
 
 enum EventFilter {
   SAVED,
@@ -32,16 +33,28 @@ enum EventFilter {
   ALL,
 }
 
+interface ToggleButtonItem {
+  key: EventFilter;
+  title: string;
+}
+
+
 export const CalendarScreen = () => {
   const { t } = useTranslation();
+  const toggleButtonItems: ToggleButtonItem[] = [
+    { key: EventFilter.SAVED, title: t("calendar.saved") },
+    { key: EventFilter.FOLLOWING, title: t("calendar.following") },
+    { key: EventFilter.ALL, title: t("calendar.all") }
+  ];
+
   const dateNow = new Date();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedWeek, setSelectedWeek] = useState<DateRange>(
     getFirstAndLastDayOfWeek(dateNow),
   );
   const [selectedDate, setSelectedDate] = useState<Date>(dateNow);
-  const [eventsFilter, setEventsFilter] = useState<EventFilter>(
-    EventFilter.SAVED,
+  const [eventsFilterItem, setEventsFilterItem] = useState<ToggleButtonItem>(
+    toggleButtonItems[0]
   );
   const [isLoading, setIsLoading] = useState(true);
   const [agendaItems, setAgendaItems] = useState<EventsByDates>();
@@ -50,9 +63,10 @@ export const CalendarScreen = () => {
 
   const navigation = useNavigation();
 
+
   useEffect(() => {
     fetchAgendaItemsInSelectedWeek();
-  }, [selectedWeek, eventsFilter, searchQuery]);
+  }, [selectedWeek, eventsFilterItem, searchQuery]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -65,14 +79,14 @@ export const CalendarScreen = () => {
     setIsLoading(true);
 
     var eventsByDate: { [date: string]: OrganizationEvent[] };
-    if (eventsFilter === EventFilter.SAVED) {
+    if (eventsFilterItem.key === EventFilter.SAVED) {
       eventsByDate = await fetchEventsInDateRange(
         startDate,
         endDate,
         searchQuery,
         true,
       );
-    } else if (eventsFilter === EventFilter.FOLLOWING) {
+    } else if (eventsFilterItem.key === EventFilter.FOLLOWING) {
       eventsByDate = await fetchEventsInDateRange(
         startDate,
         endDate,
@@ -116,7 +130,7 @@ export const CalendarScreen = () => {
     childWeeklyCalendarRef.current?.updateMarkedDays(Object.keys(eventsByDate));
 
     setIsLoading(false);
-  }, [selectedWeek, eventsFilter, searchQuery]);
+  }, [selectedWeek, eventsFilterItem, searchQuery]);
 
   const onDayChange = (date: Date) => {
     setSelectedDate(date);
@@ -126,34 +140,18 @@ export const CalendarScreen = () => {
     setSelectedWeek(dateRange);
   };
 
+  const handleFilterButtonPress = (filter: ToggleButtonItem) => {
+    setEventsFilterItem(filter);
+  }
+
   return (
     <View style={styles.wrapper}>
-      <View style={styles.buttonsContainer}>
-        <AppCheckButton
-          onPress={() => {
-            setEventsFilter(EventFilter.SAVED);
-          }}
-          title={t("calendar.saved")}
-          isChecked={eventsFilter === EventFilter.SAVED}
-          size="small"
-        />
-        <AppCheckButton
-          onPress={() => {
-            setEventsFilter(EventFilter.FOLLOWING);
-          }}
-          title={t("calendar.following")}
-          isChecked={eventsFilter === EventFilter.FOLLOWING}
-          size="small"
-        />
-        <AppCheckButton
-          onPress={() => {
-            setEventsFilter(EventFilter.ALL);
-          }}
-          title={t("calendar.all")}
-          isChecked={eventsFilter === EventFilter.ALL}
-          size="small"
-        />
-      </View>
+      <AppToggleButton 
+      items={toggleButtonItems} 
+      currentSelection={eventsFilterItem} 
+      onSelect={handleFilterButtonPress}
+      size={"small"}
+      />
       <View>
         <SearchBar
           onSearchChange={(searchTerm: string) => {
@@ -193,12 +191,6 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: "white",
-  },
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    marginTop: 5,
   },
   todayButtonWrapper: {
     position: "absolute",
