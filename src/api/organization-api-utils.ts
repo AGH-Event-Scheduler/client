@@ -1,6 +1,6 @@
 import { getCurrentLanguage } from "../localization/languages";
-import { fetchApiWithRefresh, Method } from "./api-utils";
-import { Organization } from "./types";
+import { fetchApiWithRefresh, FormDataFileUpload, Method } from "./api-utils";
+import { MultiLanguageText, Organization } from "./types";
 
 export const fetchAllOrganizationsWithStatusByUser = async (
   onlySubscribed = false,
@@ -113,4 +113,29 @@ export const unsubscribeFromOrganization = async (
     console.error("Error during Unsubscribing:", error);
     throw error;
   }
+};
+
+export const createOrganization = async (
+  name: MultiLanguageText,
+  description: MultiLanguageText,
+  formDataBackgroundImage: FormDataFileUpload,
+  formDataLogoImage: FormDataFileUpload,
+  leaderEmail: string
+) => {
+  const formData = new FormData();
+
+  // @ts-ignore
+  formData.append("backgroundImage", formDataBackgroundImage);
+  // @ts-ignore
+  formData.append("logoImage", formDataLogoImage);
+  formData.append("name", JSON.stringify(name));
+  formData.append("description", JSON.stringify(description));
+  formData.append("leaderEmail", leaderEmail);
+
+  var response = await fetchApiWithRefresh({
+    url: '/organization',
+    method: Method.POST,
+    body: formData,
+  });
+  return response.json();
 };

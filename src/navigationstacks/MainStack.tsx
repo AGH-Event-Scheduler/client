@@ -11,14 +11,13 @@ import { useTranslation } from "react-i18next";
 import { OrganizationSearchScreen } from "../pages/organization-search/OrganizationSearchScreen";
 import { AllEventsView } from "../pages/all-events/AllEventsView";
 import { TopNavBarRight } from "../components/navigation/top/TopNavBarRight";
-import { Header } from "react-native/Libraries/NewAppScreen";
 import { getHeaderTitle } from "@react-navigation/elements";
 import { TopNavBar } from "../components/navigation/top/TopNavBar";
 import { BackButton } from "../components/navigation/top/BackButton";
 import { Platform } from "react-native";
-import { AccountView } from "../pages/settings/AccountView";
 import { CreateUpdateEventScreen } from "../pages/create-event/CreateUpdateEventScreen";
 import { FeedScreen } from "../pages/feed/FeedScreen";
+import { CreateOrganizationView } from "../pages/create-organization/CreateOrganizationView";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -44,13 +43,13 @@ export const MainStack = ({ stack }) => {
             );
           },
         }}
-        initialRouteName="Home"
+        initialRouteName="Calendar"
       >
         {/* Main pages */}
         <stack.Screen
           name="Home"
           component={SamplePage}
-          options={{ title: "Home" }}
+          options={{ title: "Calendar" }}
         />
         <stack.Screen
           name="Favourite"
@@ -81,7 +80,7 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Create organization"
-          component={SamplePage}
+          component={CreateOrganizationView}
           options={{ title: t("general.create-organization") }}
         />
         <stack.Screen
