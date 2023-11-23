@@ -154,7 +154,6 @@ export const saveEventInCalendar = async (
     return true;
   } catch (error) {
     console.error("Error during saving:", error);
-    throw error;
   }
 };
 
@@ -177,7 +176,6 @@ export const removeEventFromCalendar = async (
     return true;
   } catch (error) {
     console.error("Error during removing:", error);
-    throw error;
   }
 };
 
@@ -198,12 +196,11 @@ export const cancelEvent = async (eventId: number): Promise<boolean> => {
     return true;
   } catch (error) {
     console.error("Error during canceling:", error);
-    throw error;
   }
 };
 
-export const reenableEvent = async (eventId: number): Promise<boolean> => {
-  const url = "/events/reenable";
+export const reactivateEvent = async (eventId: number): Promise<boolean> => {
+  const url = "/events/reactivate";
   try {
     const response = await fetchApiWithRefresh({
       url: url,
@@ -213,12 +210,11 @@ export const reenableEvent = async (eventId: number): Promise<boolean> => {
       },
     });
     if (!response.ok) {
-      console.error("Reenabling failed:", response.statusText);
+      console.error("Reactivating failed:", response.statusText);
       return false;
     }
     return true;
   } catch (error) {
-    console.error("Error during reenabling:", error);
-    throw error;
+    console.error("Error during reactivating:", error);
   }
 };

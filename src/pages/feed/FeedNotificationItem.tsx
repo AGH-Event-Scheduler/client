@@ -53,8 +53,8 @@ export const FeedNotificationItem = ({
       t("feed.message-templates.event-cancel"),
     ],
     [
-      FeedNotificationType.EVENT_REENABLE,
-      t("feed.message-templates.event-reenable"),
+      FeedNotificationType.EVENT_REACTIVATE,
+      t("feed.message-templates.event-reactivate"),
     ],
     [
       FeedNotificationType.ORGANIZATION_CREATE,
@@ -73,7 +73,7 @@ export const FeedNotificationItem = ({
     [FeedNotificationType.EVENT_CREATE, MarkType.CREATE],
     [FeedNotificationType.EVENT_UPDATE, MarkType.EDIT],
     [FeedNotificationType.EVENT_CANCEL, MarkType.CANCEL],
-    [FeedNotificationType.EVENT_REENABLE, MarkType.REENABLE],
+    [FeedNotificationType.EVENT_REACTIVATE, MarkType.REACTIVATE],
     [FeedNotificationType.ORGANIZATION_CREATE, MarkType.CREATE],
     [FeedNotificationType.ORGANIZATION_UPDATE, MarkType.EDIT],
   ]);
