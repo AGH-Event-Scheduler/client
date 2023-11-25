@@ -38,7 +38,7 @@ export const useEventFormValidation = () => {
     state: MultiLanguageText,
     errors,
   ) => {
-    if (!/\S/.test(state[Language.PL]) && !/\S/.test(state[Language.ENG])) {
+    if (!/\S/.test(state[Language.PL]) && !/\S/.test(state[Language.EN])) {
       errors[field] = t("create-event.at-least-one-translation-required-error");
       return false;
     }

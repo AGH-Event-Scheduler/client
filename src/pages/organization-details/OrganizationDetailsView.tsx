@@ -10,7 +10,11 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
-import { OrganizationEvent, Organization } from "../../api/types";
+import {
+  OrganizationEvent,
+  Organization,
+  OrganizationRole,
+} from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import {
   fetchOrganizationById,
@@ -24,6 +28,7 @@ import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
 import { EventHubImage } from "../../components/EventHubImage";
+import { getUserRolesForOrganization } from "../../api/user-api-utlis";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -34,6 +39,24 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
+  const [userRoles, setUserRoles] = useState<OrganizationRole[]>([]);
+
+  useEffect(() => {
+    const fetchOrganizationUserRoles = async () => {
+      try {
+        setOrganizationIsLoading(true);
+        getUserRolesForOrganization(organizationId).then((roles) => {
+          setUserRoles(roles);
+          console.log("USER ROLES", roles);
+          setOrganizationIsLoading(false);
+        });
+      } catch (error) {
+        console.error("Error fetching user roles:", error);
+      }
+    };
+
+    fetchOrganizationUserRoles();
+  }, [organizationId]);
 
   useEffect(() => {
     const fetchOrganizationDetailsData = async (organizationId: number) => {
@@ -101,16 +124,18 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
-            <AppButton
-              onPress={() => {
-                navigation.navigate("Create Event", {
-                  organizationId: organization.id,
-                });
-              }}
-              type={"secondary"}
-              title={t("general.create-event")}
-              size={"default"}
-            />
+            {userRoles.includes(OrganizationRole.CONTENT_CREATOR) ? (
+              <AppButton
+                onPress={() => {
+                  navigation.navigate("Create Event", {
+                    organizationId: organization.id,
+                  });
+                }}
+                type={"secondary"}
+                title={t("general.create-event")}
+                size={"default"}
+              />
+            ) : null}
             {organization && (
               <AppCheckButton
                 onPress={handleFollowButtonPress}

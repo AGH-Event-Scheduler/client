@@ -34,3 +34,8 @@ export interface User extends BaseEntity {
   email: string;
   password: string;
 }
+
+export enum OrganizationRole {
+  CONTENT_CREATOR = "CONTENT_CREATOR",
+  HEAD = "HEAD",
+}
