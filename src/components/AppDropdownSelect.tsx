@@ -81,14 +81,14 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "400",
     marginRight: "auto",
   },
 
   expanded: {
     position: "absolute",
-    top: 25,
+    top: 28,
     backgroundColor: "#D6D6D6",
     paddingVertical: 6,
     borderRadius: 6,

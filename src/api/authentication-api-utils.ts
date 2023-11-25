@@ -1,4 +1,4 @@
-import { baseApiUrl, fetchApiWithRefresh, Method } from "./api-utils";
+import { baseApiUrl, fetchApi, fetchApiWithRefresh, Method } from "./api-utils";
 import { AuthenticationService } from "../services/AuthenticationService";
 
 export const register = async (
@@ -116,6 +116,22 @@ export const refreshAccessToken = async (
   } catch (error) {
     console.log("Error refreshing access token:", error);
     return null;
+  }
+};
+
+export const fetchUser = async () => {
+  try {
+    const response = await fetchApi({
+      url: "/users",
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      console.log("Fetching user failed: ", data);
+    }
+  } catch (error) {
+    console.log("Error while fetching user: ", error);
   }
 };
 

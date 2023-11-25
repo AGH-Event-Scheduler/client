@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { createEvent } from "../../api/event-api-utils";
+import {
+  createEvent,
+  fetchEventDetails,
+  fetchFullEventDetails,
+  updateEvent,
+} from "../../api/event-api-utils";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
@@ -10,14 +15,19 @@ import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FormError } from "../../components/FormError";
-import {
-  FormDataFileUpload,
-  Language,
-  MultiLanguageText,
-} from "../../api/api-utils";
+import { FormDataFileUpload } from "../../api/api-utils";
 import * as mime from "react-native-mime-types";
 import { FormLanguageSelector } from "../../components/FormLanguageSelector";
-import { Field, useEventFormValidation } from "./useEventFormValidation";
+import {
+  Field,
+  useCreateUpdateEventFormValidation,
+} from "./useCreateUpdateEventFormValidation";
+import {
+  FullOrganizationEvent,
+  Language,
+  MultiLanguageText,
+} from "../../api/types";
+import { EventHubImage } from "../../components/EventHubImage";
 
 enum PickingDate {
   StartDate,
@@ -25,10 +35,11 @@ enum PickingDate {
   NO,
 }
 
-export const CreateEventScreen = ({ navigation, route }) => {
+export const CreateUpdateEventScreen = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
-  const { errors, runValidators } = useEventFormValidation();
-  const [isLoading, setIsLoading] = useState(false);
+  const { errors, runCreateValidators, runUpdateValidators } =
+    useCreateUpdateEventFormValidation();
+  const [isLoading, setIsLoading] = useState(true);
 
   const [backgroundImage, setBackgroundImageUri] =
     useState<FormDataFileUpload>(null);
@@ -55,6 +66,30 @@ export const CreateEventScreen = ({ navigation, route }) => {
   const [endDate, setEndDate] = useState<Date>(beginEndDate);
 
   const organizationId = route.params.organizationId;
+  const editingEventId = route.params.editingEventId;
+
+  const [editingEvent, setEditingEvent] = useState<FullOrganizationEvent>(null);
+
+  useEffect(() => {
+    const setFormStateToEditingEvent = async (eventId: number) => {
+      const editingEventResponse = await fetchFullEventDetails(eventId);
+
+      setName(editingEventResponse.nameMap);
+      setDescription(editingEventResponse.descriptionMap);
+      setLocation(editingEventResponse.locationMap);
+      setStartDate(new Date(editingEventResponse.startDate));
+      setEndDate(new Date(editingEventResponse.endDate));
+      setEditingEvent(editingEventResponse);
+
+      setIsLoading(false);
+    };
+
+    if (editingEventId) {
+      setFormStateToEditingEvent(editingEventId);
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
 
   const onUploadImageButtonPress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -83,7 +118,8 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
   const submitForm = async () => {
     if (
-      runValidators(
+      !editingEventId &&
+      runCreateValidators(
         backgroundImage,
         name,
         description,
@@ -104,7 +140,36 @@ export const CreateEventScreen = ({ navigation, route }) => {
           backgroundImage,
         ).then((result) => {
           setIsLoading(false);
-          navigation.navigate("Event", { eventId: result.id });
+          navigation.replace("Event", { eventId: result.id });
+        });
+      } catch (e) {
+        setIsLoading(false);
+        Alert.alert(e);
+      }
+    } else if (
+      editingEventId &&
+      runUpdateValidators(
+        backgroundImage,
+        name,
+        description,
+        location,
+        startDate,
+        endDate,
+      )
+    ) {
+      setIsLoading(true);
+      try {
+        await updateEvent(
+          editingEventId,
+          name,
+          description,
+          location,
+          startDate,
+          endDate,
+          backgroundImage,
+        ).then((result) => {
+          setIsLoading(false);
+          navigation.replace("Event", { eventId: result.id });
         });
       } catch (e) {
         setIsLoading(false);
@@ -133,6 +198,23 @@ export const CreateEventScreen = ({ navigation, route }) => {
                 title={t("create-event.update-image")}
                 onPress={onUploadImageButtonPress}
                 type={"secondary"}
+                size={"default"}
+              />
+            </View>
+          ) : editingEvent ? (
+            <View style={styles.imageUploadSection}>
+              <View
+                style={[styles.imageContainer, { backgroundColor: "#FAFAFA" }]}
+              >
+                <EventHubImage
+                  imageId={editingEvent.backgroundImage.imageId}
+                  filename={editingEvent.backgroundImage.bigFilename}
+                />
+              </View>
+              <AppButton
+                title={t("create-event.upload-image")}
+                onPress={onUploadImageButtonPress}
+                type={"primary"}
                 size={"default"}
               />
             </View>
@@ -167,7 +249,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
             </Text>
             <TextInputContainer
               label={t("create-event.name-label")}
-              placeholder={t("create-event.provide-event-name")}
+              placeholder={t("create-event.enter-event-name")}
               value={name[currentFormLanguage]}
               onChangeText={(text) => {
                 var value = { ...name };
@@ -181,7 +263,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
             <TextInputContainer
               label={t("create-event.description-label")}
-              placeholder={t("create-event.provide-event-description")}
+              placeholder={t("create-event.enter-event-description")}
               value={description[currentFormLanguage]}
               onChangeText={(text) => {
                 var value = { ...description };
@@ -196,7 +278,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
             <TextInputContainer
               label={t("create-event.location-label")}
-              placeholder={t("create-event.provide-event-location")}
+              placeholder={t("create-event.enter-event-location")}
               value={location[currentFormLanguage]}
               onChangeText={(text) => {
                 var value = { ...location };
@@ -223,7 +305,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
                   {toBeautifiedDateTimeString(startDate, i18n.language)}
                 </Text>
                 <AppButton
-                  title={t("create-event.set-start-date")}
+                  title={t("create-event.set")}
                   onPress={() => {
                     setPickingDate(PickingDate.StartDate);
                   }}
@@ -240,7 +322,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
                   {toBeautifiedDateTimeString(endDate, i18n.language)}
                 </Text>
                 <AppButton
-                  title={t("create-event.set-end-date")}
+                  title={t("create-event.set")}
                   onPress={() => {
                     setPickingDate(PickingDate.EndDate);
                   }}

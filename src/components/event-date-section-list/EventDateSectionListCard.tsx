@@ -56,11 +56,21 @@ const EventDateSectionListCard = memo((props: DateSectionListCardProps) => {
       </View>
       <View style={[styles.container]}>
         <Text style={[styles.eventName]}>{item.nameTranslated}</Text>
-        <Text style={[styles.datetime]}>
-          {getDate(new Date(item.startDate), item.displayFullDates)} -{" "}
-          {getDate(new Date(item.endDate), item.displayFullDates)}
-        </Text>
-        <Text style={[styles.location]}>{item.locationTranslated}</Text>
+        {!item.canceled ? (
+          <View>
+            <Text style={[styles.datetime]}>
+              {getDate(new Date(item.startDate), item.displayFullDates)} -{" "}
+              {getDate(new Date(item.endDate), item.displayFullDates)}
+            </Text>
+            <Text style={[styles.location]}>{item.locationTranslated}</Text>
+          </View>
+        ) : (
+          <View>
+            <Text style={[styles.canceled]}>
+              {t("event-details.event-canceled")}
+            </Text>
+          </View>
+        )}
         <Text style={[styles.organizationName]}>
           {item.underOrganization.name}
         </Text>
@@ -86,6 +96,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 2,
     gap: 5,
+    width: "100%",
+    overflow: "hidden",
   },
   container: {
     flexDirection: "column",
@@ -115,6 +127,11 @@ const styles = StyleSheet.create({
   location: {
     fontSize: 13,
     color: "black",
+    fontWeight: "bold",
+  },
+  canceled: {
+    fontSize: 18,
+    color: "#BC022C",
     fontWeight: "bold",
   },
 });

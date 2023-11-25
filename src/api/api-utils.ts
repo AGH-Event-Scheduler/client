@@ -6,16 +6,6 @@ import { navigateToLogInPage } from "../utils/RootNavigation";
 export const baseUrl = "http://192.168.0.103:8080";
 export const baseApiUrl = `${baseUrl}/api`;
 
-export enum Language {
-  PL = "PL",
-  EN = "EN",
-}
-
-export interface MultiLanguageText {
-  PL: string;
-  EN: string;
-}
-
 export interface FormDataFileUpload {
   type: string;
   uri: string;

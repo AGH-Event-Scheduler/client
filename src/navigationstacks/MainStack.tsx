@@ -16,8 +16,9 @@ import { getHeaderTitle } from "@react-navigation/elements";
 import { TopNavBar } from "../components/navigation/top/TopNavBar";
 import { BackButton } from "../components/navigation/top/BackButton";
 import { Platform } from "react-native";
-import { CreateEventScreen } from "../pages/create-event/CreateEventScreen";
 import { AccountView } from "../pages/settings/AccountView";
+import { CreateUpdateEventScreen } from "../pages/create-event/CreateUpdateEventScreen";
+import { FeedScreen } from "../pages/feed/FeedScreen";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -70,7 +71,7 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Feed"
-          component={SamplePage}
+          component={FeedScreen}
           options={{ title: t("general.feed") }}
         />
         <stack.Screen
@@ -128,9 +129,9 @@ export const MainStack = ({ stack }) => {
           options={{ title: t("general.event") }}
         />
         <stack.Screen
-          name="Account"
-          component={AccountView}
-          options={{ title: t("settings.account") }}
+          name="ChangePassword"
+          component={SamplePage}
+          options={{ title: t("settings.account.change-password") }}
         />
         <stack.Screen
           name="Information"
@@ -139,8 +140,13 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Create Event"
-          component={CreateEventScreen}
+          component={CreateUpdateEventScreen}
           options={{ title: t("general.create-event") }}
+        />
+        <stack.Screen
+          name="Update Event"
+          component={CreateUpdateEventScreen}
+          options={{ title: t("general.update-event") }}
         />
       </stack.Navigator>
     </ViewLayoutStructure>

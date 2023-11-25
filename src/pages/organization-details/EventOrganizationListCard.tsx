@@ -14,6 +14,7 @@ interface EventListCardProps {
   location: string;
   startDate: Date;
   onCardPress: () => void;
+  canceled: boolean;
   style?: any;
 }
 
@@ -23,6 +24,7 @@ export const EventOrganizationListCard = ({
   location,
   startDate,
   onCardPress,
+  canceled,
   style,
 }: EventListCardProps) => {
   const handleCardPress = () => {
@@ -46,12 +48,20 @@ export const EventOrganizationListCard = ({
         <Text numberOfLines={1} style={styles.text}>
           {name}
         </Text>
-        <Text numberOfLines={1} style={styles.date}>
-          {toBeautifiedDateTimeString(startDate, i18n.language)}
-        </Text>
-        <Text numberOfLines={1} style={styles.location}>
-          {location}
-        </Text>
+        {!canceled ? (
+          <View>
+            <Text numberOfLines={1} style={styles.date}>
+              {toBeautifiedDateTimeString(startDate, i18n.language)}
+            </Text>
+            <Text numberOfLines={1} style={styles.location}>
+              {location}
+            </Text>
+          </View>
+        ) : (
+          <Text style={[styles.canceled]}>
+            {t("event-details.event-canceled")}
+          </Text>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -94,5 +104,10 @@ const styles = StyleSheet.create({
   location: {
     fontWeight: "bold",
     fontSize: 15,
+  },
+  canceled: {
+    fontSize: 18,
+    color: "#BC022C",
+    fontWeight: "bold",
   },
 });

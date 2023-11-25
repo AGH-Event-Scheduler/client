@@ -1,12 +1,8 @@
 import { getCurrentLanguage } from "../localization/languages";
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { toSimpleDateString, toUTCDate } from "../utils/date";
-import {
-  fetchApiWithRefresh,
-  FormDataFileUpload,
-  Method,
-  MultiLanguageText,
-} from "./api-utils";
+import { fetchApiWithRefresh, FormDataFileUpload, Method } from "./api-utils";
+import { FullOrganizationEvent, MultiLanguageText } from "./types";
 import { OrganizationEvent } from "./types";
 
 export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
@@ -73,6 +69,15 @@ export const fetchEventDetails = async (
   return response.json();
 };
 
+export const fetchFullEventDetails = async (
+  eventId: number,
+): Promise<FullOrganizationEvent> => {
+  var response = await fetchApiWithRefresh({
+    url: `/events/${eventId}/full`,
+  });
+  return response.json();
+};
+
 export const createEvent = async (
   organizationId: number,
   name: MultiLanguageText,
@@ -82,16 +87,6 @@ export const createEvent = async (
   endDate: Date,
   formDataImage: FormDataFileUpload,
 ) => {
-  console.log(
-    organizationId,
-    name,
-    description,
-    location,
-    startDate,
-    endDate,
-    formDataImage,
-  );
-
   const formData = new FormData();
 
   // @ts-ignore
@@ -99,15 +94,41 @@ export const createEvent = async (
   formData.append("name", JSON.stringify(name));
   formData.append("description", JSON.stringify(description));
   formData.append("location", JSON.stringify(location));
-  formData.append(
-    "startDateTimestamp",
-    toUTCDate(startDate).getTime().toString(),
-  );
-  formData.append("endDateTimestamp", toUTCDate(endDate).getTime().toString());
+  formData.append("startDateTimestamp", startDate.getTime().toString());
+  formData.append("endDateTimestamp", endDate.getTime().toString());
 
   var response = await fetchApiWithRefresh({
     url: `/events/organization/${organizationId}`,
     method: Method.POST,
+    body: formData,
+  });
+  return response.json();
+};
+
+export const updateEvent = async (
+  eventId: number,
+  name: MultiLanguageText,
+  description: MultiLanguageText,
+  location: MultiLanguageText,
+  startDate: Date,
+  endDate: Date,
+  formDataImage?: FormDataFileUpload,
+) => {
+  const formData = new FormData();
+
+  if (formDataImage) {
+    // @ts-ignore
+    formData.append("backgroundImage", formDataImage);
+  }
+  formData.append("name", JSON.stringify(name));
+  formData.append("description", JSON.stringify(description));
+  formData.append("location", JSON.stringify(location));
+  formData.append("startDateTimestamp", startDate.getTime().toString());
+  formData.append("endDateTimestamp", endDate.getTime().toString());
+
+  var response = await fetchApiWithRefresh({
+    url: `/events/${eventId}`,
+    method: Method.PUT,
     body: formData,
   });
   return response.json();
@@ -133,7 +154,6 @@ export const saveEventInCalendar = async (
     return true;
   } catch (error) {
     console.error("Error during saving:", error);
-    throw error;
   }
 };
 
@@ -156,6 +176,45 @@ export const removeEventFromCalendar = async (
     return true;
   } catch (error) {
     console.error("Error during removing:", error);
-    throw error;
+  }
+};
+
+export const cancelEvent = async (eventId: number): Promise<boolean> => {
+  const url = "/events/cancel";
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+    if (!response.ok) {
+      console.error("Canceling failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during canceling:", error);
+  }
+};
+
+export const reactivateEvent = async (eventId: number): Promise<boolean> => {
+  const url = "/events/reactivate";
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        eventId: eventId,
+      },
+    });
+    if (!response.ok) {
+      console.error("Reactivating failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during reactivating:", error);
   }
 };

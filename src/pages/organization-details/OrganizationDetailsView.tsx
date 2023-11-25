@@ -169,6 +169,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                     location={item?.locationTranslated}
                     onCardPress={() => handleCardPress(item)}
                     startDate={new Date(item?.startDate)}
+                    canceled={item?.canceled}
                     style={styles.card}
                   />
                 )}
@@ -198,6 +199,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",
+    flexWrap: "wrap",
+    gap: 10,
   },
   title: {
     ...globalStyles.title,
