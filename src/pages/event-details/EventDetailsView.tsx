@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Alert,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,7 +15,7 @@ import {
   removeEventFromCalendar,
   saveEventInCalendar,
 } from "../../api/event-api-utils";
-import { OrganizationEvent } from "../../api/types";
+import { OrganizationEvent, OrganizationRole } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
@@ -24,11 +23,13 @@ import { LoadingView } from "../../components/loading/LoadingView";
 import { EventHubImage } from "../../components/EventHubImage";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { AppButton } from "../../components/AppButton";
+import { getUserRolesForOrganization } from "../../api/user-api-utlis";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
   const [event, setEvent] = useState<OrganizationEvent>();
   const [isLoading, setIsLoading] = useState(true);
+  const [userRoles, setUserRoles] = useState<OrganizationRole[]>([]);
 
   const eventId = route.params.eventId;
 
@@ -46,6 +47,23 @@ export const EventDetailsView = ({ navigation, route }) => {
     };
     isFocused && getEventDetailsData();
   }, [isFocused]);
+
+  useEffect(() => {
+    const fetchOrganizationUserRoles = async () => {
+      try {
+        getUserRolesForOrganization(event.underOrganization.id).then(
+          (roles) => {
+            setUserRoles(roles);
+            console.log("USER ROLES", roles);
+          },
+        );
+      } catch (error) {
+        console.error("Error fetching user roles:", error);
+      }
+    };
+
+    event && fetchOrganizationUserRoles();
+  }, [event]);
 
   const handleSaveButtonPress = async () => {
     if (event) {
@@ -114,28 +132,33 @@ export const EventDetailsView = ({ navigation, route }) => {
               filename={event.backgroundImage.bigFilename}
             />
           </View>
+          {/*TODO*/}
           <View style={styles.buttonContainer}>
-            <AppButton
-              onPress={() => {
-                navigation.navigate("Update Event", {
-                  organizationId: event.underOrganization.id,
-                  editingEventId: event.id,
-                });
-              }}
-              title={t("event-details.edit-event")}
-              type="secondary"
-              size="default"
-            />
-            <AppButton
-              onPress={showConfirmationPopup}
-              title={
-                !event.canceled
-                  ? t("event-details.cancel-event")
-                  : t("event-details.reactivate-event")
-              }
-              type={!event.canceled ? "destructive" : "gray"}
-              size="default"
-            />
+            {userRoles.includes(OrganizationRole.CONTENT_CREATOR) ? (
+              <AppButton
+                onPress={() => {
+                  navigation.navigate("Update Event", {
+                    organizationId: event.underOrganization.id,
+                    editingEventId: event.id,
+                  });
+                }}
+                title={t("event-details.edit-event")}
+                type="secondary"
+                size="default"
+              />
+            ) : null}
+            {userRoles.includes(OrganizationRole.CONTENT_CREATOR) ? (
+              <AppButton
+                onPress={showConfirmationPopup}
+                title={
+                  !event.canceled
+                    ? t("event-details.cancel-event")
+                    : t("event-details.reactivate-event")
+                }
+                type={!event.canceled ? "destructive" : "gray"}
+                size="default"
+              />
+            ) : null}
             <AppCheckButton
               onPress={handleSaveButtonPress}
               title={t("event-details.save")}
