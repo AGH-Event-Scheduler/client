@@ -17,7 +17,6 @@ export const register = async (
       body: body,
       isAuthorized: false,
     });
-    const data = await response.json();
 
     if (response.ok) {
       return true;

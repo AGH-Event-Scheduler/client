@@ -12,7 +12,11 @@ import { useTranslation } from "react-i18next";
 import { SearchBar } from "../../components/SearchBar";
 import { LoadingView } from "../../components/loading/LoadingView";
 
-export const OrganizationListView = ({ navigation, onlySubscribed }) => {
+export const OrganizationListView = ({
+  navigation,
+  onlySubscribed,
+  yourOrganizations,
+}) => {
   const { t } = useTranslation();
 
   const [organizations, setOrganizations] = useState<Organization[]>([]);
@@ -27,6 +31,7 @@ export const OrganizationListView = ({ navigation, onlySubscribed }) => {
         const organizationsList: Organization[] =
           await fetchAllOrganizationsWithStatusByUser(
             onlySubscribed,
+            yourOrganizations,
             searchQuery,
           );
         setOrganizations(organizationsList);

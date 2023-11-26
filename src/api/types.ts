@@ -71,3 +71,8 @@ export interface FeedNotification extends BaseEntity {
   regardingEventDTO?: OrganizationEvent;
   seen: boolean;
 }
+
+export enum OrganizationRole {
+  CONTENT_CREATOR = "CONTENT_CREATOR",
+  HEAD = "HEAD",
+}
