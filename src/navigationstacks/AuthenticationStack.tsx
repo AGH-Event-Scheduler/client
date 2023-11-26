@@ -9,7 +9,6 @@ import { TopNavBarRightLogin } from "../components/navigation/top/TopNavBarRight
 import { Platform } from "react-native";
 import { RegisterPageView } from "../pages/authentication/RegisterPageView";
 
-// Move the Stack creation outside the component
 
 export const AuthenticationStack = ({ stack }) => {
   const { t } = useTranslation();

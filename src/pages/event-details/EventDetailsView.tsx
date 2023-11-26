@@ -23,13 +23,12 @@ import { LoadingView } from "../../components/loading/LoadingView";
 import { EventHubImage } from "../../components/EventHubImage";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { AppButton } from "../../components/AppButton";
-import { getUserRolesForOrganization } from "../../api/user-api-utlis";
+import { hasEditingRole, useUserRoles } from "../../services/UserContext";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
-  const [event, setEvent] = useState<OrganizationEvent>();
+  const [event, setEvent] = useState<OrganizationEvent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [userRoles, setUserRoles] = useState<OrganizationRole[]>([]);
 
   const eventId = route.params.eventId;
 
@@ -47,23 +46,6 @@ export const EventDetailsView = ({ navigation, route }) => {
     };
     isFocused && getEventDetailsData();
   }, [isFocused]);
-
-  useEffect(() => {
-    const fetchOrganizationUserRoles = async () => {
-      try {
-        getUserRolesForOrganization(event.underOrganization.id).then(
-          (roles) => {
-            setUserRoles(roles);
-            console.log("USER ROLES", roles);
-          },
-        );
-      } catch (error) {
-        console.error("Error fetching user roles:", error);
-      }
-    };
-
-    event && fetchOrganizationUserRoles();
-  }, [event]);
 
   const handleSaveButtonPress = async () => {
     if (event) {
@@ -120,6 +102,9 @@ export const EventDetailsView = ({ navigation, route }) => {
     setIsLoading(false);
   };
 
+  const organizationId = event?.underOrganization.id ?? null;
+  const userRoles: OrganizationRole[] = useUserRoles(organizationId);
+
   return (
     <View style={{ flex: 1 }}>
       {isLoading ? (
@@ -132,9 +117,8 @@ export const EventDetailsView = ({ navigation, route }) => {
               filename={event.backgroundImage.bigFilename}
             />
           </View>
-          {/*TODO*/}
           <View style={styles.buttonContainer}>
-            {userRoles.includes(OrganizationRole.CONTENT_CREATOR) ? (
+            {hasEditingRole(userRoles) ? (
               <AppButton
                 onPress={() => {
                   navigation.navigate("Update Event", {
@@ -147,7 +131,7 @@ export const EventDetailsView = ({ navigation, route }) => {
                 size="default"
               />
             ) : null}
-            {userRoles.includes(OrganizationRole.CONTENT_CREATOR) ? (
+            {hasEditingRole(userRoles) ? (
               <AppButton
                 onPress={showConfirmationPopup}
                 title={
