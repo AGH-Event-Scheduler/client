@@ -137,12 +137,20 @@ export const fetchUser = async () => {
 
 export const fetchAllUsersDataWithRoleForOrganization = async (
   searchQuery = "",
-  organizationId: number): Promise<UserWithRole[]> => {
+  organizationId: number,
+  page = 0,
+  pageSize = 10
+): Promise<{ users: UserWithRole[]; totalPages: number }> => {
   try {
-    const queryParams = {};
+    const queryParams = {
+      page: page,
+      size: pageSize,
+    };
+
     if (searchQuery !== "") {
       queryParams["search"] = searchQuery;
     }
+
     const response = await fetchApiWithRefresh({
       url: `/users/all/${organizationId}`,
       queryParams: queryParams,
@@ -150,14 +158,26 @@ export const fetchAllUsersDataWithRoleForOrganization = async (
 
     const data = await response.json();
     if (response.ok) {
-      return data;
+      return {
+        users: data.content,
+        totalPages: data.totalPages,
+      };
     } else {
       console.log("Fetching users failed: ", data);
+      return {
+        users: [],
+        totalPages: 0,
+      };
     }
   } catch (error) {
     console.log("Error while fetching users: ", error);
+    return {
+      users: [],
+      totalPages: 0,
+    };
   }
 };
+
 
 export interface AuthenticationRequest {
   email: string;

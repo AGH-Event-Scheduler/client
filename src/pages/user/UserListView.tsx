@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {FlatList, StyleSheet, View} from "react-native";
+import React, {useEffect, useRef, useState} from "react";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {UserListCard} from "./UserListCard";
 import {useIsFocused} from "@react-navigation/native";
 import {UserWithRole} from "../../api/types";
@@ -8,33 +8,59 @@ import {SearchBar} from "../../components/SearchBar";
 import {LoadingView} from "../../components/loading/LoadingView";
 import {fetchAllUsersDataWithRoleForOrganization} from "../../api/authentication-api-utils";
 
-export const UserListView = ({
-                               navigation,
-                             }) => {
+export const UserListView = ({navigation}) => {
   const {t} = useTranslation();
-
+  const PAGE_SIZE = 10
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-
-
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const flatListRef = useRef(null);
   const isFocused = useIsFocused();
+
+  const renderFooter = () => {
+    if (currentPage < totalPages - 1) {
+      return (
+
+        <TouchableOpacity onPress={handleLoadMore}>
+          <Text>Load more</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <Text>End of list</Text>
+      );
+    }
+  };
+
   useEffect(() => {
     const fetchUsersData = async () => {
       setIsLoading(true);
       try {
-        const userList: UserWithRole[] = await fetchAllUsersDataWithRoleForOrganization(
-          searchQuery,
-          1
-        );
-        setUsers(userList);
+        const {users: userList, totalPages: fetchedTotalPages} =
+          await fetchAllUsersDataWithRoleForOrganization(
+            searchQuery,
+            1,
+            currentPage
+          );
+
+        setUsers((prevUsers) => [...prevUsers, ...userList]);
+        setTotalPages(fetchedTotalPages);
       } catch (error) {
         console.log("Fetching users list error", error);
       }
       setIsLoading(false);
     };
+
     isFocused && fetchUsersData();
-  }, [isFocused]);
+  }, [isFocused, currentPage]);
+
+  const handleLoadMore = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
 
   return (
@@ -61,11 +87,25 @@ export const UserListView = ({
             />
           )}
           showsVerticalScrollIndicator={false}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={renderFooter}
+          onContentSizeChange={() => {
+            if (currentPage > 0) {
+              flatListRef.current?.scrollToIndex({
+                animated: false,
+                index: users.length - 1 - PAGE_SIZE,
+                viewOffset: 0,
+                viewPosition: 1,
+              });
+            }
+          }}
         />
       )}
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
