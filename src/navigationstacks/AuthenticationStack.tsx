@@ -9,7 +9,6 @@ import { TopNavBarRightLogin } from "../components/navigation/top/TopNavBarRight
 import { Platform } from "react-native";
 import { RegisterPageView } from "../pages/authentication/RegisterPageView";
 
-
 export const AuthenticationStack = ({ stack }) => {
   const { t } = useTranslation();
   const animationType = Platform.OS === "ios" ? "none" : "fade";
