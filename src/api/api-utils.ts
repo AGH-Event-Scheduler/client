@@ -3,7 +3,7 @@ import { AuthenticationService } from "../services/AuthenticationService";
 import { logout, refreshAccessToken } from "./authentication-api-utils";
 import { navigateToLogInPage } from "../utils/RootNavigation";
 
-export const baseUrl = "http://192.168.0.103:8080";
+export const baseUrl = "http://localhost:8080";
 export const baseApiUrl = `${baseUrl}/api`;
 
 export interface FormDataFileUpload {

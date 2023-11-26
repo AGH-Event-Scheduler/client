@@ -164,5 +164,10 @@
     "background-image-required-error": "Zdjęcie w tle organizacji jest wymagane",
     "at-least-one-translation-required-error": "Co najmniej jeden język jest wymagany",
     "validation-failed-error": "Podano nieprawidłowe dane. Spróbuj ponownie."
+  },
+  "roles": {
+    "head": "Przewodniczący",
+    "content-creator": "Twórca",
+    "user": "Użytkownik"
   }
 }

@@ -164,5 +164,10 @@
     "background-image-required-error": "Organization background image is required",
     "at-least-one-translation-required-error": "At least one translation need to be provided",
     "validation-failed-error": "Incorrect data provided. Try again."
+  },
+  "roles": {
+    "head": "Head",
+    "content-creator": "Creator",
+    "user": "User"
   }
 }

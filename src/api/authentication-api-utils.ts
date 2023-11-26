@@ -1,5 +1,6 @@
-import { baseApiUrl, fetchApi, fetchApiWithRefresh, Method } from "./api-utils";
-import { AuthenticationService } from "../services/AuthenticationService";
+import {baseApiUrl, fetchApiWithRefresh, Method} from "./api-utils";
+import {AuthenticationService} from "../services/AuthenticationService";
+import {User, UserWithRole} from "./types";
 
 export const register = async (
   email: string,
@@ -120,8 +121,8 @@ export const refreshAccessToken = async (
 
 export const fetchUser = async () => {
   try {
-    const response = await fetchApi({
-      url: "/users",
+    const response = await fetchApiWithRefresh({
+      url: "/users/all",
     });
     const data = await response.json();
     if (response.ok) {
@@ -131,6 +132,30 @@ export const fetchUser = async () => {
     }
   } catch (error) {
     console.log("Error while fetching user: ", error);
+  }
+};
+
+export const fetchAllUsersDataWithRoleForOrganization = async (
+  searchQuery = "",
+  organizationId: number): Promise<UserWithRole[]> => {
+  try {
+    const queryParams = {};
+    if (searchQuery !== "") {
+      queryParams["search"] = searchQuery;
+    }
+    const response = await fetchApiWithRefresh({
+      url: `/users/all/${organizationId}`,
+      queryParams: queryParams,
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      console.log("Fetching users failed: ", data);
+    }
+  } catch (error) {
+    console.log("Error while fetching users: ", error);
   }
 };
 
