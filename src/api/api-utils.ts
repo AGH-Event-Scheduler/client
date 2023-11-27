@@ -1,7 +1,7 @@
 import { AuthenticationService } from "../services/AuthenticationService";
 import { logout, refreshAccessToken } from "./authentication-api-utils";
 import { navigateToLogInPage } from "../utils/RootNavigation";
-import { REACT_APP_API_BASE_URL } from '@env';
+import { REACT_APP_API_BASE_URL } from "@env";
 
 export const baseUrl = REACT_APP_API_BASE_URL;
 export const baseApiUrl = `${baseUrl}/api`;
