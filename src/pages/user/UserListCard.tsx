@@ -3,12 +3,13 @@ import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {FontAwesome} from "@expo/vector-icons";
 import {AppDropdownSelect, DropdownSelectData} from "../../components/AppDropdownSelect";
 import i18next from "../../localization/i18next";
-import {organizationRoles} from "../../api/types";
+import {OrganizationRole, organizationRoles} from "../../api/types";
 
 interface UserListCardProps {
   name: string;
   lastname: string;
   email: string;
+  role?: OrganizationRole
   style?: any;
 }
 
@@ -16,6 +17,7 @@ export const UserListCard = ({
                                name,
                                lastname,
                                email,
+                               role,
                                style,
                              }: UserListCardProps) => {
   const [selectedOption, setSelectedOption] = useState<DropdownSelectData | null>(null);
@@ -41,7 +43,7 @@ export const UserListCard = ({
       </View>
       <AppDropdownSelect
         data={mapRolesToDropdownSelectData()}
-        currentItem={mapCurrentRoleToDropdownSelectData()}
+        currentItem={mapCurrentRoleToDropdownSelectData(role)}
         onItemSelect={(item: DropdownSelectData) => handleItemSelect(item.index)}
         dropdownContainerStyle={{minWidth: 100, maxHeight: 100}}
         fontSize={10}
@@ -104,13 +106,14 @@ const styles = StyleSheet.create({
 
 const mapRolesToDropdownSelectData = (): DropdownSelectData[] => {
   return organizationRoles.map<DropdownSelectData>((role) => {
-    return {index: role.index, value: role.translation};
+    return {index: role.index.toString(), value: role.translation};
   });
 };
 
-const mapCurrentRoleToDropdownSelectData = (): DropdownSelectData => {
+const mapCurrentRoleToDropdownSelectData = (role): DropdownSelectData => {
+  console.log(`ROLE of ${role != null ? role.toString() : "USER"}`)
   return {
-    index: "USER",
-    value: i18next.t(`roles.user`),
+    index: role != null ? role.toString() : "USER",
+    value: i18next.t(`roles.${role != null ? role.toString() : "USER"}`),
   };
 };

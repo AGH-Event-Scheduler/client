@@ -8,7 +8,7 @@ import {SearchBar} from "../../components/SearchBar";
 import {LoadingView} from "../../components/loading/LoadingView";
 import {fetchAllUsersDataWithRoleForOrganization} from "../../api/authentication-api-utils";
 
-export const UserListView = ({navigation}) => {
+export const UserListView = ({navigation, route}) => {
   const {t} = useTranslation();
   const PAGE_SIZE = 10
   const [users, setUsers] = useState<UserWithRole[]>([]);
@@ -19,17 +19,19 @@ export const UserListView = ({navigation}) => {
   const flatListRef = useRef(null);
   const isFocused = useIsFocused();
 
+  const organizationId = route.params.organizationId;
+
   const renderFooter = () => {
     if (currentPage < totalPages - 1) {
       return (
 
         <TouchableOpacity onPress={handleLoadMore}>
-          <Text>Load more</Text>
+          <Text>t("user-list.load-more")</Text>
         </TouchableOpacity>
       );
     } else {
       return (
-        <Text>End of list</Text>
+        <Text>t("user-list.end-of-list"</Text>
       );
     }
   };
@@ -41,7 +43,7 @@ export const UserListView = ({navigation}) => {
         const {users: userList, totalPages: fetchedTotalPages} =
           await fetchAllUsersDataWithRoleForOrganization(
             searchQuery,
-            1,
+            organizationId,
             currentPage
           );
 
@@ -84,6 +86,7 @@ export const UserListView = ({navigation}) => {
               lastname={item.lastname}
               name={item.name}
               style={styles.card}
+              role={item.role}
             />
           )}
           showsVerticalScrollIndicator={false}

@@ -25,7 +25,8 @@
     "register": "Register",
     "create-event": "Add Event",
     "update-event": "Update Event",
-    "edit-event": "Edit"
+    "edit-event": "Edit",
+    "manage-organization-members": "Manage organization members"
   },
   "settings": {
     "language": "Language",
@@ -40,7 +41,8 @@
   },
   "organization-details": {
     "follow": "Follow",
-    "following": "Following"
+    "following": "Following",
+    "manage-users": "Manage"
   },
   "all-events": {
     "upcoming": "Upcoming",
@@ -166,8 +168,8 @@
     "validation-failed-error": "Incorrect data provided. Try again."
   },
   "roles": {
-    "head": "Head",
-    "content-creator": "Creator",
-    "user": "User"
+    "HEAD": "Head",
+    "CONTENT_CREATOR": "Creator",
+    "USER": "User"
   }
 }

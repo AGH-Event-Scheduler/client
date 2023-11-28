@@ -139,13 +139,18 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Create Event"
-          component={UserListView}
+          component={CreateUpdateEventScreen}
           options={{ title: t("general.create-event") }}
         />
         <stack.Screen
           name="Update Event"
           component={CreateUpdateEventScreen}
           options={{ title: t("general.update-event") }}
+        />
+        <stack.Screen
+          name="Manage Organization Members"
+          component={UserListView}
+          options={{title: t("general.manage-organization-members")}}
         />
       </stack.Navigator>
     </ViewLayoutStructure>

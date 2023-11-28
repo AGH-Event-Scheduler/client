@@ -1,6 +1,6 @@
 import {baseApiUrl, fetchApiWithRefresh, Method} from "./api-utils";
 import {AuthenticationService} from "../services/AuthenticationService";
-import {User, UserWithRole} from "./types";
+import {UserWithRole} from "./types";
 
 export const register = async (
   email: string,
@@ -122,7 +122,7 @@ export const refreshAccessToken = async (
 export const fetchUser = async () => {
   try {
     const response = await fetchApiWithRefresh({
-      url: "/users/all",
+      url: "/user",
     });
     const data = await response.json();
     if (response.ok) {

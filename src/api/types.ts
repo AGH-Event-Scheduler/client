@@ -93,8 +93,8 @@ interface OrganizationRoleOption {
 }
 
 export const organizationRoles: OrganizationRoleOption[] = [
-  {index: "USER", translation: i18next.t("roles.user")},
-  {index: "HEAD", translation: i18next.t("roles.head")},
-  {index: "CONTENT_CREATOR", translation: i18next.t("roles.content-creator")},
+  {index: "USER", translation: i18next.t("roles.USER")},
+  {index: "HEAD", translation: i18next.t("roles.HEAD")},
+  {index: "CONTENT_CREATOR", translation: i18next.t("roles.CONTENT_CREATOR")},
 ];
 

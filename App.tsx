@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { I18nextProvider } from "react-i18next";
+import React, {useEffect, useState} from "react";
+import {ActivityIndicator, View} from "react-native";
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {I18nextProvider} from "react-i18next";
 import i18next from "./src/localization/i18next";
-import { MainStack } from "./src/navigationstacks/MainStack";
-import { AuthenticationStack } from "./src/navigationstacks/AuthenticationStack";
-import { AuthenticationService } from "./src/services/AuthenticationService";
-import { refreshAccessToken } from "./src/api/authentication-api-utils";
-import { navigationRef } from "./src/utils/RootNavigation";
+import {MainStack} from "./src/navigationstacks/MainStack";
+import {AuthenticationStack} from "./src/navigationstacks/AuthenticationStack";
+import {AuthenticationService} from "./src/services/AuthenticationService";
+import {refreshAccessToken} from "./src/api/authentication-api-utils";
+import {navigationRef} from "./src/utils/RootNavigation";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +17,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AuthenticationService.getRefreshToken()
+    AuthenticationService.getRefreshToken()//FIXME bug after restarting server
       .then(refreshAccessToken)
       .then(AuthenticationService.authenticate)
       .then((isLoggedIn) => {

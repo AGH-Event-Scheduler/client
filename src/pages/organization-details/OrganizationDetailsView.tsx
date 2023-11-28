@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
-import { EventOrganizationListCard } from "./EventOrganizationListCard";
-import { globalStyles } from "../../styles/GlobalStyles";
-import { Organization, OrganizationEvent } from "../../api/types";
-import { fetchOrganizationEvents } from "../../api/event-api-utils";
+import React, {useEffect, useState} from "react";
+import {FlatList, ScrollView, StyleSheet, Text, View} from "react-native";
+import {useIsFocused} from "@react-navigation/native";
+import {EventOrganizationListCard} from "./EventOrganizationListCard";
+import {globalStyles} from "../../styles/GlobalStyles";
+import {Organization, OrganizationEvent} from "../../api/types";
+import {fetchOrganizationEvents} from "../../api/event-api-utils";
 import {
   fetchOrganizationById,
   subscribeToOrganization,
   unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
-import { AppCheckButton } from "../../components/AppCheckButton";
-import { useTranslation } from "react-i18next";
-import { AppLinkButton } from "../../components/AppLinkButton";
-import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
-import { LoadingView } from "../../components/loading/LoadingView";
-import { AppButton } from "../../components/AppButton";
-import { EventHubImage } from "../../components/EventHubImage";
-import { hasEditingRole, useUserRoles } from "../../services/UserContext";
+import {AppCheckButton} from "../../components/AppCheckButton";
+import {useTranslation} from "react-i18next";
+import {AppLinkButton} from "../../components/AppLinkButton";
+import {AllEventsViewTypeOption} from "../all-events/AllEventsView";
+import {LoadingView} from "../../components/loading/LoadingView";
+import {AppButton} from "../../components/AppButton";
+import {EventHubImage} from "../../components/EventHubImage";
+import {hasEditingRole, hasUserManagementRole, useUserRoles} from "../../services/UserContext";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -105,6 +105,18 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                 }}
                 type={"secondary"}
                 title={t("general.create-event")}
+                size={"default"}
+              />
+            ) : null}
+            {hasUserManagementRole(userRoles) ? (
+              <AppButton
+                onPress={() => {
+                  navigation.navigate("Manage Organization Members", {
+                    organizationId: organization.id,
+                  });
+                }}
+                type={"secondary"}
+                title={t("organization-details.manage-users")}
                 size={"default"}
               />
             ) : null}

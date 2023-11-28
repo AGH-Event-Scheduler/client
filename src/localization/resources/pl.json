@@ -24,7 +24,8 @@
     "login": "Logowanie",
     "register": "Rejestracja",
     "create-event": "Dodaj wydarzenie",
-    "update-event": "Edycja wydarzenia"
+    "update-event": "Edycja wydarzenia",
+    "manage-organization-members": "Zarządzaj członkami orgnizacji"
   },
   "settings": {
     "language": "Język",
@@ -39,7 +40,8 @@
   },
   "organization-details": {
     "follow": "Obserwuj",
-    "following": "Obserwujesz"
+    "following": "Obserwujesz",
+    "manage-users": "Zarządzaj"
   },
   "all-events": {
     "upcoming": "Nadchodzące",
@@ -166,8 +168,8 @@
     "validation-failed-error": "Podano nieprawidłowe dane. Spróbuj ponownie."
   },
   "roles": {
-    "head": "Przewodniczący",
-    "content-creator": "Twórca",
-    "user": "Użytkownik"
+    "HEAD": "Przewodniczący",
+    "CONTENT_CREATOR": "Twórca",
+    "USER": "Użytkownik"
   }
 }
