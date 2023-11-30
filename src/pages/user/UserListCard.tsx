@@ -54,8 +54,8 @@ export const UserListCard = ({
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.nameText}>{name + " " + lastname}</Text>
-        <Text style={styles.emailText}>{email}</Text>
+        <Text style={styles.nameText}>{name + "\n" + lastname}</Text>
+        <Text style={styles.emailText}>{email.replace("edu.pl", ".")}</Text>
       </View>
       <CenteredModalDropdown
         data={mapRolesToDropdownSelectData()}

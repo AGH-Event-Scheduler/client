@@ -1,4 +1,4 @@
-import { OrganizationRole } from "./types";
+import { OrganizationRole, UserWithRole } from "./types";
 import { fetchApiWithRefresh, Method } from "./api-utils";
 
 export const getUserRolesForOrganization = async (
@@ -24,6 +24,65 @@ export const getUserRolesForOrganization = async (
     return data as Array<OrganizationRole>;
   } catch (error) {
     console.error("Error during fetching user roles:", error);
+  }
+};
+
+export const fetchAllUsersDataWithRoleForOrganization = async (
+  searchQuery = "",
+  organizationId: number,
+  page = 0,
+  pageSize = 10,
+): Promise<{ users: UserWithRole[]; totalPages: number }> => {
+  try {
+    const queryParams = {
+      page: page,
+      size: pageSize,
+    };
+
+    if (searchQuery !== "") {
+      queryParams["search"] = searchQuery;
+    }
+
+    const response = await fetchApiWithRefresh({
+      url: `/users/all/${organizationId}`,
+      queryParams: queryParams,
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      return {
+        users: data.content,
+        totalPages: data.totalPages,
+      };
+    } else {
+      console.log("Fetching users failed: ", data);
+      return {
+        users: [],
+        totalPages: 0,
+      };
+    }
+  } catch (error) {
+    console.log("Error while fetching users: ", error);
+    return {
+      users: [],
+      totalPages: 0,
+    };
+  }
+};
+
+export const fetchUser = async () => {
+  try {
+    const response = await fetchApiWithRefresh({
+      url: "/users",
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      console.log("Fetching user failed: ", data);
+    }
+  } catch (error) {
+    console.log("Error while fetching user: ", error);
   }
 };
 

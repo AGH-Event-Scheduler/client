@@ -12,14 +12,14 @@ import { UserWithRole } from "../../api/types";
 import { useTranslation } from "react-i18next";
 import { SearchBar } from "../../components/SearchBar";
 import { LoadingView } from "../../components/loading/LoadingView";
-import { fetchAllUsersDataWithRoleForOrganization } from "../../api/authentication-api-utils";
+import { fetchAllUsersDataWithRoleForOrganization } from "../../api/user-api-utlis";
 
 export const UserListView = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(0); // Start from page 1
+  const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const isFocused = useIsFocused();
 

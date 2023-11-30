@@ -37,7 +37,6 @@ export const BottomNavBar = () => {
     setIsExpanded(!isExpanded);
   };
 
-  // TODO: Refactor once users are introduced
   const buttonsToDisplay: DisplayBottomNavBarButton[] = [
     { title: t("general.favourite"), iconName: "star", routeName: "Favourite" },
     {
