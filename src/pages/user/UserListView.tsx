@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -16,28 +16,14 @@ import { fetchAllUsersDataWithRoleForOrganization } from "../../api/authenticati
 
 export const UserListView = ({ navigation, route }) => {
   const { t } = useTranslation();
-  const PAGE_SIZE = 10;
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1); // Start from page 1
   const [totalPages, setTotalPages] = useState(0);
-  const flatListRef = useRef(null);
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
-
-  const renderFooter = () => {
-    if (currentPage < totalPages - 1) {
-      return (
-        <TouchableOpacity onPress={handleLoadMore}>
-          <Text>t("user-list.load-more")</Text>
-        </TouchableOpacity>
-      );
-    } else {
-      return <Text>t("user-list.end-of-list")</Text>;
-    }
-  };
 
   useEffect(() => {
     const fetchUsersData = async () => {
@@ -50,7 +36,7 @@ export const UserListView = ({ navigation, route }) => {
             currentPage,
           );
 
-        setUsers((prevUsers) => [...prevUsers, ...userList]);
+        setUsers(userList);
         setTotalPages(fetchedTotalPages);
       } catch (error) {
         console.log("Fetching users list error", error);
@@ -61,11 +47,37 @@ export const UserListView = ({ navigation, route }) => {
     isFocused && fetchUsersData();
   }, [isFocused, currentPage]);
 
-  const handleLoadMore = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
     }
   };
+
+  const renderFooter = () => (
+    <View style={styles.paginationContainer}>
+      {Array.from({ length: totalPages - 1 }, (_, index) => index + 1).map(
+        (page) => (
+          <TouchableOpacity
+            key={page}
+            style={[
+              styles.paginationButton,
+              page === currentPage && styles.selectedPage,
+            ]}
+            onPress={() => handlePageChange(page)}
+          >
+            <Text
+              style={[
+                styles.paginationButtonText,
+                page === currentPage && styles.selectedButtonText,
+              ]}
+            >
+              {page}
+            </Text>
+          </TouchableOpacity>
+        ),
+      )}
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -93,19 +105,7 @@ export const UserListView = ({ navigation, route }) => {
             />
           )}
           showsVerticalScrollIndicator={false}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.1}
           ListFooterComponent={renderFooter}
-          onContentSizeChange={() => {
-            if (currentPage > 0) {
-              flatListRef.current?.scrollToIndex({
-                animated: false,
-                index: users.length - 1 - PAGE_SIZE,
-                viewOffset: 0,
-                viewPosition: 1,
-              });
-            }
-          }}
         />
       )}
     </View>
@@ -123,5 +123,27 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: 10,
+  },
+  paginationContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  paginationButton: {
+    padding: 8,
+    marginHorizontal: 5,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#016531",
+  },
+  selectedPage: {
+    backgroundColor: "#016531",
+  },
+  paginationButtonText: {
+    color: "#016531",
+  },
+  selectedButtonText: {
+    color: "#FFFFFF",
   },
 });
