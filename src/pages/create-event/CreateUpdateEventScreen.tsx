@@ -249,7 +249,7 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
             </Text>
             <TextInputContainer
               label={t("create-event.name-label")}
-              placeholder={t("create-event.provide-event-name")}
+              placeholder={t("create-event.enter-event-name")}
               value={name[currentFormLanguage]}
               onChangeText={(text) => {
                 var value = { ...name };
@@ -263,7 +263,7 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
 
             <TextInputContainer
               label={t("create-event.description-label")}
-              placeholder={t("create-event.provide-event-description")}
+              placeholder={t("create-event.enter-event-description")}
               value={description[currentFormLanguage]}
               onChangeText={(text) => {
                 var value = { ...description };
@@ -278,7 +278,7 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
 
             <TextInputContainer
               label={t("create-event.location-label")}
-              placeholder={t("create-event.provide-event-location")}
+              placeholder={t("create-event.enter-event-location")}
               value={location[currentFormLanguage]}
               onChangeText={(text) => {
                 var value = { ...location };
@@ -305,7 +305,7 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
                   {toBeautifiedDateTimeString(startDate, i18n.language)}
                 </Text>
                 <AppButton
-                  title={t("create-event.set-start-date")}
+                  title={t("create-event.set")}
                   onPress={() => {
                     setPickingDate(PickingDate.StartDate);
                   }}
@@ -322,7 +322,7 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
                   {toBeautifiedDateTimeString(endDate, i18n.language)}
                 </Text>
                 <AppButton
-                  title={t("create-event.set-end-date")}
+                  title={t("create-event.set")}
                   onPress={() => {
                     setPickingDate(PickingDate.EndDate);
                   }}

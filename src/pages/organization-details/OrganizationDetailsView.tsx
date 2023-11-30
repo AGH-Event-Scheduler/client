@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
-import { OrganizationEvent, Organization } from "../../api/types";
+import { Organization, OrganizationEvent } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import {
   fetchOrganizationById,
@@ -24,6 +17,7 @@ import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
 import { EventHubImage } from "../../components/EventHubImage";
+import { hasEditingRole, useUserRoles } from "../../services/UserContext";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -34,6 +28,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
+  const userRoles = useUserRoles(organizationId);
 
   useEffect(() => {
     const fetchOrganizationDetailsData = async (organizationId: number) => {
@@ -101,16 +96,18 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
-            <AppButton
-              onPress={() => {
-                navigation.navigate("Create Event", {
-                  organizationId: organization.id,
-                });
-              }}
-              type={"secondary"}
-              title={t("general.create-event")}
-              size={"default"}
-            />
+            {hasEditingRole(userRoles) ? (
+              <AppButton
+                onPress={() => {
+                  navigation.navigate("Create Event", {
+                    organizationId: organization.id,
+                  });
+                }}
+                type={"secondary"}
+                title={t("general.create-event")}
+                size={"default"}
+              />
+            ) : null}
             {organization && (
               <AppCheckButton
                 onPress={handleFollowButtonPress}

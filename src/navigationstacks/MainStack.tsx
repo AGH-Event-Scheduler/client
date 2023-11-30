@@ -85,9 +85,16 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Your organizations"
-          component={SamplePage}
           options={{ title: t("general.your-organizations") }}
-        />
+        >
+          {(props) => (
+            <OrganizationListView
+              {...props}
+              navigation={props.navigation || stack.navigation}
+              yourOrganizations={true}
+            />
+          )}
+        </stack.Screen>
         <stack.Screen
           name="Event Search"
           component={EventSearchScreen}

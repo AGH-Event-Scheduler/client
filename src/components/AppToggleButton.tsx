@@ -20,7 +20,7 @@ export const AppToggleButton = ({
   currentSelection,
   onSelect,
   size,
-}) => {
+}: ToggleButtonProps) => {
   const [selected, setSelected] = useState(currentSelection);
 
   const handleSelect = (item) => {

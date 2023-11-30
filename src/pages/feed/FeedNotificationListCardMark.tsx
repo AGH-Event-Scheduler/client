@@ -11,7 +11,7 @@ export enum MarkType {
   CREATE,
   EDIT,
   CANCEL,
-  REENABLE,
+  REACTIVATE,
   REMINDER,
 }
 
@@ -19,7 +19,7 @@ export const FeedNotificationListCardMark = memo(
   ({ markType }: { markType: MarkType }) => {
     const getMarkColor = () => {
       switch (markType) {
-        case MarkType.REENABLE: {
+        case MarkType.REACTIVATE: {
         }
         case MarkType.CREATE: {
           return "#016531";
@@ -40,7 +40,7 @@ export const FeedNotificationListCardMark = memo(
 
     const getMarkIcon = () => {
       switch (markType) {
-        case MarkType.REENABLE: {
+        case MarkType.REACTIVATE: {
           return <Feather name="refresh-ccw" size={18} color="white" />;
         }
         case MarkType.CREATE: {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Alert,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,11 +11,11 @@ import { useIsFocused } from "@react-navigation/native";
 import {
   cancelEvent,
   fetchEventDetails,
-  reenableEvent,
+  reactivateEvent,
   removeEventFromCalendar,
   saveEventInCalendar,
 } from "../../api/event-api-utils";
-import { OrganizationEvent } from "../../api/types";
+import { OrganizationEvent, OrganizationRole } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
@@ -24,10 +23,11 @@ import { LoadingView } from "../../components/loading/LoadingView";
 import { EventHubImage } from "../../components/EventHubImage";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { AppButton } from "../../components/AppButton";
+import { hasEditingRole, useUserRoles } from "../../services/UserContext";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
-  const [event, setEvent] = useState<OrganizationEvent>();
+  const [event, setEvent] = useState<OrganizationEvent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const eventId = route.params.eventId;
@@ -69,14 +69,14 @@ export const EventDetailsView = ({ navigation, route }) => {
     Alert.alert(
       !event.canceled
         ? t("event-details.confirm-cancel")
-        : t("event-details.confirm-reenable"),
+        : t("event-details.confirm-reactivate"),
       !event.canceled
         ? t("event-details.confirm-cancel-text")
-        : t("event-details.confirm-reenable-text"),
+        : t("event-details.confirm-reactivate-text"),
       [
         {
           text: t("event-details.confirm"),
-          onPress: !event.canceled ? handelCancelEvent : handleReenableEvent,
+          onPress: !event.canceled ? handelCancelEvent : handleReactivateEvent,
         },
         {
           text: t("event-details.cancel"),
@@ -94,13 +94,16 @@ export const EventDetailsView = ({ navigation, route }) => {
     setIsLoading(false);
   };
 
-  const handleReenableEvent = async () => {
+  const handleReactivateEvent = async () => {
     setIsLoading(true);
-    await reenableEvent(eventId).then(() => {
+    await reactivateEvent(eventId).then(() => {
       event.canceled = false;
     });
     setIsLoading(false);
   };
+
+  const organizationId = event?.underOrganization.id ?? null;
+  const userRoles: OrganizationRole[] = useUserRoles(organizationId);
 
   return (
     <View style={{ flex: 1 }}>
@@ -115,27 +118,31 @@ export const EventDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
-            <AppButton
-              onPress={() => {
-                navigation.navigate("Update Event", {
-                  organizationId: event.underOrganization.id,
-                  editingEventId: event.id,
-                });
-              }}
-              title={t("event-details.edit-event")}
-              type="secondary"
-              size="default"
-            />
-            <AppButton
-              onPress={showConfirmationPopup}
-              title={
-                !event.canceled
-                  ? t("event-details.cancel-event")
-                  : t("event-details.reenable-event")
-              }
-              type={!event.canceled ? "destructive" : "gray"}
-              size="default"
-            />
+            {hasEditingRole(userRoles) ? (
+              <AppButton
+                onPress={() => {
+                  navigation.navigate("Update Event", {
+                    organizationId: event.underOrganization.id,
+                    editingEventId: event.id,
+                  });
+                }}
+                title={t("event-details.edit-event")}
+                type="secondary"
+                size="default"
+              />
+            ) : null}
+            {hasEditingRole(userRoles) ? (
+              <AppButton
+                onPress={showConfirmationPopup}
+                title={
+                  !event.canceled
+                    ? t("event-details.cancel-event")
+                    : t("event-details.reactivate-event")
+                }
+                type={!event.canceled ? "destructive" : "gray"}
+                size="default"
+              />
+            ) : null}
             <AppCheckButton
               onPress={handleSaveButtonPress}
               title={t("event-details.save")}
