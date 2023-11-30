@@ -19,7 +19,7 @@ export const UserListView = ({ navigation, route }) => {
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1); // Start from page 1
+  const [currentPage, setCurrentPage] = useState(0); // Start from page 1
   const [totalPages, setTotalPages] = useState(0);
   const isFocused = useIsFocused();
 
@@ -45,37 +45,35 @@ export const UserListView = ({ navigation, route }) => {
     };
 
     isFocused && fetchUsersData();
-  }, [isFocused, currentPage]);
+  }, [isFocused, currentPage, searchQuery]);
 
   const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
+    if (newPage >= 0 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
 
   const renderFooter = () => (
     <View style={styles.paginationContainer}>
-      {Array.from({ length: totalPages - 1 }, (_, index) => index + 1).map(
-        (page) => (
-          <TouchableOpacity
-            key={page}
+      {Array.from({ length: totalPages }, (_, index) => index).map((page) => (
+        <TouchableOpacity
+          key={page}
+          style={[
+            styles.paginationButton,
+            page === currentPage && styles.selectedPage,
+          ]}
+          onPress={() => handlePageChange(page)}
+        >
+          <Text
             style={[
-              styles.paginationButton,
-              page === currentPage && styles.selectedPage,
+              styles.paginationButtonText,
+              page === currentPage && styles.selectedButtonText,
             ]}
-            onPress={() => handlePageChange(page)}
           >
-            <Text
-              style={[
-                styles.paginationButtonText,
-                page === currentPage && styles.selectedButtonText,
-              ]}
-            >
-              {page}
-            </Text>
-          </TouchableOpacity>
-        ),
-      )}
+            {page}
+          </Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 
@@ -84,6 +82,7 @@ export const UserListView = ({ navigation, route }) => {
       <SearchBar
         onSearchChange={(searchTerm: string) => {
           setSearchQuery(searchTerm);
+          setCurrentPage(0);
         }}
         style={{ marginTop: 10 }}
       />
@@ -145,5 +144,16 @@ const styles = StyleSheet.create({
   },
   selectedButtonText: {
     color: "#FFFFFF",
+  },
+  searchButton: {
+    marginLeft: 10,
+    padding: 10,
+    backgroundColor: "#007BFF",
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  searchButtonText: {
+    color: "#FFFFFF",
+    fontWeight: "bold",
   },
 });
