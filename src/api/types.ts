@@ -62,8 +62,8 @@ export interface UserWithRole {
   email: string;
   name: string;
   lastname: string;
-  role: OrganizationRole,
-  organizationId: number
+  role: OrganizationRole;
+  organizationId: number;
 }
 
 export enum FeedNotificationType {
@@ -93,8 +93,7 @@ interface OrganizationRoleOption {
 }
 
 export const organizationRoles: OrganizationRoleOption[] = [
-  {index: "USER", translation: i18next.t("roles.USER")},
-  {index: "HEAD", translation: i18next.t("roles.HEAD")},
-  {index: "CONTENT_CREATOR", translation: i18next.t("roles.CONTENT_CREATOR")},
+  { index: "USER", translation: i18next.t("roles.USER") },
+  { index: "HEAD", translation: i18next.t("roles.HEAD") },
+  { index: "CONTENT_CREATOR", translation: i18next.t("roles.CONTENT_CREATOR") },
 ];
-

@@ -1,23 +1,23 @@
-import {ViewLayoutStructure} from "../components/ViewLayoutStructure";
-import {SamplePage} from "../pages/SamplePage";
-import {OrganizationListView} from "../pages/organizations/OrganizationListView";
-import {OrganizationDetailsView} from "../pages/organization-details/OrganizationDetailsView";
-import {EventDetailsView} from "../pages/event-details/EventDetailsView";
+import { ViewLayoutStructure } from "../components/ViewLayoutStructure";
+import { SamplePage } from "../pages/SamplePage";
+import { OrganizationListView } from "../pages/organizations/OrganizationListView";
+import { OrganizationDetailsView } from "../pages/organization-details/OrganizationDetailsView";
+import { EventDetailsView } from "../pages/event-details/EventDetailsView";
 import React from "react";
-import {SettingsView} from "../pages/settings/SettingsView";
-import {EventSearchScreen} from "../pages/event-search/EventSearchScreen";
-import {CalendarScreen} from "../pages/calendar/CalendarScreen";
-import {useTranslation} from "react-i18next";
-import {OrganizationSearchScreen} from "../pages/organization-search/OrganizationSearchScreen";
-import {AllEventsView} from "../pages/all-events/AllEventsView";
-import {TopNavBarRight} from "../components/navigation/top/TopNavBarRight";
-import {getHeaderTitle} from "@react-navigation/elements";
-import {TopNavBar} from "../components/navigation/top/TopNavBar";
-import {BackButton} from "../components/navigation/top/BackButton";
-import {Platform} from "react-native";
-import {CreateUpdateEventScreen} from "../pages/create-event/CreateUpdateEventScreen";
-import {FeedScreen} from "../pages/feed/FeedScreen";
-import {UserListView} from "../pages/user/UserListView";
+import { SettingsView } from "../pages/settings/SettingsView";
+import { EventSearchScreen } from "../pages/event-search/EventSearchScreen";
+import { CalendarScreen } from "../pages/calendar/CalendarScreen";
+import { useTranslation } from "react-i18next";
+import { OrganizationSearchScreen } from "../pages/organization-search/OrganizationSearchScreen";
+import { AllEventsView } from "../pages/all-events/AllEventsView";
+import { TopNavBarRight } from "../components/navigation/top/TopNavBarRight";
+import { getHeaderTitle } from "@react-navigation/elements";
+import { TopNavBar } from "../components/navigation/top/TopNavBar";
+import { BackButton } from "../components/navigation/top/BackButton";
+import { Platform } from "react-native";
+import { CreateUpdateEventScreen } from "../pages/create-event/CreateUpdateEventScreen";
+import { FeedScreen } from "../pages/feed/FeedScreen";
+import { UserListView } from "../pages/user/UserListView";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -150,7 +150,7 @@ export const MainStack = ({ stack }) => {
         <stack.Screen
           name="Manage Organization Members"
           component={UserListView}
-          options={{title: t("general.manage-organization-members")}}
+          options={{ title: t("general.manage-organization-members") }}
         />
       </stack.Navigator>
     </ViewLayoutStructure>

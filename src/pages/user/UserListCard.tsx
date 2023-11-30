@@ -1,31 +1,47 @@
-import React, {useState} from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {FontAwesome} from "@expo/vector-icons";
-import {AppDropdownSelect, DropdownSelectData} from "../../components/AppDropdownSelect";
+import React, { useState } from "react";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { DropdownSelectData } from "../../components/AppDropdownSelect";
 import i18next from "../../localization/i18next";
-import {OrganizationRole, organizationRoles} from "../../api/types";
+import { OrganizationRole, organizationRoles } from "../../api/types";
+import { grantOrganizationRole } from "../../api/user-api-utlis";
+import { useTranslation } from "react-i18next";
+import { CenteredModalDropdown } from "../../components/CenterModalDropdown";
 
 interface UserListCardProps {
   name: string;
   lastname: string;
   email: string;
-  role?: OrganizationRole
+  role?: OrganizationRole;
+  organizationId: number;
   style?: any;
 }
 
 export const UserListCard = ({
-                               name,
-                               lastname,
-                               email,
-                               role,
-                               style,
-                             }: UserListCardProps) => {
-  const [selectedOption, setSelectedOption] = useState<DropdownSelectData | null>(null);
+  name,
+  lastname,
+  email,
+  role,
+  organizationId,
+  style,
+}: UserListCardProps) => {
+  const [selectedOption, setSelectedOption] =
+    useState<DropdownSelectData | null>(null);
+  const { t } = useTranslation();
 
-  const handleItemSelect = (itemIndex: number) => {
-    console.log("SELECTED option}")
+  const handleItemSelect = async (itemIndex: string) => {
+    if (await grantOrganizationRole(organizationId, email, itemIndex)) {
+      return Alert.alert(
+        t("user-list.role-assigned"),
+        t("user-list.role-success"),
+      );
+    } else {
+      return Alert.alert(
+        t("user-list.role-assigned"),
+        t("user-list.role-failed"),
+      );
+    }
   };
-
 
   return (
     <TouchableOpacity style={[styles.container, style]}>
@@ -41,11 +57,12 @@ export const UserListCard = ({
         <Text style={styles.nameText}>{name + " " + lastname}</Text>
         <Text style={styles.emailText}>{email}</Text>
       </View>
-      <AppDropdownSelect
+      <CenteredModalDropdown
         data={mapRolesToDropdownSelectData()}
         currentItem={mapCurrentRoleToDropdownSelectData(role)}
-        onItemSelect={(item: DropdownSelectData) => handleItemSelect(item.index)}
-        dropdownContainerStyle={{minWidth: 100, maxHeight: 100}}
+        onItemSelect={(item: DropdownSelectData) =>
+          handleItemSelect(item.index)
+        }
         fontSize={10}
       />
     </TouchableOpacity>
@@ -64,7 +81,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "#FFFFFF",
     shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: {width: -1, height: 1},
+    shadowOffset: { width: -1, height: 1 },
     shadowOpacity: 1,
     shadowRadius: 2,
   },
@@ -103,15 +120,14 @@ const styles = StyleSheet.create({
   },
 });
 
-
 const mapRolesToDropdownSelectData = (): DropdownSelectData[] => {
   return organizationRoles.map<DropdownSelectData>((role) => {
-    return {index: role.index.toString(), value: role.translation};
+    return { index: role.index.toString(), value: role.translation };
   });
 };
 
 const mapCurrentRoleToDropdownSelectData = (role): DropdownSelectData => {
-  console.log(`ROLE of ${role != null ? role.toString() : "USER"}`)
+  console.log(`ROLE of ${role != null ? role.toString() : "USER"}`);
   return {
     index: role != null ? role.toString() : "USER",
     value: i18next.t(`roles.${role != null ? role.toString() : "USER"}`),

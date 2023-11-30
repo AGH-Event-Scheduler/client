@@ -1,6 +1,12 @@
-import React, {useState} from "react";
-import {Feather} from "@expo/vector-icons";
-import {StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View,} from "react-native";
+import React, { useState } from "react";
+import { Feather } from "@expo/vector-icons";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 
 export interface DropdownSelectData {
   index: any;
@@ -16,12 +22,12 @@ export interface DropdownSelectProps {
 }
 
 export const AppDropdownSelect = ({
-                                    data,
-                                    currentItem,
-                                    onItemSelect,
-                                    dropdownContainerStyle,
-                                    fontSize = 14,
-                                  }: DropdownSelectProps) => {
+  data,
+  currentItem,
+  onItemSelect,
+  dropdownContainerStyle,
+  fontSize = 14,
+}: DropdownSelectProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedItem, setSelectedItem] = useState(currentItem);
 
@@ -37,8 +43,8 @@ export const AppDropdownSelect = ({
   return (
     <View>
       <TouchableWithoutFeedback onPress={handlePress}>
-        <View style={{...styles.button, ...dropdownContainerStyle}}>
-          <Text style={{...styles.text, fontSize: fontSize}}>
+        <View style={{ ...styles.button, ...dropdownContainerStyle }}>
+          <Text style={{ ...styles.text, fontSize: fontSize }}>
             {selectedItem.value}
           </Text>
           {isExpanded ? (
@@ -49,14 +55,14 @@ export const AppDropdownSelect = ({
         </View>
       </TouchableWithoutFeedback>
       {isExpanded ? (
-        <View style={{...styles.expanded, ...dropdownContainerStyle}}>
+        <View style={{ ...styles.expanded, ...dropdownContainerStyle }}>
           {data.map((item) => (
             <TouchableOpacity
               key={item.index}
               style={styles.buttonExpanded}
               onPress={() => handleExpandedPress(item)}
             >
-              <Text style={{...styles.text, fontSize: fontSize}}>
+              <Text style={{ ...styles.text, fontSize: fontSize }}>
                 {item.value}
               </Text>
               {item.index === selectedItem.index ? (

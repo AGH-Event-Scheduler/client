@@ -1,6 +1,6 @@
-import {OrganizationRole} from "../api/types";
-import {getUserRolesForOrganization} from "../api/user-api-utlis";
-import {useEffect, useState} from "react";
+import { OrganizationRole } from "../api/types";
+import { getUserRolesForOrganization } from "../api/user-api-utlis";
+import { useEffect, useState } from "react";
 
 export const useUserRoles = (
   organizationId: number | null,
@@ -34,8 +34,6 @@ export const hasEditingRole = (roles: OrganizationRole[]): boolean => {
 };
 
 export const hasUserManagementRole = (roles: OrganizationRole[]): boolean => {
-  const editingRoles = [
-    OrganizationRole.HEAD,
-  ];
+  const editingRoles = [OrganizationRole.HEAD];
   return roles.some((role) => editingRoles.includes(role));
 };

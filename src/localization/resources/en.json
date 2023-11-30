@@ -26,7 +26,7 @@
     "create-event": "Add Event",
     "update-event": "Update Event",
     "edit-event": "Edit",
-    "manage-organization-members": "Manage organization members"
+    "manage-organization-members": "Manage"
   },
   "settings": {
     "language": "Language",

@@ -1,6 +1,6 @@
-import {baseApiUrl, fetchApiWithRefresh, Method} from "./api-utils";
-import {AuthenticationService} from "../services/AuthenticationService";
-import {UserWithRole} from "./types";
+import { baseApiUrl, fetchApiWithRefresh, Method } from "./api-utils";
+import { AuthenticationService } from "../services/AuthenticationService";
+import { UserWithRole } from "./types";
 
 export const register = async (
   email: string,
@@ -102,7 +102,6 @@ export const refreshAccessToken = async (
     };
 
     const urlWithParams = `${baseApiUrl}/authentication/refresh`;
-    console.log(`${urlWithParams}`);
 
     const response = await fetch(urlWithParams, options);
     const data = await response.json();
@@ -122,7 +121,7 @@ export const refreshAccessToken = async (
 export const fetchUser = async () => {
   try {
     const response = await fetchApiWithRefresh({
-      url: "/user",
+      url: "/users",
     });
     const data = await response.json();
     if (response.ok) {
@@ -139,7 +138,7 @@ export const fetchAllUsersDataWithRoleForOrganization = async (
   searchQuery = "",
   organizationId: number,
   page = 0,
-  pageSize = 10
+  pageSize = 10,
 ): Promise<{ users: UserWithRole[]; totalPages: number }> => {
   try {
     const queryParams = {
@@ -177,7 +176,6 @@ export const fetchAllUsersDataWithRoleForOrganization = async (
     };
   }
 };
-
 
 export interface AuthenticationRequest {
   email: string;

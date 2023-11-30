@@ -26,3 +26,47 @@ export const getUserRolesForOrganization = async (
     console.error("Error during fetching user roles:", error);
   }
 };
+
+export const grantOrganizationRole = async (
+  organizationId: number,
+  email: string,
+  role: string,
+): Promise<Boolean> => {
+  const url = `/users/organization-roles/${organizationId}/grant`;
+
+  let queryParams;
+  if (role != "USER") {
+    queryParams = {
+      email: email,
+      role: role,
+    };
+  } else {
+    queryParams = {
+      email: email,
+    };
+  }
+
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      queryParams: queryParams,
+    });
+    if (response === null) {
+      return false;
+    }
+    if (!response.ok) {
+      console.error(
+        `Assigning ${role} for ${email} failed (organizationId: ${organizationId}:`,
+        response.statusText,
+      );
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error(
+      "Assigning ${role} for ${email} failed (organizationId: ${organizationId}:",
+      error,
+    );
+  }
+};
