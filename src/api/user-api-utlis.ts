@@ -1,11 +1,14 @@
 import { OrganizationRole, UserWithRole } from "./types";
 import { fetchApiWithRefresh, Method } from "./api-utils";
+import { AuthenticationService } from "../services/AuthenticationService";
 
 export const getUserRolesForOrganization = async (
   organizationId: number,
 ): Promise<Array<OrganizationRole>> => {
   const url = `/users/organization-roles/${organizationId}`;
-
+  if (await AuthenticationService.getIsAdmin()) {
+    return [OrganizationRole.HEAD];
+  }
   try {
     const response = await fetchApiWithRefresh({
       url: url,
@@ -127,5 +130,41 @@ export const grantOrganizationRole = async (
       "Assigning ${role} for ${email} failed (organizationId: ${organizationId}:",
       error,
     );
+  }
+};
+
+export const isLoggedAsAdmin = async (): Promise<boolean> => {
+  try {
+    const response = await fetchApiWithRefresh({
+      url: "/users/admin",
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return data != null ? (data as boolean) : false;
+    } else {
+      console.log("Fetching is admin error: ", data);
+      return false;
+    }
+  } catch (error) {
+    console.log("Error while fetching is admin: ", error);
+    return false;
+  }
+};
+
+export const hasLoggedUserAnyAuthorities = async (): Promise<boolean> => {
+  try {
+    const response = await fetchApiWithRefresh({
+      url: "/users/any-organization-roles",
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return data != null ? (data as boolean) : false;
+    } else {
+      console.log("Fetching hasLoggedUserAnyAuthorities error: ", data);
+      return false;
+    }
+  } catch (error) {
+    console.log("Error while fetching hasLoggedUserAnyAuthorities: ", error);
+    return false;
   }
 };

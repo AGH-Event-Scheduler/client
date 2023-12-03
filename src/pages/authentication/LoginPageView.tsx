@@ -7,6 +7,7 @@ import { CommonActions, useNavigation } from "@react-navigation/native";
 import { AuthenticationService } from "../../services/AuthenticationService";
 import { useTranslation } from "react-i18next";
 import { authenticate } from "../../api/authentication-api-utils";
+import { isLoggedAsAdmin } from "../../api/user-api-utlis";
 
 export const LoginPageView = () => {
   const [email, setEmail] = useState("");
@@ -40,11 +41,13 @@ export const LoginPageView = () => {
               routes: [{ name: "Main" }],
             }),
           );
+          await AuthenticationService.setIsAdmin(await isLoggedAsAdmin());
         } else {
           Alert.alert(t("login.login-failed"), t("login.check-email-password"));
         }
       } catch (error) {
         console.error(t("login.login-error"), error);
+        Alert.alert(t("login.login-failed"), t("login.check-email-password"));
       }
     }
   };

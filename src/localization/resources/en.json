@@ -171,5 +171,10 @@
     "HEAD": "Head",
     "CONTENT_CREATOR": "Creator",
     "USER": "User"
+  },
+  "user-list": {
+    "role-assigned": "Assigning organization role",
+    "role-success": "Organization role assigned",
+    "role-failed": "Assigning organization role failed"
   }
 }

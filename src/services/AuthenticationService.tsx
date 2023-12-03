@@ -3,6 +3,7 @@ import { AuthenticationResponse } from "../api/authentication-api-utils";
 
 const TOKEN_KEY = "authToken";
 const REFRESH_TOKEN_KEY = "refreshToken";
+const IS_LOGGED_AS_ADMIN = "admin";
 
 export class AuthenticationService {
   static async authenticate(
@@ -20,6 +21,7 @@ export class AuthenticationService {
     try {
       await AuthenticationService.removeAuthToken();
       await AuthenticationService.removeRefreshToken();
+      await AuthenticationService.removeIsAdmin();
       return true;
     } catch (error) {
       console.error("Error during logout:", error);
@@ -59,6 +61,29 @@ export class AuthenticationService {
       await AsyncStorage.removeItem(REFRESH_TOKEN_KEY);
     } catch (error) {
       console.error("Error removing refresh token:", error);
+      throw error;
+    }
+  }
+
+  static async setIsAdmin(admin: Boolean) {
+    console.log(`IS ADMIN authser: ${admin}`);
+    await AsyncStorage.setItem(IS_LOGGED_AS_ADMIN, String(admin));
+  }
+
+  static async getIsAdmin(): Promise<Boolean> {
+    try {
+      return (await AsyncStorage.getItem(IS_LOGGED_AS_ADMIN)) == "true";
+    } catch (error) {
+      console.error("Error retrieving if is logged as admin", error);
+      return false;
+    }
+  }
+
+  private static async removeIsAdmin(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(IS_LOGGED_AS_ADMIN);
+    } catch (error) {
+      console.error("Error removing is logged a s admin:", error);
       throw error;
     }
   }

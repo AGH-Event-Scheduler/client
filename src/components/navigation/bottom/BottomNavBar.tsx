@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   CommonActions,
@@ -8,6 +8,7 @@ import {
 import { NavBarButton } from "./BottomNavBarButton";
 import HideWithKeyboard from "react-native-hide-with-keyboard";
 import { useTranslation } from "react-i18next";
+import { useUserAuthorities } from "../../../services/UserContext";
 
 export const resetToRouteName = (
   navigation: NavigationProp<any>,
@@ -27,73 +28,119 @@ export interface DisplayBottomNavBarButton {
   routeName: string;
 }
 
-export const BottomNavBar = () => {
+export const BottomNavBar = ({ navbarVisible }) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
   const [isExpanded, setIsExpanded] = useState(false);
+  const [buttonsToDisplay, setButtonsToDisplay] = useState<
+    DisplayBottomNavBarButton[]
+  >([]);
+  const { isAdmin, hasAnyOrganizationRole } = useUserAuthorities(navbarVisible);
+
+  useEffect(() => {
+    const fetchButtons = async () => {
+      try {
+        const commonButtons: DisplayBottomNavBarButton[] = [
+          {
+            title: t("general.favourite"),
+            iconName: "star",
+            routeName: "Favourite",
+          },
+          {
+            title: t("general.organizations"),
+            iconName: "users",
+            routeName: "Organizations",
+          },
+          {
+            title: t("general.calendar"),
+            iconName: "calendar",
+            routeName: "Calendar",
+          },
+          { title: t("general.feed"), iconName: "feather", routeName: "Feed" },
+        ];
+
+        const additionalButtons: DisplayBottomNavBarButton[] = [
+          {
+            title: t("general.create-organization"),
+            iconName: "plus",
+            routeName: "Create organization",
+          },
+          {
+            title: t("general.your-organizations"),
+            iconName: "user-check",
+            routeName: "Your organizations",
+          },
+        ];
+
+        let buttonsToDisplay: DisplayBottomNavBarButton[] = [];
+        console.log("IS ADMIN  : ", isAdmin);
+        if (isAdmin) {
+          buttonsToDisplay = [...commonButtons, ...additionalButtons];
+        } else if (!isAdmin && hasAnyOrganizationRole) {
+          buttonsToDisplay = [
+            ...commonButtons,
+            {
+              title: t("general.your-organizations"),
+              iconName: "user-check",
+              routeName: "Your organizations",
+            },
+          ];
+        } else {
+          buttonsToDisplay = commonButtons.filter(
+            (button) =>
+              button.routeName !== "Create organization" &&
+              button.routeName !== "Your organizations",
+          );
+        }
+        console.log("BUTTONS TO DISPLAY", buttonsToDisplay);
+        setButtonsToDisplay(buttonsToDisplay);
+      } catch (error) {
+        console.error("Error fetching buttons:", error);
+      }
+    };
+
+    fetchButtons();
+  }, [isAdmin, hasAnyOrganizationRole]);
 
   const expandNavBar = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const buttonsToDisplay: DisplayBottomNavBarButton[] = [
-    { title: t("general.favourite"), iconName: "star", routeName: "Favourite" },
-    {
-      title: t("general.organizations"),
-      iconName: "users",
-      routeName: "Organizations",
-    },
-    {
-      title: t("general.calendar"),
-      iconName: "calendar",
-      routeName: "Calendar",
-    },
-    { title: t("general.feed"), iconName: "feather", routeName: "Feed" },
-    {
-      title: t("general.create-organization"),
-      iconName: "plus",
-      routeName: "Create organization",
-    },
-    {
-      title: t("general.your-organizations"),
-      iconName: "user-check",
-      routeName: "Your organizations",
-    },
-  ];
-
   const maxNumerInRow = 4;
-  var bottomRow = [...buttonsToDisplay].splice(0, maxNumerInRow);
-  var topRow = [...buttonsToDisplay].splice(maxNumerInRow);
   // END TODO: Refactor once users are introduced
 
   return (
     <HideWithKeyboard>
       <View style={styles.menuContainer}>
         <View style={isExpanded ? styles.row : { display: "none" }}>
-          {topRow.map((buttonToDisplay, index) => (
-            <NavBarButton
-              key={index}
-              title={buttonToDisplay.title}
-              iconName={buttonToDisplay.iconName}
-              onPress={() => {
-                resetToRouteName(navigation, buttonToDisplay.routeName);
-              }}
-            />
-          ))}
+          {[...buttonsToDisplay]
+            .splice(maxNumerInRow)
+            .map((buttonToDisplay, index) => (
+              <NavBarButton
+                key={index}
+                title={buttonToDisplay.title}
+                iconName={buttonToDisplay.iconName}
+                onPress={() => {
+                  resetToRouteName(navigation, buttonToDisplay.routeName);
+                }}
+              />
+            ))}
         </View>
         <View style={styles.row}>
-          {bottomRow.map((buttonToDisplay, index) => (
-            <NavBarButton
-              key={index}
-              title={buttonToDisplay.title}
-              iconName={buttonToDisplay.iconName}
-              onPress={() => {
-                resetToRouteName(navigation, buttonToDisplay.routeName);
-              }}
-            />
-          ))}
-          {topRow.length > 0 ? (
+          {[...buttonsToDisplay]
+            .splice(0, maxNumerInRow)
+            .map((buttonToDisplay, index) => (
+              <NavBarButton
+                key={index}
+                title={buttonToDisplay.title}
+                iconName={buttonToDisplay.iconName}
+                onPress={() => {
+                  resetToRouteName(navigation, buttonToDisplay.routeName);
+                }}
+              />
+            ))}
+          {[...buttonsToDisplay].splice(maxNumerInRow).length > 0 ? (
             !isExpanded ? (
               <NavBarButton
                 title={t("general.more")}

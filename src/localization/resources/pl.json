@@ -171,5 +171,10 @@
     "HEAD": "Przewodniczący",
     "CONTENT_CREATOR": "Twórca",
     "USER": "Użytkownik"
+  },
+  "user-list": {
+    "role-assigned": "Przyznawanie roli dla organizacji",
+    "role-success": "Rola została przyznana",
+    "role-failed": "Przyznawanie roli nie powiodło się"
   }
 }

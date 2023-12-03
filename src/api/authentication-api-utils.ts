@@ -1,6 +1,6 @@
 import { baseApiUrl, fetchApiWithRefresh, Method } from "./api-utils";
 import { AuthenticationService } from "../services/AuthenticationService";
-import { UserWithRole } from "./types";
+import { isLoggedAsAdmin } from "./user-api-utlis";
 
 export const register = async (
   email: string,
@@ -105,8 +105,8 @@ export const refreshAccessToken = async (
 
     const response = await fetch(urlWithParams, options);
     const data = await response.json();
-
     if (response.ok) {
+      await AuthenticationService.setIsAdmin(await isLoggedAsAdmin());
       return data as AuthenticationResponse;
     } else {
       console.log("Access token refresh failed:", data);
