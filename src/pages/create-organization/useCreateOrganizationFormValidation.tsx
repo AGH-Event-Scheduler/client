@@ -5,17 +5,15 @@ import { MultiLanguageText, Language } from "../../api/types";
 import { checkUserExist } from "../../api/user-api-utlis";
 
 export enum Field {
-    BGIMG = "bg",
-    LOGO = "logo",
-    NAME = "name",
-    DESCRIPTION = "dsc",
-    LEADER = "lead",
-  }
-  
+  BGIMG = "bg",
+  LOGO = "logo",
+  NAME = "name",
+  DESCRIPTION = "dsc",
+  LEADER = "lead",
+}
 
 export const useCreateOrganizationFormValidation = () => {
-
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const [errors, setErrors] = useState<{ [field: string]: string }>({});
 
@@ -24,7 +22,7 @@ export const useCreateOrganizationFormValidation = () => {
     logoImage: FormDataFileUpload,
     name: MultiLanguageText,
     description: MultiLanguageText,
-    leader: string
+    leader: string,
   ) => {
     var newErrors = {};
     const validatorResults = [
@@ -44,7 +42,7 @@ export const useCreateOrganizationFormValidation = () => {
     logoImage: FormDataFileUpload,
     name: MultiLanguageText,
     description: MultiLanguageText,
-    leader: string
+    leader: string,
   ) => {
     var newErrors = {};
     const validatorResults = [
@@ -53,7 +51,7 @@ export const useCreateOrganizationFormValidation = () => {
       validateMultiLanguageTextField(Field.NAME, name, newErrors),
       validateMultiLanguageTextField(Field.DESCRIPTION, description, newErrors),
       validateTextField(Field.LEADER, leader, newErrors),
-      await validateLeaderExist(Field.LEADER, leader, newErrors)
+      await validateLeaderExist(Field.LEADER, leader, newErrors),
     ];
     setErrors(newErrors);
 
@@ -71,7 +69,6 @@ export const useCreateOrganizationFormValidation = () => {
     }
     return true;
   };
-
 
   const validateLogoImage = (
     field: Field,
@@ -91,17 +88,15 @@ export const useCreateOrganizationFormValidation = () => {
     errors,
   ) => {
     if (!/\S/.test(state[Language.PL]) && !/\S/.test(state[Language.EN])) {
-      errors[field] = t("create-organization.at-least-one-translation-required-error");
+      errors[field] = t(
+        "create-organization.at-least-one-translation-required-error",
+      );
       return false;
     }
     return true;
   };
 
-  const validateTextField = (
-    field: Field,
-    text: string,
-    errors,
-  ) => {
+  const validateTextField = (field: Field, text: string, errors) => {
     if (!/\S/.test(text)) {
       errors[field] = t("create-organization.input-required-error");
       return false;
@@ -109,11 +104,7 @@ export const useCreateOrganizationFormValidation = () => {
     return true;
   };
 
-  const validateLeaderExist = async (
-    field: Field,
-    leader: string,
-    errors,
-  ) => {
+  const validateLeaderExist = async (field: Field, leader: string, errors) => {
     if (/\S/.test(leader)) {
       let userExist = await checkUserExist(leader);
       if (!userExist) {
@@ -124,7 +115,7 @@ export const useCreateOrganizationFormValidation = () => {
     }
     errors[field] = t("create-organization.input-required-error");
     return false;
-  }
+  };
 
   return { errors, runCreateValidators, runUpdateValidators };
-}
+};
