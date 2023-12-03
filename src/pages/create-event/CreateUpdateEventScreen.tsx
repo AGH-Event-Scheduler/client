@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   createEvent,
   fetchEventDetails,
@@ -28,6 +36,7 @@ import {
   MultiLanguageText,
 } from "../../api/types";
 import { EventHubImage } from "../../components/EventHubImage";
+import { Feather } from "@expo/vector-icons";
 
 enum PickingDate {
   StartDate,
@@ -187,48 +196,39 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
       ) : (
         <ScrollView style={styles.container}>
           {backgroundImage ? (
-            <View style={styles.imageUploadSection}>
+            <TouchableOpacity
+              onPress={onUploadImageButtonPress}
+              style={styles.imageEditSection}
+            >
               <View style={styles.imageContainer}>
                 <Image
                   style={styles.image}
                   source={{ uri: backgroundImage.uri }}
                 />
               </View>
-              <AppButton
-                title={t("create-event.update-image")}
-                onPress={onUploadImageButtonPress}
-                type={"secondary"}
-                size={"default"}
-              />
-            </View>
+              <Feather name={"edit"} style={styles.editIcon} />
+            </TouchableOpacity>
           ) : editingEvent ? (
-            <View style={styles.imageUploadSection}>
-              <View
-                style={[styles.imageContainer, { backgroundColor: "#FAFAFA" }]}
-              >
+            <TouchableOpacity
+              onPress={onUploadImageButtonPress}
+              style={styles.imageEditSection}
+            >
+              <View style={styles.imageContainer}>
                 <EventHubImage
                   imageId={editingEvent.backgroundImage.imageId}
                   filename={editingEvent.backgroundImage.bigFilename}
                 />
               </View>
-              <AppButton
-                title={t("create-event.upload-image")}
-                onPress={onUploadImageButtonPress}
-                type={"primary"}
-                size={"default"}
-              />
-            </View>
+              <Feather name={"edit"} style={styles.editIcon} />
+            </TouchableOpacity>
           ) : (
-            <View style={styles.imageUploadSection}>
-              <View
-                style={[styles.imageContainer, { backgroundColor: "#FAFAFA" }]}
-              ></View>
-              <AppButton
-                title={t("create-event.upload-image")}
+            <View>
+              <TouchableOpacity
                 onPress={onUploadImageButtonPress}
-                type={"primary"}
-                size={"default"}
-              />
+                style={styles.imageUploadSection}
+              >
+                <Feather name={"upload"} style={styles.uploadIcon} />
+              </TouchableOpacity>
               {Field.IMAGE in errors ? (
                 <FormError
                   errorText={errors[Field.IMAGE]}
@@ -391,8 +391,16 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   imageUploadSection: {
+    width: "100%",
+    height: 200,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 30,
     marginTop: 10,
+    borderStyle: "dotted",
+    borderColor: "green",
+    borderWidth: 3,
   },
   imageContainer: {
     display: "flex",
@@ -407,6 +415,26 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     maxHeight: 200,
+  },
+  editIcon: {
+    position: "absolute",
+    top: 16,
+    right: 16,
+    fontSize: 48,
+    color: "#7F7F7F",
+  },
+  imageEditSection: {
+    width: "100%",
+    height: 200,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 30,
+    marginTop: 10,
+  },
+  uploadIcon: {
+    fontSize: 64,
+    color: "green",
   },
   textSection: {
     flexDirection: "column",

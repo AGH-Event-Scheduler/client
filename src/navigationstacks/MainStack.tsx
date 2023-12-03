@@ -18,6 +18,7 @@ import { Platform } from "react-native";
 import { CreateUpdateEventScreen } from "../pages/create-event/CreateUpdateEventScreen";
 import { FeedScreen } from "../pages/feed/FeedScreen";
 import { UserListView } from "../pages/user/UserListView";
+import { CreateOrganizationView } from "../pages/create-organization/CreateOrganizationView";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -43,13 +44,13 @@ export const MainStack = ({ stack }) => {
             );
           },
         }}
-        initialRouteName="Home"
+        initialRouteName="Calendar"
       >
         {/* Main pages */}
         <stack.Screen
           name="Home"
           component={SamplePage}
-          options={{ title: "Home" }}
+          options={{ title: "Calendar" }}
         />
         <stack.Screen
           name="Favourite"
@@ -80,7 +81,7 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Create organization"
-          component={SamplePage}
+          component={CreateOrganizationView}
           options={{ title: t("general.create-organization") }}
         />
         <stack.Screen

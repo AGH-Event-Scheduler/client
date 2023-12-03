@@ -26,7 +26,9 @@
     "create-event": "Add Event",
     "update-event": "Update Event",
     "edit-event": "Edit",
-    "manage-organization-members": "Manage"
+    "manage-organization-members": "Manage",
+    "create": "Create",
+    "cancel": "Cancel"
   },
   "settings": {
     "language": "Language",
@@ -162,10 +164,17 @@
     "enter-organization-name": "Enter organization name",
     "description-label": "Description",
     "enter-organization-description": "Enter organization description",
+    "leader-label": "Leader",
+    "enter-leader-email": "Enter leader's email",
     "submit": "Submit",
     "background-image-required-error": "Organization background image is required",
+    "logo-image-required-error": "Organization logo image is required",
     "at-least-one-translation-required-error": "At least one translation need to be provided",
-    "validation-failed-error": "Incorrect data provided. Try again."
+    "validation-failed-error": "Incorrect data provided. Try again.",
+    "input-required-error": "This field is required",
+    "background-image": "Background image",
+    "logo-image": "Logo image",
+    "user-does-not-exist-error": "User with this email does not exist"
   },
   "roles": {
     "HEAD": "Head",
