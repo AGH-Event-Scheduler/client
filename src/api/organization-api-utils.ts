@@ -1,6 +1,7 @@
+import { Alert } from "react-native";
 import { getCurrentLanguage } from "../localization/languages";
-import { fetchApiWithRefresh, Method } from "./api-utils";
-import { Organization } from "./types";
+import { fetchApiWithRefresh, FormDataFileUpload, Method } from "./api-utils";
+import { MultiLanguageText, Organization } from "./types";
 
 export const fetchAllOrganizationsWithStatusByUser = async (
   onlySubscribed = false,
@@ -22,16 +23,16 @@ export const fetchAllOrganizationsWithStatusByUser = async (
       url: url,
       queryParams: queryParams,
     });
-    const data = await response.json();
 
     if (response.ok) {
+      const data = await response.json();
       return data as Organization[];
     } else {
       console.error(
         `Fetching organizations${
           onlySubscribed ? " (subscribed)" : ""
         } failed:`,
-        data,
+        response.statusText,
       );
       return null;
     }
@@ -114,5 +115,40 @@ export const unsubscribeFromOrganization = async (
   } catch (error) {
     console.error("Error during Unsubscribing:", error);
     throw error;
+  }
+};
+
+export const createOrganization = async (
+  name: MultiLanguageText,
+  description: MultiLanguageText,
+  formDataBackgroundImage: FormDataFileUpload,
+  formDataLogoImage: FormDataFileUpload,
+  leaderEmail: string,
+) => {
+  const url = "/organizations";
+  const formData = new FormData();
+
+  // @ts-ignore
+  formData.append("backgroundImage", formDataBackgroundImage);
+  // @ts-ignore
+  formData.append("logoImage", formDataLogoImage);
+  formData.append("name", JSON.stringify(name));
+  formData.append("description", JSON.stringify(description));
+  formData.append("leaderEmail", leaderEmail);
+
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      body: formData,
+    });
+    if (!response.ok) {
+      console.error("Creating organization failed:", response.statusText);
+      Alert.alert("Something went wrong with creating organization");
+      return null;
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Error while creating organization: ", error);
   }
 };

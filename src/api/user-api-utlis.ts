@@ -26,3 +26,27 @@ export const getUserRolesForOrganization = async (
     console.error("Error during fetching user roles:", error);
   }
 };
+
+export const checkUserExist = async (userEmail: string): Promise<boolean> => {
+  const url = `/users/exist`;
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      queryParams: { email: userEmail },
+    });
+
+    if (!response.ok) {
+      console.error(
+        `Checking user with email ${userEmail} exist failed:`,
+        response.statusText,
+      );
+      return false;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error while checking user exist: ", error);
+  }
+  return false;
+};
