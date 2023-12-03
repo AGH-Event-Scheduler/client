@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import { getCurrentLanguage } from "../localization/languages";
 import { fetchApiWithRefresh, FormDataFileUpload, Method } from "./api-utils";
 import { MultiLanguageText, Organization } from "./types";
@@ -22,16 +23,16 @@ export const fetchAllOrganizationsWithStatusByUser = async (
       url: url,
       queryParams: queryParams,
     });
-    const data = await response.json();
 
     if (response.ok) {
+      const data = await response.json();
       return data as Organization[];
     } else {
       console.error(
         `Fetching organizations${
           onlySubscribed ? " (subscribed)" : ""
         } failed:`,
-        data,
+        response.statusText,
       );
       return null;
     }
@@ -122,8 +123,9 @@ export const createOrganization = async (
   description: MultiLanguageText,
   formDataBackgroundImage: FormDataFileUpload,
   formDataLogoImage: FormDataFileUpload,
-  leaderEmail: string
+  leaderEmail: string,
 ) => {
+  const url = "/organizations";
   const formData = new FormData();
 
   // @ts-ignore
@@ -134,10 +136,19 @@ export const createOrganization = async (
   formData.append("description", JSON.stringify(description));
   formData.append("leaderEmail", leaderEmail);
 
-  var response = await fetchApiWithRefresh({
-    url: '/organization',
-    method: Method.POST,
-    body: formData,
-  });
-  return response.json();
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      body: formData,
+    });
+    if (!response.ok) {
+      console.error("Creating organization failed:", response.statusText);
+      Alert.alert("Something went wrong with creating organization");
+      return null;
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Error while creating organization: ", error);
+  }
 };

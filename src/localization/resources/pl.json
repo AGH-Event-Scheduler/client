@@ -24,7 +24,9 @@
     "login": "Logowanie",
     "register": "Rejestracja",
     "create-event": "Dodaj wydarzenie",
-    "update-event": "Edycja wydarzenia"
+    "update-event": "Edycja wydarzenia",
+    "create": "Stwórz",
+    "cancel": "Anuluj"
   },
   "settings": {
     "language": "Język",
@@ -160,9 +162,16 @@
     "enter-organization-name": "Podaj nazwę organizacji",
     "description-label": "Opis",
     "enter-organization-description": "Podaj opis organizacji",
+    "leader-label": "Przewodniczący",
+    "enter-leader-email": "Podaj email przewodniczącego",
     "submit": "Zatwierdź",
     "background-image-required-error": "Zdjęcie w tle organizacji jest wymagane",
+    "logo-image-required-error": "Logo organizacji jest wymagane",
     "at-least-one-translation-required-error": "Co najmniej jeden język jest wymagany",
-    "validation-failed-error": "Podano nieprawidłowe dane. Spróbuj ponownie."
+    "validation-failed-error": "Podano nieprawidłowe dane. Spróbuj ponownie.",
+    "input-required-error": "To pole jest wymagane",
+    "background-image": "Background image",
+    "logo-image": "Logo image",
+    "user-does-not-exist-error": "Użytkownik o takim mailu nie istnieje"
   }
 }

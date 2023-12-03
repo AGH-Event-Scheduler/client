@@ -97,6 +97,7 @@ export const fetchApiWithRefresh = async ({
       isAuthorized: isAuthorized,
       queryParams: queryParams,
     });
+
     if (response.status === 403 && isAuthorized && !isRefreshing) {
       console.log("403 -> Refreshing TOKEN");
       isRefreshing = true;
