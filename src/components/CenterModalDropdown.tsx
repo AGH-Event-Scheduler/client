@@ -48,7 +48,7 @@ export const CenteredModalDropdown = ({
   return (
     <View>
       <TouchableOpacity onPress={handlePress}>
-        <View style={{ ...styles.button }}>
+        <View style={styles.button}>
           <Text style={{ ...styles.text, fontSize: fontSize }}>
             {selectedItem.value}
           </Text>
@@ -67,7 +67,7 @@ export const CenteredModalDropdown = ({
       >
         <TouchableWithoutFeedback onPress={closeModal}>
           <View style={styles.modalContainer}>
-            <View style={{ ...styles.expanded }}>
+            <View style={styles.expanded}>
               {data.map((item) => (
                 <TouchableOpacity
                   key={item.index}

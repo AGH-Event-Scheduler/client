@@ -43,7 +43,7 @@ export const AppDropdownSelect = ({
   return (
     <View>
       <TouchableWithoutFeedback onPress={handlePress}>
-        <View style={{ ...styles.button, ...dropdownContainerStyle }}>
+        <View style={[styles.button, dropdownContainerStyle]}>
           <Text style={{ ...styles.text, fontSize: fontSize }}>
             {selectedItem.value}
           </Text>
@@ -55,7 +55,7 @@ export const AppDropdownSelect = ({
         </View>
       </TouchableWithoutFeedback>
       {isExpanded ? (
-        <View style={{ ...styles.expanded, ...dropdownContainerStyle }}>
+        <View style={[styles.expanded, dropdownContainerStyle]}>
           {data.map((item) => (
             <TouchableOpacity
               key={item.index}
