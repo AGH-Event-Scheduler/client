@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { FormDataFileUpload } from "../../api/api-utils";
-import { Language, MultiLanguageText } from "../../api/types";
-import { createOrganization } from "../../api/organization-api-utils";
+import { FullOrganization, Language, MultiLanguageText, Organization } from "../../api/types";
+import { createOrganization, fetchFullOrganization, updateOrganization } from "../../api/organization-api-utils";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
 import { FormLanguageSelector } from "../../components/FormLanguageSelector";
@@ -25,16 +25,17 @@ import { FormError } from "../../components/FormError";
 import { getFormDataFileUpload } from "../../utils/image-utils";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { resetToRouteName } from "../../components/navigation/bottom/BottomNavBar";
+import { EventHubImage } from "../../components/EventHubImage";
 
-export const CreateOrganizationView = ({ navigation, route }) => {
+export const CreateUpdateOrganizationView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [backgroundImage, setBackgroundImageUri] =
+  const [backgroundImage, setBackgroundImage] =
     useState<FormDataFileUpload>(null);
 
-  const [logoImage, setLogoImageUri] = useState<FormDataFileUpload>(null);
+  const [logoImage, setLogoImage] = useState<FormDataFileUpload>(null);
 
   const [currentFormLanguage, setCurrentFormLanguage] = useState<Language>(
     i18n.language === "pl" ? Language.PL : Language.EN,
@@ -47,19 +48,35 @@ export const CreateOrganizationView = ({ navigation, route }) => {
 
   const [leaderEmail, setLeaderEmail] = useState<string>("");
 
+  const editingOrganizationId = route.params?.organizationId;
+  const [editingOrganization, setEditingOrganization] = useState<FullOrganization>(null);
+
   const { errors, runCreateValidators, runUpdateValidators } =
     useCreateOrganizationFormValidation();
 
   useEffect(() => {
-    setIsLoading(false);
+    const transformToEditingOrganizationEvent = async () => {
+      
+      const fullOrganization = await fetchFullOrganization(editingOrganizationId);
+      setEditingOrganization(fullOrganization)
+      setName(fullOrganization.nameMap)
+      setDescription(fullOrganization.descriptionMap)
+      setIsLoading(false)  
+    }
+
+    if (editingOrganizationId){
+      transformToEditingOrganizationEvent()
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   const onUploadBackgroundImageButtonPress = async () => {
-    setBackgroundImageUri(await getFormDataFileUpload());
+    setBackgroundImage(await getFormDataFileUpload());
   };
 
   const onUploadLogoImageButtonPress = async () => {
-    setLogoImageUri(await getFormDataFileUpload());
+    setLogoImage(await getFormDataFileUpload());
   };
 
   const submitForm = async () => {
@@ -93,6 +110,37 @@ export const CreateOrganizationView = ({ navigation, route }) => {
       }
     }
   };
+
+  const submitEditingForm = async () => {
+    const validators = runUpdateValidators(
+      name,
+      description
+    );
+    
+    if (validators) {
+      setIsLoading(true);
+      try {
+        const organization = await updateOrganization(
+          editingOrganizationId,
+          name,
+          description,
+          backgroundImage,
+          logoImage,
+        );
+
+        setIsLoading(false);
+
+        if (organization) {
+          navigation.replace("Organization", {
+            organizationId: organization.id,
+          });
+        }
+      } catch (e) {
+        setIsLoading(false);
+      }
+    }
+  };
+
   const cancelForm = () => {
     resetToRouteName(navigation, "Home");
   };
@@ -128,7 +176,33 @@ export const CreateOrganizationView = ({ navigation, route }) => {
                 <Feather name={"edit"} style={styles.editIcon} />
               </TouchableOpacity>
             </View>
-          ) : (
+            ) : editingOrganization ? (
+              <View>
+                <Text style={globalStyles.descriptionTitle}>
+                  {t("create-organization.background-image")}
+                </Text>
+                <TouchableOpacity
+                  onPress={onUploadBackgroundImageButtonPress}
+                  style={[
+                    styles.imageEditSection,
+                    styles.backgroundImageEditSection,
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.imageContainer,
+                      styles.backgroundImageContainer,
+                    ]}
+                  >
+                    <EventHubImage 
+                      imageId={editingOrganization.backgroundImage.imageId}
+                      filename={editingOrganization.backgroundImage.bigFilename}
+                    />
+                  </View>
+                  <Feather name={"edit"} style={styles.editIcon} />
+                </TouchableOpacity>
+              </View>
+            ) : (
             <View style={{ marginBottom: 16 }}>
               <Text style={globalStyles.descriptionTitle}>
                 {t("create-organization.background-image")}
@@ -163,6 +237,26 @@ export const CreateOrganizationView = ({ navigation, route }) => {
                   <Image
                     style={[styles.image, styles.logoImage]}
                     source={{ uri: logoImage.uri }}
+                  />
+                </View>
+                <Feather name={"edit"} style={styles.logoEditIcon} />
+              </TouchableOpacity>
+            </View>
+          ) : editingOrganization ? (
+            <View>
+              <Text style={globalStyles.descriptionTitle}>
+                {t("create-organization.logo-image")}
+              </Text>
+              <TouchableOpacity
+                onPress={onUploadLogoImageButtonPress}
+                style={[styles.imageEditSection, styles.logoImageEditSection]}
+              >
+                <View
+                  style={[styles.imageContainer, styles.logoImageContainer]}
+                >
+                  <EventHubImage 
+                    imageId={editingOrganization.logoImage.imageId}
+                    filename={editingOrganization.logoImage.smallFilename}
                   />
                 </View>
                 <Feather name={"edit"} style={styles.logoEditIcon} />
@@ -227,28 +321,41 @@ export const CreateOrganizationView = ({ navigation, route }) => {
               error={Field.DESCRIPTION in errors}
               errorText={errors[Field.DESCRIPTION]}
             />
-
-            <TextInputContainer
-              label={t("create-organization.leader-label")}
-              placeholder={t("create-organization.enter-leader-email")}
-              value={leaderEmail}
-              onChangeText={(text) => {
-                setLeaderEmail(text);
-              }}
-              description=""
-              multiline={false}
-              error={Field.LEADER in errors}
-              errorText={errors[Field.LEADER]}
-            />
+            {editingOrganizationId 
+            ? null 
+            : (
+              <TextInputContainer
+                label={t("create-organization.leader-label")}
+                placeholder={t("create-organization.enter-leader-email")}
+                value={leaderEmail}
+                onChangeText={(text) => {
+                  setLeaderEmail(text);
+                }}
+                description=""
+                multiline={false}
+                error={Field.LEADER in errors}
+                errorText={errors[Field.LEADER]}
+              />
+            )}
           </View>
 
           <View style={styles.buttonContainer}>
-            <AppButton
-              title={t("general.create")}
-              onPress={submitForm}
-              type={"primary"}
-              size={"default"}
-            />
+            {editingOrganizationId ? (
+              <AppButton
+                title={t("general.confirm")}
+                onPress={submitEditingForm}
+                type={"primary"}
+                size={"default"}
+              />
+            ) 
+            : (
+              <AppButton
+                title={t("general.create")}
+                onPress={submitForm}
+                type={"primary"}
+                size={"default"}
+              />
+            )}
             <AppButton
               title={t("general.cancel")}
               onPress={cancelForm}

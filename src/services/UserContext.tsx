@@ -32,3 +32,8 @@ export const hasEditingRole = (roles: OrganizationRole[]): boolean => {
   ];
   return roles.some((role) => editingRoles.includes(role));
 };
+
+export const hasHeadRole = (roles: OrganizationRole[]): boolean => {
+  const headRoles = [OrganizationRole.HEAD];
+  return roles.some((role) => headRoles.includes(role));
+};
