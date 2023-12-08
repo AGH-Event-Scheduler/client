@@ -17,7 +17,11 @@ import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
 import { EventHubImage } from "../../components/EventHubImage";
-import { hasEditingRole, useUserRoles } from "../../services/UserContext";
+import {
+  hasEditingRole,
+  hasHeadRole,
+  useUserRoles,
+} from "../../services/UserContext";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -108,14 +112,28 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                 size={"default"}
               />
             ) : null}
-            {organization && (
-              <AppCheckButton
-                onPress={handleFollowButtonPress}
-                title={t("organization-details.follow")}
-                altTitle={t("organization-details.following")}
-                isChecked={organization.isSubscribed}
+            {hasHeadRole(userRoles)
+              ? null
+              : organization && (
+                  <AppCheckButton
+                    onPress={handleFollowButtonPress}
+                    title={t("organization-details.follow")}
+                    altTitle={t("organization-details.following")}
+                    isChecked={organization.isSubscribed}
+                  />
+                )}
+            {hasHeadRole(userRoles) ? (
+              <AppButton
+                onPress={() => {
+                  navigation.navigate("Create organization", {
+                    organizationId: organization.id,
+                  });
+                }}
+                type={"secondary"}
+                title={t("general.edit")}
+                size={"default"}
               />
-            )}
+            ) : null}
           </View>
           <Text style={styles.title}>{organization?.name}</Text>
           <Text style={globalStyles.description}>

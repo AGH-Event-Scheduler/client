@@ -46,7 +46,6 @@ export const useCreateUpdateEventFormValidation = () => {
   };
 
   const runUpdateValidators = (
-    backgroundImage: FormDataFileUpload,
     name: MultiLanguageText,
     description: MultiLanguageText,
     location: MultiLanguageText,

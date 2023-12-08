@@ -74,8 +74,8 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
   const [startDate, setStartDate] = useState<Date>(beginStartDate);
   const [endDate, setEndDate] = useState<Date>(beginEndDate);
 
-  const organizationId = route.params.organizationId;
-  const editingEventId = route.params.editingEventId;
+  const organizationId = route.params?.organizationId;
+  const editingEventId = route.params?.editingEventId;
 
   const [editingEvent, setEditingEvent] = useState<FullOrganizationEvent>(null);
 
@@ -157,14 +157,7 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
       }
     } else if (
       editingEventId &&
-      runUpdateValidators(
-        backgroundImage,
-        name,
-        description,
-        location,
-        startDate,
-        endDate,
-      )
+      runUpdateValidators(name, description, location, startDate, endDate)
     ) {
       setIsLoading(true);
       try {

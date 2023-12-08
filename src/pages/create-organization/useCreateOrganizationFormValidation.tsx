@@ -37,21 +37,14 @@ export const useCreateOrganizationFormValidation = () => {
     return validatorResults.every((e) => e);
   };
 
-  const runUpdateValidators = async (
-    backgroundImage: FormDataFileUpload,
-    logoImage: FormDataFileUpload,
+  const runUpdateValidators = (
     name: MultiLanguageText,
     description: MultiLanguageText,
-    leader: string,
   ) => {
     var newErrors = {};
     const validatorResults = [
-      validateBackgroundImage(Field.BGIMG, backgroundImage, newErrors),
-      validateLogoImage(Field.LOGO, logoImage, newErrors),
       validateMultiLanguageTextField(Field.NAME, name, newErrors),
       validateMultiLanguageTextField(Field.DESCRIPTION, description, newErrors),
-      validateTextField(Field.LEADER, leader, newErrors),
-      await validateLeaderExist(Field.LEADER, leader, newErrors),
     ];
     setErrors(newErrors);
 
