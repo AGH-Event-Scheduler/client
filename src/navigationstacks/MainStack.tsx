@@ -48,8 +48,8 @@ export const MainStack = ({ stack }) => {
         {/* Main pages */}
         <stack.Screen
           name="Home"
-          component={SamplePage}
-          options={{ title: "Calendar" }}
+          component={CalendarScreen}
+          options={{ title: t("general.calendar") }}
         />
         <stack.Screen
           name="Favourite"

@@ -72,7 +72,7 @@ export const FeedNotificationListCardMark = memo(
 const styles = StyleSheet.create({
   mark: {
     position: "absolute",
-    backgroundColor: "green",
+    backgroundColor: "#096233",
     borderRadius: 100,
     padding: 6,
     right: -5,

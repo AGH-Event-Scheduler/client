@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 10,
     borderStyle: "dotted",
-    borderColor: "green",
+    borderColor: "#096233",
     borderWidth: 3,
   },
   imageContainer: {
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
   },
   uploadIcon: {
     fontSize: 64,
-    color: "green",
+    color: "#096233",
   },
   textSection: {
     flexDirection: "column",
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   inputError: {
-    borderColor: "red",
+    borderColor: "#BC022C",
     borderWidth: 1,
     borderRadius: 10,
   },

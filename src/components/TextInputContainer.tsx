@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   inputError: {
-    borderColor: "red",
+    borderColor: "#BC022C",
   },
   errorContainer: {
     flexDirection: "row",
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorText: {
-    color: "red",
+    color: "#BC022C",
   },
   toggleButton: {
     position: "absolute",
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 12,
-    color: "gray",
+    color: "#888989",
     flex: 1,
   },
   descriptionContainer: {

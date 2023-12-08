@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   helloPart1: {
-    color: "gray",
+    color: "#888989",
     fontWeight: "bold",
     fontSize: 30,
   },
