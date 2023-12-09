@@ -112,7 +112,7 @@
     "all-fields-required": "Proszę wypełnić wszystkie wymagane pola",
     "invalid-email": "Nieprawidłowy adres email",
     "registration-failed": "Rejestracja nieudana",
-    "registration-success": "Rejestracja przebiegła pomyślnie",
+    "registration-success": "Rejestracja przebiegła pomyślnie.\nZweryfikuj swój email",
     "registration-error": "Błąd rejestracji",
     "name-placeholder": "Imię",
     "last-name-placeholder": "Nazwisko",
