@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import { globalStyles } from "../../styles/GlobalStyles";
@@ -7,6 +7,7 @@ import { CommonActions, useNavigation } from "@react-navigation/native";
 import { AuthenticationService } from "../../services/AuthenticationService";
 import { useTranslation } from "react-i18next";
 import { authenticate } from "../../api/authentication-api-utils";
+import { KeyboardAvoidViewComponent } from "../../components/KeyboardAvoidViewComponent";
 
 export const LoginPageView = () => {
   const [email, setEmail] = useState("");
@@ -72,63 +73,59 @@ export const LoginPageView = () => {
         <Text style={styles.titlePart1}>{t("login.welcome-to")}</Text>
         <Text style={styles.titlePart2}> AGH Events Hub</Text>
       </View>
-
-      <TextInputContainer
-        label={t("login.email-label")}
-        placeholder={t("login.email-placeholder")}
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        description={t("login.AGH-domain-email-address")}
-        style={{ marginBottom: 20 }}
-      />
-      <TextInputContainer
-        label={t("login.password-label")}
-        placeholder={t("login.password-placeholder")}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        description={t("login.password-min-length-description")}
-        linkText={t("login.forgot-password-link")}
-        onLinkPress={() => handleForgotPassword()}
-        isPassword={true}
-        style={{ marginBottom: 20 }}
-      />
-
-      <View style={styles.dividerContainer}>
-        <AppButton
-          onPress={handleSignIn}
-          type="primary"
-          title={t("login.sign-in")}
-          size="default"
+      <KeyboardAvoidViewComponent containerStyles={styles.wrapper}>
+        <TextInputContainer
+          label={t("login.email-label")}
+          placeholder={t("login.email-placeholder")}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          description={t("login.AGH-domain-email-address")}
+          style={{ marginBottom: 20 }}
+          />
+        <TextInputContainer
+          label={t("login.password-label")}
+          placeholder={t("login.password-placeholder")}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          description={t("login.password-min-length-description")}
+          linkText={t("login.forgot-password-link")}
+          onLinkPress={() => handleForgotPassword()}
+          isPassword={true}
+          style={{ marginBottom: 20 }}
         />
-      </View>
+        
 
-      <View style={styles.dividerContainer}>
-        <View style={styles.dividerLine} />
-        <Text style={styles.dividerText}>{t("login.no-account-question")}</Text>
-        <TouchableOpacity onPress={handleSignUp}>
-          <Text style={styles.dividerTextLink}>{t("login.sign-up")}</Text>
-        </TouchableOpacity>
-        <View style={styles.dividerLine} />
-      </View>
+        <View style={styles.dividerContainer}>
+          <AppButton
+            onPress={handleSignIn}
+            type="primary"
+            title={t("login.sign-in")}
+            size="default"
+          />
+        </View>
 
-      <View style={styles.dividerContainer}>
-        <Text style={styles.dividerText}>{t("login.or")}</Text>
-      </View>
+        <View style={styles.dividerContainer}>
+          <View style={styles.dividerLine} />
+          <Text style={styles.dividerText}>{t("login.no-account-question")}</Text>
+          <TouchableOpacity onPress={handleSignUp}>
+            <Text style={styles.dividerTextLink}>{t("login.sign-up")}</Text>
+          </TouchableOpacity>
+          <View style={styles.dividerLine} />
+        </View>
 
-      <View style={styles.additionalMethodsContainer}>
-        <AppButton
-          onPress={handleUseAGHAccount}
-          type="primary"
-          title={t("login.use-agh-account")}
-          size="small"
-        />
-        <AppButton
-          onPress={handleContinueAsGuest}
-          type="gray"
-          title={t("login.continue-as-guest")}
-          size="small"
-        />
-      </View>
+        <View style={styles.dividerContainer}>
+          <Text style={styles.dividerText}>{t("login.or")}</Text>
+        </View>
+
+        <View style={styles.additionalMethodsContainer}>
+          <AppButton
+            onPress={handleContinueAsGuest}
+            type="gray"
+            title={t("login.continue-as-guest")}
+            size="small"
+          />
+        </View>
+      </KeyboardAvoidViewComponent>
     </View>
   );
 };
@@ -138,6 +135,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 20,
+  },
+  wrapper: {
+    flex: 1
   },
   titleContainer: {
     width: "100%",

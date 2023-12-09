@@ -35,6 +35,7 @@ import { getFormDataFileUpload } from "../../utils/image-utils";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { resetToRouteName } from "../../components/navigation/bottom/BottomNavBar";
 import { EventHubImage } from "../../components/EventHubImage";
+import { KeyboardAwareScrollViewComponent } from "../../components/KeyboardAwareScrollViewComponent";
 
 export const CreateUpdateOrganizationView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
@@ -153,11 +154,11 @@ export const CreateUpdateOrganizationView = ({ navigation, route }) => {
     resetToRouteName(navigation, "Home");
   };
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       {isLoading ? (
         <LoadingView />
       ) : (
-        <ScrollView style={styles.container}>
+        <KeyboardAwareScrollViewComponent>
           {backgroundImage ? (
             <View>
               <Text style={globalStyles.descriptionTitle}>
@@ -368,7 +369,7 @@ export const CreateUpdateOrganizationView = ({ navigation, route }) => {
               size={"default"}
             />
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollViewComponent>
       )}
     </View>
   );
@@ -378,7 +379,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    flexDirection: "column",
   },
   imageUploadSection: {
     display: "flex",

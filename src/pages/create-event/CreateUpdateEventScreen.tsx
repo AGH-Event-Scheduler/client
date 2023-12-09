@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   Alert,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,7 +9,6 @@ import {
 } from "react-native";
 import {
   createEvent,
-  fetchEventDetails,
   fetchFullEventDetails,
   updateEvent,
 } from "../../api/event-api-utils";
@@ -37,6 +35,7 @@ import {
 } from "../../api/types";
 import { EventHubImage } from "../../components/EventHubImage";
 import { Feather } from "@expo/vector-icons";
+import { KeyboardAwareScrollViewComponent } from "../../components/KeyboardAwareScrollViewComponent";
 
 enum PickingDate {
   StartDate,
@@ -187,191 +186,191 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
       {isLoading ? (
         <LoadingView />
       ) : (
-        <ScrollView style={styles.container}>
-          {backgroundImage ? (
-            <TouchableOpacity
-              onPress={onUploadImageButtonPress}
-              style={styles.imageEditSection}
-            >
-              <View style={styles.imageContainer}>
-                <Image
-                  style={styles.image}
-                  source={{ uri: backgroundImage.uri }}
-                />
-              </View>
-              <Feather name={"edit"} style={styles.editIcon} />
-            </TouchableOpacity>
-          ) : editingEvent ? (
-            <TouchableOpacity
-              onPress={onUploadImageButtonPress}
-              style={styles.imageEditSection}
-            >
-              <View style={styles.imageContainer}>
-                <EventHubImage
-                  imageId={editingEvent.backgroundImage.imageId}
-                  filename={editingEvent.backgroundImage.bigFilename}
-                />
-              </View>
-              <Feather name={"edit"} style={styles.editIcon} />
-            </TouchableOpacity>
-          ) : (
-            <View>
+        <KeyboardAwareScrollViewComponent containerStyles={styles.container}>
+            {backgroundImage ? (
               <TouchableOpacity
                 onPress={onUploadImageButtonPress}
-                style={styles.imageUploadSection}
+                style={styles.imageEditSection}
               >
-                <Feather name={"upload"} style={styles.uploadIcon} />
+                <View style={styles.imageContainer}>
+                  <Image
+                    style={styles.image}
+                    source={{ uri: backgroundImage.uri }}
+                  />
+                </View>
+                <Feather name={"edit"} style={styles.editIcon} />
               </TouchableOpacity>
-              {Field.IMAGE in errors ? (
+            ) : editingEvent ? (
+              <TouchableOpacity
+                onPress={onUploadImageButtonPress}
+                style={styles.imageEditSection}
+              >
+                <View style={styles.imageContainer}>
+                  <EventHubImage
+                    imageId={editingEvent.backgroundImage.imageId}
+                    filename={editingEvent.backgroundImage.bigFilename}
+                  />
+                </View>
+                <Feather name={"edit"} style={styles.editIcon} />
+              </TouchableOpacity>
+            ) : (
+              <View>
+                <TouchableOpacity
+                  onPress={onUploadImageButtonPress}
+                  style={styles.imageUploadSection}
+                >
+                  <Feather name={"upload"} style={styles.uploadIcon} />
+                </TouchableOpacity>
+                {Field.IMAGE in errors ? (
+                  <FormError
+                    errorText={errors[Field.IMAGE]}
+                    style={{ marginTop: 5 }}
+                  />
+                ) : null}
+              </View>
+            )}
+
+            <View style={styles.textSection}>
+              <FormLanguageSelector
+                onLanguageChange={(language) => {
+                  setCurrentFormLanguage(language);
+                }}
+              />
+              <Text style={{ textAlign: "center" }}>
+                {t("create-event.at-least-one-translation-required-info")}
+              </Text>
+              <TextInputContainer
+                label={t("create-event.name-label")}
+                placeholder={t("create-event.enter-event-name")}
+                value={name[currentFormLanguage]}
+                onChangeText={(text) => {
+                  var value = { ...name };
+                  value[currentFormLanguage] = text;
+                  setName(value);
+                }}
+                description=""
+                error={Field.NAME in errors}
+                errorText={errors[Field.NAME]}
+              />
+
+              <TextInputContainer
+                label={t("create-event.description-label")}
+                placeholder={t("create-event.enter-event-description")}
+                value={description[currentFormLanguage]}
+                onChangeText={(text) => {
+                  var value = { ...description };
+                  value[currentFormLanguage] = text;
+                  setDescription(value);
+                }}
+                description=""
+                multiline={true}
+                error={Field.DESCRIPTION in errors}
+                errorText={errors[Field.DESCRIPTION]}
+              />
+
+              <TextInputContainer
+                label={t("create-event.location-label")}
+                placeholder={t("create-event.enter-event-location")}
+                value={location[currentFormLanguage]}
+                onChangeText={(text) => {
+                  var value = { ...location };
+                  value[currentFormLanguage] = text;
+                  setLocation(value);
+                }}
+                description=""
+                error={Field.LOCATION in errors}
+                errorText={errors[Field.LOCATION]}
+              />
+            </View>
+            <View style={[styles.dateSection]}>
+              <View
+                style={[
+                  styles.dateSectionDates,
+                  Field.DATE in errors ? styles.inputError : null,
+                ]}
+              >
+                <View style={styles.dateField}>
+                  <Text style={globalStyles.descriptionTitle}>
+                    {t("create-event.start-date-label")}
+                  </Text>
+                  <Text style={styles.date}>
+                    {toBeautifiedDateTimeString(startDate, i18n.language)}
+                  </Text>
+                  <AppButton
+                    title={t("create-event.set")}
+                    onPress={() => {
+                      setPickingDate(PickingDate.StartDate);
+                    }}
+                    type={"primary"}
+                    size={"small"}
+                  />
+                </View>
+
+                <View style={styles.dateField}>
+                  <Text style={globalStyles.descriptionTitle}>
+                    {t("create-event.end-date-label")}
+                  </Text>
+                  <Text style={styles.date}>
+                    {toBeautifiedDateTimeString(endDate, i18n.language)}
+                  </Text>
+                  <AppButton
+                    title={t("create-event.set")}
+                    onPress={() => {
+                      setPickingDate(PickingDate.EndDate);
+                    }}
+                    type={"primary"}
+                    size={"small"}
+                  />
+                </View>
+              </View>
+              {Field.DATE in errors ? (
                 <FormError
-                  errorText={errors[Field.IMAGE]}
-                  style={{ marginTop: 5 }}
+                  errorText={errors[Field.DATE]}
+                  style={{ alignSelf: "center" }}
                 />
               ) : null}
-            </View>
-          )}
 
-          <View style={styles.textSection}>
-            <FormLanguageSelector
-              onLanguageChange={(language) => {
-                setCurrentFormLanguage(language);
-              }}
-            />
-            <Text style={{ textAlign: "center" }}>
-              {t("create-event.at-least-one-translation-required-info")}
-            </Text>
-            <TextInputContainer
-              label={t("create-event.name-label")}
-              placeholder={t("create-event.enter-event-name")}
-              value={name[currentFormLanguage]}
-              onChangeText={(text) => {
-                var value = { ...name };
-                value[currentFormLanguage] = text;
-                setName(value);
-              }}
-              description=""
-              error={Field.NAME in errors}
-              errorText={errors[Field.NAME]}
-            />
-
-            <TextInputContainer
-              label={t("create-event.description-label")}
-              placeholder={t("create-event.enter-event-description")}
-              value={description[currentFormLanguage]}
-              onChangeText={(text) => {
-                var value = { ...description };
-                value[currentFormLanguage] = text;
-                setDescription(value);
-              }}
-              description=""
-              multiline={true}
-              error={Field.DESCRIPTION in errors}
-              errorText={errors[Field.DESCRIPTION]}
-            />
-
-            <TextInputContainer
-              label={t("create-event.location-label")}
-              placeholder={t("create-event.enter-event-location")}
-              value={location[currentFormLanguage]}
-              onChangeText={(text) => {
-                var value = { ...location };
-                value[currentFormLanguage] = text;
-                setLocation(value);
-              }}
-              description=""
-              error={Field.LOCATION in errors}
-              errorText={errors[Field.LOCATION]}
-            />
-          </View>
-          <View style={[styles.dateSection]}>
-            <View
-              style={[
-                styles.dateSectionDates,
-                Field.DATE in errors ? styles.inputError : null,
-              ]}
-            >
-              <View style={styles.dateField}>
-                <Text style={globalStyles.descriptionTitle}>
-                  {t("create-event.start-date-label")}
-                </Text>
-                <Text style={styles.date}>
-                  {toBeautifiedDateTimeString(startDate, i18n.language)}
-                </Text>
-                <AppButton
-                  title={t("create-event.set")}
-                  onPress={() => {
-                    setPickingDate(PickingDate.StartDate);
-                  }}
-                  type={"primary"}
-                  size={"small"}
-                />
-              </View>
-
-              <View style={styles.dateField}>
-                <Text style={globalStyles.descriptionTitle}>
-                  {t("create-event.end-date-label")}
-                </Text>
-                <Text style={styles.date}>
-                  {toBeautifiedDateTimeString(endDate, i18n.language)}
-                </Text>
-                <AppButton
-                  title={t("create-event.set")}
-                  onPress={() => {
-                    setPickingDate(PickingDate.EndDate);
-                  }}
-                  type={"primary"}
-                  size={"small"}
-                />
-              </View>
-            </View>
-            {Field.DATE in errors ? (
-              <FormError
-                errorText={errors[Field.DATE]}
-                style={{ alignSelf: "center" }}
-              />
-            ) : null}
-
-            <DateTimePickerModal
-              isVisible={pickingDate !== PickingDate.NO}
-              mode="datetime"
-              onConfirm={(date: Date) => {
-                if (pickingDate === PickingDate.StartDate) {
-                  const dateDiff = endDate.valueOf() - startDate.valueOf();
-                  const newEndDate = new Date(date.valueOf() + dateDiff);
-                  setStartDate(date);
-                  setEndDate(newEndDate);
+              <DateTimePickerModal
+                isVisible={pickingDate !== PickingDate.NO}
+                mode="datetime"
+                onConfirm={(date: Date) => {
+                  if (pickingDate === PickingDate.StartDate) {
+                    const dateDiff = endDate.valueOf() - startDate.valueOf();
+                    const newEndDate = new Date(date.valueOf() + dateDiff);
+                    setStartDate(date);
+                    setEndDate(newEndDate);
+                    setPickingDate(PickingDate.NO);
+                  } else if (pickingDate === PickingDate.EndDate) {
+                    setEndDate(date);
+                    setPickingDate(PickingDate.NO);
+                  }
+                }}
+                onCancel={() => {
                   setPickingDate(PickingDate.NO);
-                } else if (pickingDate === PickingDate.EndDate) {
-                  setEndDate(date);
-                  setPickingDate(PickingDate.NO);
+                }}
+                locale={i18n.language}
+                date={
+                  pickingDate === PickingDate.StartDate
+                    ? startDate
+                    : pickingDate === PickingDate.EndDate
+                    ? endDate
+                    : new Date()
                 }
-              }}
-              onCancel={() => {
-                setPickingDate(PickingDate.NO);
-              }}
-              locale={i18n.language}
-              date={
-                pickingDate === PickingDate.StartDate
-                  ? startDate
-                  : pickingDate === PickingDate.EndDate
-                  ? endDate
-                  : new Date()
-              }
-              textColor="black"
-              confirmTextIOS={t("create-event.calendar.confirm")}
-              cancelTextIOS={t("create-event.calendar.cancel")}
-            />
-          </View>
+                textColor="black"
+                confirmTextIOS={t("create-event.calendar.confirm")}
+                cancelTextIOS={t("create-event.calendar.cancel")}
+              />
+            </View>
 
-          <View style={styles.submitContainer}>
-            <AppButton
-              title={t("create-event.submit")}
-              onPress={submitForm}
-              type={"primary"}
-              size={"default"}
-            />
-          </View>
-        </ScrollView>
+            <View style={styles.submitContainer}>
+              <AppButton
+                title={t("create-event.submit")}
+                onPress={submitForm}
+                type={"primary"}
+                size={"default"}
+              />
+            </View>
+        </KeyboardAwareScrollViewComponent>
       )}
     </View>
   );
@@ -381,7 +380,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    flexDirection: "column",
   },
   imageUploadSection: {
     width: "100%",
