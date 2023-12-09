@@ -27,7 +27,12 @@
     "update-event": "Edycja wydarzenia",
     "manage-organization-members": "Zarządzaj",
     "create": "Stwórz",
-    "cancel": "Anuluj"
+    "cancel": "Anuluj",
+    "confirm": "Zatwierdź",
+    "dismiss": "Odwołaj",
+    "edit": "Edytuj",
+    "yes": "Tak",
+    "no": "Nie"
   },
   "settings": {
     "language": "Język",
@@ -64,15 +69,11 @@
     "save": "Zapisz",
     "saved": "Zapisane",
     "event-canceled": "Wydarzenie zostało odwołane",
-    "cancel-event": "Odwołaj",
     "reactivate-event": "Wznów",
     "confirm-cancel": "Potwierdź odwołanie wydarzenia",
     "confirm-reactivate": "Potwierdź wznowienie wydarzenia",
-    "confirm-cancel-text": "Czy na pewno chcesz odwołac to wydarzenie?",
-    "confirm-reactivate-text": "Czy na pewno chcesz wznowić to wydarzenie?",
-    "confirm": "Tak",
-    "cancel": "Nie",
-    "edit-event": "Edytuj"
+    "confirm-cancel-text": "Czy na pewno chcesz odwołać to wydarzenie?",
+    "confirm-reactivate-text": "Czy na pewno chcesz wznowić to wydarzenie?"
   },
   "login": {
     "welcome-to": "Witaj w",
@@ -172,8 +173,8 @@
     "at-least-one-translation-required-error": "Co najmniej jeden język jest wymagany",
     "validation-failed-error": "Podano nieprawidłowe dane. Spróbuj ponownie.",
     "input-required-error": "To pole jest wymagane",
-    "background-image": "Background image",
-    "logo-image": "Logo image",
+    "background-image": "Zdjęcie w tle",
+    "logo-image": "Logo",
     "user-does-not-exist-error": "Użytkownik o takim mailu nie istnieje"
   },
   "roles": {

@@ -64,3 +64,8 @@ export const useUserAuthorities = (
 
   return { isAdmin, hasAnyOrganizationRole };
 };
+
+export const hasHeadRole = (roles: OrganizationRole[]): boolean => {
+  const headRoles = [OrganizationRole.HEAD];
+  return roles.some((role) => headRoles.includes(role));
+};

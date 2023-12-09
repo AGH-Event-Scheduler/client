@@ -18,7 +18,7 @@ import { Platform } from "react-native";
 import { CreateUpdateEventScreen } from "../pages/create-event/CreateUpdateEventScreen";
 import { FeedScreen } from "../pages/feed/FeedScreen";
 import { UserListView } from "../pages/user/UserListView";
-import { CreateOrganizationView } from "../pages/create-organization/CreateOrganizationView";
+import { CreateUpdateOrganizationView } from "../pages/create-organization/CreateUpdateOrganizationView";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -81,7 +81,7 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Create organization"
-          component={CreateOrganizationView}
+          component={CreateUpdateOrganizationView}
           options={{ title: t("general.create-organization") }}
         />
         <stack.Screen

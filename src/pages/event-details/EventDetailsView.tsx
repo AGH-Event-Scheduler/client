@@ -74,11 +74,11 @@ export const EventDetailsView = ({ navigation, route }) => {
         : t("event-details.confirm-reactivate-text"),
       [
         {
-          text: t("event-details.confirm"),
+          text: t("general.yes"),
           onPress: !event.canceled ? handelCancelEvent : handleReactivateEvent,
         },
         {
-          text: t("event-details.cancel"),
+          text: t("general.no"),
           onPress: () => {},
         },
       ],
@@ -126,7 +126,7 @@ export const EventDetailsView = ({ navigation, route }) => {
                     editingEventId: event.id,
                   });
                 }}
-                title={t("event-details.edit-event")}
+                title={t("general.edit")}
                 type="secondary"
                 size="default"
               />
@@ -136,7 +136,7 @@ export const EventDetailsView = ({ navigation, route }) => {
                 onPress={showConfirmationPopup}
                 title={
                   !event.canceled
-                    ? t("event-details.cancel-event")
+                    ? t("general.dismiss")
                     : t("event-details.reactivate-event")
                 }
                 type={!event.canceled ? "destructive" : "gray"}

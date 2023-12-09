@@ -28,7 +28,12 @@
     "edit-event": "Edit",
     "manage-organization-members": "Manage",
     "create": "Create",
-    "cancel": "Cancel"
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "dismiss": "Dismiss",
+    "edit": "Edit",
+    "yes": "Yes",
+    "no": "No"
   },
   "settings": {
     "language": "Language",
@@ -65,14 +70,11 @@
     "save": "Save",
     "saved": "Saved",
     "event-canceled": "Event was canceled",
-    "cancel-event": "Cancel",
     "reactivate-event": "reactivate",
     "confirm-cancel": "Confirm event cancelation",
     "confirm-reactivate": "Confirm event reactivation",
     "confirm-cancel-text": "Are you sure you want to cancel the event?",
-    "confirm-reactivate-text": "Are you sure you want to reactivate the event?",
-    "confirm": "Yes",
-    "cancel": "No"
+    "confirm-reactivate-text": "Are you sure you want to reactivate the event?"
   },
   "login": {
     "welcome-to": "Welcome to",

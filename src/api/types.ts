@@ -31,6 +31,13 @@ export interface Organization extends BaseEntity {
   description: string;
 }
 
+export interface FullOrganization extends BaseEntity {
+  nameMap: MultiLanguageText;
+  logoImage: Image;
+  backgroundImage: Image;
+  descriptionMap: MultiLanguageText;
+}
+
 export interface OrganizationEvent extends BaseEntity {
   nameTranslated: string;
   backgroundImage: Image;
