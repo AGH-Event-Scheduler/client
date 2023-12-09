@@ -19,6 +19,7 @@ import { CreateUpdateEventScreen } from "../pages/create-event/CreateUpdateEvent
 import { FeedScreen } from "../pages/feed/FeedScreen";
 import { UserListView } from "../pages/user/UserListView";
 import { CreateUpdateOrganizationView } from "../pages/create-organization/CreateUpdateOrganizationView";
+import { ResetPasswordView } from "../pages/authentication/ResetPasswordView";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -130,7 +131,7 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="ChangePassword"
-          component={SamplePage}
+          component={ResetPasswordView}
           options={{ title: t("settings.account.change-password") }}
         />
         <stack.Screen

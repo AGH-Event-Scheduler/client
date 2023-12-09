@@ -27,6 +27,7 @@
     "update-event": "Update Event",
     "edit-event": "Edit",
     "manage-organization-members": "Manage",
+    "reset-password": "Reset Password",
     "create": "Create",
     "confirm": "Confirm",
     "cancel": "Cancel",
@@ -187,5 +188,11 @@
     "role-assigned": "Assigning organization role",
     "role-success": "Organization role assigned",
     "role-failed": "Assigning organization role failed"
+  },
+  "reset-password": {
+    "reset-success": "Confirm password change via email",
+    "failed": "Password change failure",
+    "reset-button": "Send mail and reset password",
+    "password-label": "New password"
   }
 }

@@ -26,6 +26,7 @@
     "create-event": "Dodaj wydarzenie",
     "update-event": "Edycja wydarzenia",
     "manage-organization-members": "Zarządzaj",
+    "reset-password": "Zmień hasło",
     "create": "Stwórz",
     "cancel": "Anuluj",
     "confirm": "Zatwierdź",
@@ -186,5 +187,11 @@
     "role-assigned": "Przyznawanie roli dla organizacji",
     "role-success": "Rola została przyznana",
     "role-failed": "Przyznawanie roli nie powiodło się"
+  },
+  "reset-password": {
+    "reset-success": "Potwierdź zmianę hasła poprzez wysłaną wiadomość",
+    "failed": "Zmiana hasła nie powiodła się",
+    "reset-button": "Wyślij wiadomość i zmień hasło",
+    "password-label": "Nowe hasło"
   }
 }

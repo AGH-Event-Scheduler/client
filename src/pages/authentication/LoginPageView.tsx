@@ -58,6 +58,8 @@ export const LoginPageView = () => {
   };
 
   const handleForgotPassword = () => {
+    // @ts-ignore
+    navigation.navigate("Reset Password");
     console.log("Forgot password link pressed");
   };
 
