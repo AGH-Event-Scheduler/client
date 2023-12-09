@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import {
-  TouchableOpacity,
-  Text,
   StyleSheet,
-  View,
+  Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
+  View,
 } from "react-native";
 
 export interface DropdownSelectData {
@@ -17,12 +17,16 @@ export interface DropdownSelectProps {
   data: DropdownSelectData[];
   currentItem: DropdownSelectData;
   onItemSelect: (item: DropdownSelectData) => void;
+  dropdownContainerStyle?: any;
+  fontSize?: number;
 }
 
 export const AppDropdownSelect = ({
   data,
   currentItem,
   onItemSelect,
+  dropdownContainerStyle,
+  fontSize = 14,
 }: DropdownSelectProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedItem, setSelectedItem] = useState(currentItem);
@@ -35,11 +39,14 @@ export const AppDropdownSelect = ({
     onItemSelect(item);
     setIsExpanded(false);
   };
+
   return (
     <View>
       <TouchableWithoutFeedback onPress={handlePress}>
-        <View style={styles.button}>
-          <Text style={styles.text}>{selectedItem.value}</Text>
+        <View style={[styles.button, dropdownContainerStyle]}>
+          <Text style={{ ...styles.text, fontSize: fontSize }}>
+            {selectedItem.value}
+          </Text>
           {isExpanded ? (
             <Feather name={"chevron-up"} size={20} color="black" />
           ) : (
@@ -48,14 +55,16 @@ export const AppDropdownSelect = ({
         </View>
       </TouchableWithoutFeedback>
       {isExpanded ? (
-        <View style={styles.expanded}>
+        <View style={[styles.expanded, dropdownContainerStyle]}>
           {data.map((item) => (
             <TouchableOpacity
               key={item.index}
               style={styles.buttonExpanded}
               onPress={() => handleExpandedPress(item)}
             >
-              <Text style={styles.text}>{item.value}</Text>
+              <Text style={{ ...styles.text, fontSize: fontSize }}>
+                {item.value}
+              </Text>
               {item.index === selectedItem.index ? (
                 <Feather name={"check"} size={14} color="black" />
               ) : null}
@@ -81,11 +90,9 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontSize: 14,
     fontWeight: "400",
     marginRight: "auto",
   },
-
   expanded: {
     position: "absolute",
     top: 28,

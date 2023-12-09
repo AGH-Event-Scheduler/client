@@ -17,11 +17,7 @@ import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
 import { EventHubImage } from "../../components/EventHubImage";
-import {
-  hasEditingRole,
-  hasHeadRole,
-  useUserRoles,
-} from "../../services/UserContext";
+import { useUserRoles } from "../../services/UserContext";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -32,7 +28,8 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
-  const userRoles = useUserRoles(organizationId);
+  const { userRoles, hasEditingRole, hasUserManagementRole } =
+    useUserRoles(organizationId);
 
   useEffect(() => {
     const fetchOrganizationDetailsData = async (organizationId: number) => {
@@ -100,7 +97,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
-            {hasEditingRole(userRoles) ? (
+            {hasEditingRole ? (
               <AppButton
                 onPress={() => {
                   navigation.navigate("Create Event", {
@@ -112,28 +109,26 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                 size={"default"}
               />
             ) : null}
-            {hasHeadRole(userRoles)
-              ? null
-              : organization && (
-                  <AppCheckButton
-                    onPress={handleFollowButtonPress}
-                    title={t("organization-details.follow")}
-                    altTitle={t("organization-details.following")}
-                    isChecked={organization.isSubscribed}
-                  />
-                )}
-            {hasHeadRole(userRoles) ? (
+            {hasUserManagementRole ? (
               <AppButton
                 onPress={() => {
-                  navigation.navigate("Create organization", {
+                  navigation.navigate("Manage Organization Members", {
                     organizationId: organization.id,
                   });
                 }}
                 type={"secondary"}
-                title={t("general.edit")}
+                title={t("organization-details.manage-users")}
                 size={"default"}
               />
             ) : null}
+            {organization && (
+              <AppCheckButton
+                onPress={handleFollowButtonPress}
+                title={t("organization-details.follow")}
+                altTitle={t("organization-details.following")}
+                isChecked={organization.isSubscribed}
+              />
+            )}
           </View>
           <Text style={styles.title}>{organization?.name}</Text>
           <Text style={globalStyles.description}>

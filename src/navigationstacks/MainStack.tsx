@@ -17,6 +17,7 @@ import { BackButton } from "../components/navigation/top/BackButton";
 import { Platform } from "react-native";
 import { CreateUpdateEventScreen } from "../pages/create-event/CreateUpdateEventScreen";
 import { FeedScreen } from "../pages/feed/FeedScreen";
+import { UserListView } from "../pages/user/UserListView";
 import { CreateUpdateOrganizationView } from "../pages/create-organization/CreateUpdateOrganizationView";
 
 export const MainStack = ({ stack }) => {
@@ -146,6 +147,11 @@ export const MainStack = ({ stack }) => {
           name="Update Event"
           component={CreateUpdateEventScreen}
           options={{ title: t("general.update-event") }}
+        />
+        <stack.Screen
+          name="Manage Organization Members"
+          component={UserListView}
+          options={{ title: t("general.manage-organization-members") }}
         />
       </stack.Navigator>
     </ViewLayoutStructure>

@@ -3,8 +3,8 @@ import { View, Text, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { SettingProps, SettingType } from "./SettingsView";
 import { SettingCard } from "./SettingCard";
-import { fetchUser } from "../../api/authentication-api-utils";
 import { User } from "../../api/types";
+import { fetchUser } from "../../api/user-api-utlis";
 
 export const AccountSection = () => {
   const { t } = useTranslation();
