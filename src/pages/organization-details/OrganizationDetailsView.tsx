@@ -22,6 +22,7 @@ import {
   hasHeadRole,
   useUserRoles,
 } from "../../services/UserContext";
+import { AppSelectableText } from "../../components/AppSelectableText";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -121,7 +122,8 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                     isChecked={organization.isSubscribed}
                     size="medium"
                   />
-            ) : null}
+                )
+              : null}
             {hasHeadRole(userRoles) ? (
               <AppButton
                 onPress={() => {
@@ -136,9 +138,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
             ) : null}
           </View>
           <Text style={styles.title}>{organization?.name}</Text>
-          <Text style={globalStyles.description}>
-            {organization?.description}
-          </Text>
+          <AppSelectableText text={organization?.description} />
           <View style={[styles.eventContainer]}>
             {events.length !== 0 ? (
               <AppLinkButton

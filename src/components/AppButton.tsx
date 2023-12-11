@@ -118,12 +118,12 @@ const buttonSizes: Record<ButtonSize, { button: any; text: any }> = {
   }),
   medium: StyleSheet.create({
     button: {
-      minWidth: "40%"
-    }, 
+      minWidth: "40%",
+    },
     text: {
-      fontSize: 18
-    }
-  })
+      fontSize: 18,
+    },
+  }),
 };
 
 const styles = StyleSheet.create({

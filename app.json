@@ -10,9 +10,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "plugins": [
       [
         "expo-image-picker",
@@ -24,7 +22,6 @@
     "ios": {
       "supportsTablet": true,
       "userInterfaceStyle": "automatic"
-
     },
     "android": {
       "userInterfaceStyle": "automatic",
@@ -32,9 +29,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "agh_events_hub.client"
     },
     "web": {

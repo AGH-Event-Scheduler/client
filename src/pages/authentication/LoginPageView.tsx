@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import { globalStyles } from "../../styles/GlobalStyles";
@@ -81,7 +91,7 @@ export const LoginPageView = () => {
           onChangeText={(text) => setEmail(text)}
           description={t("login.AGH-domain-email-address")}
           style={{ marginBottom: 20 }}
-          />
+        />
         <TextInputContainer
           label={t("login.password-label")}
           placeholder={t("login.password-placeholder")}
@@ -93,7 +103,6 @@ export const LoginPageView = () => {
           isPassword={true}
           style={{ marginBottom: 20 }}
         />
-        
 
         <View style={styles.dividerContainer}>
           <AppButton
@@ -106,7 +115,9 @@ export const LoginPageView = () => {
 
         <View style={styles.dividerContainer}>
           <View style={styles.dividerLine} />
-          <Text style={styles.dividerText}>{t("login.no-account-question")}</Text>
+          <Text style={styles.dividerText}>
+            {t("login.no-account-question")}
+          </Text>
           <TouchableOpacity onPress={handleSignUp}>
             <Text style={styles.dividerTextLink}>{t("login.sign-up")}</Text>
           </TouchableOpacity>
@@ -137,7 +148,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   wrapper: {
-    flex: 1
+    flex: 1,
   },
   titleContainer: {
     width: "100%",

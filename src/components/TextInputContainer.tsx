@@ -152,6 +152,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   label: {
-    marginBottom: 6
-  }
+    marginBottom: 6,
+  },
 });

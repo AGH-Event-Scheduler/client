@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [firstScreen, setFirstScreen] = useState("");
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     AuthenticationService.getRefreshToken()
       .then(refreshAccessToken)
@@ -41,7 +41,7 @@ export default function App() {
   return (
     <NavigationContainer ref={navigationRef}>
       <I18nextProvider i18n={i18next}>
-        <StatusBar barStyle="default"/>
+        <StatusBar barStyle="default" />
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
           initialRouteName={firstScreen}

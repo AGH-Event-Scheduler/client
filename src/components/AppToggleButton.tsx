@@ -21,7 +21,7 @@ export const AppToggleButton = ({
   currentSelection,
   onSelect,
   size,
-  gap
+  gap,
 }: ToggleButtonProps) => {
   const [selected, setSelected] = useState(currentSelection);
 
@@ -31,7 +31,7 @@ export const AppToggleButton = ({
   };
 
   return (
-    <View style={[styles.button, {gap: gap}]}>
+    <View style={[styles.button, { gap: gap }]}>
       {items.map((item) => (
         <AppButton
           key={item.key}

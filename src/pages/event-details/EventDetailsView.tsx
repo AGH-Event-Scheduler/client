@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
   Alert,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -24,6 +26,7 @@ import { EventHubImage } from "../../components/EventHubImage";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { AppButton } from "../../components/AppButton";
 import { hasEditingRole, useUserRoles } from "../../services/UserContext";
+import { AppSelectableText } from "../../components/AppSelectableText";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
@@ -117,35 +120,33 @@ export const EventDetailsView = ({ navigation, route }) => {
               filename={event.backgroundImage.bigFilename}
             />
           </View>
-            <View style={styles.buttonContainer}>
-              {hasEditingRole(userRoles) ? (
-                <AppButton
-                  onPress={() => {
-                    navigation.navigate("Update Event", {
-                      organizationId: event.underOrganization.id,
-                      editingEventId: event.id,
-                    });
-                  }}
-                  title={t("general.edit")}
-                  type="secondary"
-                  size="medium"
-                />
-              ) : null}
-              {hasEditingRole(userRoles) ? (
-                <AppButton
-                  onPress={showConfirmationPopup}
-                  title={
-                    !event.canceled
-                      ? t("general.dismiss")
-                      : t("event-details.reactivate-event")
-                  }
-                  type={!event.canceled ? "destructive" : "gray"}
-                  size="medium"
-                />
-              ) : null}
-
-              
-            </View>
+          <View style={styles.buttonContainer}>
+            {hasEditingRole(userRoles) ? (
+              <AppButton
+                onPress={() => {
+                  navigation.navigate("Update Event", {
+                    organizationId: event.underOrganization.id,
+                    editingEventId: event.id,
+                  });
+                }}
+                title={t("general.edit")}
+                type="secondary"
+                size="medium"
+              />
+            ) : null}
+            {hasEditingRole(userRoles) ? (
+              <AppButton
+                onPress={showConfirmationPopup}
+                title={
+                  !event.canceled
+                    ? t("general.dismiss")
+                    : t("event-details.reactivate-event")
+                }
+                type={!event.canceled ? "destructive" : "gray"}
+                size="medium"
+              />
+            ) : null}
+          </View>
 
           <Text style={styles.eventName}>{event?.nameTranslated}</Text>
 
@@ -195,19 +196,19 @@ export const EventDetailsView = ({ navigation, route }) => {
               </Text>
             </View>
           </TouchableOpacity>
-          <View style={{ marginVertical: 10}}>
+          <View style={{ marginVertical: 10 }}>
             <AppCheckButton
-                  onPress={handleSaveButtonPress}
-                  title={t("event-details.save")}
-                  altTitle={t("event-details.saved")}
-                  isChecked={event.isSaved}
-                  size="default"
+              onPress={handleSaveButtonPress}
+              title={t("event-details.save")}
+              altTitle={t("event-details.saved")}
+              isChecked={event.isSaved}
+              size="default"
             />
           </View>
           <Text style={styles.descriptionHeader}>
             {t("general.description")}
           </Text>
-          <Text style={styles.description}>{event?.descriptionTranslated}</Text>
+          <AppSelectableText text={event?.descriptionTranslated} />
         </ScrollView>
       )}
     </View>

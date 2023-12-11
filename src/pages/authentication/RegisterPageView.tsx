@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, StatusBar, TouchableWithoutFeedback, Keyboard } from "react-native";
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+  StatusBar,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import { CommonActions, useNavigation } from "@react-navigation/native";
@@ -116,7 +126,7 @@ export const RegisterPageView = () => {
             size="default"
           />
         </View>
-    </KeyboardAwareScrollViewComponent>
+      </KeyboardAwareScrollViewComponent>
     </View>
   );
 };
@@ -124,7 +134,7 @@ export const RegisterPageView = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#FFFFFF",
   },
   wrapper: {
     flex: 1,
@@ -135,6 +145,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10
+    marginTop: 10,
   },
 });
