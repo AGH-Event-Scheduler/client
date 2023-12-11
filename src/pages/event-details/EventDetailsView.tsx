@@ -117,39 +117,35 @@ export const EventDetailsView = ({ navigation, route }) => {
               filename={event.backgroundImage.bigFilename}
             />
           </View>
-          <View style={styles.buttonContainer}>
-            {hasEditingRole(userRoles) ? (
-              <AppButton
-                onPress={() => {
-                  navigation.navigate("Update Event", {
-                    organizationId: event.underOrganization.id,
-                    editingEventId: event.id,
-                  });
-                }}
-                title={t("general.edit")}
-                type="secondary"
-                size="default"
-              />
-            ) : null}
-            {hasEditingRole(userRoles) ? (
-              <AppButton
-                onPress={showConfirmationPopup}
-                title={
-                  !event.canceled
-                    ? t("general.dismiss")
-                    : t("event-details.reactivate-event")
-                }
-                type={!event.canceled ? "destructive" : "gray"}
-                size="default"
-              />
-            ) : null}
-            <AppCheckButton
-              onPress={handleSaveButtonPress}
-              title={t("event-details.save")}
-              altTitle={t("event-details.saved")}
-              isChecked={event.isSaved}
-            />
-          </View>
+            <View style={styles.buttonContainer}>
+              {hasEditingRole(userRoles) ? (
+                <AppButton
+                  onPress={() => {
+                    navigation.navigate("Update Event", {
+                      organizationId: event.underOrganization.id,
+                      editingEventId: event.id,
+                    });
+                  }}
+                  title={t("general.edit")}
+                  type="secondary"
+                  size="medium"
+                />
+              ) : null}
+              {hasEditingRole(userRoles) ? (
+                <AppButton
+                  onPress={showConfirmationPopup}
+                  title={
+                    !event.canceled
+                      ? t("general.dismiss")
+                      : t("event-details.reactivate-event")
+                  }
+                  type={!event.canceled ? "destructive" : "gray"}
+                  size="medium"
+                />
+              ) : null}
+
+              
+            </View>
 
           <Text style={styles.eventName}>{event?.nameTranslated}</Text>
 
@@ -199,7 +195,15 @@ export const EventDetailsView = ({ navigation, route }) => {
               </Text>
             </View>
           </TouchableOpacity>
-
+          <View style={{ marginVertical: 10}}>
+            <AppCheckButton
+                  onPress={handleSaveButtonPress}
+                  title={t("event-details.save")}
+                  altTitle={t("event-details.saved")}
+                  isChecked={event.isSaved}
+                  size="default"
+            />
+          </View>
           <Text style={styles.descriptionHeader}>
             {t("general.description")}
           </Text>
@@ -230,13 +234,11 @@ const styles = StyleSheet.create({
     maxHeight: 200,
   },
   buttonContainer: {
-    flex: 1,
-    alignItems: "center",
-    marginVertical: 10,
+    display: "flex",
     flexDirection: "row",
+    marginVertical: 10,
     justifyContent: "space-evenly",
-    flexWrap: "wrap",
-    gap: 10,
+    gap: 5,
   },
   eventName: {
     fontSize: 19,

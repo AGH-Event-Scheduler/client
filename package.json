@@ -19,7 +19,7 @@
     "expo": "^49.0.13",
     "expo-image-picker": "~14.3.2",
     "expo-status-bar": "~1.6.0",
-    "expo-system-ui": "^2.6.0",
+    "expo-system-ui": "~2.4.0",
     "expo-updates": "~0.18.17",
     "i18next": "^23.5.1",
     "jwt-decode": "^4.0.0",

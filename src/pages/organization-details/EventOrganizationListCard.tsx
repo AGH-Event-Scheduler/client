@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   toBeautifiedDateTimeString,
-  toBeautifiedTimeString,
 } from "../../utils/date";
 import { useTranslation } from "react-i18next";
 import { EventHubImage } from "../../components/EventHubImage";

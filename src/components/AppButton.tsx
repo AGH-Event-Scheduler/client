@@ -9,7 +9,7 @@ export type ButtonTypes =
   | "toggleDefault"
   | "toggleChecked";
 
-export type ButtonSize = "default" | "small";
+export type ButtonSize = "default" | "medium" | "small";
 interface ButtonProps {
   onPress: () => void;
   type: ButtonTypes;
@@ -51,8 +51,8 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       backgroundColor: "#FAFAFA",
       borderColor: "#096233",
       borderWidth: 2,
-      paddingVertical: 6,
-      paddingHorizontal: 18,
+      paddingVertical: "1.5%",
+      paddingHorizontal: "5%",
     },
     text: {
       color: "#096233",
@@ -89,8 +89,8 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
       backgroundColor: "#FAFAFA",
       borderColor: "#096233",
       borderWidth: 2,
-      paddingVertical: 6,
-      paddingHorizontal: 18,
+      paddingVertical: "1.5%",
+      paddingHorizontal: "5%",
       borderRadius: 20,
     },
     text: {
@@ -102,26 +102,34 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
 const buttonSizes: Record<ButtonSize, { button: any; text: any }> = {
   default: StyleSheet.create({
     button: {
-      minWidth: 150,
+      minWidth: "45%",
     },
     text: {
-      fontSize: 20,
+      fontSize: 18,
     },
   }),
   small: StyleSheet.create({
     button: {
-      minWidth: 110,
+      minWidth: "30%",
     },
     text: {
       fontSize: 14,
     },
   }),
+  medium: StyleSheet.create({
+    button: {
+      minWidth: "40%"
+    }, 
+    text: {
+      fontSize: 18
+    }
+  })
 };
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 8,
-    paddingHorizontal: 20,
+    paddingVertical: "2%",
+    paddingHorizontal: "5.5%",
     borderRadius: 12,
   },
   text: {

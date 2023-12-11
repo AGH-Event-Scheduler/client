@@ -107,31 +107,31 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                     organizationId: organization.id,
                   });
                 }}
-                type={"secondary"}
+                type="primary"
                 title={t("general.create-event")}
-                size={"default"}
+                size="medium"
               />
             ) : null}
-            {hasHeadRole(userRoles)
-              ? null
-              : organization && (
+            {!hasHeadRole(userRoles)
+              ? organization && (
                   <AppCheckButton
                     onPress={handleFollowButtonPress}
                     title={t("organization-details.follow")}
                     altTitle={t("organization-details.following")}
                     isChecked={organization.isSubscribed}
+                    size="medium"
                   />
-                )}
+            ) : null}
             {hasHeadRole(userRoles) ? (
               <AppButton
                 onPress={() => {
-                  navigation.navigate("Create organization", {
+                  navigation.navigate("Update organization", {
                     organizationId: organization.id,
                   });
                 }}
                 type={"secondary"}
                 title={t("general.edit")}
-                size={"default"}
+                size="medium"
               />
             ) : null}
           </View>
@@ -140,11 +140,13 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
             {organization?.description}
           </Text>
           <View style={[styles.eventContainer]}>
-            <AppLinkButton
-              title={t("all-events.see-all")}
-              onPress={handleSeeAllEventsPress}
-              style={{ alignSelf: "flex-end" }}
-            />
+            {events.length !== 0 ? (
+              <AppLinkButton
+                title={t("all-events.see-all")}
+                onPress={handleSeeAllEventsPress}
+                style={{ alignSelf: "flex-end" }}
+              />
+            ) : null}
             {eventsAreLoading ? (
               <LoadingView />
             ) : (
@@ -184,13 +186,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   buttonContainer: {
-    flex: 1,
-    alignItems: "center",
-    marginVertical: 10,
+    display: "flex",
     flexDirection: "row",
+    marginVertical: 10,
     justifyContent: "space-evenly",
-    flexWrap: "wrap",
-    gap: 10,
+    gap: 5,
   },
   title: {
     ...globalStyles.title,

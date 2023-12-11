@@ -149,6 +149,7 @@ export const CalendarScreen = () => {
         currentSelection={eventsFilterItem}
         onSelect={handleFilterButtonPress}
         size={"small"}
+        gap={2}
       />
       <View>
         <SearchBar

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, StyleSheet, Text, TextInput, FlatList } from "react-native";
+import { View, StyleSheet, Text, FlatList } from "react-native";
 import { EventOrganizationListCard } from "../organization-details/EventOrganizationListCard";
 import { OrganizationEvent } from "../../api/types";
 import { useIsFocused } from "@react-navigation/native";
@@ -69,6 +69,7 @@ export const AllEventsView = ({ navigation, route }) => {
           currentSelection={eventsType}
           onSelect={(item) => handleNavButtonPress(item)}
           size="default"
+          gap={5}
         />
       </View>
       <SearchBar

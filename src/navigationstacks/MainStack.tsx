@@ -147,6 +147,11 @@ export const MainStack = ({ stack }) => {
           component={CreateUpdateEventScreen}
           options={{ title: t("general.update-event") }}
         />
+        <stack.Screen
+          name="Update organization"
+          component={CreateUpdateOrganizationView}
+          options={{ title: t("general.update-organization") }}
+        />
       </stack.Navigator>
     </ViewLayoutStructure>
   );
