@@ -36,6 +36,7 @@ import {
 import { EventHubImage } from "../../components/EventHubImage";
 import { Feather } from "@expo/vector-icons";
 import { KeyboardAwareScrollViewComponent } from "../../components/KeyboardAwareScrollViewComponent";
+import { resetToRouteName } from "../../components/navigation/bottom/BottomNavBar";
 
 enum PickingDate {
   StartDate,
@@ -181,8 +182,12 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
     }
   };
 
+  const cancelForm = () => {
+    navigation.goBack();
+  };
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       {isLoading ? (
         <LoadingView />
       ) : (
@@ -362,11 +367,17 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
             />
           </View>
 
-          <View style={styles.submitContainer}>
+          <View style={styles.buttonContainer}>
             <AppButton
               title={t("create-event.submit")}
               onPress={submitForm}
               type={"primary"}
+              size={"default"}
+            />
+            <AppButton
+              title={t("general.cancel")}
+              onPress={cancelForm}
+              type={"secondary"}
               size={"default"}
             />
           </View>
@@ -457,7 +468,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 10,
   },
-  submitContainer: {
+  buttonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginBottom: 30,
   },
 });

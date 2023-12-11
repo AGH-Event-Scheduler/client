@@ -151,7 +151,11 @@ export const CreateUpdateOrganizationView = ({ navigation, route }) => {
   };
 
   const cancelForm = () => {
-    resetToRouteName(navigation, "Home");
+    if (editingOrganizationId) {
+      navigation.goBack();
+    } else {
+      resetToRouteName(navigation, "Home");
+    }
   };
   return (
     <View style={styles.container}>
