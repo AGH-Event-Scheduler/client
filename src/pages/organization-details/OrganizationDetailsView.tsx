@@ -17,10 +17,7 @@ import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
 import { EventHubImage } from "../../components/EventHubImage";
-import {
-  hasHeadRole,
-  useUserRoles,
-} from "../../services/UserContext";
+import { hasHeadRole, useUserRoles } from "../../services/UserContext";
 import { AppSelectableText } from "../../components/AppSelectableText";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
@@ -101,6 +98,17 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
+            {!hasHeadRole(userRoles)
+              ? organization && (
+                  <AppCheckButton
+                    onPress={handleFollowButtonPress}
+                    title={t("organization-details.follow")}
+                    altTitle={t("organization-details.following")}
+                    isChecked={organization.isSubscribed}
+                    size="medium"
+                  />
+                )
+              : null}
             {hasEditingRole ? (
               <AppButton
                 onPress={() => {
@@ -113,17 +121,6 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                 size="medium"
               />
             ) : null}
-            {!hasHeadRole(userRoles)
-              ? organization && (
-                  <AppCheckButton
-                    onPress={handleFollowButtonPress}
-                    title={t("organization-details.follow")}
-                    altTitle={t("organization-details.following")}
-                    isChecked={organization.isSubscribed}
-                    size="medium"
-                  />
-                )
-              : null}
             {hasHeadRole(userRoles) ? (
               <AppButton
                 onPress={() => {
@@ -200,9 +197,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     display: "flex",
     flexDirection: "row",
+    flexWrap: "wrap",
     marginVertical: 10,
-    justifyContent: "space-evenly",
-    gap: 5,
+    justifyContent: "center",
+    gap: 10,
   },
   title: {
     ...globalStyles.title,
