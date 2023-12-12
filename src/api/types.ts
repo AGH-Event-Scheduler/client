@@ -1,3 +1,5 @@
+import i18next from "../localization/i18next";
+
 export enum Language {
   PL = "PL",
   EN = "EN",
@@ -63,6 +65,14 @@ export interface User {
   lastname: string;
 }
 
+export interface UserWithRole {
+  email: string;
+  name: string;
+  lastname: string;
+  role: OrganizationRole;
+  organizationId: number;
+}
+
 export enum FeedNotificationType {
   EVENT_CREATE = "EVENT_CREATE",
   EVENT_UPDATE = "EVENT_UPDATE",
@@ -83,3 +93,14 @@ export enum OrganizationRole {
   CONTENT_CREATOR = "CONTENT_CREATOR",
   HEAD = "HEAD",
 }
+
+interface OrganizationRoleOption {
+  index: string;
+  translation: string;
+}
+
+export const organizationRoles: OrganizationRoleOption[] = [
+  { index: "USER", translation: i18next.t("roles.USER") },
+  { index: "HEAD", translation: i18next.t("roles.HEAD") },
+  { index: "CONTENT_CREATOR", translation: i18next.t("roles.CONTENT_CREATOR") },
+];

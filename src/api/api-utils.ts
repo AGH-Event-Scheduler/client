@@ -99,7 +99,6 @@ export const fetchApiWithRefresh = async ({
     });
 
     if (response.status === 403 && isAuthorized && !isRefreshing) {
-      console.log("403 -> Refreshing TOKEN");
       isRefreshing = true;
       try {
         await AuthenticationService.getRefreshToken()

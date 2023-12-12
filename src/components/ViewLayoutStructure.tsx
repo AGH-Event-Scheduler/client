@@ -7,7 +7,7 @@ export const ViewLayoutStructure = ({ children, navbarVisible }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>{children}</View>
-      {navbarVisible && <BottomNavBar />}
+      {navbarVisible && <BottomNavBar navbarVisible={navbarVisible} />}
     </SafeAreaView>
   );
 };

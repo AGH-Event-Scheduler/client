@@ -26,6 +26,7 @@
     "register": "Rejestracja",
     "create-event": "Dodaj wydarzenie",
     "update-event": "Edycja wydarzenia",
+    "manage-organization-members": "Zarządzaj",
     "create": "Stwórz",
     "cancel": "Anuluj",
     "confirm": "Zatwierdź",
@@ -47,7 +48,8 @@
   },
   "organization-details": {
     "follow": "Obserwuj",
-    "following": "Obserwujesz"
+    "following": "Obserwujesz",
+    "manage-users": "Zarządzaj"
   },
   "all-events": {
     "upcoming": "Nadchodzące",
@@ -175,5 +177,15 @@
     "background-image": "Zdjęcie w tle",
     "logo-image": "Logo",
     "user-does-not-exist-error": "Użytkownik o takim mailu nie istnieje"
+  },
+  "roles": {
+    "HEAD": "Przewodniczący",
+    "CONTENT_CREATOR": "Twórca",
+    "USER": "Użytkownik"
+  },
+  "user-list": {
+    "role-assigned": "Przyznawanie roli dla organizacji",
+    "role-success": "Rola została przyznana",
+    "role-failed": "Przyznawanie roli nie powiodło się"
   }
 }

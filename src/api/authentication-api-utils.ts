@@ -1,5 +1,6 @@
-import { baseApiUrl, fetchApi, fetchApiWithRefresh, Method } from "./api-utils";
+import { baseApiUrl, fetchApiWithRefresh, Method } from "./api-utils";
 import { AuthenticationService } from "../services/AuthenticationService";
+import { isLoggedAsAdmin } from "./user-api-utlis";
 
 export const register = async (
   email: string,
@@ -101,12 +102,11 @@ export const refreshAccessToken = async (
     };
 
     const urlWithParams = `${baseApiUrl}/authentication/refresh`;
-    console.log(`${urlWithParams}`);
 
     const response = await fetch(urlWithParams, options);
     const data = await response.json();
-
     if (response.ok) {
+      await AuthenticationService.setIsAdmin(await isLoggedAsAdmin());
       return data as AuthenticationResponse;
     } else {
       console.log("Access token refresh failed:", data);
@@ -115,22 +115,6 @@ export const refreshAccessToken = async (
   } catch (error) {
     console.log("Error refreshing access token:", error);
     return null;
-  }
-};
-
-export const fetchUser = async () => {
-  try {
-    const response = await fetchApi({
-      url: "/users",
-    });
-    const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      console.log("Fetching user failed: ", data);
-    }
-  } catch (error) {
-    console.log("Error while fetching user: ", error);
   }
 };
 

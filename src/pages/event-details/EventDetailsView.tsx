@@ -17,7 +17,7 @@ import {
   removeEventFromCalendar,
   saveEventInCalendar,
 } from "../../api/event-api-utils";
-import { OrganizationEvent, OrganizationRole } from "../../api/types";
+import { OrganizationEvent } from "../../api/types";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { useTranslation } from "react-i18next";
 import { toBeautifiedDateTimeString } from "../../utils/date";
@@ -25,14 +25,13 @@ import { LoadingView } from "../../components/loading/LoadingView";
 import { EventHubImage } from "../../components/EventHubImage";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { AppButton } from "../../components/AppButton";
-import { hasEditingRole, useUserRoles } from "../../services/UserContext";
+import { useUserRoles } from "../../services/UserContext";
 import { AppSelectableText } from "../../components/AppSelectableText";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
   const [event, setEvent] = useState<OrganizationEvent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
   const eventId = route.params.eventId;
 
   const isFocused = useIsFocused();
@@ -106,7 +105,8 @@ export const EventDetailsView = ({ navigation, route }) => {
   };
 
   const organizationId = event?.underOrganization.id ?? null;
-  const userRoles: OrganizationRole[] = useUserRoles(organizationId);
+  const { userRoles, hasEditingRole, hasUserManagementRole } =
+    useUserRoles(organizationId);
 
   return (
     <View style={{ flex: 1 }}>
@@ -121,7 +121,7 @@ export const EventDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
-            {hasEditingRole(userRoles) ? (
+            {hasEditingRole ? (
               <AppButton
                 onPress={() => {
                   navigation.navigate("Update Event", {
@@ -134,7 +134,7 @@ export const EventDetailsView = ({ navigation, route }) => {
                 size="medium"
               />
             ) : null}
-            {hasEditingRole(userRoles) ? (
+            {hasEditingRole ? (
               <AppButton
                 onPress={showConfirmationPopup}
                 title={

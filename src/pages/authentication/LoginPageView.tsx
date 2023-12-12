@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import {
   Alert,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { AppButton } from "../../components/AppButton";
@@ -18,6 +14,7 @@ import { AuthenticationService } from "../../services/AuthenticationService";
 import { useTranslation } from "react-i18next";
 import { authenticate } from "../../api/authentication-api-utils";
 import { KeyboardAvoidViewComponent } from "../../components/KeyboardAvoidViewComponent";
+import { isLoggedAsAdmin } from "../../api/user-api-utlis";
 
 export const LoginPageView = () => {
   const [email, setEmail] = useState("");
@@ -51,11 +48,13 @@ export const LoginPageView = () => {
               routes: [{ name: "Main" }],
             }),
           );
+          await AuthenticationService.setIsAdmin(await isLoggedAsAdmin());
         } else {
           Alert.alert(t("login.login-failed"), t("login.check-email-password"));
         }
       } catch (error) {
         console.error(t("login.login-error"), error);
+        Alert.alert(t("login.login-failed"), t("login.check-email-password"));
       }
     }
   };
@@ -67,10 +66,6 @@ export const LoginPageView = () => {
 
   const handleForgotPassword = () => {
     console.log("Forgot password link pressed");
-  };
-
-  const handleUseAGHAccount = () => {
-    console.log("Use agh account pressed");
   };
 
   const handleContinueAsGuest = () => {

@@ -18,7 +18,6 @@ import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
 import { EventHubImage } from "../../components/EventHubImage";
 import {
-  hasEditingRole,
   hasHeadRole,
   useUserRoles,
 } from "../../services/UserContext";
@@ -33,7 +32,8 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
   const isFocused = useIsFocused();
 
   const organizationId = route.params.organizationId;
-  const userRoles = useUserRoles(organizationId);
+  const { userRoles, hasEditingRole, hasUserManagementRole } =
+    useUserRoles(organizationId);
 
   useEffect(() => {
     const fetchOrganizationDetailsData = async (organizationId: number) => {
@@ -101,7 +101,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
-            {hasEditingRole(userRoles) ? (
+            {hasEditingRole ? (
               <AppButton
                 onPress={() => {
                   navigation.navigate("Create Event", {
@@ -131,9 +131,21 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                     organizationId: organization.id,
                   });
                 }}
-                type={"secondary"}
+                type="secondary"
                 title={t("general.edit")}
                 size="medium"
+              />
+            ) : null}
+            {hasUserManagementRole ? (
+              <AppButton
+                onPress={() => {
+                  navigation.navigate("Manage Organization Members", {
+                    organizationId: organization.id,
+                  });
+                }}
+                type="secondary"
+                title={t("organization-details.manage-users")}
+                size="default"
               />
             ) : null}
           </View>

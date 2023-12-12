@@ -26,6 +26,8 @@
     "register": "Register",
     "create-event": "Add Event",
     "update-event": "Update Event",
+    "edit-event": "Edit",
+    "manage-organization-members": "Manage",
     "create": "Create",
     "confirm": "Confirm",
     "cancel": "Cancel",
@@ -47,7 +49,8 @@
   },
   "organization-details": {
     "follow": "Follow",
-    "following": "Following"
+    "following": "Following",
+    "manage-users": "Manage"
   },
   "all-events": {
     "upcoming": "Upcoming",
@@ -175,5 +178,15 @@
     "background-image": "Background image",
     "logo-image": "Logo image",
     "user-does-not-exist-error": "User with this email does not exist"
+  },
+  "roles": {
+    "HEAD": "Head",
+    "CONTENT_CREATOR": "Creator",
+    "USER": "User"
+  },
+  "user-list": {
+    "role-assigned": "Assigning organization role",
+    "role-success": "Organization role assigned",
+    "role-failed": "Assigning organization role failed"
   }
 }
