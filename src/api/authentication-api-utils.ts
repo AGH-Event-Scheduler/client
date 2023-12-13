@@ -58,6 +58,33 @@ export const resetPassword = async (
   }
 };
 
+export const resendVerificationEmail = async (
+  email: string,
+): Promise<Boolean> => {
+  const url = "/authentication/resend-verification-mail";
+
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        email: email,
+      },
+      isAuthorized: false,
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      console.error("Resending email failed");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error during resending email:", error);
+    throw error;
+  }
+};
+
 export const authenticate = async (
   email: string,
   password: string,

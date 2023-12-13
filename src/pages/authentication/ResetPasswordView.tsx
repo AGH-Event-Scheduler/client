@@ -46,10 +46,7 @@ export const ResetPasswordView = () => {
         if (response) {
           Alert.alert(t("reset-password.reset-success"), t(""));
           navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{ name: "Login" }],
-            }),
+            CommonActions.navigate("Resend Verification Email"),
           );
         } else {
           Alert.alert(t("reset-password.failed"), t("reset-password.failed"));

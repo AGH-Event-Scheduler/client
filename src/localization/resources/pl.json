@@ -27,6 +27,7 @@
     "update-event": "Edycja wydarzenia",
     "manage-organization-members": "Zarządzaj",
     "reset-password": "Zmień hasło",
+    "resend-verification-email": "Weryfikacja",
     "create": "Stwórz",
     "cancel": "Anuluj",
     "confirm": "Zatwierdź",
@@ -193,5 +194,13 @@
     "failed": "Zmiana hasła nie powiodła się",
     "reset-button": "Wyślij wiadomość i zmień hasło",
     "password-label": "Nowe hasło"
+  },
+  "resend-email": {
+    "email-label": "Email",
+    "resend-button": "Wyślij ponownie",
+    "sign-in": "Zaloguj się",
+    "reset-success": "Wiadomośc została wysłana ponownie",
+    "failed": "Wysyłanie wiadomości nie powiodło się",
+    "failed-detail": "Wysyłanie wiadomości nie powiodło się, sprawdź czy wpisany adres email jest poprawny"
   }
 }

@@ -3,7 +3,6 @@ import { Alert, StyleSheet, View } from "react-native";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import { CommonActions, useNavigation } from "@react-navigation/native";
-import { AuthenticationService } from "../../services/AuthenticationService";
 import { useTranslation } from "react-i18next";
 import { register } from "../../api/authentication-api-utils";
 
@@ -51,7 +50,7 @@ export const RegisterPageView = () => {
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
-              routes: [{ name: "Login" }],
+              routes: [{ name: "Resend Verification Email" }],
             }),
           );
         } else {

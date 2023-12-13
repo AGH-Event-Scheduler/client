@@ -28,6 +28,7 @@
     "edit-event": "Edit",
     "manage-organization-members": "Manage",
     "reset-password": "Reset Password",
+    "resend-verification-email": "Email Verification",
     "create": "Create",
     "confirm": "Confirm",
     "cancel": "Cancel",
@@ -194,5 +195,13 @@
     "failed": "Password change failure",
     "reset-button": "Send mail and reset password",
     "password-label": "New password"
+  },
+  "resend-email": {
+    "email-label": "Email",
+    "resend-button": "Resend",
+    "sign-in": "Sign In",
+    "reset-success": "Message has been resent",
+    "failed": "Sending message failed",
+    "failed-detail": "Sending message failed, please check if the entered email address is correct"
   }
 }
