@@ -17,7 +17,8 @@ import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
 import { EventHubImage } from "../../components/EventHubImage";
-import { useUserRoles } from "../../services/UserContext";
+import { hasHeadRole, useUserRoles } from "../../services/UserContext";
+import { AppSelectableText } from "../../components/AppSelectableText";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -97,6 +98,17 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.buttonContainer}>
+            {!hasHeadRole(userRoles)
+              ? organization && (
+                  <AppCheckButton
+                    onPress={handleFollowButtonPress}
+                    title={t("organization-details.follow")}
+                    altTitle={t("organization-details.following")}
+                    isChecked={organization.isSubscribed}
+                    size="medium"
+                  />
+                )
+              : null}
             {hasEditingRole ? (
               <AppButton
                 onPress={() => {
@@ -104,9 +116,21 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                     organizationId: organization.id,
                   });
                 }}
-                type={"secondary"}
+                type="primary"
                 title={t("general.create-event")}
-                size={"default"}
+                size="medium"
+              />
+            ) : null}
+            {hasHeadRole(userRoles) ? (
+              <AppButton
+                onPress={() => {
+                  navigation.navigate("Update organization", {
+                    organizationId: organization.id,
+                  });
+                }}
+                type="secondary"
+                title={t("general.edit")}
+                size="medium"
               />
             ) : null}
             {hasUserManagementRole ? (
@@ -116,24 +140,14 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                     organizationId: organization.id,
                   });
                 }}
-                type={"secondary"}
+                type="secondary"
                 title={t("organization-details.manage-users")}
-                size={"default"}
+                size="default"
               />
             ) : null}
-            {organization && (
-              <AppCheckButton
-                onPress={handleFollowButtonPress}
-                title={t("organization-details.follow")}
-                altTitle={t("organization-details.following")}
-                isChecked={organization.isSubscribed}
-              />
-            )}
           </View>
           <Text style={styles.title}>{organization?.name}</Text>
-          <Text style={globalStyles.description}>
-            {organization?.description}
-          </Text>
+          <AppSelectableText text={organization?.description} />
           <View style={[styles.eventContainer]}>
             <AppLinkButton
               title={t("all-events.see-all")}
@@ -161,6 +175,9 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                 showsVerticalScrollIndicator={true}
               />
             )}
+            {events.length === 0 ? (
+              <Text>{t("organization-details.no-upcoming-events")}</Text>
+            ) : null}
           </View>
         </ScrollView>
       )}
@@ -179,12 +196,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   buttonContainer: {
-    flex: 1,
-    alignItems: "center",
-    marginVertical: 10,
+    display: "flex",
     flexDirection: "row",
-    justifyContent: "space-evenly",
     flexWrap: "wrap",
+    marginVertical: 10,
+    justifyContent: "center",
     gap: 10,
   },
   title: {

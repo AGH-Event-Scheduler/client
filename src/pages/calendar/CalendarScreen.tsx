@@ -41,9 +41,9 @@ interface ToggleButtonItem {
 export const CalendarScreen = () => {
   const { t } = useTranslation();
   const toggleButtonItems: ToggleButtonItem[] = [
-    { key: EventFilter.SAVED, title: t("calendar.saved") },
-    { key: EventFilter.FOLLOWING, title: t("calendar.following") },
     { key: EventFilter.ALL, title: t("calendar.all") },
+    { key: EventFilter.FOLLOWING, title: t("calendar.following") },
+    { key: EventFilter.SAVED, title: t("calendar.saved") },
   ];
 
   const dateNow = new Date();
@@ -149,6 +149,7 @@ export const CalendarScreen = () => {
         currentSelection={eventsFilterItem}
         onSelect={handleFilterButtonPress}
         size={"small"}
+        gap={2}
       />
       <View>
         <SearchBar

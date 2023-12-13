@@ -16,6 +16,7 @@
     "search": "Szukaj",
     "your-organizations": "Twoje organizacje",
     "create-organization": "Stwórz organizacje",
+    "update-organization": "Edytuj organizacje",
     "all-events": "Wszystkie wydarzenia",
     "less": "Mniej",
     "more": "Więcej",
@@ -48,12 +49,14 @@
   "organization-details": {
     "follow": "Obserwuj",
     "following": "Obserwujesz",
-    "manage-users": "Zarządzaj"
+    "manage-users": "Zarządzaj",
+    "no-upcoming-events": "Brak nadchodzących wydarzeń"
   },
   "all-events": {
     "upcoming": "Nadchodzące",
     "past": "Dawne",
-    "see-all": "Zobacz wszystkie"
+    "see-all": "Zobacz wszystkie",
+    "no-events": "Brak wydarzeń"
   },
   "calendar": {
     "empty-date": "Brak wydarzeń w tym dniu.",

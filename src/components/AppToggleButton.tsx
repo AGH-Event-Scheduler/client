@@ -13,6 +13,7 @@ interface ToggleButtonProps {
   currentSelection: ToggleButtonItem;
   onSelect: (item: ToggleButtonItem) => void;
   size: ButtonSize;
+  gap?: number;
 }
 
 export const AppToggleButton = ({
@@ -20,6 +21,7 @@ export const AppToggleButton = ({
   currentSelection,
   onSelect,
   size,
+  gap,
 }: ToggleButtonProps) => {
   const [selected, setSelected] = useState(currentSelection);
 
@@ -29,7 +31,7 @@ export const AppToggleButton = ({
   };
 
   return (
-    <View style={styles.button}>
+    <View style={[styles.button, { gap: gap }]}>
       {items.map((item) => (
         <AppButton
           key={item.key}
@@ -47,7 +49,6 @@ const styles = StyleSheet.create({
   button: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 10,
+    justifyContent: "space-evenly",
   },
 });

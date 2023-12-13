@@ -81,6 +81,7 @@ export const FeedScreen = ({ navigation }) => {
           currentSelection={feedFilterItem}
           onSelect={handleFilterButtonPress}
           size="default"
+          gap={10}
         />
       </View>
       {isLoading ? (

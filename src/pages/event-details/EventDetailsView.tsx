@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
   Alert,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -24,6 +26,7 @@ import { EventHubImage } from "../../components/EventHubImage";
 import { AppCheckButton } from "../../components/AppCheckButton";
 import { AppButton } from "../../components/AppButton";
 import { useUserRoles } from "../../services/UserContext";
+import { AppSelectableText } from "../../components/AppSelectableText";
 
 export const EventDetailsView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
@@ -128,7 +131,7 @@ export const EventDetailsView = ({ navigation, route }) => {
                 }}
                 title={t("general.edit")}
                 type="secondary"
-                size="default"
+                size="medium"
               />
             ) : null}
             {hasEditingRole ? (
@@ -140,15 +143,9 @@ export const EventDetailsView = ({ navigation, route }) => {
                     : t("event-details.reactivate-event")
                 }
                 type={!event.canceled ? "destructive" : "gray"}
-                size="default"
+                size="medium"
               />
             ) : null}
-            <AppCheckButton
-              onPress={handleSaveButtonPress}
-              title={t("event-details.save")}
-              altTitle={t("event-details.saved")}
-              isChecked={event.isSaved}
-            />
           </View>
 
           <Text style={styles.eventName}>{event?.nameTranslated}</Text>
@@ -199,11 +196,19 @@ export const EventDetailsView = ({ navigation, route }) => {
               </Text>
             </View>
           </TouchableOpacity>
-
+          <View style={{ marginVertical: 10 }}>
+            <AppCheckButton
+              onPress={handleSaveButtonPress}
+              title={t("event-details.save")}
+              altTitle={t("event-details.saved")}
+              isChecked={event.isSaved}
+              size="default"
+            />
+          </View>
           <Text style={styles.descriptionHeader}>
             {t("general.description")}
           </Text>
-          <Text style={styles.description}>{event?.descriptionTranslated}</Text>
+          <AppSelectableText text={event?.descriptionTranslated} />
         </ScrollView>
       )}
     </View>
@@ -230,13 +235,11 @@ const styles = StyleSheet.create({
     maxHeight: 200,
   },
   buttonContainer: {
-    flex: 1,
-    alignItems: "center",
-    marginVertical: 10,
+    display: "flex",
     flexDirection: "row",
+    marginVertical: 10,
     justifyContent: "space-evenly",
-    flexWrap: "wrap",
-    gap: 10,
+    gap: 5,
   },
   eventName: {
     fontSize: 19,

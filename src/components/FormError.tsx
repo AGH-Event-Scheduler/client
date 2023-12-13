@@ -21,7 +21,7 @@ export const FormError: React.FC<FormErrorProps> = ({
 }) => {
   return (
     <View style={[styles.errorContainer, style]}>
-      <MaterialIcons name="error" size={18} color="red" />
+      <MaterialIcons name="error" size={18} color="#BC022C" />
       <Text style={styles.errorText}>{errorText}</Text>
     </View>
   );
@@ -34,6 +34,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorText: {
-    color: "red",
+    color: "#BC022C",
   },
 });

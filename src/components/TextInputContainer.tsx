@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { globalStyles } from "../styles/GlobalStyles";
 import { Ionicons } from "@expo/vector-icons"; // Make sure to install @expo/vector-icons
-import { MaterialIcons } from "@expo/vector-icons";
 import { FormError } from "./FormError";
 
 interface TextInputContainerProps {
@@ -50,7 +49,7 @@ export const TextInputContainer: React.FC<TextInputContainerProps> = ({
 
   return (
     <View style={[styles.inputContainer, style]}>
-      <Text style={globalStyles.descriptionTitle}>{label}</Text>
+      <Text style={[globalStyles.descriptionTitle, styles.label]}>{label}</Text>
       <View style={styles.inputWrapper}>
         <TextInput
           style={[
@@ -59,6 +58,7 @@ export const TextInputContainer: React.FC<TextInputContainerProps> = ({
             error ? styles.inputError : null,
           ]}
           placeholder={placeholder}
+          placeholderTextColor="#A1A1A1"
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={!showPassword && isPassword}
@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   input: {
-    width: "100%",
     height: 45,
     marginBottom: 5,
     borderWidth: 1,
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   inputError: {
-    borderColor: "red",
+    borderColor: "#BC022C",
   },
   errorContainer: {
     flexDirection: "row",
@@ -130,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorText: {
-    color: "red",
+    color: "#BC022C",
   },
   toggleButton: {
     position: "absolute",
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 12,
-    color: "gray",
+    color: "#888989",
     flex: 1,
   },
   descriptionContainer: {
@@ -151,5 +150,8 @@ const styles = StyleSheet.create({
     color: "#016531",
     fontSize: 12,
     marginLeft: 5,
+  },
+  label: {
+    marginBottom: 6,
   },
 });

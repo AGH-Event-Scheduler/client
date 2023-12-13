@@ -133,7 +133,10 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
         </View>
       ) : null}
       <View style={[styles.container]}>
-        <TouchableOpacity onPress={handleLeftClick}>
+        <TouchableOpacity
+          onPress={handleLeftClick}
+          style={styles.weekChangeButton}
+        >
           <AntDesign name="left" size={24} color="#016531" />
         </TouchableOpacity>
         <View style={styles.daysContainer}>
@@ -147,7 +150,10 @@ const WeeklyCalendar = (props: WeeklyCalendarProps, ref) => {
             },
           )}
         </View>
-        <TouchableOpacity onPress={handleRightClick}>
+        <TouchableOpacity
+          onPress={handleRightClick}
+          style={styles.weekChangeButton}
+        >
           <AntDesign name="right" size={24} color="#016531" />
         </TouchableOpacity>
       </View>
@@ -164,13 +170,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 5,
     gap: 4,
+    height: "10%",
   },
   container: {
     flex: 0,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
+    gap: 8,
+    width: "100%",
+    height: "100%",
   },
   header: {
     flexDirection: "row",
@@ -182,11 +191,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   daysContainer: {
+    width: "80%",
     flex: 0,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
-    gap: 10,
+    justifyContent: "space-between",
   },
   todayButtonWrapper: {
     position: "absolute",
@@ -209,5 +218,9 @@ const styles = StyleSheet.create({
   todayButtonText: {
     color: "#016531",
     fontWeight: "bold",
+  },
+  weekChangeButton: {
+    paddingVertical: "3%",
+    paddingHorizontal: "2%",
   },
 });

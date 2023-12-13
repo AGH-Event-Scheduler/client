@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   Alert,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,7 +9,6 @@ import {
 } from "react-native";
 import {
   createEvent,
-  fetchEventDetails,
   fetchFullEventDetails,
   updateEvent,
 } from "../../api/event-api-utils";
@@ -37,6 +35,8 @@ import {
 } from "../../api/types";
 import { EventHubImage } from "../../components/EventHubImage";
 import { Feather } from "@expo/vector-icons";
+import { KeyboardAwareScrollViewComponent } from "../../components/KeyboardAwareScrollViewComponent";
+import { resetToRouteName } from "../../components/navigation/bottom/BottomNavBar";
 
 enum PickingDate {
   StartDate,
@@ -182,12 +182,16 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
     }
   };
 
+  const cancelForm = () => {
+    navigation.goBack();
+  };
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       {isLoading ? (
         <LoadingView />
       ) : (
-        <ScrollView style={styles.container}>
+        <KeyboardAwareScrollViewComponent containerStyles={styles.container}>
           {backgroundImage ? (
             <TouchableOpacity
               onPress={onUploadImageButtonPress}
@@ -363,15 +367,21 @@ export const CreateUpdateEventScreen = ({ navigation, route }) => {
             />
           </View>
 
-          <View style={styles.submitContainer}>
+          <View style={styles.buttonContainer}>
             <AppButton
               title={t("create-event.submit")}
               onPress={submitForm}
               type={"primary"}
               size={"default"}
             />
+            <AppButton
+              title={t("general.cancel")}
+              onPress={cancelForm}
+              type={"secondary"}
+              size={"default"}
+            />
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollViewComponent>
       )}
     </View>
   );
@@ -381,7 +391,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    flexDirection: "column",
   },
   imageUploadSection: {
     width: "100%",
@@ -392,7 +401,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 10,
     borderStyle: "dotted",
-    borderColor: "green",
+    borderColor: "#096233",
     borderWidth: 3,
   },
   imageContainer: {
@@ -427,7 +436,7 @@ const styles = StyleSheet.create({
   },
   uploadIcon: {
     fontSize: 64,
-    color: "green",
+    color: "#096233",
   },
   textSection: {
     flexDirection: "column",
@@ -439,7 +448,7 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   inputError: {
-    borderColor: "red",
+    borderColor: "#BC022C",
     borderWidth: 1,
     borderRadius: 10,
   },
@@ -459,7 +468,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 10,
   },
-  submitContainer: {
+  buttonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginBottom: 30,
   },
 });

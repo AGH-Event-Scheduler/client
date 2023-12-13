@@ -35,6 +35,7 @@ import { getFormDataFileUpload } from "../../utils/image-utils";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { resetToRouteName } from "../../components/navigation/bottom/BottomNavBar";
 import { EventHubImage } from "../../components/EventHubImage";
+import { KeyboardAwareScrollViewComponent } from "../../components/KeyboardAwareScrollViewComponent";
 
 export const CreateUpdateOrganizationView = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
@@ -150,14 +151,18 @@ export const CreateUpdateOrganizationView = ({ navigation, route }) => {
   };
 
   const cancelForm = () => {
-    resetToRouteName(navigation, "Home");
+    if (editingOrganizationId) {
+      navigation.goBack();
+    } else {
+      resetToRouteName(navigation, "Home");
+    }
   };
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       {isLoading ? (
         <LoadingView />
       ) : (
-        <ScrollView style={styles.container}>
+        <KeyboardAwareScrollViewComponent>
           {backgroundImage ? (
             <View>
               <Text style={globalStyles.descriptionTitle}>
@@ -368,7 +373,7 @@ export const CreateUpdateOrganizationView = ({ navigation, route }) => {
               size={"default"}
             />
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollViewComponent>
       )}
     </View>
   );
@@ -378,7 +383,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    flexDirection: "column",
   },
   imageUploadSection: {
     display: "flex",
@@ -387,7 +391,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10,
     borderStyle: "dotted",
-    borderColor: "green",
+    borderColor: "#096233",
     borderWidth: 3,
   },
   backgroundImageUploadSection: {
@@ -400,11 +404,11 @@ const styles = StyleSheet.create({
   },
   uploadIcon: {
     fontSize: 64,
-    color: "green",
+    color: "#096233",
   },
   logoUploadIcon: {
     fontSize: 32,
-    color: "green",
+    color: "#096233",
   },
   editIcon: {
     position: "absolute",
@@ -463,7 +467,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   inputError: {
-    borderColor: "red",
+    borderColor: "#BC022C",
     borderWidth: 1,
     borderRadius: 10,
   },

@@ -15,7 +15,6 @@ export interface SettingProps {
 export enum SettingType {
   Language = "Language",
   Notifications = "Notifications",
-  DarkMode = "Darkmode",
   Information = "Information",
   Logout = "Logout",
   Email = "Email",
@@ -35,11 +34,6 @@ export const SettingsView = () => {
       title: t("settings.notifications"),
       iconName: "bell",
       setting: SettingType.Notifications,
-    },
-    {
-      title: t("settings.dark-mode"),
-      iconName: "moon",
-      setting: SettingType.DarkMode,
     },
     {
       title: t("settings.information"),

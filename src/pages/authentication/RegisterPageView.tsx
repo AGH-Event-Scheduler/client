@@ -1,11 +1,22 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+  StatusBar,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
 import { CommonActions, useNavigation } from "@react-navigation/native";
-import { AuthenticationService } from "../../services/AuthenticationService";
 import { useTranslation } from "react-i18next";
 import { register } from "../../api/authentication-api-utils";
+import { KeyboardAvoidViewComponent } from "../../components/KeyboardAvoidViewComponent";
+import { KeyboardAwareScrollViewComponent } from "../../components/KeyboardAwareScrollViewComponent";
 
 export const RegisterPageView = () => {
   const [email, setEmail] = useState("");
@@ -68,46 +79,46 @@ export const RegisterPageView = () => {
 
   return (
     <View style={styles.container}>
-      <TextInputContainer
-        label={t("registration.first-name-label")}
-        placeholder={t("registration.name-placeholder")}
-        value={firstName}
-        onChangeText={(text) => setFirstName(text)}
-        description=""
-      />
-      <TextInputContainer
-        label={t("registration.last-name-label")}
-        placeholder={t("registration.last-name-placeholder")}
-        value={lastName}
-        onChangeText={(text) => setLastName(text)}
-        description=""
-      />
-      <TextInputContainer
-        label={t("registration.email-label")}
-        placeholder={t("registration.email-placeholder")}
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        description={t("registration.agh-domain-email-description")}
-      />
-      <TextInputContainer
-        label={t("registration.password-label")}
-        placeholder={t("registration.password-placeholder")}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        description={t("registration.password-min-length-description")}
-        isPassword={true}
-      />
-      <TextInputContainer
-        label={t("registration.repeat-password-label")}
-        placeholder={t("registration.password-placeholder")}
-        value={repeatedPassword}
-        onChangeText={(text) => setRepeatedPassword(text)}
-        description={t("registration.password-match-description")}
-        isPassword={true}
-      />
+      <KeyboardAwareScrollViewComponent containerStyles={styles.wrapper}>
+        <TextInputContainer
+          label={t("registration.first-name-label")}
+          placeholder={t("registration.name-placeholder")}
+          value={firstName}
+          onChangeText={(text) => setFirstName(text)}
+          description=""
+        />
+        <TextInputContainer
+          label={t("registration.last-name-label")}
+          placeholder={t("registration.last-name-placeholder")}
+          value={lastName}
+          onChangeText={(text) => setLastName(text)}
+          description=""
+        />
+        <TextInputContainer
+          label={t("registration.email-label")}
+          placeholder={t("registration.email-placeholder")}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          description={t("registration.agh-domain-email-description")}
+        />
+        <TextInputContainer
+          label={t("registration.password-label")}
+          placeholder={t("registration.password-placeholder")}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          description={t("registration.password-min-length-description")}
+          isPassword={true}
+        />
+        <TextInputContainer
+          label={t("registration.repeat-password-label")}
+          placeholder={t("registration.password-placeholder")}
+          value={repeatedPassword}
+          onChangeText={(text) => setRepeatedPassword(text)}
+          description={t("registration.password-match-description")}
+          isPassword={true}
+        />
 
-      <View style={styles.dividerContainer}>
-        <View style={styles.dividerContainer}>
+        <View style={styles.createAccountContainer}>
           <AppButton
             onPress={handleRegister}
             type="primary"
@@ -115,7 +126,7 @@ export const RegisterPageView = () => {
             size="default"
           />
         </View>
-      </View>
+      </KeyboardAwareScrollViewComponent>
     </View>
   );
 };
@@ -124,13 +135,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    padding: 20,
   },
-  dividerContainer: {
+  wrapper: {
+    flex: 1,
+    padding: 20,
+    gap: 20,
+  },
+  createAccountContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
-    marginBottom: 10,
   },
 });

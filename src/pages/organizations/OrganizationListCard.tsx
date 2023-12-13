@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   likeIconStyle: {
-    textShadowColor: "grey",
+    textShadowColor: "#888989",
     textShadowRadius: 2,
   },
 });

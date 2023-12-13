@@ -34,12 +34,6 @@ export const SettingCard = ({ title, iconName, setting }: SettingProps) => {
         isEnabled={false}
       />
     ),
-    Darkmode: (
-      <AppSwitchButton
-        onToggle={() => console.log("switch toggled")}
-        isEnabled={false}
-      />
-    ),
     ChangePassword: <AppNewPageButton page={setting} />,
   };
 

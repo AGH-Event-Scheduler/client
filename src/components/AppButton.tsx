@@ -9,7 +9,7 @@ export type ButtonTypes =
   | "toggleDefault"
   | "toggleChecked";
 
-export type ButtonSize = "default" | "small";
+export type ButtonSize = "default" | "medium" | "small";
 interface ButtonProps {
   onPress: () => void;
   type: ButtonTypes;
@@ -39,8 +39,8 @@ export const AppButton = ({ onPress, type, title, size }: ButtonProps) => {
 const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
   primary: StyleSheet.create({
     button: {
-      backgroundColor: "#016531",
-      borderColor: "#016531",
+      backgroundColor: "#096233",
+      borderColor: "#096233",
     },
     text: {
       color: "#FFFFFF",
@@ -49,18 +49,18 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
   secondary: StyleSheet.create({
     button: {
       backgroundColor: "#FAFAFA",
-      borderColor: "#016531",
+      borderColor: "#096233",
       borderWidth: 2,
-      paddingVertical: 6,
-      paddingHorizontal: 18,
+      paddingVertical: "1.5%",
+      paddingHorizontal: "5%",
     },
     text: {
-      color: "#016531",
+      color: "#096233",
     },
   }),
   destructive: StyleSheet.create({
     button: {
-      backgroundColor: "red",
+      backgroundColor: "#BC022C",
     },
     text: {
       color: "white",
@@ -68,7 +68,7 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
   }),
   gray: StyleSheet.create({
     button: {
-      backgroundColor: "#A9A9A9",
+      backgroundColor: "#888989",
     },
     text: {
       color: "white",
@@ -76,8 +76,8 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
   }),
   toggleChecked: StyleSheet.create({
     button: {
-      backgroundColor: "#016531",
-      borderColor: "#016531",
+      backgroundColor: "#096233",
+      borderColor: "#096233",
       borderRadius: 20,
     },
     text: {
@@ -87,14 +87,14 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
   toggleDefault: StyleSheet.create({
     button: {
       backgroundColor: "#FAFAFA",
-      borderColor: "#016531",
+      borderColor: "#096233",
       borderWidth: 2,
-      paddingVertical: 6,
-      paddingHorizontal: 18,
+      paddingVertical: "1.5%",
+      paddingHorizontal: "5%",
       borderRadius: 20,
     },
     text: {
-      color: "#016531",
+      color: "#096233",
     },
   }),
 };
@@ -102,26 +102,34 @@ const buttonTypes: Record<ButtonTypes, { button: any; text: any }> = {
 const buttonSizes: Record<ButtonSize, { button: any; text: any }> = {
   default: StyleSheet.create({
     button: {
-      minWidth: 150,
+      minWidth: "45%",
     },
     text: {
-      fontSize: 20,
+      fontSize: 18,
     },
   }),
   small: StyleSheet.create({
     button: {
-      minWidth: 110,
+      minWidth: "30%",
     },
     text: {
       fontSize: 14,
+    },
+  }),
+  medium: StyleSheet.create({
+    button: {
+      minWidth: "40%",
+    },
+    text: {
+      fontSize: 18,
     },
   }),
 };
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 8,
-    paddingHorizontal: 20,
+    paddingVertical: "2%",
+    paddingHorizontal: "5.5%",
     borderRadius: 12,
   },
   text: {

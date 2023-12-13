@@ -49,8 +49,8 @@ export const MainStack = ({ stack }) => {
         {/* Main pages */}
         <stack.Screen
           name="Home"
-          component={SamplePage}
-          options={{ title: "Calendar" }}
+          component={CalendarScreen}
+          options={{ title: t("general.calendar") }}
         />
         <stack.Screen
           name="Favourite"
@@ -147,6 +147,11 @@ export const MainStack = ({ stack }) => {
           name="Update Event"
           component={CreateUpdateEventScreen}
           options={{ title: t("general.update-event") }}
+        />
+        <stack.Screen
+          name="Update organization"
+          component={CreateUpdateOrganizationView}
+          options={{ title: t("general.update-organization") }}
         />
         <stack.Screen
           name="Manage Organization Members"
