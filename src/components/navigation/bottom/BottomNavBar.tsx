@@ -93,7 +93,6 @@ export const BottomNavBar = ({ navbarVisible }) => {
               button.routeName !== "Your organizations",
           );
         }
-        console.log("BUTTONS TO DISPLAY", buttonsToDisplay);
         setButtonsToDisplay(buttonsToDisplay);
       } catch (error) {
         console.error("Error fetching buttons:", error);

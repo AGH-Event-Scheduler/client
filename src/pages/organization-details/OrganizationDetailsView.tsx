@@ -149,13 +149,11 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
           <Text style={styles.title}>{organization?.name}</Text>
           <AppSelectableText text={organization?.description} />
           <View style={[styles.eventContainer]}>
-            {events.length !== 0 ? (
-              <AppLinkButton
-                title={t("all-events.see-all")}
-                onPress={handleSeeAllEventsPress}
-                style={{ alignSelf: "flex-end" }}
-              />
-            ) : null}
+            <AppLinkButton
+              title={t("all-events.see-all")}
+              onPress={handleSeeAllEventsPress}
+              style={{ alignSelf: "flex-end" }}
+            />
             {eventsAreLoading ? (
               <LoadingView />
             ) : (
@@ -177,6 +175,9 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                 showsVerticalScrollIndicator={true}
               />
             )}
+            {events.length === 0 ? (
+              <Text>{t("organization-details.no-upcoming-events")}</Text>
+            ) : null}
           </View>
         </ScrollView>
       )}

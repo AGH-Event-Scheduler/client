@@ -99,6 +99,18 @@ export const AllEventsView = ({ navigation, route }) => {
           contentContainerStyle={styles.listContainer}
         />
       )}
+      {events.length === 0 ? (
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          <Text>{t("all-events.no-events")}</Text>
+        </View>
+      ) : null}
     </View>
   );
 };

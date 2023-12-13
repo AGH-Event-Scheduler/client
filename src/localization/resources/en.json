@@ -50,12 +50,14 @@
   "organization-details": {
     "follow": "Follow",
     "following": "Following",
-    "manage-users": "Manage"
+    "manage-users": "Manage",
+    "no-upcoming-events": "No upcoming events"
   },
   "all-events": {
     "upcoming": "Upcoming",
     "past": "Past",
-    "see-all": "See all"
+    "see-all": "See all",
+    "no-events": "No events to show"
   },
   "calendar": {
     "empty-date": "No events on this date.",

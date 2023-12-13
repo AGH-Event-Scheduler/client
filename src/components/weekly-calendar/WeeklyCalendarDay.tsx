@@ -74,6 +74,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 3,
+    width: "13%",
+    height: "80%",
   },
   roundContainer: {
     width: 35,
