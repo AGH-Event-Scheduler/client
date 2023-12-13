@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { AppButton } from "../../components/AppButton";
 import { TextInputContainer } from "../../components/TextInputContainer";
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { resendVerificationEmail } from "../../api/authentication-api-utils";
+import { navigateToLogInPage } from "../../utils/RootNavigation";
 
 export const ResendVerificationEmailView = () => {
   const [email, setEmail] = useState("");
@@ -48,12 +49,6 @@ export const ResendVerificationEmailView = () => {
     }
   };
 
-  const handleSignIn = () => {
-    console.log("handle Sign in clicked");
-    navigation.dispatch(CommonActions.navigate("Log in"));
-    console.log("after handle sign in clicked");
-  };
-
   return (
     <View style={styles.container}>
       <TextInputContainer
@@ -77,7 +72,7 @@ export const ResendVerificationEmailView = () => {
           type="primary"
           title={t("resend-email.sign-in")}
           size="default"
-          onPress={handleSignIn}
+          onPress={navigateToLogInPage}
         />
       </View>
     </View>
