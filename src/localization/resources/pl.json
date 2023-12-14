@@ -27,6 +27,8 @@
     "create-event": "Dodaj wydarzenie",
     "update-event": "Edycja wydarzenia",
     "manage-organization-members": "Zarządzaj",
+    "reset-password": "Zmień hasło",
+    "resend-verification-email": "Weryfikacja",
     "create": "Stwórz",
     "cancel": "Anuluj",
     "confirm": "Zatwierdź",
@@ -115,7 +117,7 @@
     "all-fields-required": "Proszę wypełnić wszystkie wymagane pola",
     "invalid-email": "Nieprawidłowy adres email",
     "registration-failed": "Rejestracja nieudana",
-    "registration-success": "Rejestracja przebiegła pomyślnie",
+    "registration-success": "Rejestracja przebiegła pomyślnie.\nZweryfikuj swój email",
     "registration-error": "Błąd rejestracji",
     "name-placeholder": "Imię",
     "last-name-placeholder": "Nazwisko",
@@ -189,5 +191,19 @@
     "role-assigned": "Przyznawanie roli dla organizacji",
     "role-success": "Rola została przyznana",
     "role-failed": "Przyznawanie roli nie powiodło się"
+  },
+  "reset-password": {
+    "reset-success": "Potwierdź zmianę hasła poprzez wysłaną wiadomość",
+    "failed": "Zmiana hasła nie powiodła się",
+    "reset-button": "Wyślij wiadomość i zmień hasło",
+    "password-label": "Nowe hasło"
+  },
+  "resend-email": {
+    "email-label": "Email",
+    "resend-button": "Wyślij ponownie",
+    "sign-in": "Zaloguj się",
+    "reset-success": "Wiadomośc została wysłana ponownie",
+    "failed": "Wysyłanie wiadomości nie powiodło się",
+    "failed-detail": "Wysyłanie wiadomości nie powiodło się, sprawdź czy wpisany adres email jest poprawny"
   }
 }

@@ -31,6 +31,60 @@ export const register = async (
   }
 };
 
+export const resetPassword = async (
+  email: string,
+  password: string,
+): Promise<Boolean> => {
+  const url = "/authentication/reset-password";
+  const body = { email, password };
+
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      body: body,
+      isAuthorized: false,
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      console.error("Resetting password failed");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error during resetting password:", error);
+    throw error;
+  }
+};
+
+export const resendVerificationEmail = async (
+  email: string,
+): Promise<Boolean> => {
+  const url = "/authentication/resend-verification-mail";
+
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        email: email,
+      },
+      isAuthorized: false,
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      console.error("Resending email failed");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error during resending email:", error);
+    throw error;
+  }
+};
+
 export const authenticate = async (
   email: string,
   password: string,

@@ -28,6 +28,8 @@
     "update-event": "Update Event",
     "edit-event": "Edit",
     "manage-organization-members": "Manage",
+    "reset-password": "Reset Password",
+    "resend-verification-email": "Email Verification",
     "create": "Create",
     "confirm": "Confirm",
     "cancel": "Cancel",
@@ -116,7 +118,7 @@
     "all-fields-required": "Please fill in all required fields",
     "invalid-email": "Invalid Email",
     "registration-failed": "Registration failed",
-    "registration-success": "Successfully registered",
+    "registration-success": "Successfully registered.\nPlease verify your email to log in",
     "registration-error": "Registration error:",
     "name-placeholder": "First name",
     "last-name-placeholder": "Last name",
@@ -190,5 +192,19 @@
     "role-assigned": "Assigning organization role",
     "role-success": "Organization role assigned",
     "role-failed": "Assigning organization role failed"
+  },
+  "reset-password": {
+    "reset-success": "Confirm password change via email",
+    "failed": "Password change failure",
+    "reset-button": "Send mail and reset password",
+    "password-label": "New password"
+  },
+  "resend-email": {
+    "email-label": "Email",
+    "resend-button": "Resend",
+    "sign-in": "Sign In",
+    "reset-success": "Message has been resent",
+    "failed": "Sending message failed",
+    "failed-detail": "Sending message failed, please check if the entered email address is correct"
   }
 }

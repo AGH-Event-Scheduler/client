@@ -62,7 +62,7 @@ export const RegisterPageView = () => {
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
-              routes: [{ name: "Login" }],
+              routes: [{ name: "Resend Verification Email" }],
             }),
           );
         } else {

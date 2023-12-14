@@ -19,6 +19,8 @@ import { CreateUpdateEventScreen } from "../pages/create-event/CreateUpdateEvent
 import { FeedScreen } from "../pages/feed/FeedScreen";
 import { UserListView } from "../pages/user/UserListView";
 import { CreateUpdateOrganizationView } from "../pages/create-organization/CreateUpdateOrganizationView";
+import { ResetPasswordView } from "../pages/authentication/ResetPasswordView";
+import { ResendVerificationEmailView } from "../pages/authentication/ResendVerificationEmailView";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -130,7 +132,7 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="ChangePassword"
-          component={SamplePage}
+          component={ResetPasswordView}
           options={{ title: t("settings.account.change-password") }}
         />
         <stack.Screen
@@ -157,6 +159,11 @@ export const MainStack = ({ stack }) => {
           name="Manage Organization Members"
           component={UserListView}
           options={{ title: t("general.manage-organization-members") }}
+        />
+        <stack.Screen
+          name="Resend Verification Email Logged"
+          component={ResendVerificationEmailView}
+          options={{ title: t("general.resend-verification-email") }}
         />
       </stack.Navigator>
     </ViewLayoutStructure>
