@@ -13,6 +13,7 @@ import {
   FeedNotification,
   FeedNotificationType,
   Organization,
+  Page,
 } from "../../api/types";
 import {
   fetchAllOrganizationsWithStatusByUser,
@@ -28,6 +29,7 @@ import { FeedNotificationListCard } from "./FeedNotificationListCard";
 import { MarkType } from "./FeedNotificationListCardMark";
 import { FeedNotificationItem } from "./FeedNotificationItem";
 import { AppToggleButton } from "../../components/AppToggleButton";
+import { PaginationFooter } from "../../components/PaginationFooter";
 
 enum FeedFilter {
   ALL,
@@ -51,23 +53,27 @@ export const FeedScreen = ({ navigation }) => {
   const [feedFilterItem, setFeedFilterItem] = useState<ToggleButtonItem>(
     toggleButtonItems[0],
   );
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const isFocused = useIsFocused();
   useEffect(() => {
     const fetchOrganizationsData = async () => {
       setIsLoading(true);
       try {
-        const feedNotifications: FeedNotification[] = await getFeed(
+        const feedNotificationsPage: Page<FeedNotification> = await getFeed(
           feedFilterItem.key === FeedFilter.NOT_SEEN,
+          currentPage,
         );
-        setNotifications(feedNotifications);
+        setTotalPages(feedNotificationsPage.totalPages);
+        setNotifications(feedNotificationsPage.content);
       } catch (error) {
         console.log("Fetching feed error", error);
       }
       setIsLoading(false);
     };
     isFocused && fetchOrganizationsData();
-  }, [feedFilterItem, isFocused]);
+  }, [feedFilterItem, isFocused, currentPage]);
 
   const handleFilterButtonPress = (filter: ToggleButtonItem) => {
     setFeedFilterItem(filter);
@@ -95,6 +101,13 @@ export const FeedScreen = ({ navigation }) => {
             return <FeedNotificationItem item={item} navigation={navigation} />;
           }}
           showsVerticalScrollIndicator={false}
+          ListFooterComponent={
+            <PaginationFooter
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={setCurrentPage}
+            />
+          }
         />
       )}
     </View>

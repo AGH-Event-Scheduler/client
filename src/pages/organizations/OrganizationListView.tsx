@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { OrganizationListCard } from "./OrganizationListCard";
 import { useIsFocused } from "@react-navigation/native";
-import { Organization } from "../../api/types";
+import { Organization, Page } from "../../api/types";
 import {
   fetchAllOrganizationsWithStatusByUser,
   subscribeToOrganization,
@@ -11,6 +11,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { SearchBar } from "../../components/SearchBar";
 import { LoadingView } from "../../components/loading/LoadingView";
+import { PaginationFooter } from "../../components/PaginationFooter";
 
 export const OrganizationListView = ({
   navigation,
@@ -22,26 +23,30 @@ export const OrganizationListView = ({
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const isFocused = useIsFocused();
   useEffect(() => {
     const fetchOrganizationsData = async () => {
       setIsLoading(true);
       try {
-        const organizationsList: Organization[] =
+        const organizationsPage: Page<Organization> =
           await fetchAllOrganizationsWithStatusByUser(
             onlySubscribed,
             yourOrganizations,
             searchQuery,
+            currentPage,
           );
-        setOrganizations(organizationsList);
+        setTotalPages(organizationsPage.totalPages);
+        setOrganizations(organizationsPage.content);
       } catch (error) {
         console.log("Fetching organizations list error", error);
       }
       setIsLoading(false);
     };
     isFocused && fetchOrganizationsData();
-  }, [isFocused, searchQuery]);
+  }, [isFocused, searchQuery, currentPage]);
 
   const handleCardPress = (organization) => {
     console.log(`Clicked card: ${organization.name}`);
@@ -100,6 +105,13 @@ export const OrganizationListView = ({
             />
           )}
           showsVerticalScrollIndicator={false}
+          ListFooterComponent={
+            <PaginationFooter
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={setCurrentPage}
+            />
+          }
         />
       )}
     </View>

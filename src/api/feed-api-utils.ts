@@ -1,16 +1,19 @@
 import { getCurrentLanguage } from "../localization/languages";
 import { Method, fetchApiWithRefresh } from "./api-utils";
-import { FeedNotification } from "./types";
+import { FeedNotification, Page } from "./types";
 
 export const getFeed = async (
   notSeenOnly: boolean = false,
-): Promise<FeedNotification[]> => {
+  page = 0,
+  pageSize = 10,
+): Promise<Page<FeedNotification>> => {
   const result = await fetchApiWithRefresh({
     url: "/feed",
     queryParams: {
       language: getCurrentLanguage(),
       showNotSeenOnly: notSeenOnly,
-      size: 10, // TODO: replace with pagination in future
+      page: page,
+      size: pageSize,
     },
   });
 
