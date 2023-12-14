@@ -104,3 +104,11 @@ export const organizationRoles: OrganizationRoleOption[] = [
   { index: "HEAD", translation: i18next.t("roles.HEAD") },
   { index: "CONTENT_CREATOR", translation: i18next.t("roles.CONTENT_CREATOR") },
 ];
+
+export interface Page<T> {
+  content: T[];
+  number: number;
+  numberOfElements: number;
+  totalElements: number;
+  totalPages: number;
+}

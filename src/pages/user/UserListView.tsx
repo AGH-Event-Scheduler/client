@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { SearchBar } from "../../components/SearchBar";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { fetchAllUsersDataWithRoleForOrganization } from "../../api/user-api-utlis";
+import { PaginationFooter } from "../../components/PaginationFooter";
 
 export const UserListView = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -53,30 +54,6 @@ export const UserListView = ({ navigation, route }) => {
     }
   };
 
-  const renderFooter = () => (
-    <View style={styles.paginationContainer}>
-      {Array.from({ length: totalPages }, (_, index) => index).map((page) => (
-        <TouchableOpacity
-          key={page}
-          style={[
-            styles.paginationButton,
-            page === currentPage && styles.selectedPage,
-          ]}
-          onPress={() => handlePageChange(page)}
-        >
-          <Text
-            style={[
-              styles.paginationButtonText,
-              page === currentPage && styles.selectedButtonText,
-            ]}
-          >
-            {page}
-          </Text>
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
-
   return (
     <View style={styles.container}>
       <SearchBar
@@ -104,7 +81,13 @@ export const UserListView = ({ navigation, route }) => {
             />
           )}
           showsVerticalScrollIndicator={false}
-          ListFooterComponent={renderFooter}
+          ListFooterComponent={
+            <PaginationFooter
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={setCurrentPage}
+            />
+          }
         />
       )}
     </View>

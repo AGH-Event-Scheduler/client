@@ -2,7 +2,7 @@ import { getCurrentLanguage } from "../localization/languages";
 import { AllEventsViewTypeOption } from "../pages/all-events/AllEventsView";
 import { toSimpleDateString, toUTCDate } from "../utils/date";
 import { fetchApiWithRefresh, FormDataFileUpload, Method } from "./api-utils";
-import { FullOrganizationEvent, MultiLanguageText } from "./types";
+import { FullOrganizationEvent, MultiLanguageText, Page } from "./types";
 import { OrganizationEvent } from "./types";
 
 export const fetchEvents = async (): Promise<OrganizationEvent[]> => {
@@ -41,12 +41,16 @@ export const fetchEventsInDateRange = async (
 export const fetchOrganizationEvents = async (
   organizationId: number,
   eventsType: AllEventsViewTypeOption,
+  page = 0,
+  pageSize = 10,
   nameSearchQuery = "",
-): Promise<OrganizationEvent[]> => {
+): Promise<Page<OrganizationEvent>> => {
   const queryParams = {
     type: eventsType,
     language: getCurrentLanguage(),
     organizationId: organizationId,
+    page: page,
+    size: pageSize,
   };
   if (nameSearchQuery.length > 0) {
     queryParams["name"] = nameSearchQuery;

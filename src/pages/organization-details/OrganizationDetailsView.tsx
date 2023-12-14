@@ -42,11 +42,14 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
         setOrganization(organization);
         setOrganizationIsLoading(false);
 
-        const events = await fetchOrganizationEvents(
+        const eventsPage = await fetchOrganizationEvents(
           organizationId,
           AllEventsViewTypeOption.Upcoming,
+          0,
+          5,
         );
-        setEvents(events);
+
+        setEvents(eventsPage.content);
         setEventsAreLoading(false);
       } catch (error) {
         console.log("Fetching organization details error", error);

@@ -8,6 +8,7 @@ import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import { AppToggleButton } from "../../components/AppToggleButton";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { SearchBar } from "../../components/SearchBar";
+import { PaginationFooter } from "../../components/PaginationFooter";
 
 export enum AllEventsViewTypeOption {
   Upcoming = "UPCOMING",
@@ -32,6 +33,8 @@ export const AllEventsView = ({ navigation, route }) => {
   );
   const isFocused = useIsFocused();
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const organizationId = route.params.organizationId;
 
@@ -39,19 +42,22 @@ export const AllEventsView = ({ navigation, route }) => {
     const loadOrganizationEvents = async () => {
       setIsLoading(true);
       try {
-        const events = await fetchOrganizationEvents(
+        const eventsPage = await fetchOrganizationEvents(
           organizationId,
           eventsType.key,
+          currentPage,
+          10,
           searchQuery,
         );
-        setEvents(events);
+        setTotalPages(eventsPage.totalPages);
+        setEvents(eventsPage.content);
       } catch (error) {
         console.log("Fetching organization details error", error);
       }
       setIsLoading(false);
     };
     isFocused && loadOrganizationEvents();
-  }, [isFocused, eventsType, searchQuery]);
+  }, [isFocused, eventsType, searchQuery, currentPage]);
 
   const handleCardPress = (event: OrganizationEvent) => {
     navigation.navigate("Event", { eventId: event.id });
@@ -97,6 +103,13 @@ export const AllEventsView = ({ navigation, route }) => {
           )}
           showsVerticalScrollIndicator={true}
           contentContainerStyle={styles.listContainer}
+          ListFooterComponent={
+            <PaginationFooter
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={setCurrentPage}
+            />
+          }
         />
       )}
       {events.length === 0 ? (

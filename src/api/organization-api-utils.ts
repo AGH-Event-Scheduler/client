@@ -1,18 +1,27 @@
 import { Alert } from "react-native";
 import { getCurrentLanguage } from "../localization/languages";
 import { fetchApiWithRefresh, FormDataFileUpload, Method } from "./api-utils";
-import { FullOrganization, MultiLanguageText, Organization } from "./types";
+import {
+  FullOrganization,
+  MultiLanguageText,
+  Organization,
+  Page,
+} from "./types";
 
 export const fetchAllOrganizationsWithStatusByUser = async (
   onlySubscribed = false,
   yourOrganizations = false,
   nameSearchQuery = "",
-): Promise<Organization[]> => {
+  page = 0,
+  pageSize = 10,
+): Promise<Page<Organization>> => {
   const url = "/organizations";
   const queryParams = {
     subscribedOnly: onlySubscribed,
     yourOrganizationsOnly: yourOrganizations,
     language: getCurrentLanguage(),
+    page: page,
+    size: pageSize,
   };
   if (nameSearchQuery !== "") {
     queryParams["name"] = nameSearchQuery;
@@ -26,7 +35,7 @@ export const fetchAllOrganizationsWithStatusByUser = async (
 
     if (response.ok) {
       const data = await response.json();
-      return data as Organization[];
+      return data as Page<Organization>;
     } else {
       console.error(
         `Fetching organizations${
