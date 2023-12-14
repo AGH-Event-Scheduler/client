@@ -29,7 +29,7 @@ export interface DisplayBottomNavBarButton {
 }
 
 export const BottomNavBar = ({ navbarVisible }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -105,7 +105,7 @@ export const BottomNavBar = ({ navbarVisible }) => {
     };
 
     fetchButtons();
-  }, [isAdmin, hasAnyOrganizationRole]);
+  }, [isAdmin, hasAnyOrganizationRole, i18n.language]);
 
   const expandNavBar = () => {
     setIsExpanded(!isExpanded);
