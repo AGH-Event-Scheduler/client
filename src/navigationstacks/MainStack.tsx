@@ -99,6 +99,18 @@ export const MainStack = ({ stack }) => {
           )}
         </stack.Screen>
         <stack.Screen
+          name="Archived organizations"
+          options={{ title: t("general.archived-organizations") }}
+        >
+          {(props) => (
+            <OrganizationListView
+              {...props}
+              navigation={props.navigation || stack.navigation}
+              archivedOnly={true}
+            />
+          )}
+        </stack.Screen>
+        <stack.Screen
           name="Event Search"
           component={EventSearchScreen}
           options={{ title: t("general.event-search") }}

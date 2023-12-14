@@ -12,7 +12,7 @@ export const fetchAllOrganizationsWithStatusByUser = async (
   onlySubscribed = false,
   yourOrganizations = false,
   nameSearchQuery = "",
-  showArchived = false,
+  showArchivedOnly = false,
   page = 0,
   pageSize = 10,
 ): Promise<Page<Organization>> => {
@@ -21,7 +21,7 @@ export const fetchAllOrganizationsWithStatusByUser = async (
     subscribedOnly: onlySubscribed,
     yourOrganizationsOnly: yourOrganizations,
     language: getCurrentLanguage(),
-    showArchived: showArchived,
+    showArchivedOnly: showArchivedOnly,
     page: page,
     size: pageSize,
   };

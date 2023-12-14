@@ -71,6 +71,11 @@ export const BottomNavBar = ({ navbarVisible }) => {
             iconName: "user-check",
             routeName: "Your organizations",
           },
+          {
+            title: t("general.archived-organizations"),
+            iconName: "x",
+            routeName: "Archived organizations",
+          },
         ];
 
         let buttonsToDisplay: DisplayBottomNavBarButton[] = [];

@@ -36,7 +36,8 @@
     "edit": "Edytuj",
     "yes": "Tak",
     "no": "Nie",
-    "organization-archived": "Organizacja zarchiwizowana"
+    "organization-archived": "Organizacja zarchiwizowana",
+    "archived-organizations": "Zarchiwizowane"
   },
   "settings": {
     "language": "Język",
