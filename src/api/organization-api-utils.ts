@@ -22,6 +22,7 @@ export const fetchAllOrganizationsWithStatusByUser = async (
     yourOrganizationsOnly: yourOrganizations,
     language: getCurrentLanguage(),
     showArchivedOnly: showArchivedOnly,
+    showNotArchived: !showArchivedOnly,
     page: page,
     size: pageSize,
   };
