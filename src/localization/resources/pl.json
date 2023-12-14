@@ -35,7 +35,8 @@
     "dismiss": "Odwołaj",
     "edit": "Edytuj",
     "yes": "Tak",
-    "no": "Nie"
+    "no": "Nie",
+    "organization-archived": "Organizacja zarchiwizowana"
   },
   "settings": {
     "language": "Język",
@@ -52,7 +53,13 @@
     "follow": "Obserwuj",
     "following": "Obserwujesz",
     "manage-users": "Zarządzaj",
-    "no-upcoming-events": "Brak nadchodzących wydarzeń"
+    "no-upcoming-events": "Brak nadchodzących wydarzeń",
+    "confirm-archive": "Potwierdź archiwizację organizacji",
+    "confirm-reactivate": "Potwierdź odarchiwizowanie organizacji",
+    "confirm-archive-text": "Czy na pewno chcesz zarchiwizować organizację?",
+    "confirm-reactivate-text": "Czy na pewno chcesz odarchiwizować organizację?",
+    "archive": "Archiwizuj",
+    "reactivate": "Odarchiwizuj"
   },
   "all-events": {
     "upcoming": "Nadchodzące",
@@ -157,6 +164,8 @@
       "event-reactivate": "Organizacja {organization.name} wznowiła wydarzenie {event.name}: \"{event.description}\"",
       "organization-create": "Nowa organizacja {organization.name} została utworzona: \"{organization.description}\"",
       "organization-update": "Organizacja {organization.name} została zaktualizowana: \"{organization.description}\"",
+      "organization-archive": "Organizacja {organization.name} została zarchiwizowana.",
+      "organization-reactivate": "Organizacja {organization.name} została odarchiwizowana.",
       "default": "Nowe powiadomienie"
     },
     "all": "Wszystkie",

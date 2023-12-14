@@ -51,6 +51,7 @@ export const fetchOrganizationEvents = async (
     organizationId: organizationId,
     page: page,
     size: pageSize,
+    showFromArchived: true,
   };
   if (nameSearchQuery.length > 0) {
     queryParams["name"] = nameSearchQuery;
