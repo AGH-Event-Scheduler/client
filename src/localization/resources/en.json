@@ -166,8 +166,8 @@
       "event-reactivate": "Organization {organization.name} has reactivated the event {event.name}: \"{event.description}\"",
       "organization-create": "New organization {organization.name} has been created: \"{organization.description}\"",
       "organization-update": "Organization {organization.name} has been updated: \"{organization.description}\"",
-      "organization-archive": "Organization {organization.name} was archived.",
-      "organization-reactivate": "Organization {organization.name} was reactivated.",
+      "organization-archive": "Organization {organization.name} has been archived.",
+      "organization-reactivate": "Organization {organization.name} has been reactivated.",
       "default": "New notification"
     },
     "all": "All",
