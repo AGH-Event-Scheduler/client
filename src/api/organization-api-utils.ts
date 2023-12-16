@@ -12,6 +12,7 @@ export const fetchAllOrganizationsWithStatusByUser = async (
   onlySubscribed = false,
   yourOrganizations = false,
   nameSearchQuery = "",
+  showArchivedOnly = false,
   page = 0,
   pageSize = 10,
 ): Promise<Page<Organization>> => {
@@ -20,6 +21,8 @@ export const fetchAllOrganizationsWithStatusByUser = async (
     subscribedOnly: onlySubscribed,
     yourOrganizationsOnly: yourOrganizations,
     language: getCurrentLanguage(),
+    showArchivedOnly: showArchivedOnly,
+    showNotArchived: !showArchivedOnly,
     page: page,
     size: pageSize,
   };
@@ -146,6 +149,53 @@ export const unsubscribeFromOrganization = async (
     return true;
   } catch (error) {
     console.error("Error during Unsubscribing:", error);
+    throw error;
+  }
+};
+
+export const archiveOrganization = async (
+  organizationId: number,
+): Promise<boolean> => {
+  const url = "/organizations/archive";
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        organizationId: organizationId,
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Archivization failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during Archivization:", error);
+    throw error;
+  }
+};
+
+export const reactivateOrganization = async (
+  organizationId: number,
+): Promise<boolean> => {
+  const url = "/organizations/reactivate";
+  try {
+    const response = await fetchApiWithRefresh({
+      url: url,
+      method: Method.POST,
+      queryParams: {
+        organizationId: organizationId,
+      },
+    });
+    if (!response.ok) {
+      console.error("Reactivation failed:", response.statusText);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error during Reactivation:", error);
     throw error;
   }
 };

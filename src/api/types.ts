@@ -29,6 +29,7 @@ export interface Organization extends BaseEntity {
   backgroundImage: Image;
   isSubscribed: boolean;
   description: string;
+  isArchived: boolean;
 }
 
 export interface FullOrganization extends BaseEntity {
@@ -80,6 +81,8 @@ export enum FeedNotificationType {
   EVENT_REACTIVATE = "EVENT_REACTIVATE",
   ORGANIZATION_CREATE = "ORGANIZATION_CREATE",
   ORGANIZATION_UPDATE = "ORGANIZATION_UPDATE",
+  ORGANIZATION_ARCHIVE = "ORGANIZATION_ARCHIVE",
+  ORGANIZATION_REACTIVATE = "ORGANIZATION_REACTIVATE",
 }
 
 export interface FeedNotification extends BaseEntity {

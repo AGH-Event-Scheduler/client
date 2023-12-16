@@ -64,6 +64,14 @@ export const FeedNotificationItem = ({
       FeedNotificationType.ORGANIZATION_UPDATE,
       t("feed.message-templates.organization-update"),
     ],
+    [
+      FeedNotificationType.ORGANIZATION_ARCHIVE,
+      t("feed.message-templates.organization-archive"),
+    ],
+    [
+      FeedNotificationType.ORGANIZATION_REACTIVATE,
+      t("feed.message-templates.organization-reactivate"),
+    ],
   ]);
 
   const FeedNotificationTypeToMarkTypeMap = new Map<
@@ -76,6 +84,8 @@ export const FeedNotificationItem = ({
     [FeedNotificationType.EVENT_REACTIVATE, MarkType.REACTIVATE],
     [FeedNotificationType.ORGANIZATION_CREATE, MarkType.CREATE],
     [FeedNotificationType.ORGANIZATION_UPDATE, MarkType.EDIT],
+    [FeedNotificationType.ORGANIZATION_ARCHIVE, MarkType.CANCEL],
+    [FeedNotificationType.ORGANIZATION_REACTIVATE, MarkType.REACTIVATE],
   ]);
 
   const handleCardPress = (notification: FeedNotification) => {

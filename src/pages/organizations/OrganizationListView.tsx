@@ -17,6 +17,7 @@ export const OrganizationListView = ({
   navigation,
   onlySubscribed,
   yourOrganizations,
+  archivedOnly,
 }) => {
   const { t } = useTranslation();
 
@@ -36,6 +37,7 @@ export const OrganizationListView = ({
             onlySubscribed,
             yourOrganizations,
             searchQuery,
+            archivedOnly,
             currentPage,
           );
         setTotalPages(organizationsPage.totalPages);

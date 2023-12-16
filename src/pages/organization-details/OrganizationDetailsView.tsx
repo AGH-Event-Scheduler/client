@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { EventOrganizationListCard } from "./EventOrganizationListCard";
 import { globalStyles } from "../../styles/GlobalStyles";
 import { Organization, OrganizationEvent } from "../../api/types";
 import { fetchOrganizationEvents } from "../../api/event-api-utils";
 import {
+  archiveOrganization,
   fetchOrganizationById,
+  reactivateOrganization,
   subscribeToOrganization,
   unsubscribeFromOrganization,
 } from "../../api/organization-api-utils";
@@ -17,11 +26,16 @@ import { AllEventsViewTypeOption } from "../all-events/AllEventsView";
 import { LoadingView } from "../../components/loading/LoadingView";
 import { AppButton } from "../../components/AppButton";
 import { EventHubImage } from "../../components/EventHubImage";
-import { hasHeadRole, useUserRoles } from "../../services/UserContext";
+import {
+  hasHeadRole,
+  useUserAuthorities,
+  useUserRoles,
+} from "../../services/UserContext";
 import { AppSelectableText } from "../../components/AppSelectableText";
 
 export const OrganizationDetailsView = ({ navigation, route }) => {
   const { t } = useTranslation();
+  const { isAdmin } = useUserAuthorities(true);
   const [organization, setOrganization] = useState<Organization>(null);
   const [events, setEvents] = useState<OrganizationEvent[]>([]);
   const [organizationIsLoading, setOrganizationIsLoading] = useState(true);
@@ -88,6 +102,45 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
     navigation.navigate("All events", { organizationId: organization.id });
   };
 
+  const showConfirmationPopup = () => {
+    Alert.alert(
+      !organization.isArchived
+        ? t("organization-details.confirm-archive")
+        : t("organization-details.confirm-reactivate"),
+      !organization.isArchived
+        ? t("organization-details.confirm-archive-text")
+        : t("organization-details.confirm-reactivate-text"),
+      [
+        {
+          text: t("general.yes"),
+          onPress: !organization.isArchived
+            ? handelArchiveOrganization
+            : handleReactivateEvent,
+        },
+        {
+          text: t("general.no"),
+          onPress: () => {},
+        },
+      ],
+    );
+  };
+
+  const handelArchiveOrganization = async () => {
+    setOrganizationIsLoading(true);
+    await archiveOrganization(organizationId).then(() => {
+      organization.isArchived = true;
+    });
+    setOrganizationIsLoading(false);
+  };
+
+  const handleReactivateEvent = async () => {
+    setOrganizationIsLoading(true);
+    await reactivateOrganization(organizationId).then(() => {
+      organization.isArchived = false;
+    });
+    setOrganizationIsLoading(false);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       {organizationIsLoading ? (
@@ -100,6 +153,13 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
               filename={organization?.backgroundImage.bigFilename}
             />
           </View>
+          {organization.isArchived ? (
+            <View style={{ alignItems: "center" }}>
+              <Text style={styles.canceled}>
+                {t("general.organization-archived")}
+              </Text>
+            </View>
+          ) : null}
           <View style={styles.buttonContainer}>
             {!hasHeadRole(userRoles)
               ? organization && (
@@ -112,7 +172,7 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                   />
                 )
               : null}
-            {hasEditingRole ? (
+            {hasEditingRole && !organization.isArchived ? (
               <AppButton
                 onPress={() => {
                   navigation.navigate("Create Event", {
@@ -146,6 +206,18 @@ export const OrganizationDetailsView = ({ navigation, route }) => {
                 type="secondary"
                 title={t("organization-details.manage-users")}
                 size="default"
+              />
+            ) : null}
+            {isAdmin ? (
+              <AppButton
+                onPress={showConfirmationPopup}
+                title={
+                  !organization.isArchived
+                    ? t("organization-details.archive")
+                    : t("organization-details.reactivate")
+                }
+                type={!organization.isArchived ? "destructive" : "gray"}
+                size="medium"
               />
             ) : null}
           </View>
@@ -217,5 +289,10 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     alignItems: "center",
     gap: 10,
+  },
+  canceled: {
+    fontSize: 18,
+    color: "#BC022C",
+    fontWeight: "bold",
   },
 });

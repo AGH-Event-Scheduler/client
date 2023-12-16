@@ -36,7 +36,9 @@
     "dismiss": "Dismiss",
     "edit": "Edit",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "organization-archived": "Organization archived",
+    "archived-organizations": "Archived"
   },
   "settings": {
     "language": "Language",
@@ -53,7 +55,13 @@
     "follow": "Follow",
     "following": "Following",
     "manage-users": "Manage",
-    "no-upcoming-events": "No upcoming events"
+    "no-upcoming-events": "No upcoming events",
+    "confirm-archive": "Confirm organization archive",
+    "confirm-reactivate": "Confirm organization reactivation",
+    "confirm-archive-text": "Are you sure you want to archive the organization?",
+    "confirm-reactivate-text": "Are you sure you want to reactivate the organization?",
+    "archive": "Archive",
+    "reactivate": "Reactivate"
   },
   "all-events": {
     "upcoming": "Upcoming",
@@ -158,6 +166,8 @@
       "event-reactivate": "Organization {organization.name} has reactivated the event {event.name}: \"{event.description}\"",
       "organization-create": "New organization {organization.name} has been created: \"{organization.description}\"",
       "organization-update": "Organization {organization.name} has been updated: \"{organization.description}\"",
+      "organization-archive": "Organization {organization.name} has been archived.",
+      "organization-reactivate": "Organization {organization.name} has been reactivated.",
       "default": "New notification"
     },
     "all": "All",

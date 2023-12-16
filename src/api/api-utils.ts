@@ -6,6 +6,8 @@ import { REACT_APP_API_BASE_URL } from "@env";
 export const baseUrl = REACT_APP_API_BASE_URL;
 export const baseApiUrl = `${baseUrl}/api`;
 
+console.log(REACT_APP_API_BASE_URL);
+
 export interface FormDataFileUpload {
   type: string;
   uri: string;
