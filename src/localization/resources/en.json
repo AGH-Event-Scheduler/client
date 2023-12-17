@@ -216,5 +216,8 @@
     "reset-success": "Message has been resent",
     "failed": "Sending message failed",
     "failed-detail": "Sending message failed, please check if the entered email address is correct"
+  },
+  "information": {
+    "app-developed-by": "App developed by: "
   }
 }

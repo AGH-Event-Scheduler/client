@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: "column",
+    width: "80%",
   },
   imageContainer: {
     width: 70,

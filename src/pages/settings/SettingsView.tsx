@@ -31,11 +31,6 @@ export const SettingsView = () => {
       setting: SettingType.Language,
     },
     {
-      title: t("settings.notifications"),
-      iconName: "bell",
-      setting: SettingType.Notifications,
-    },
-    {
       title: t("settings.information"),
       iconName: "info",
       setting: SettingType.Information,

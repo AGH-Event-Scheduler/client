@@ -21,6 +21,7 @@ import { UserListView } from "../pages/user/UserListView";
 import { CreateUpdateOrganizationView } from "../pages/create-organization/CreateUpdateOrganizationView";
 import { ResetPasswordView } from "../pages/authentication/ResetPasswordView";
 import { ResendVerificationEmailView } from "../pages/authentication/ResendVerificationEmailView";
+import { InfoView } from "../pages/settings/InfoView";
 
 export const MainStack = ({ stack }) => {
   const { t } = useTranslation();
@@ -149,7 +150,7 @@ export const MainStack = ({ stack }) => {
         />
         <stack.Screen
           name="Information"
-          component={SamplePage}
+          component={InfoView}
           options={{ title: t("settings.information") }}
         />
         <stack.Screen

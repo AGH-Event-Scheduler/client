@@ -5,6 +5,7 @@ import { TextInputContainer } from "../../components/TextInputContainer";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { resetPassword } from "../../api/authentication-api-utils";
+import { KeyboardAwareScrollViewComponent } from "../../components/KeyboardAwareScrollViewComponent";
 
 export const ResetPasswordView = () => {
   const [email, setEmail] = useState("");
@@ -62,40 +63,42 @@ export const ResetPasswordView = () => {
 
   return (
     <View style={styles.container}>
-      <TextInputContainer
-        label={t("registration.email-label")}
-        placeholder={t("registration.email-placeholder")}
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        description={t("registration.agh-domain-email-description")}
-      />
-      <TextInputContainer
-        label={t("reset-password.password-label")}
-        placeholder={t("registration.password-placeholder")}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        description={t("registration.password-min-length-description")}
-        isPassword={true}
-      />
-      <TextInputContainer
-        label={t("registration.repeat-password-label")}
-        placeholder={t("registration.password-placeholder")}
-        value={repeatedPassword}
-        onChangeText={(text) => setRepeatedPassword(text)}
-        description={t("registration.password-match-description")}
-        isPassword={true}
-      />
+      <KeyboardAwareScrollViewComponent containerStyles={styles.wrapper}>
+        <TextInputContainer
+          label={t("registration.email-label")}
+          placeholder={t("registration.email-placeholder")}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          description={t("registration.agh-domain-email-description")}
+        />
+        <TextInputContainer
+          label={t("reset-password.password-label")}
+          placeholder={t("registration.password-placeholder")}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          description={t("registration.password-min-length-description")}
+          isPassword={true}
+        />
+        <TextInputContainer
+          label={t("registration.repeat-password-label")}
+          placeholder={t("registration.password-placeholder")}
+          value={repeatedPassword}
+          onChangeText={(text) => setRepeatedPassword(text)}
+          description={t("registration.password-match-description")}
+          isPassword={true}
+        />
 
-      <View style={styles.dividerContainer}>
         <View style={styles.dividerContainer}>
-          <AppButton
-            onPress={handleResetPassword}
-            type="primary"
-            title={t("reset-password.reset-button")}
-            size="default"
-          />
+          <View style={styles.dividerContainer}>
+            <AppButton
+              onPress={handleResetPassword}
+              type="primary"
+              title={t("reset-password.reset-button")}
+              size="default"
+            />
+          </View>
         </View>
-      </View>
+      </KeyboardAwareScrollViewComponent>
     </View>
   );
 };
@@ -105,6 +108,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
     padding: 20,
+  },
+  wrapper: {
+    flex: 1,
+    padding: 20,
+    gap: 20,
   },
   dividerContainer: {
     flexDirection: "row",

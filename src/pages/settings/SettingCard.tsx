@@ -28,12 +28,6 @@ export const SettingCard = ({ title, iconName, setting }: SettingProps) => {
         }
       />
     ),
-    Notifications: (
-      <AppSwitchButton
-        onToggle={() => console.log("switch toggled")}
-        isEnabled={false}
-      />
-    ),
     ChangePassword: <AppNewPageButton page={setting} />,
   };
 

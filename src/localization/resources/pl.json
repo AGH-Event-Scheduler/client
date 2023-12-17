@@ -215,5 +215,8 @@
     "reset-success": "Wiadomośc została wysłana ponownie",
     "failed": "Wysyłanie wiadomości nie powiodło się",
     "failed-detail": "Wysyłanie wiadomości nie powiodło się, sprawdź czy wpisany adres email jest poprawny"
+  },
+  "information": {
+    "app-developed-by": "Aplikacja stworzona przez: "
   }
 }
