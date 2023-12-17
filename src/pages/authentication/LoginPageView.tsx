@@ -115,7 +115,7 @@ export const LoginPageView = () => {
           <View style={styles.dividerLine} />
         </View>
 
-        <View style={styles.dividerContainer}>
+        {/* <View style={styles.dividerContainer}>
           <Text style={styles.dividerText}>{t("login.or")}</Text>
         </View>
 
@@ -126,7 +126,7 @@ export const LoginPageView = () => {
             title={t("login.continue-as-guest")}
             size="small"
           />
-        </View>
+        </View> */}
       </KeyboardAvoidViewComponent>
     </View>
   );
