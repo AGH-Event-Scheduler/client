@@ -1,0 +1,222 @@
+{
+  "languages": {
+    "pl": "Polski",
+    "en": "English"
+  },
+  "general": {
+    "calendar": "Kalendarz",
+    "description": "Opis",
+    "favourite": "Ulubione",
+    "feed": "Aktualności",
+    "language": "Język",
+    "organizations": "Organizacje",
+    "organization": "Organizacja",
+    "event": "Wydarzenie",
+    "settings": "Ustawienia",
+    "search": "Szukaj",
+    "your-organizations": "Twoje organizacje",
+    "create-organization": "Stwórz organizacje",
+    "update-organization": "Edytuj organizacje",
+    "all-events": "Wszystkie wydarzenia",
+    "less": "Mniej",
+    "more": "Więcej",
+    "event-search": "Szukaj wydarzeń",
+    "organization-search": "Szukaj Organizacji",
+    "login": "Logowanie",
+    "register": "Rejestracja",
+    "create-event": "Dodaj wydarzenie",
+    "update-event": "Edycja wydarzenia",
+    "manage-organization-members": "Zarządzaj",
+    "reset-password": "Zmień hasło",
+    "resend-verification-email": "Weryfikacja",
+    "create": "Stwórz",
+    "cancel": "Anuluj",
+    "confirm": "Zatwierdź",
+    "dismiss": "Odwołaj",
+    "edit": "Edytuj",
+    "yes": "Tak",
+    "no": "Nie",
+    "organization-archived": "Organizacja zarchiwizowana",
+    "archived-organizations": "Zarchiwizowane"
+  },
+  "settings": {
+    "language": "Język",
+    "notifications": "Powiadomienia",
+    "dark-mode": "Ciemny tryb",
+    "information": "Informacja",
+    "logout": "Wyloguj się",
+    "account": {
+      "hello": "Cześć,",
+      "change-password": "Zmień hasło"
+    }
+  },
+  "organization-details": {
+    "follow": "Obserwuj",
+    "following": "Obserwujesz",
+    "manage-users": "Zarządzaj",
+    "no-upcoming-events": "Brak nadchodzących wydarzeń",
+    "confirm-archive": "Potwierdź archiwizację organizacji",
+    "confirm-reactivate": "Potwierdź rekatywację organizacji",
+    "confirm-archive-text": "Czy na pewno chcesz zarchiwizować organizację?",
+    "confirm-reactivate-text": "Czy na pewno chcesz reaktywować organizację?",
+    "archive": "Archiwizuj",
+    "reactivate": "Reaktywuj"
+  },
+  "all-events": {
+    "upcoming": "Nadchodzące",
+    "past": "Dawne",
+    "see-all": "Zobacz wszystkie",
+    "no-events": "Brak wydarzeń"
+  },
+  "calendar": {
+    "empty-date": "Brak wydarzeń w tym dniu.",
+    "saved": "Zapisane",
+    "following": "Obserwowane",
+    "all": "Wszystkie"
+  },
+  "searchbar": {
+    "placeholder": "Szukaj..."
+  },
+  "event-details": {
+    "last-edit": "Ostatnio modyfikowane",
+    "save": "Zapisz",
+    "saved": "Zapisane",
+    "event-canceled": "Wydarzenie zostało odwołane",
+    "reactivate-event": "Wznów",
+    "confirm-cancel": "Potwierdź odwołanie wydarzenia",
+    "confirm-reactivate": "Potwierdź wznowienie wydarzenia",
+    "confirm-cancel-text": "Czy na pewno chcesz odwołać to wydarzenie?",
+    "confirm-reactivate-text": "Czy na pewno chcesz wznowić to wydarzenie?"
+  },
+  "login": {
+    "welcome-to": "Witaj w",
+    "email-label": "Email",
+    "email-placeholder": "email@agh.edu.pl",
+    "AGH-domain-email-address": "Adres email z domeny AGH",
+    "password-label": "Hasło",
+    "password-placeholder": "hasło",
+    "password-min-length-description": "Minimalna długość hasła: 8",
+    "forgot-password-link": "Zapomniałeś hasła?",
+    "sign-in": "Zaloguj się",
+    "missing-information": "Brakujące informacje",
+    "fill-required-fields": "Proszę wypełnić wszystkie wymagane pola.",
+    "invalid-email": "Nieprawidłowy adres email",
+    "valid-email-address": "Proszę podać prawidłowy adres email.",
+    "login-failed": "Logowanie nieudane",
+    "check-email-password": "Sprawdź swój email i hasło.",
+    "login-error": "Błąd podczas logowania:",
+    "no-account-question": "Nie masz konta? ",
+    "sign-up": "Zarejestruj się!",
+    "or": "lub",
+    "use-agh-account": "Użyj konta AGH",
+    "continue-as-guest": "Kontynuuj jako gość"
+  },
+  "registration": {
+    "email-placeholder": "email@agh.edu.pl",
+    "first-name-label": "Imię",
+    "last-name-label": "Nazwisko",
+    "email-label": "Email",
+    "password-label": "Hasło",
+    "repeat-password-label": "Powtórz hasło",
+    "password-min-length-description": "Minimalna długość hasła: 8",
+    "password-match-description": "Hasła muszą być identyczne",
+    "register-button": "Załóż konto",
+    "missing-information": "Brakujące informacje",
+    "all-fields-required": "Proszę wypełnić wszystkie wymagane pola",
+    "invalid-email": "Nieprawidłowy adres email",
+    "registration-failed": "Rejestracja nieudana",
+    "registration-success": "Rejestracja przebiegła pomyślnie.\nZweryfikuj swój email",
+    "registration-error": "Błąd rejestracji",
+    "name-placeholder": "Imię",
+    "last-name-placeholder": "Nazwisko",
+    "agh-domain-email-description": "Adres email z domeny AGH",
+    "password-placeholder": "Hasło",
+    "invalid-password": "Nieprawidłowe hasło"
+  },
+  "create-event": {
+    "upload-image": "Wybierz obraz",
+    "update-image": "Zmień obraz",
+    "at-least-one-translation-required-info": "(Wartości w przynajmniej jednym języku są wymagane)",
+    "name-label": "Nazwa",
+    "enter-event-name": "Podaj nazwę wydarzenia",
+    "description-label": "Opis",
+    "enter-event-description": "Podaj opis wydarzenia",
+    "location-label": "Lokalizacja",
+    "enter-event-location": "Podaj lokalizację wydarzenia",
+    "start-date-label": "Czas rozpoczęcia",
+    "end-date-label": "Czas zakończenia",
+    "set": "Ustaw",
+    "submit": "Zatwierdź",
+    "background-image-required-error": "Zdjęcie w tle wydarzenia jest wymagane",
+    "at-least-one-translation-required-error": "Co najmniej jeden język jest wymagany",
+    "start-date-not-before-end-date-error": "Wydarzenie nie może rozpoczynać się po swoim zakończeniu",
+    "start-date-in-the-past-error": "Nowe wydarzenie nie może rozpoczynać się w przeszłości",
+    "validation-failed-error": "Podano nieprawidłowe dane. Spróbuj ponownie.",
+    "calendar": {
+      "confirm": "Wybierz",
+      "cancel": "Anuluj"
+    }
+  },
+  "feed": {
+    "message-templates": {
+      "event-create": "Organizacja {organization.name} utworzyła wydarzenie {event.name}: \"{event.description}\"",
+      "event-update": "Organizacja {organization.name} zaktualizowała wydarzenie {event.name}: \"{event.description}\"",
+      "event-cancel": "Organizacja {organization.name} odwolała wydarzenie {event.name}: \"{event.description}\"",
+      "event-reactivate": "Organizacja {organization.name} wznowiła wydarzenie {event.name}: \"{event.description}\"",
+      "organization-create": "Nowa organizacja {organization.name} została utworzona: \"{organization.description}\"",
+      "organization-update": "Organizacja {organization.name} została zaktualizowana: \"{organization.description}\"",
+      "organization-archive": "Organizacja {organization.name} została zarchiwizowana.",
+      "organization-reactivate": "Organizacja {organization.name} została reaktywowana.",
+      "default": "Nowe powiadomienie"
+    },
+    "all": "Wszystkie",
+    "not-seen": "Nieprzeczytane"
+  },
+  "create-organization": {
+    "upload-image": "Wybierz obraz",
+    "update-image": "Zmień obraz",
+    "at-least-one-translation-required-info": "(Wartości w przynajmniej jednym języku są wymagane)",
+    "name-label": "Nazwa",
+    "enter-organization-name": "Podaj nazwę organizacji",
+    "description-label": "Opis",
+    "enter-organization-description": "Podaj opis organizacji",
+    "leader-label": "Przewodniczący",
+    "enter-leader-email": "Podaj email przewodniczącego",
+    "submit": "Zatwierdź",
+    "background-image-required-error": "Zdjęcie w tle organizacji jest wymagane",
+    "logo-image-required-error": "Logo organizacji jest wymagane",
+    "at-least-one-translation-required-error": "Co najmniej jeden język jest wymagany",
+    "validation-failed-error": "Podano nieprawidłowe dane. Spróbuj ponownie.",
+    "input-required-error": "To pole jest wymagane",
+    "background-image": "Zdjęcie w tle",
+    "logo-image": "Logo",
+    "user-does-not-exist-error": "Użytkownik o takim mailu nie istnieje"
+  },
+  "roles": {
+    "HEAD": "Przewodniczący",
+    "CONTENT_CREATOR": "Twórca",
+    "USER": "Użytkownik"
+  },
+  "user-list": {
+    "role-assigned": "Przyznawanie roli dla organizacji",
+    "role-success": "Rola została przyznana",
+    "role-failed": "Przyznawanie roli nie powiodło się"
+  },
+  "reset-password": {
+    "reset-success": "Potwierdź zmianę hasła poprzez wysłaną wiadomość",
+    "failed": "Zmiana hasła nie powiodła się",
+    "reset-button": "Wyślij wiadomość i zmień hasło",
+    "password-label": "Nowe hasło"
+  },
+  "resend-email": {
+    "email-label": "Email",
+    "resend-button": "Wyślij ponownie",
+    "sign-in": "Zaloguj się",
+    "reset-success": "Wiadomośc została wysłana ponownie",
+    "failed": "Wysyłanie wiadomości nie powiodło się",
+    "failed-detail": "Wysyłanie wiadomości nie powiodło się, sprawdź czy wpisany adres email jest poprawny"
+  },
+  "information": {
+    "app-developed-by": "Aplikacja stworzona przez: "
+  }
+}

@@ -1,20 +1,22 @@
 import React from "react";
-import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { EventHubImage } from "../../components/EventHubImage";
+import { Image } from "../../api/types";
 
 interface OrganizationListCardProps {
-  imageSource: { uri: string };
+  image: Image;
   text: string;
-  isLiked: boolean;
+  isSubscribed: boolean;
   onCardPress: () => void;
   onStarPress: () => void;
   style?: any;
 }
 
 export const OrganizationListCard = ({
-  imageSource,
+  image,
   text,
-  isLiked,
+  isSubscribed,
   onCardPress,
   onStarPress,
   style,
@@ -33,22 +35,22 @@ export const OrganizationListCard = ({
       onPress={handleCardPress}
     >
       <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} resizeMode="contain" />
+        <EventHubImage imageId={image.imageId} filename={image.smallFilename} />
       </View>
       <Text style={styles.text}>{text}</Text>
       <TouchableOpacity
         style={styles.likeIconContainer}
         onPress={handleStarPress}
       >
-        {isLiked ? (
+        {isSubscribed ? (
           <FontAwesome
             name="star"
             size={26}
-            color="yellow"
+            color="#016531"
             style={styles.likeIconStyle}
           />
         ) : (
-          <FontAwesome name="star-o" size={26} color="grey" />
+          <FontAwesome name="star-o" size={26} color="#016531" />
         )}
       </TouchableOpacity>
     </TouchableOpacity>
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     marginRight: 2,
     flexDirection: "row",
     alignItems: "center",
-    padding: 24,
+    padding: 12,
     borderRadius: 13,
     borderColor: "#D6D6D6",
     borderWidth: 1,
@@ -72,15 +74,15 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   imageContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 18,
+    width: 70,
+    height: 70,
+    borderRadius: 5,
     overflow: "hidden",
-    marginRight: 10,
+    marginRight: 15,
   },
   image: {
     flex: 1,
-    resizeMode: "cover",
+    resizeMode: "contain",
   },
   text: {
     flex: 1,
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   likeIconStyle: {
-    textShadowColor: "grey",
+    textShadowColor: "#888989",
     textShadowRadius: 2,
   },
 });

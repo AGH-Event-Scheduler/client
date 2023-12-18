@@ -1,8 +1,10 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { resetToRouteName } from "../bottom/BottomNavBar";
 
-const TopNavBar = () => {
+export const TopNavBarRightLogin = () => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -12,23 +14,19 @@ const TopNavBar = () => {
           <Text style={styles.redText}>H</Text>
         </Text>
       </View>
-      <View style={styles.iconContainer}>
-        <Feather name="settings" size={24} color="black" />
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: "4%",
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "flex-end",
-    paddingRight: 16,
+    gap: 5,
   },
   textContainer: {
-    marginRight: 8,
+    padding: 8,
   },
   greenText: {
     fontSize: 22,
@@ -45,9 +43,4 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#BC022C",
   },
-  iconContainer: {
-    marginLeft: 8,
-  },
 });
-
-export default TopNavBar;

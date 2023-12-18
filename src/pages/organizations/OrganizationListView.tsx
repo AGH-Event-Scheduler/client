@@ -1,78 +1,121 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, Text, TextInput, View } from "react-native";
-import {
-  fetchOrganizations,
-  updateSubscriptionStatus,
-} from "../../api/organization-api-utils";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { OrganizationListCard } from "./OrganizationListCard";
-import { Organization } from "../../api/types";
+import { useIsFocused } from "@react-navigation/native";
+import { Organization, Page } from "../../api/types";
+import {
+  fetchAllOrganizationsWithStatusByUser,
+  subscribeToOrganization,
+  unsubscribeFromOrganization,
+} from "../../api/organization-api-utils";
+import { useTranslation } from "react-i18next";
+import { SearchBar } from "../../components/SearchBar";
+import { LoadingView } from "../../components/loading/LoadingView";
+import { PaginationFooter } from "../../components/PaginationFooter";
 
-export const OrganizationListView = () => {
+export const OrganizationListView = ({
+  navigation,
+  onlySubscribed,
+  yourOrganizations,
+  archivedOnly,
+}) => {
+  const { t } = useTranslation();
+
   const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
+  const isFocused = useIsFocused();
   useEffect(() => {
     const fetchOrganizationsData = async () => {
+      setIsLoading(true);
       try {
-        const organizationsList = await fetchOrganizations();
-
-        setOrganizations(organizationsList);
+        const organizationsPage: Page<Organization> =
+          await fetchAllOrganizationsWithStatusByUser(
+            onlySubscribed,
+            yourOrganizations,
+            searchQuery,
+            archivedOnly,
+            currentPage,
+          );
+        setTotalPages(organizationsPage.totalPages);
+        setOrganizations(organizationsPage.content);
       } catch (error) {
         console.log("Fetching organizations list error", error);
       }
+      setIsLoading(false);
     };
-
-    fetchOrganizationsData();
-  }, []);
+    isFocused && fetchOrganizationsData();
+  }, [isFocused, searchQuery, currentPage]);
 
   const handleCardPress = (organization) => {
     console.log(`Clicked card: ${organization.name}`);
-    // TODO: Navigate to organization details screen
+    navigation.navigate("Organization", { organizationId: organization.id });
   };
 
   const handleStarPress = async (organization) => {
     console.log(`Clicked star: ${organization.name}`);
-    const updatedOrganizations = organizations.map((org) => {
+    const updatedOrganizations = organizations.map(async (org) => {
       if (org.id === organization.id) {
         const updatedStatus = !org.isSubscribed;
-        updateSubscriptionStatus(organization.id, updatedStatus);
-        return { ...org, isSubscribed: updatedStatus };
+
+        try {
+          if (updatedStatus === true) {
+            await subscribeToOrganization(organization.id);
+          } else {
+            await unsubscribeFromOrganization(organization.id);
+          }
+          return { ...org, isSubscribed: updatedStatus };
+        } catch (error) {
+          console.error("Error handling organization subscription:", error);
+          return org;
+        }
       }
       return org;
     });
-    setOrganizations(updatedOrganizations);
-  };
 
-  const filteredOrganizations = organizations.filter(
-    (org: Organization) =>
-      org.name && org.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+    const updatedOrganizationsResolved =
+      await Promise.all(updatedOrganizations);
+    setOrganizations(updatedOrganizationsResolved);
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Organizations</Text>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search..."
-        value={searchQuery}
-        onChangeText={setSearchQuery}
+      <SearchBar
+        onSearchChange={(searchTerm: string) => {
+          setSearchQuery(searchTerm);
+        }}
+        style={{ marginTop: 10 }}
       />
-      <FlatList
-        data={filteredOrganizations}
-        keyExtractor={(item) => item.id?.toString()}
-        contentContainerStyle={styles.listContainer}
-        renderItem={({ item }) => (
-          <OrganizationListCard
-            imageSource={{ uri: item.imageUrl }}
-            text={item.name}
-            isLiked={item.isSubscribed}
-            onCardPress={() => handleCardPress(item)}
-            onStarPress={() => handleStarPress(item)}
-            style={styles.card}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      {isLoading ? (
+        <LoadingView />
+      ) : (
+        <FlatList
+          data={organizations}
+          keyExtractor={(item) => item.id?.toString()}
+          contentContainerStyle={styles.listContainer}
+          renderItem={({ item }) => (
+            <OrganizationListCard
+              image={item?.logoImage}
+              text={item.name}
+              isSubscribed={item.isSubscribed}
+              onCardPress={() => handleCardPress(item)}
+              onStarPress={() => handleStarPress(item)}
+              style={styles.card}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={
+            <PaginationFooter
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={setCurrentPage}
+            />
+          }
+        />
+      )}
     </View>
   );
 };
@@ -83,25 +126,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginTop: 16,
-    marginBottom: 8,
-    color: "#B0BCC4",
-  },
-  searchInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#CCCCCC",
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    marginBottom: 16,
-  },
   listContainer: {
     flexGrow: 1,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: 10,
   },
 });
